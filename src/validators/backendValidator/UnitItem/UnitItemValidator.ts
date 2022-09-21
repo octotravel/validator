@@ -40,7 +40,7 @@ export class UnitItemValidator implements ModelValidator {
   }
   public validate = (
     unitItem: UnitItem,
-    deliveryMethods: DeliveryMethod[],
+    deliveryMethods?: DeliveryMethod[],
     pricingPer?: PricingPer,
   ): ValidatorError[] => {
     const errors = [

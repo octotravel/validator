@@ -1,36 +1,40 @@
-import { Booking, BookingUnitItemSchema, CapabilityId } from "@octocloud/types";
 import { Scenario } from "../../Scenario";
 import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper";
 import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
+import { Booker } from "../../../Booker";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
 
 export class BookingConfirmationUnitItemUpdateScenario
   implements Scenario
 {
+  private helper = new ScenarioHelper()
+  private booker = new Booker();
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
-  private capabilities: CapabilityId[];
-  private unitItems: BookingUnitItemSchema[];
-  private booking: Booking;
-  constructor({
-    capabilities,
-    unitItems,
-    booking,
-  }: {
-    capabilities: CapabilityId[];
-    unitItems: BookingUnitItemSchema[];
-    booking: Booking;
-  }) {
-    this.capabilities = capabilities;
-    this.unitItems = unitItems;
-    this.booking = booking;
-  }
   private bookingConfirmationScenarioHelper =
     new BookingConfirmationScenarioHelper();
 
   public validate = async () => {
+    const name = `Booking Confirmation unitItems update`;
+    const description = descriptions.bookingConfirmationUnitItemsUpdate;
+    const [bookableProduct] = this.config.productConfig.availableProducts;
+
+    const resultReservation = await this.booker.createReservation(bookableProduct, {
+      unitItemsQuantity: 2,
+    });
+    if (resultReservation.data === null) {
+      return this.helper.handleResult({
+        result: resultReservation,
+        name,
+        description,
+        errors: [new ValidatorError({type: ErrorType.CRITICAL, message: 'Reservation Creation Failed'})],
+      })
+    }
+    const unitItems = bookableProduct.getValidUnitItems({ quantity: 3 });
     const result = await this.apiClient.bookingConfirmation({
-      uuid: this.booking.uuid,
+      uuid: resultReservation.data.uuid,
       contact: {
         firstName: "John",
         lastName: "Doe",
@@ -38,11 +42,10 @@ export class BookingConfirmationUnitItemUpdateScenario
         fullName: "John Doe",
         notes: "Test note",
       },
+      // TODO: make it dynamic
       resellerReference: "RESELLERREF#1",
-      unitItems: this.unitItems,
+      unitItems,
     });
-    const name = `Booking Confirmation unitItems update`;
-    const description = descriptions.bookingConfirmationUnitItemsUpdate;
 
     return this.bookingConfirmationScenarioHelper.validateBookingConfirmation(
       {
@@ -51,9 +54,9 @@ export class BookingConfirmationUnitItemUpdateScenario
         description,
       },
       {
-        capabilities: this.capabilities,
+        capabilities: this.config.getCapabilityIDs(),
       },
-      this.booking
+      resultReservation.data
     );
   };
 }

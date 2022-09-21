@@ -56,7 +56,7 @@ export class BookingValidator implements ModelValidator {
     this.pickupValidator = new BookingPickupValidator({ path: this.path });
   }
 
-  public validate = (booking: Booking): ValidatorError[] => {
+  public validate = (booking: Nullable<Booking>): ValidatorError[] => {
     console;
     return [
       StringValidator.validate(`${this.path}.id`, booking?.id),
@@ -103,7 +103,7 @@ export class BookingValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateVoucher = (booking: Booking): ValidatorError[] => {
+  private validateVoucher = (booking: Nullable<Booking>): ValidatorError[] => {
     if ((booking?.deliveryMethods ?? []).includes(DeliveryMethod.VOUCHER)) {
       return this.ticketValidator.validate(booking?.voucher);
     }
@@ -111,7 +111,7 @@ export class BookingValidator implements ModelValidator {
     return [NullValidator.validate(`${this.path}.voucher`, booking?.voucher)].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateDeliveryMethods = (booking: Booking): ValidatorError[] => {
+  private validateDeliveryMethods = (booking: Nullable<Booking>): ValidatorError[] => {
     const path = `${this.path}.deliveryMethods`;
     const errors = new Array<ValidatorError>();
     const deliveryMethodsValidated = EnumArrayValidator.validate(
@@ -140,7 +140,7 @@ export class BookingValidator implements ModelValidator {
     return errors;
   };
 
-  private validateBookingAvailability = (booking: Booking): ValidatorError[] =>
+  private validateBookingAvailability = (booking: Nullable<Booking>): ValidatorError[] =>
     [
       CommonValidator.validateLocalDateTime(
         `${this.path}.availabilityId`,
@@ -169,7 +169,7 @@ export class BookingValidator implements ModelValidator {
       ),
     ].flatMap((v) => (v ? [v] : []));
 
-  private validateUnitItems = (booking: Booking): ValidatorError[] => {
+  private validateUnitItems = (booking: Nullable<Booking>): ValidatorError[] => {
     const unitItems = booking?.unitItems ?? [];
     return unitItems
       .map((unitItem, i) => {
@@ -187,14 +187,14 @@ export class BookingValidator implements ModelValidator {
       .flatMap((v) => (v ? [v] : []));
   };
 
-  private validatePricingCapability = (booking: Booking): ValidatorError[] => {
+  private validatePricingCapability = (booking: Nullable<Booking>): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pricing)) {
       return this.pricingValidator.validate(booking?.pricing);
     }
     return [];
   };
 
-  private validatePickupCapability = (booking: Booking): ValidatorError[] => {
+  private validatePickupCapability = (booking: Nullable<Booking>): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pickups)) {
       return this.pickupValidator.validate(booking);
     }

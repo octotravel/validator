@@ -28,8 +28,8 @@ export class BookingStateValidator implements ModelValidator {
       path: this.path,
     });
   }
-  public validate = (booking: Booking): ValidatorError[] => {
-    switch (booking.status) {
+  public validate = (booking: Nullable<Booking>): ValidatorError[] => {
+    switch (booking?.status) {
       case BookingStatus.ON_HOLD: {
         return this.onHoldValidator.validate(booking);
       }

@@ -2,7 +2,6 @@ import { BookingEndpointValidator } from "./../../../validators/backendValidator
 import { Booking, CreateBookingBodySchema } from "@octocloud/types";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator";
 import {
-  ScenarioConfigData,
   ScenarioHelper,
   ScenarioHelperData,
 } from "./ScenarioHelper";
@@ -12,7 +11,6 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
 
   public validateBookingReservation = (
     data: ScenarioHelperData<Booking>,
-    configData: ScenarioConfigData
   ) => {
     const { result } = data;
     const reservation = result?.data;
@@ -38,7 +36,7 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
         availabilityId: request?.body?.availabilityId,
       }),
       ...new BookingValidator({
-        capabilities: configData.capabilities,
+        capabilities: this.config.getCapabilityIDs(),
       }).validate(result.data),
     ];
 

@@ -9,20 +9,16 @@ export class BookingReservationExtendInvalidUUIDScenario
 {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
-  private uuid: string;
-  constructor({ uuid }: { uuid: string }) {
-    this.uuid = uuid;
-  }
   private bookingExtendScenarioHelper = new BookingExtendScenarioHelper();
 
   public validate = async () => {
+    const name = "Extend Reservation Invalid UUID (INVALID_BOOKING_UUID)";
+    const description = descriptions.invalidUUID;
     const result = await this.apiClient.bookingExtend({
-      uuid: this.uuid,
+      uuid: this.config.invalidUUID,
       expirationMinutes: 31,
     });
 
-    const name = "Extend Reservation Invalid UUID (INVALID_BOOKING_UUID)";
-    const description = descriptions.invalidUUID;
 
     return this.bookingExtendScenarioHelper.validateError(
       {

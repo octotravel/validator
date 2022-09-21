@@ -10,7 +10,7 @@ export class OptionPricingValidator implements ModelValidator {
     this.pricingValidator = new PricingValidator(path);
   }
 
-  public validate = (option: Option): ValidatorError[] => {
+  public validate = (option?: Nullable<Option>): ValidatorError[] => {
     const isOnBooking = this.path.includes("booking");
     if (isOnBooking) {
       const pricing = option?.pricing ?? []

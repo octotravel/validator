@@ -35,7 +35,7 @@ export class OptionValidator implements ModelValidator {
     this.capabilities = capabilities;
   }
   public validate = (
-    option: Option,
+    option?: Nullable<Option>,
     availabilityType?: AvailabilityType,
     pricingPer?: PricingPer
   ): ValidatorError[] => {
@@ -99,7 +99,7 @@ export class OptionValidator implements ModelValidator {
   };
 
   private validateUnitRestrictions = (
-    restrictions: UnitRestrictions
+    restrictions?: UnitRestrictions
   ): ValidatorError[] =>
     [
       NumberValidator.validate(
@@ -131,7 +131,7 @@ export class OptionValidator implements ModelValidator {
   };
 
   private validatePricingCapability = (
-    option: Option,
+    option?: Nullable<Option>,
     pricingPer?: PricingPer
   ): ValidatorError[] => {
     if (
@@ -146,7 +146,7 @@ export class OptionValidator implements ModelValidator {
     return [];
   };
 
-  private validatePickupCapability = (option: Option): ValidatorError[] => {
+  private validatePickupCapability = (option?: Nullable<Option>): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pickups)) {
       const pickupValidator = new OptionPickupValidator({
         path: `${this.path}`,

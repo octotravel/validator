@@ -12,7 +12,7 @@ export class OptionPickupValidator implements ModelValidator {
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (option: Option): ValidatorError[] => {
+  public validate = (option?: Nullable<Option>): ValidatorError[] => {
     return [
       BooleanValidator.validate(
         `${this.path}.pickupAvailable`,
@@ -23,7 +23,7 @@ export class OptionPickupValidator implements ModelValidator {
         option?.pickupRequired
       ),
       ...this.validatePickupPoints(
-        option.pickupPoints ?? ([] as PickupPoint[])
+        option?.pickupPoints ?? []
       ),
     ].flatMap((v) => (v ? [v] : []));
   };

@@ -77,45 +77,25 @@ export class Client {
         },
       };
     }
-    try {
-      return {
-        data,
-        request: {
-          url: request.url,
-          method: request.method,
-          body: requestBody,
-          headers: request.headers,
-        },
-        response: {
+
+    return {
+      data,
+      request: {
+        url: request.url,
+        method: request.method,
+        body: requestBody,
+        headers: request.headers,
+      },
+      response: {
+        body: text,
+        headers: resHeaders,
+        status: response.status,
+        error: {
           body: text,
-          headers: resHeaders,
           status: response.status,
-          error: {
-            body: text,
-            status: response.status,
-          },
         },
-      };
-    } catch (e) {
-      return {
-        data: null,
-        request: {
-          url: request.url,
-          method: request.method,
-          body: requestBody,
-          headers: request.headers,
-        },
-        response: {
-          headers: resHeaders,
-          body: null,
-          status: response.status,
-          error: {
-            body: response.statusText as any,
-            status: response.status,
-          },
-        },
-      };
-    }
+      },
+    };
   };
 
   private parseBody = (
@@ -140,7 +120,7 @@ export class Client {
       return { data: JSON.parse(text), error: null, text };
     } catch (err) {
       return {
-        data: text as any,
+        data: null,
         text,
         error: new Error("invalid response format"),
       };

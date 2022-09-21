@@ -12,7 +12,7 @@ export class ContactValidator implements ModelValidator {
     this.path = `${path}.contact`;
   }
 
-  public validate = (contact: Contact): ValidatorError[] => {
+  public validate = (contact?: Contact): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.fullName`, contact?.fullName, {
         nullable: true,

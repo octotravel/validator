@@ -13,7 +13,7 @@ export class BookingPickupValidator implements ModelValidator {
     this.path = path;
   }
 
-  public validate = (booking: Booking): ValidatorError[] => {
+  public validate = (booking: Nullable<Booking>): ValidatorError[] => {
     return [
       BooleanValidator.validate(
         `${this.path}.pickupRequested`,
@@ -37,7 +37,7 @@ export class BookingPickupValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validatePickupPoint = (booking: Booking): ValidatorError[] => {
+  private validatePickupPoint = (booking: Nullable<Booking>): ValidatorError[] => {
     if (booking?.pickupPoint) {
       return [
         StringValidator.validate(

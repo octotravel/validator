@@ -7,16 +7,13 @@ import descriptions from "../../../consts/descriptions";
 export class BookingConfirmationInvalidUUIDScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
-  private uuid: string;
-  constructor({ uuid }: { uuid: string }) {
-    this.uuid = uuid;
-  }
+
   private bookingConfirmationScenarioHelper =
     new BookingConfirmationScenarioHelper();
 
   public validate = async () => {
     const result = await this.apiClient.bookingConfirmation({
-      uuid: this.uuid,
+      uuid: this.config.invalidUUID,
       contact: {},
     });
 

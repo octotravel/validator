@@ -17,7 +17,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
   constructor() {
     super("Booking Reservation", docs.bookingReservation);
   }
-
+  
   public validate = async (): Promise<FlowResult> => {
     const scenarios = [
       await this.reserveAvailableProduct(),
