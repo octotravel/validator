@@ -1,7 +1,6 @@
 import { Booking } from "@octocloud/types";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator";
 import {
-  ScenarioConfigData,
   ScenarioHelper,
   ScenarioHelperData,
 } from "./ScenarioHelper";
@@ -9,10 +8,10 @@ import {
 export class BookingGetScenarioHelper extends ScenarioHelper {
   public validateBookingGet = (
     data: ScenarioHelperData<Booking>,
-    configData: ScenarioConfigData
   ) => {
     const { result } = data;
-    if (result.response.error) {
+    const response = result?.response;
+    if (response?.error) {
       return this.handleResult({
         ...data,
         success: false,
@@ -21,7 +20,7 @@ export class BookingGetScenarioHelper extends ScenarioHelper {
     }
 
     const errors = new BookingValidator({
-      capabilities: configData.capabilities,
+      capabilities: this.config.getCapabilityIDs(),
     }).validate(result.data);
     return this.handleResult({
       ...data,

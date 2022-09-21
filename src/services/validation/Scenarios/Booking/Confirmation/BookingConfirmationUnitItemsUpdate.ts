@@ -53,9 +53,6 @@ export class BookingConfirmationUnitItemUpdateScenario
         name,
         description,
       },
-      {
-        capabilities: this.config.getCapabilityIDs(),
-      },
       resultReservation.data
     );
   };

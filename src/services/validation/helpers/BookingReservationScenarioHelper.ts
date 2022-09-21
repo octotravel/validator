@@ -26,8 +26,8 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
 
     const errors = [
       ...this.bookingEndpointValidator.validateReservation({
-        reservation,
         schema: request?.body as CreateBookingBodySchema,
+        reservation,
       }),
       ...this.bookingEndpointValidator.validate({
         booking: reservation,

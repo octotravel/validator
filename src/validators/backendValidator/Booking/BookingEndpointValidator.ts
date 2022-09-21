@@ -23,19 +23,19 @@ interface ValidateData {
 }
 
 interface ValidateReservationData {
-  reservation: Booking;
+  reservation?: Nullable<Booking>;
   schema: CreateBookingBodySchema;
 }
 
 interface ValidateReservationExtendData {
   reservation: Booking;
-  reservationExtended: Booking;
+  reservationExtended: Nullable<Booking>;
   schema: ExtendBookingBodySchema;
 }
 
 interface ValidateConfirmationdData {
   reservation: Booking;
-  booking: Booking;
+  booking: Nullable<Booking>;
   schema: ConfirmBookingBodySchema;
 }
 
@@ -46,14 +46,14 @@ interface ValidateUpdateData {
 }
 
 interface ValidateCancelData {
-  booking: Nullable<Booking>;
-  bookingCancelled: Booking;
+  booking: Booking;
+  bookingCancelled: Nullable<Booking>;
   schema: CancelBookingBodySchema;
 }
 
 interface ValidateGetBookingsData {
   bookings: Booking[];
-  schema: GetBookingsSchema;
+  schema: Nullable<GetBookingsSchema>;
 }
 
 export class BookingEndpointValidator {
@@ -106,7 +106,7 @@ export class BookingEndpointValidator {
       StringValidator.validate(`${this.path}.status`, reservation?.status, {
         equalsTo: BookingStatus.ON_HOLD,
       }),
-      ...this.validateUnitItems(reservation, schema),
+      ...this.validateUnitItems(schema, reservation),
     ];
 
     if (schema?.notes) {
@@ -121,12 +121,12 @@ export class BookingEndpointValidator {
   };
 
   private validateUnitItems = (
-    booking: Nullable<Booking>,
     schema:
-      | CreateBookingBodySchema
-      | ConfirmBookingBodySchema
-      | UpdateBookingBodySchema
-  ): ValidatorError[] => {
+    | CreateBookingBodySchema
+    | ConfirmBookingBodySchema
+    | UpdateBookingBodySchema,
+    booking?: Nullable<Booking>,
+    ): ValidatorError[] => {
     const errors = [];
     const label = `${this.path}.unitItems`;
     if (schema?.unitItems) {
@@ -168,7 +168,7 @@ export class BookingEndpointValidator {
         equalsTo: BookingStatus.ON_HOLD,
       }),
     ];
-    if (reservation?.utcExpiresAt !== null && reservationExtended?.utcExpiresAt !== null) {
+    if (reservation?.utcExpiresAt && reservationExtended?.utcExpiresAt) {
       if (reservation?.utcExpiresAt >= reservationExtended?.utcExpiresAt) {
         errors.push(
           new ValidatorError({
@@ -203,7 +203,7 @@ export class BookingEndpointValidator {
     ];
 
     if (schema?.unitItems) {
-      errors.push(...this.validateUnitItems(booking, schema));
+      errors.push(...this.validateUnitItems(schema, booking));
     }
     return errors.flatMap((v) => (v ? [v] : []));
   };
@@ -213,7 +213,7 @@ export class BookingEndpointValidator {
     const schema = data?.schema;
     const errors: Nullable<ValidatorError>[]  = [
       ...this.validateContact(bookingUpdated, schema),
-      ...this.validateUnitItems(bookingUpdated, schema),
+      ...this.validateUnitItems(schema, bookingUpdated),
     ];
 
     if (schema?.notes) {

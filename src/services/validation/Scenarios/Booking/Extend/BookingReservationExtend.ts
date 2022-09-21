@@ -37,9 +37,6 @@ export class BookingReservationExtendScenario implements Scenario {
         name,
         description,
       },
-      {
-        capabilities: this.config.getCapabilityIDs(),
-      },
       resultReservation.data
     );
   };
