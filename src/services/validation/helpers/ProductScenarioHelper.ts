@@ -1,4 +1,3 @@
-import * as R from "ramda";
 import { ProductValidator } from "./../../../validators/backendValidator/Product/ProductValidator";
 import { Product } from "@octocloud/types";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
@@ -14,7 +13,7 @@ export class ProductScenarioHelper extends ScenarioHelper {
         errors: [],
       });
     }
-    const products = R.is(Array, result.data) ? result.data : [];
+    const products = result.data ?? [];
     const errors = new Array<ValidatorError>();
     const configErrors = this.config.setProducts(products);
     errors.push(...configErrors);

@@ -1,4 +1,3 @@
-import { Scenario } from "../../Scenarios/Scenario";
 import { Flow, FlowResult } from "../Flow";
 import { AvailabilityCalendarIntervalScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInterval";
 import { AvailabilityCalendarInvalidProductScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidProduct";
@@ -6,6 +5,7 @@ import { AvailabilityCalendarInvalidOptionScenario } from "../../Scenarios/Avail
 import { AvailabilityCalendarBadRequestScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarBadRequest";
 import { BaseFlow } from "../BaseFlow";
 import docs from "../../consts/docs";
+import { Scenario } from "../../Scenarios/Scenario";
 
 export class AvailabilityCalendarFlow extends BaseFlow implements Flow {
   constructor() {

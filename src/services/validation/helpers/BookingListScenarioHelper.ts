@@ -1,5 +1,4 @@
 import { Booking } from "@octocloud/types";
-import * as R from "ramda";
 import { GetBookingsSchema } from "../../../schemas/Booking";
 import { BookingEndpointValidator } from "../../../validators/backendValidator/Booking/BookingEndpointValidator";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator";
@@ -10,7 +9,7 @@ export class BookingListScenarioHelper extends ScenarioHelper {
 
   public validateBookingList = (data: ScenarioHelperData<Booking[]>) => {
     const { result } = data;
-    const bookings = R.is(Array, result.data) ? result.data : [];
+    const bookings = result.data ?? [];
     const request = result?.request;
     const response = result?.response;
     const schema = request?.body as Nullable<GetBookingsSchema>;

@@ -28,13 +28,13 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
     const soldOutData = this.findSoldOutProduct(products);
     if (soldOutData.error !== null) {
       errors.push(soldOutData.error);
-    } else {
+    } else if (soldOutData.data !== null) {
       this.config.productConfig.soldOutProduct = soldOutData.data;
     }
     const availableData = this.findAvailableProducts(products);
     if (availableData.error !== null) {
       errors.push(availableData.error);
-    } else {
+    } else if (availableData.data !== null) {
       this.config.productConfig.availableProducts = availableData.data;
     }
     return this.handleResult({
@@ -54,7 +54,7 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
   ): ErrorResult<ProductBookable> => {
     const result =
       data.find(({ result }) => {
-        const availabilities = R.is(Array, result?.data) ? result?.data : [];
+        const availabilities = result.data ?? [];
         const availabilitiessSoldOut = availabilities.filter(
           (availability) => availability.status === AvailabilityStatus.SOLD_OUT
         );
@@ -71,14 +71,14 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
         data: null,
       };
     }
-
-    const availability = result.result.data.find(
+    const availabilities = result.result.data ?? [];
+    const availability = availabilities.find(
       (a) => a.status === AvailabilityStatus.SOLD_OUT
     );
     return {
       data: new ProductBookable({
         product: result.product,
-        availabilityIdSoldOut: availability.id,
+        availabilityIdSoldOut: availability?.id as string,
         availabilityIdAvailable: null,
       }),
       error: null,
@@ -90,7 +90,7 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
   ): ErrorResult<ProductBookable[]> => {
     const result =
       data.filter(({ result }) => {
-        const availabilities = R.is(Array, result?.data) ? result?.data : [];
+        const availabilities = result.data ?? [];
         const availabilitiesAvailable = availabilities.filter(
           (availability) =>
             (availability.status === AvailabilityStatus.AVAILABLE ||
@@ -116,7 +116,8 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
     }
 
     const produts = result.map(({ product, result }) => {
-      const availabilityIDs = result.data
+      const availabilities = result.data ?? [];
+      const availabilityIDs = availabilities
         .filter(
           (a) =>
             (a.status === AvailabilityStatus.AVAILABLE ||

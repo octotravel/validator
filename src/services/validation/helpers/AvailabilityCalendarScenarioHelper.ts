@@ -1,3 +1,4 @@
+import { ScenarioResult } from "./../Scenarios/Scenario";
 import * as R from "ramda";
 import { AvailabilityCalendar, Product } from "@octocloud/types";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
@@ -11,10 +12,11 @@ export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
   public validateAvailability = (
     data: ScenarioHelperData<AvailabilityCalendar[]>,
     product: Product
-  ) => {
+  ): ScenarioResult => {
     const { result } = data;
-    const availabilities = R.is(Array, result.data) ? result.data : [];
-    if (result.response.error) {
+    const availabilities = result.data ?? [];
+    const response = result?.response;
+    if (response?.error) {
       return this.handleResult({
         ...data,
         success: false,

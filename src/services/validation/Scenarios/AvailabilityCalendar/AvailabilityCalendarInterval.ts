@@ -1,12 +1,10 @@
 import { Product } from "@octocloud/types";
-import { Scenario } from "../Scenario";
+import { Scenario, ScenarioResult } from "../Scenario";
 import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper";
 import { Config } from "../../config/Config";
 import descriptions from "../../consts/descriptions";
 
-export class AvailabilityCalendarIntervalScenario
-  implements Scenario
-{
+export class AvailabilityCalendarIntervalScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private product: Product;
@@ -18,7 +16,7 @@ export class AvailabilityCalendarIntervalScenario
   private availabilityCalendarScenarioHelper =
     new AvailabilityCalendarScenarioHelper();
 
-  public validate = async () => {
+  public validate = async (): Promise<ScenarioResult> => {
     const option =
       this.product.options.find((o) => o.default) ?? this.product.options[0];
     const result = await this.apiClient.getAvailabilityCalendar({
