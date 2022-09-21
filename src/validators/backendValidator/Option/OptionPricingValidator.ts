@@ -13,15 +13,17 @@ export class OptionPricingValidator implements ModelValidator {
   public validate = (option: Option): ValidatorError[] => {
     const isOnBooking = this.path.includes("booking");
     if (isOnBooking) {
-      return option?.pricing
+      const pricing = option?.pricing ?? []
+      return pricing
         ?.map((pricing, i) => {
           this.pricingValidator.setPath(`${this.path}.pricing[${i}]`);
           return this.pricingValidator.validate(pricing as Pricing);
         })
         .flat(1);
     } else {
-      return option?.pricingFrom
-        ?.map((pricingFrom, i) => {
+      const pricingFrom = option?.pricingFrom ?? []
+      return pricingFrom
+        .map((pricingFrom, i) => {
           this.pricingValidator.setPath(`${this.path}.pricingFrom[${i}]`);
           return this.pricingValidator.validate(pricingFrom as Pricing);
         })

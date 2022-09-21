@@ -17,8 +17,8 @@ app.use(koaBody());
 app.use(async (ctx, next) => {
   try {
     await next();
-  } catch (err) {
-    // console.log(err);
+  } catch (e) {
+    const err = e as Error
     if (err instanceof OctoError) {
       ctx.status = err.status;
       ctx.body = err.body;

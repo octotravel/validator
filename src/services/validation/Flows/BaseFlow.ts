@@ -15,7 +15,7 @@ export abstract class BaseFlow {
     this.docs = docs;
   }
   private getValidationResult = (
-    scenarios: ScenarioResult<unknown>[]
+    scenarios: ScenarioResult[]
   ): ValidationResult => {
     if (
       scenarios.some(
@@ -35,7 +35,7 @@ export abstract class BaseFlow {
   };
 
   private getFlowResult = (
-    scenarios: ScenarioResult<unknown>[]
+    scenarios: ScenarioResult[]
   ): FlowResult => {
     return {
       name: this.name,
@@ -48,7 +48,7 @@ export abstract class BaseFlow {
     };
   };
 
-  protected validateScenarios = async (scenarios: Scenario<unknown>[]) => {
+  protected validateScenarios = async (scenarios: Scenario[]) => {
     const results = [];
     for await (const scenario of scenarios) {
       const result = await scenario.validate();

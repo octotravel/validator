@@ -10,7 +10,7 @@ export class ProductConfig {
   private _openingHourProducts: Product[] = [];
   private _startTimeProducts: Product[] = [];
   private _products: Product[] = [];
-  private _soldOutProduct: ProductBookable;
+  private _soldOutProduct: Nullable<ProductBookable> = null;
   private _availableProducts: ProductBookable[] = [];
   private _availabilityIDs: { [key: string]: string } = {};
 
@@ -62,7 +62,7 @@ export class ProductConfig {
   }
 
   public get soldOutProduct() {
-    return this._soldOutProduct;
+    return this._soldOutProduct as ProductBookable
   }
 
   public set availableProducts(availableProducts: ProductBookable[]) {

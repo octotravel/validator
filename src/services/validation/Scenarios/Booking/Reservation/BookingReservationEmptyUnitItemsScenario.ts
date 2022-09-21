@@ -5,7 +5,7 @@ import { BookingReservationScenarioHelper } from "../../../helpers/BookingReserv
 import { Result } from "../../../api/types";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingReservationEmptyUnitItemsScenario implements Scenario<any> {
+export class BookingReservationEmptyUnitItemsScenario implements Scenario {
   private result: Result<Booking>;
   constructor({ result }: { result: Result<Booking> }) {
     this.result = result;
@@ -16,7 +16,6 @@ export class BookingReservationEmptyUnitItemsScenario implements Scenario<any> {
   public validate = async () => {
     const name =
       "Booking Reservation Missing UnitItems (400 UNPROCESSABLE_ENTITY)";
-    const error = "Response should be UNPROCESSABLE_ENTITY";
     const description = descriptions.bookingReservationEmptyUnitItems;
 
     return this.bookingReservationScenarioHelper.validateError(
@@ -25,7 +24,6 @@ export class BookingReservationEmptyUnitItemsScenario implements Scenario<any> {
         name,
         description,
       },
-      error,
       new UnprocessableEntityErrorValidator()
     );
   };

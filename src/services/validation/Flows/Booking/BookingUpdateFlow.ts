@@ -14,7 +14,7 @@ export class BookingUpdateFlow extends BaseFlow implements Flow {
     super("Booking Update", docs.bookingUpdate);
   }
   public validate = async (): Promise<FlowResult> => {
-    const scenarios: Scenario<unknown>[] = [
+    const scenarios: Scenario[] = [
       await this.validateBookingUpdateDate(),
       await this.validateBookingUpdateUnitItems(),
       await this.validateBookingUpdateContact(),

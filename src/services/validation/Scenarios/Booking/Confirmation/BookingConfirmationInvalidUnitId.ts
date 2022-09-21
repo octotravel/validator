@@ -5,7 +5,7 @@ import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfi
 import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingConfirmationInvalidUnitIdScenario implements Scenario<any> {
+export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private uuid: string;
@@ -35,7 +35,6 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario<any> {
     });
 
     const name = "Booking Confirmation Invalid Unit ID (400 INVALID_UNIT_ID)";
-    const error = "Response should be INVALID_UNIT_ID";
     const description = descriptions.invalidUnitId;
 
     return this.bookingConfirmationScenarioHelper.validateError(
@@ -44,7 +43,6 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario<any> {
         name,
         description,
       },
-      error,
       new InvalidUnitIdErrorValidator()
     );
   };

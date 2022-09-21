@@ -1,10 +1,9 @@
-import { Supplier } from "@octocloud/types";
 import { Scenario } from "../Scenario";
 import { SupplierScenarioHelper } from "../../helpers/SupplierScenarioHelper";
 import { Config } from "../../config/Config";
 import descriptions from "../../consts/descriptions";
 
-export class GetSupplierScenario implements Scenario<Supplier> {
+export class GetSupplierScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private supplierScenarioHelper = new SupplierScenarioHelper();

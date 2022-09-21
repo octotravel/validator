@@ -1,7 +1,7 @@
 import { Availability, Product } from "@octocloud/types";
 
-export interface Scenario<T> {
-  validate: () => Promise<ScenarioResult<T>>;
+export interface Scenario {
+  validate: () => Promise<ScenarioResult>;
 }
 
 export interface ScenarioRequest {
@@ -11,8 +11,8 @@ export interface ScenarioRequest {
   headers: Record<string, string>;
 }
 
-export interface ScenarioResponse<T> {
-  body: Nullable<T>;
+export interface ScenarioResponse {
+  body: Nullable<string>;
   status: Nullable<number>;
   error: Nullable<{
     body: any;
@@ -26,12 +26,12 @@ export enum ValidationResult {
   FAILED = "FAILED",
 }
 
-export interface ScenarioResult<T> {
+export interface ScenarioResult {
   name: string;
   success: boolean;
   validationResult: ValidationResult;
   request: Nullable<ScenarioRequest>;
-  response: Nullable<ScenarioResponse<T>>;
+  response: Nullable<ScenarioResponse>;
   errors: any[]; // validation errors
   description: string;
 }

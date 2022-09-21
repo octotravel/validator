@@ -13,10 +13,10 @@ export class CommonValidator {
   public static validateOpeningHours = (
     label: string,
     openingHours: OpeningHours[],
-    availabilityType: AvailabilityType
+    availabilityType?: AvailabilityType
   ): ValidatorError[] => {
     const regExp = new RegExp(/^\d{2}:\d{2}$/g);
-    const errors: ValidatorError[] = [
+    const errors: Nullable<ValidatorError>[] = [
       ...openingHours
         .map((openingHour, i) => [
           RegExpValidator.validate(
@@ -29,8 +29,7 @@ export class CommonValidator {
             openingHour?.to,
             regExp
           ),
-        ])
-        .flat(1),
+        ]).flat()
     ];
     if (availabilityType === AvailabilityType.OPENING_HOURS) {
       errors.push(
@@ -46,7 +45,7 @@ export class CommonValidator {
   public static validateLocalDate = (
     label: string,
     localDateTime: string
-  ): ValidatorError => {
+  ): Nullable<ValidatorError> => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/
     );
@@ -56,7 +55,7 @@ export class CommonValidator {
   public static validateLocalDateTime = (
     label: string,
     localDateTime: string
-  ): ValidatorError => {
+  ): Nullable<ValidatorError> => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])([+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$/
     );
@@ -65,9 +64,9 @@ export class CommonValidator {
 
   public static validateUTCDateTime = (
     label: string,
-    utcDate: string,
+    utcDate?: Nullable<string>,
     params?: CommonValidatorParams
-  ): ValidatorError => {
+  ): Nullable<ValidatorError> => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])Z$/
     );
@@ -78,5 +77,6 @@ export class CommonValidator {
     } else {
       return RegExpValidator.validate(label, utcDate, regExp);
     }
+    return null
   };
 }

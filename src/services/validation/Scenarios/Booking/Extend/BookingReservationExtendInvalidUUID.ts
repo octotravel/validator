@@ -5,7 +5,7 @@ import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
 
 export class BookingReservationExtendInvalidUUIDScenario
-  implements Scenario<any>
+  implements Scenario
 {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
@@ -22,7 +22,6 @@ export class BookingReservationExtendInvalidUUIDScenario
     });
 
     const name = "Extend Reservation Invalid UUID (INVALID_BOOKING_UUID)";
-    const error = "Response should be INVALID_BOOKING_UUID";
     const description = descriptions.invalidUUID;
 
     return this.bookingExtendScenarioHelper.validateError(
@@ -31,7 +30,6 @@ export class BookingReservationExtendInvalidUUIDScenario
         name,
         description,
       },
-      error,
       new InvalidBookingUUIDErrorValidator()
     );
   };

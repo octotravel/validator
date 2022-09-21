@@ -13,7 +13,7 @@ export class CapabilityValidator implements ModelValidator {
   private path: string;
 
   constructor({ path = "" }: { path?: string }) {
-    this.path = this.path ? `${path}capability` : `capability`;
+    this.path = path ? `${path}capability` : `capability`;
   }
 
   public validate = (capability: Capability): ValidatorError[] => {

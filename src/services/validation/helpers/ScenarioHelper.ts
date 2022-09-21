@@ -6,7 +6,7 @@ import {
   ModelValidator,
   ValidatorError,
 } from "../../../validators/backendValidator/ValidatorHelpers";
-import { Result } from "../api/types";
+import { Result, ResultResponse } from "../api/types";
 import { Config } from "../config/Config";
 import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario";
 
@@ -46,7 +46,7 @@ export class ScenarioHelper {
     return ValidationResult.SUCCESS;
   };
 
-  protected handleResult = <T>(data: ScenarioData<T>): ScenarioResult<T> => {
+  protected handleResult = <T>(data: ScenarioData<T>): ScenarioResult => {
     const { result } = data;
     if (result?.response?.error) {
       if (result.response.error.status === STATUS_NOT_FOUND) {
@@ -59,18 +59,17 @@ export class ScenarioHelper {
         ];
       }
     }
-    const response =
+    const response: Nullable<ResultResponse> =
       result?.response === null
         ? null
         : {
             headers: result.response.headers,
-            body: result.response.data ? result.data : null,
-            status: result.response.data
-              ? result.response.data.status
-              : result.response.error.status,
+            body: result.response.body,
+            status: result.response.status,
             error: result.response.error
               ? {
                   body: result.response.error.body,
+                  status: result.response.status,
                 }
               : null,
           };
@@ -87,23 +86,11 @@ export class ScenarioHelper {
 
   public validateError = <T>(
     data: ScenarioHelperData<T>,
-    error: string,
     validator: ModelValidator
   ) => {
     const { result } = data;
-    if (result.response.data) {
-      return this.handleResult({
-        ...data,
-        success: false,
-        errors: [
-          new ValidatorError({
-            message: error,
-          }),
-        ],
-      });
-    }
 
-    const errors = validator.validate(result.response.error);
+    const errors = validator.validate(result);
     return this.handleResult({
       ...data,
       success: this.isSuccess(errors),

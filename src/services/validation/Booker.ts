@@ -68,8 +68,12 @@ export class Booker {
     } else if (params?.unitItemsEmpty) {
       return [];
     }
-    return productBookable.getValidUnitItems({
-      quantity: params?.unitItemsQuantity,
-    });
+
+    if (params?.unitItemsQuantity) {
+      return productBookable.getValidUnitItems({
+        quantity: params?.unitItemsQuantity,
+      });
+    }
+    return productBookable.getValidUnitItems();
   }
 }

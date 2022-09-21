@@ -1,10 +1,9 @@
-import { Product } from "@octocloud/types";
 import { Config } from "../../config/Config";
 import descriptions from "../../consts/descriptions";
 import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper";
 import { Scenario } from "../Scenario";
 
-export class GetProductScenario implements Scenario<Product> {
+export class GetProductScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private productScenarioHelper = new ProductScenarioHelper();

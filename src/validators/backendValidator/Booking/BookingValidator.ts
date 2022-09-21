@@ -108,7 +108,7 @@ export class BookingValidator implements ModelValidator {
       return this.ticketValidator.validate(booking?.voucher);
     }
 
-    return [NullValidator.validate(`${this.path}.voucher`, booking?.voucher)];
+    return [NullValidator.validate(`${this.path}.voucher`, booking?.voucher)].flatMap((v) => (v ? [v] : []));
   };
 
   private validateDeliveryMethods = (booking: Booking): ValidatorError[] => {
@@ -179,8 +179,8 @@ export class BookingValidator implements ModelValidator {
         });
         return validator.validate(
           unitItem,
+          booking?.deliveryMethods,
           booking?.product?.pricingPer,
-          booking?.deliveryMethods
         );
       })
       .flat(1)

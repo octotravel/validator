@@ -12,7 +12,7 @@ export class TicketValidator implements ModelValidator {
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (ticket: Ticket): ValidatorError[] => {
+  public validate = (ticket?: Nullable<Ticket>): ValidatorError[] => {
     const errors = [
       EnumValidator.validate(
         `${this.path}.redemptionMethod`,
@@ -28,7 +28,7 @@ export class TicketValidator implements ModelValidator {
 
     return errors.flatMap((v) => (v ? [v] : []));
   };
-  private validateDeliveryOptions = (ticket: Ticket): ValidatorError[] => {
+  private validateDeliveryOptions = (ticket?: Nullable<Ticket>): ValidatorError[] => {
     const deliveryOptions = ticket?.deliveryOptions ?? [];
     return deliveryOptions
       .map((deliveryOption, i) => [

@@ -16,7 +16,7 @@ import {
 } from "../ValidatorHelpers";
 
 interface ValidateData {
-  booking: Booking;
+  booking: Nullable<Booking>;
   productId: string;
   optionId: string;
   availabilityId: string;
@@ -40,13 +40,13 @@ interface ValidateConfirmationdData {
 }
 
 interface ValidateUpdateData {
-  booking: Booking;
-  bookingUpdated: Booking;
+  booking: Nullable<Booking>;
+  bookingUpdated: Nullable<Booking>;
   schema: UpdateBookingBodySchema;
 }
 
 interface ValidateCancelData {
-  booking: Booking;
+  booking: Nullable<Booking>;
   bookingCancelled: Booking;
   schema: CancelBookingBodySchema;
 }
@@ -121,7 +121,7 @@ export class BookingEndpointValidator {
   };
 
   private validateUnitItems = (
-    booking: Booking,
+    booking: Nullable<Booking>,
     schema:
       | CreateBookingBodySchema
       | ConfirmBookingBodySchema
@@ -140,7 +140,7 @@ export class BookingEndpointValidator {
       }
 
       const unitIds = schema?.unitItems.map((i) => i.unitId);
-      const bookingUnitIds = booking?.unitItems.map((i) => i.unitId);
+      const bookingUnitIds = (booking?.unitItems ?? []).map((i) => i.unitId);
       const unitIdMatches = booking?.unitItems.reduce((acc, unitItem) => {
         return acc && unitIds.includes(unitItem?.unitId);
       }, true);
@@ -163,18 +163,20 @@ export class BookingEndpointValidator {
     const reservation = data?.reservation;
     const reservationExtended = data?.reservationExtended;
     const schema = data?.schema;
-    const errors = [
+    const errors: Nullable<ValidatorError>[] = [
       StringValidator.validate(`${this.path}.status`, reservation?.status, {
         equalsTo: BookingStatus.ON_HOLD,
       }),
     ];
-    if (reservation?.utcExpiresAt >= reservationExtended?.utcExpiresAt) {
-      errors.push(
-        new ValidatorError({
-          type: ErrorType.WARNING,
-          message: `${this.path}.utcExpiresAt has to be extended by ${schema?.expirationMinutes} minutes. Provided value was: "${reservationExtended?.utcExpiresAt}" Previous value of booking.utcExpiresAt was: "${reservation?.utcExpiresAt}"`,
-        })
-      );
+    if (reservation?.utcExpiresAt !== null && reservationExtended?.utcExpiresAt !== null) {
+      if (reservation?.utcExpiresAt >= reservationExtended?.utcExpiresAt) {
+        errors.push(
+          new ValidatorError({
+            type: ErrorType.WARNING,
+            message: `${this.path}.utcExpiresAt has to be extended by ${schema?.expirationMinutes} minutes. Provided value was: "${reservationExtended?.utcExpiresAt}" Previous value of booking.utcExpiresAt was: "${reservation?.utcExpiresAt}"`,
+          })
+        );
+      }
     }
 
     return errors.flatMap((v) => (v ? [v] : []));
@@ -186,7 +188,7 @@ export class BookingEndpointValidator {
     const booking = data?.booking;
     const schema = data?.schema;
 
-    const errors = [
+    const errors: Nullable<ValidatorError>[] = [
       StringValidator.validate(
         `${this.path}.resellerReference`,
         booking?.resellerReference,
@@ -209,7 +211,7 @@ export class BookingEndpointValidator {
   public validateUpdate = (data: ValidateUpdateData): ValidatorError[] => {
     const bookingUpdated = data?.bookingUpdated;
     const schema = data?.schema;
-    const errors = [
+    const errors: Nullable<ValidatorError>[]  = [
       ...this.validateContact(bookingUpdated, schema),
       ...this.validateUnitItems(bookingUpdated, schema),
     ];
@@ -226,7 +228,7 @@ export class BookingEndpointValidator {
   };
 
   private validateContact = (
-    booking: Booking,
+    booking: Nullable<Booking>,
     schema: ConfirmBookingBodySchema | UpdateBookingBodySchema
   ) => {
     if (schema.contact) {

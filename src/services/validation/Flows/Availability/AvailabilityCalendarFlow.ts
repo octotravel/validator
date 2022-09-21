@@ -13,7 +13,7 @@ export class AvailabilityCalendarFlow extends BaseFlow implements Flow {
   }
 
   public validate = async (): Promise<FlowResult> => {
-    const scenarios: Scenario<unknown>[] = [
+    const scenarios: Scenario[] = [
       ...this.checkCalendarAvaialbility(),
       new AvailabilityCalendarInvalidProductScenario(),
       new AvailabilityCalendarInvalidOptionScenario(),

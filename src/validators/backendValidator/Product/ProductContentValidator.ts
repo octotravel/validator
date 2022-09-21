@@ -12,7 +12,7 @@ export class ProductContentValidator implements ModelValidator {
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (product: Product): ValidatorError[] => {
+  public validate = (product?: Nullable<Product>): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.title`, product?.title),
       StringValidator.validate(`${this.path}.country`, product?.country),

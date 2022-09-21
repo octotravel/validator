@@ -1,4 +1,3 @@
-import { AvailabilityCalendar } from "@octocloud/types";
 import { addDays } from "date-fns";
 import { DateHelper } from "../../../../helpers/DateHelper";
 import { InvalidProductIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidProductIdErrorValidator";
@@ -8,7 +7,7 @@ import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCa
 import { Scenario, ScenarioResult } from "../Scenario";
 
 export class AvailabilityCalendarInvalidProductScenario
-  implements Scenario<AvailabilityCalendar[]>
+  implements Scenario
 {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
@@ -16,7 +15,7 @@ export class AvailabilityCalendarInvalidProductScenario
     new AvailabilityCalendarScenarioHelper();
 
   public validate = async (): Promise<
-    ScenarioResult<AvailabilityCalendar[]>
+    ScenarioResult
   > => {
     const product = this.config.getProduct();
     const result = await this.apiClient.getAvailabilityCalendar({
@@ -27,7 +26,6 @@ export class AvailabilityCalendarInvalidProductScenario
     });
 
     const name = `Availability Calendar Invalid Product (400 INVALID_PRODUCT_ID)`;
-    const error = "Response should be INVALID_PRODUCT_ID";
     const description = descriptions.invalidProduct;
 
     return this.availabilityCalendarScenarioHelper.validateError(
@@ -36,7 +34,6 @@ export class AvailabilityCalendarInvalidProductScenario
         name,
         description,
       },
-      error,
       new InvalidProductIdErrorValidator()
     );
   };

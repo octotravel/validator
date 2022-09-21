@@ -4,7 +4,7 @@ import { BookingExtendScenarioHelper } from "../../../helpers/BookingExtendScena
 import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingReservationExtendScenario implements Scenario<Booking> {
+export class BookingReservationExtendScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private booking: Booking;

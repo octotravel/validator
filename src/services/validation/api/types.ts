@@ -1,11 +1,15 @@
-import { ValidatedError } from "./../../../validators/backendValidator/Error/index";
+export interface ValidatedError {
+  body: Record<string, unknown>;
+  status: number;
+}
+
 
 export type ApiParams = {
   headers?: Record<string, string>;
 };
 export interface Result<T> {
   request: Nullable<ResultRequest>;
-  response: Nullable<ResultResponse<T>>;
+  response: Nullable<ResultResponse>;
   data: Nullable<T>;
 }
 
@@ -16,11 +20,12 @@ export type ResultRequest = {
   headers: Record<string, string>;
 };
 
-export type ResultResponse<T> = {
-  data: Nullable<{
+export type ResultResponse = {
+  status: number;
+  body: Nullable<string>;
+  error: Nullable<{
     status: number;
-    body: T;
+    body: Nullable<string>;
   }>;
-  error: Nullable<ValidatedError>;
   headers: Record<string, string>;
 };

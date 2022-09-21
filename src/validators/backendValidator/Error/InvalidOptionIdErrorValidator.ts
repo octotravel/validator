@@ -1,4 +1,4 @@
-import { ValidatedError } from "./index";
+import { Result } from './../../../services/validation/api/types';
 import { NumberValidator } from "./../ValidatorHelpers";
 import { INVALID_OPTION_ID, STATUS_BAD_REQUEST } from "./../../../models/Error";
 import {
@@ -8,14 +8,14 @@ import {
 } from "../ValidatorHelpers";
 
 export class InvalidOptionIdErrorValidator implements ModelValidator {
-  public validate = (data: ValidatedError): ValidatorError[] => {
+  public validate = (result: Result<any>): ValidatorError[] => {
     return [
-      StringValidator.validate(`error`, data?.body?.error, {
+      StringValidator.validate(`error`, result?.data?.error, {
         equalsTo: INVALID_OPTION_ID,
       }),
-      StringValidator.validate(`errorMessage`, data?.body?.errorMessage),
-      StringValidator.validate(`optionId`, data?.body?.optionId),
-      NumberValidator.validate(`status`, data?.status, {
+      StringValidator.validate(`errorMessage`, result?.data?.errorMessage),
+      StringValidator.validate(`optionId`, result?.data?.optionId),
+      NumberValidator.validate(`status`, result?.response?.status, {
         integer: true,
         equalsTo: STATUS_BAD_REQUEST,
       }),

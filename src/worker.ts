@@ -5,7 +5,7 @@ import {
   InternalServerError,
 } from "./models/Error";
 import { ValidationController } from "./services/validation/Controller";
-import { validationConfigSchema } from "./schemas/Validation";
+import { validationConfigSchema, ValidationEndpoint } from "./schemas/Validation";
 import { Config } from "./services/validation/config/Config";
 
 export default {
@@ -20,7 +20,7 @@ export default {
     try {
       const reqBody = await request.json();
       await validationConfigSchema.validate(reqBody);
-      const schema = validationConfigSchema.cast(reqBody);
+      const schema = validationConfigSchema.cast(reqBody) as ValidationEndpoint
       const config = Config.getInstance();
       config.init(schema);
       const body = await new ValidationController().validate();
@@ -31,7 +31,8 @@ export default {
           "Content-Type": "application/json",
         },
       });
-    } catch (err) {
+    } catch (e) {
+      const err = e as Error
       if (err instanceof OctoError) {
         return new Response(JSON.stringify(err.body), {
           status: err.status,

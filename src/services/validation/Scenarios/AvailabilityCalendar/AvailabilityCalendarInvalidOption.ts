@@ -1,4 +1,3 @@
-import { AvailabilityCalendar } from "@octocloud/types";
 import { addDays } from "date-fns";
 import { DateHelper } from "../../../../helpers/DateHelper";
 import { InvalidOptionIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator";
@@ -8,7 +7,7 @@ import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCa
 import { Scenario, ScenarioResult } from "../Scenario";
 
 export class AvailabilityCalendarInvalidOptionScenario
-  implements Scenario<AvailabilityCalendar[]>
+  implements Scenario
 {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
@@ -16,7 +15,7 @@ export class AvailabilityCalendarInvalidOptionScenario
     new AvailabilityCalendarScenarioHelper();
 
   public validate = async (): Promise<
-    ScenarioResult<AvailabilityCalendar[]>
+    ScenarioResult
   > => {
     const product = this.config.getProduct();
     const result = await this.apiClient.getAvailabilityCalendar({
@@ -26,7 +25,6 @@ export class AvailabilityCalendarInvalidOptionScenario
       localDateEnd: DateHelper.getDate(addDays(new Date(), 30).toISOString()),
     });
     const name = `Availability Calendar Invalid Option (400 INVALID_OPTION_ID)`;
-    const error = "Response should be INVALID_OPTION_ID";
     const description = descriptions.invalidOption;
 
     return this.availabilityCalendarScenarioHelper.validateError(
@@ -35,7 +33,6 @@ export class AvailabilityCalendarInvalidOptionScenario
         name,
         description,
       },
-      error,
       new InvalidOptionIdErrorValidator()
     );
   };

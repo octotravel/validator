@@ -18,12 +18,12 @@ export class SupplierValidator implements ModelValidator {
     path?: string;
     capabilities: CapabilityId[];
   }) {
-    this.path = this.path ? `${path}supplier` : `supplier`;
+    this.path = path ? `${path}supplier` : `supplier`;
     this.capabilities = capabilities;
     this.contentValidator = new SupplierContentValidator({ path: this.path });
   }
 
-  public validate = (supplier: Supplier): ValidatorError[] => {
+  public validate = (supplier: Nullable<Supplier>): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.id`, supplier?.id),
       StringValidator.validate(`${this.path}.name`, supplier?.name),
@@ -33,7 +33,7 @@ export class SupplierValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateContact = (supplier: Supplier): ValidatorError[] =>
+  private validateContact = (supplier: Nullable<Supplier>): ValidatorError[] =>
     [
       StringValidator.validate(
         `${this.path}.contact.website`,
@@ -59,7 +59,7 @@ export class SupplierValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
 
   private validateContentCapability = (
-    supplier: Supplier
+    supplier: Nullable<Supplier>
   ): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Content)) {
       return this.contentValidator.validate(supplier);

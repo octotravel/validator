@@ -1,11 +1,11 @@
-import { Availability, Product } from "@octocloud/types";
+import { Product } from "@octocloud/types";
 import { Scenario } from "../Scenario";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
 import { Config } from "../../config/Config";
 import descriptions from "../../consts/descriptions";
 
 export class AvailabilityChecIntervalScenario
-  implements Scenario<Availability[]>
+  implements Scenario
 {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
@@ -25,7 +25,7 @@ export class AvailabilityChecIntervalScenario
       localDateEnd: this.config.localDateEnd,
     });
 
-    const availabilities = result.data;
+    const availabilities = result.data ?? [];
     const randomAvailability =
       availabilities[Math.floor(Math.random() * availabilities.length)];
     this.config.productConfig.addAvailabilityID = {

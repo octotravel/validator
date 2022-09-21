@@ -1,11 +1,11 @@
-import { Availability, Product } from "@octocloud/types";
+import { Product } from "@octocloud/types";
 import { Scenario } from "../Scenario";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
 import { Config } from "../../config/Config";
 import { DateHelper } from "../../../../helpers/DateHelper";
 import descriptions from "../../consts/descriptions";
 
-export class AvailabilityCheckDateScenario implements Scenario<Availability[]> {
+export class AvailabilityCheckDateScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
 

@@ -19,8 +19,8 @@ interface IConfig {
 export class Config implements IConfig {
   private static instance: Config;
 
-  private endpoint: Nullable<string> = null;
-  private apiKey: Nullable<string> = null;
+  private endpoint = ''
+  private apiKey = ''
 
   private capabilities: CapabilityId[] = [];
 

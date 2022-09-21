@@ -16,7 +16,7 @@ export class PricingValidator implements ModelValidator {
     this.path = path;
   };
 
-  public validate = (pricing: Pricing): ValidatorError[] => {
+  public validate = (pricing?: Pricing): ValidatorError[] => {
     return [
       NumberValidator.validate(`${this.path}.original`, pricing?.original, {
         integer: true,

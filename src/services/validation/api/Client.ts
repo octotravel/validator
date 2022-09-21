@@ -57,7 +57,7 @@ export class Client {
   ): Promise<Result<T>> => {
     const status = response.status;
     const requestBody = this.parseBody(request.body);
-    const { data } = await this.parseResponse<T>(response);
+    const { data, text } = await this.parseResponse<T>(response);
     const resHeaders = this.transformHeaders(response.headers);
     console.log(status);
     if (status === 200) {
@@ -71,17 +71,15 @@ export class Client {
         },
         response: {
           headers: resHeaders,
-          data: {
-            status,
-            body: data,
-          },
+          status,
+          body: text,
           error: null,
         },
       };
     }
     try {
       return {
-        data: null,
+        data,
         request: {
           url: request.url,
           method: request.method,
@@ -89,11 +87,12 @@ export class Client {
           headers: request.headers,
         },
         response: {
-          data: null,
+          body: text,
           headers: resHeaders,
+          status: response.status,
           error: {
+            body: text,
             status: response.status,
-            body: data as Record<string, unknown>,
           },
         },
       };
@@ -108,10 +107,11 @@ export class Client {
         },
         response: {
           headers: resHeaders,
-          data: null,
+          body: null,
+          status: response.status,
           error: {
-            status: response.status,
             body: response.statusText as any,
+            status: response.status,
           },
         },
       };
@@ -137,7 +137,7 @@ export class Client {
     let text = "";
     try {
       text = await response.text();
-      return { data: JSON.parse(text), error: null, text: null };
+      return { data: JSON.parse(text), error: null, text };
     } catch (err) {
       return {
         data: text as any,

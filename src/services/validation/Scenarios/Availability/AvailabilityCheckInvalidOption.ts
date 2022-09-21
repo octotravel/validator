@@ -4,12 +4,12 @@ import descriptions from "../../consts/descriptions";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
 import { Scenario, ScenarioResult } from "../Scenario";
 
-export class AvailabilityCheckInvalidOptionScenario implements Scenario<any> {
+export class AvailabilityCheckInvalidOptionScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private availabilityScenarioHelper = new AvailabilityScenarioHelper();
 
-  public validate = async (): Promise<ScenarioResult<any>> => {
+  public validate = async (): Promise<ScenarioResult> => {
     const [product] = this.config.productConfig.productsForAvailabilityCheck;
     const result = await this.apiClient.getAvailability({
       productId: product.id,
@@ -18,7 +18,6 @@ export class AvailabilityCheckInvalidOptionScenario implements Scenario<any> {
       localDateEnd: this.config.localDateEnd,
     });
     const name = `Availability Check Invalid Option (400 INVALID_OPTION_ID)`;
-    const error = "Response should be INVALID_OPTION_ID";
     const description = descriptions.invalidOption;
 
     return this.availabilityScenarioHelper.validateError(
@@ -27,7 +26,6 @@ export class AvailabilityCheckInvalidOptionScenario implements Scenario<any> {
         result,
         description,
       },
-      error,
       new InvalidOptionIdErrorValidator()
     );
   };

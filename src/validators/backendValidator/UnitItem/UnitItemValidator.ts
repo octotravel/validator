@@ -40,8 +40,8 @@ export class UnitItemValidator implements ModelValidator {
   }
   public validate = (
     unitItem: UnitItem,
-    pricingPer: PricingPer,
-    deliveryMethods: DeliveryMethod[]
+    deliveryMethods: DeliveryMethod[],
+    pricingPer?: PricingPer,
   ): ValidatorError[] => {
     const errors = [
       StringValidator.validate(`${this.path}.uuid`, unitItem?.uuid),
@@ -73,32 +73,32 @@ export class UnitItemValidator implements ModelValidator {
       ...this.contactValidator.validate(unitItem?.contact),
 
       ...this.validatePricingCapability(unitItem, pricingPer),
-      ...this.validateTicket(unitItem?.ticket, deliveryMethods ?? []),
+      ...this.validateTicket(deliveryMethods ?? [], unitItem?.ticket),
     ];
     return errors.flatMap((v) => (v ? [v] : []));
   };
 
   private validateTicket = (
-    ticket: Ticket,
-    deliveryMethods: DeliveryMethod[]
+    deliveryMethods: DeliveryMethod[],
+    ticket?: Nullable<Ticket>,
   ): ValidatorError[] => {
     if (deliveryMethods.includes(DeliveryMethod.TICKET)) {
       return this.ticketValidator.validate(ticket);
     }
 
-    return [NullValidator.validate(`${this.path}.ticket`, ticket)];
+    return [NullValidator.validate(`${this.path}.ticket`, ticket)].flatMap((v) => (v ? [v] : []));
   };
 
   private validatePricingCapability = (
     unitItem: UnitItem,
-    pricingPer: PricingPer
+    pricingPer?: PricingPer
   ): ValidatorError[] => {
     if (
       this.capabilities.includes(CapabilityId.Pricing) &&
       pricingPer === PricingPer.UNIT
     ) {
       const pricingValidator = new PricingValidator(`${this.path}.pricing`);
-      return pricingValidator.validate(unitItem.pricing);
+      return pricingValidator.validate(unitItem?.pricing);
     }
     return [];
   };

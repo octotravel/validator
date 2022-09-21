@@ -7,7 +7,7 @@ import { ValidatorError } from "../../../validators/backendValidator/ValidatorHe
 export class ProductScenarioHelper extends ScenarioHelper {
   public validateProducts = (data: ScenarioHelperData<Product[]>) => {
     const { result } = data;
-    if (result.response.error) {
+    if (result?.response?.error) {
       return this.handleResult({
         ...data,
         success: false,
@@ -37,7 +37,7 @@ export class ProductScenarioHelper extends ScenarioHelper {
 
   public validateProduct = (data: ScenarioHelperData<Product>) => {
     const { result } = data;
-    if (result.response.error) {
+    if (result?.response?.error) {
       return this.handleResult({
         ...data,
         success: false,

@@ -1,4 +1,4 @@
-import { AvailabilityCalendar } from "@octocloud/types";
+import { AvailabilityCalendarBodySchema } from "@octocloud/types";
 import { addDays } from "date-fns";
 import { DateHelper } from "../../../../helpers/DateHelper";
 import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator";
@@ -8,7 +8,7 @@ import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCa
 import { Scenario, ScenarioResult } from "../Scenario";
 
 export class AvailabilityCalendarBadRequestScenario
-  implements Scenario<AvailabilityCalendar[]>
+  implements Scenario
 {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
@@ -16,18 +16,16 @@ export class AvailabilityCalendarBadRequestScenario
     new AvailabilityCalendarScenarioHelper();
 
   public validate = async (): Promise<
-    ScenarioResult<AvailabilityCalendar[]>
+    ScenarioResult
   > => {
     const product = this.config.getProduct();
     const result = await this.apiClient.getAvailabilityCalendar({
       productId: product.id,
       optionId: product.options[0].id,
-      localDateStart: undefined,
       localDateEnd: DateHelper.getDate(addDays(new Date(), 30).toISOString()),
-    });
+    } as AvailabilityCalendarBodySchema);
 
     const name = `Availability Calendar BAD_REQUEST (400 BAD_REQUEST)`;
-    const error = "Response should be BAD_REQUEST";
     const description = descriptions.availabilityCalendarBadRequest;
 
     return this.availabilityCalendarScenarioHelper.validateError(
@@ -36,7 +34,6 @@ export class AvailabilityCalendarBadRequestScenario
         name,
         description,
       },
-      error,
       new BadRequestErrorValidator()
     );
   };

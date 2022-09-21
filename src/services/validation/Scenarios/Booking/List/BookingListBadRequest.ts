@@ -4,7 +4,7 @@ import { BadRequestErrorValidator } from "../../../../../validators/backendValid
 import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingListBadRequestScenario implements Scenario<any> {
+export class BookingListBadRequestScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
 
@@ -14,7 +14,6 @@ export class BookingListBadRequestScenario implements Scenario<any> {
     const result = await this.apiClient.getBookings({});
 
     const name = "List Bookings BAD_REQUEST (400 BAD_REQUEST)";
-    const error = "Response should be BAD_REQUEST";
     const description = descriptions.bookingListBadRequest;
 
     return this.bookingListScenarioHelper.validateError(
@@ -23,7 +22,6 @@ export class BookingListBadRequestScenario implements Scenario<any> {
         name,
         description,
       },
-      error,
       new BadRequestErrorValidator()
     );
   };

@@ -32,14 +32,14 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     return this.validateScenarios(scenarios);
   };
 
-  private reserveAvailableProduct = async (): Promise<Scenario<unknown>> => {
+  private reserveAvailableProduct = async (): Promise<Scenario> => {
     const [bookableProduct] = this.config.productConfig.availableProducts;
 
     const result = await this.booker.createReservation(bookableProduct);
     return new BookingReservationScenario({ result });
   };
 
-  private reserveSoldOutProduct = async (): Promise<Scenario<unknown>> => {
+  private reserveSoldOutProduct = async (): Promise<Scenario> => {
     const bookableProduct = this.config.productConfig.soldOutProduct;
 
     const result = await this.booker.createReservation(bookableProduct, {
@@ -48,7 +48,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     return new BookingReservationSoldOutScenario({ result });
   };
 
-  private reserveInvalidProduct = async (): Promise<Scenario<unknown>> => {
+  private reserveInvalidProduct = async (): Promise<Scenario> => {
     const [bookableProduct] = this.config.productConfig.availableProducts;
 
     const result = await this.booker.createReservation(bookableProduct, {
@@ -57,7 +57,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     return new BookingReservationInvalidProductScenario({ result });
   };
 
-  private reserveInvalidOption = async (): Promise<Scenario<unknown>> => {
+  private reserveInvalidOption = async (): Promise<Scenario> => {
     const [bookableProduct] = this.config.productConfig.availableProducts;
 
     const result = await this.booker.createReservation(bookableProduct, {
@@ -69,7 +69,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
   };
 
   private reserveInvalidAvailabilityID = async (): Promise<
-    Scenario<unknown>
+    Scenario
   > => {
     const [bookableProduct] = this.config.productConfig.availableProducts;
 
@@ -82,7 +82,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
   };
 
   private reserveWithMissingUnitItems = async (): Promise<
-    Scenario<unknown>
+    Scenario
   > => {
     const [bookableProduct] = this.config.productConfig.availableProducts;
 
@@ -94,7 +94,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     });
   };
 
-  private reserveWithEmptyUnitItems = async (): Promise<Scenario<unknown>> => {
+  private reserveWithEmptyUnitItems = async (): Promise<Scenario> => {
     const [bookableProduct] = this.config.productConfig.availableProducts;
 
     const result = await this.booker.createReservation(bookableProduct, {
@@ -104,7 +104,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
   };
 
   private validateBookingInvalidUnitId = async (): Promise<
-    Scenario<unknown>
+    Scenario
   > => {
     const [bookableProduct] = this.config.productConfig.availableProducts;
 

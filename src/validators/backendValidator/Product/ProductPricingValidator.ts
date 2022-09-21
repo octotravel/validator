@@ -13,7 +13,7 @@ export class ProductPricingValidator implements ModelValidator {
     this.path = path;
   }
 
-  public validate = (product: Product): ValidatorError[] => {
+  public validate = (product?: Nullable<Product>): ValidatorError[] => {
     return [
       StringValidator.validate(
         `${this.path}.defaultCurrency`,

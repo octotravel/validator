@@ -5,7 +5,7 @@ import { BookingReservationScenarioHelper } from "../../../helpers/BookingReserv
 import { Result } from "../../../api/types";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingReservationInvalidOptionScenario implements Scenario<any> {
+export class BookingReservationInvalidOptionScenario implements Scenario {
   private result: Result<Booking>;
   constructor({ result }: { result: Result<Booking> }) {
     this.result = result;
@@ -15,7 +15,6 @@ export class BookingReservationInvalidOptionScenario implements Scenario<any> {
 
   public validate = async () => {
     const name = "Booking Reservation Invalid Option (400 INVALID_OPTION_ID)";
-    const error = "Response should be INVALID_OPTION_ID";
     const description = descriptions.invalidOption;
 
     return this.bookingReservationScenarioHelper.validateError(
@@ -24,7 +23,6 @@ export class BookingReservationInvalidOptionScenario implements Scenario<any> {
         name,
         description,
       },
-      error,
       new InvalidOptionIdErrorValidator()
     );
   };

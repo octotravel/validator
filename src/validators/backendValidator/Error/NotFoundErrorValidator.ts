@@ -1,4 +1,4 @@
-import { ValidatedError } from "./index";
+import { Result } from './../../../services/validation/api/types';
 import { NOT_FOUND, STATUS_NOT_FOUND } from "../../../models/Error";
 import {
   ModelValidator,
@@ -8,13 +8,13 @@ import {
 } from "../ValidatorHelpers";
 
 export class NotFoundErrorValidator implements ModelValidator {
-  public validate = (data: ValidatedError): ValidatorError[] => {
+  public validate = (result: Result<any>): ValidatorError[] => {
     return [
-      StringValidator.validate(`error`, data?.body?.error, {
+      StringValidator.validate(`error`, result?.data?.error, {
         equalsTo: NOT_FOUND,
       }),
-      StringValidator.validate(`errorMessage`, data?.body?.errorMessage),
-      NumberValidator.validate(`status`, data?.status, {
+      StringValidator.validate(`errorMessage`, result?.data?.errorMessage),
+      NumberValidator.validate(`status`, result?.response?.status, {
         integer: true,
         equalsTo: STATUS_NOT_FOUND,
       }),

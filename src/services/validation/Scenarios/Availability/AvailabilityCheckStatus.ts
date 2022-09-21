@@ -3,7 +3,7 @@ import { Config } from "../../config/Config";
 import { AvailabilityStatusScenarioHelper } from "../../helpers/AvailabilityStatusScenarioHelper";
 import { Product } from "@octocloud/types";
 
-export class AvailabilityCheckStatusScenario implements Scenario<any> {
+export class AvailabilityCheckStatusScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private products: Product[];

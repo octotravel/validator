@@ -1,10 +1,10 @@
-import { Booking, CapabilityId } from "@octocloud/types";
+import { CapabilityId } from "@octocloud/types";
 import { Scenario } from "../../Scenario";
 import { Config } from "../../../config/Config";
 import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingGetReservationScenario implements Scenario<Booking> {
+export class BookingGetReservationScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private uuid: string;

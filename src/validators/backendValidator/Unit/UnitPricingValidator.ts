@@ -13,16 +13,17 @@ export class UnitPricingValidator implements ModelValidator {
   public validate = (unit: Unit): ValidatorError[] => {
     const isOnBooking = this.path.includes("booking");
     if (isOnBooking) {
-      return unit?.pricing
-        ?.map((pricing, i) => {
+      const pricing = unit?.pricing ?? []
+      return pricing
+      .map((pricing, i) => {
           this.pricingValidator.setPath(`${this.path}.pricing[${i}]`);
           return this.pricingValidator.validate(pricing as Pricing);
         })
         .flat(1)
         .flatMap((v) => (v ? [v] : []));
     } else {
-      return unit?.pricingFrom
-        ?.map((pricingFrom, i) => {
+      const pricingFrom = unit?.pricingFrom ?? []
+      return pricingFrom.map((pricingFrom, i) => {
           this.pricingValidator.setPath(`${this.path}.pricingFrom[${i}]`);
           return this.pricingValidator.validate(pricingFrom as Pricing);
         })

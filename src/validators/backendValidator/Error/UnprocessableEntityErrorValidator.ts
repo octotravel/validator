@@ -1,4 +1,4 @@
-import { ValidatedError } from "./index";
+import { Result } from './../../../services/validation/api/types';
 import { NumberValidator } from "./../ValidatorHelpers";
 import {
   STATUS_BAD_REQUEST,
@@ -11,13 +11,13 @@ import {
 } from "../ValidatorHelpers";
 
 export class UnprocessableEntityErrorValidator implements ModelValidator {
-  public validate = (data: ValidatedError): ValidatorError[] => {
+  public validate = (result: Result<any>): ValidatorError[] => {
     return [
-      StringValidator.validate(`error`, data?.body?.error, {
+      StringValidator.validate(`error`, result?.data?.error, {
         equalsTo: UNPROCESSABLE_ENTITY,
       }),
-      StringValidator.validate(`errorMessage`, data?.body?.errorMessage),
-      NumberValidator.validate(`status`, data?.status, {
+      StringValidator.validate(`errorMessage`, result?.data?.errorMessage),
+      NumberValidator.validate(`status`, result?.response?.status, {
         integer: true,
         equalsTo: STATUS_BAD_REQUEST,
       }),

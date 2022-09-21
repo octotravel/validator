@@ -5,7 +5,7 @@ import { BookingReservationScenarioHelper } from "../../../helpers/BookingReserv
 import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingReservationScenario implements Scenario<Booking> {
+export class BookingReservationScenario implements Scenario {
   private config = Config.getInstance();
   private result: Result<Booking>;
   constructor({ result }: { result: Result<Booking> }) {

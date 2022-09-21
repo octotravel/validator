@@ -19,7 +19,7 @@ interface GetAvailabilityIDData {
 
 export class ProductBookable {
   public product: Product;
-  private _availabilityIdAvailable: Nullable<string[]> = null;
+  private _availabilityIdAvailable: string[] = [];
   private _availabilityIdSoldOut: Nullable<string>;
   constructor({
     product,
@@ -31,7 +31,7 @@ export class ProductBookable {
     availabilityIdSoldOut: Nullable<string>;
   }) {
     this.product = product;
-    this._availabilityIdAvailable = availabilityIdAvailable ?? null;
+    this._availabilityIdAvailable = availabilityIdAvailable ?? [];
     this._availabilityIdSoldOut = availabilityIdSoldOut;
   }
 

@@ -36,7 +36,7 @@ export class OptionValidator implements ModelValidator {
   }
   public validate = (
     option: Option,
-    availabilityType: AvailabilityType,
+    availabilityType?: AvailabilityType,
     pricingPer?: PricingPer
   ): ValidatorError[] => {
     return [
@@ -81,7 +81,7 @@ export class OptionValidator implements ModelValidator {
 
   private validateAvailabilityLocalStartTimes = (
     availabilityLocalStartTimes: string[],
-    availabilityType: AvailabilityType
+    availabilityType?: AvailabilityType
   ) => {
     const path = `${this.path}.availabilityLocalStartTimes`;
     if (availabilityType === AvailabilityType.OPENING_HOURS) {
@@ -116,7 +116,7 @@ export class OptionValidator implements ModelValidator {
 
   private validateUnits = (
     units: Unit[],
-    pricingPer: PricingPer
+    pricingPer?: PricingPer
   ): ValidatorError[] => {
     return units
       .map((unit, i) => {

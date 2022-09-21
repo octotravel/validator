@@ -1,11 +1,10 @@
-import { Booking } from "@octocloud/types";
 import { Scenario } from "../../Scenario";
 import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper";
 import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
 
 export class BookingListResellerReferenceScenario
-  implements Scenario<Booking[]>
+  implements Scenario
 {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();

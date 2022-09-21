@@ -5,7 +5,7 @@ import { Booking } from "@octocloud/types";
 import { Result } from "../../../api/types";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingReservationInvalidProductScenario implements Scenario<any> {
+export class BookingReservationInvalidProductScenario implements Scenario {
   private result: Result<Booking>;
   constructor({ result }: { result: Result<Booking> }) {
     this.result = result;
@@ -15,7 +15,6 @@ export class BookingReservationInvalidProductScenario implements Scenario<any> {
 
   public validate = async () => {
     const name = "Booking Reservation Invalid Product (400 INVALID_PRODUCT_ID)";
-    const error = "Response should be INVALID_PRODUCT_ID";
     const description = descriptions.invalidProduct;
 
     return this.bookingReservationScenarioHelper.validateError(
@@ -24,7 +23,6 @@ export class BookingReservationInvalidProductScenario implements Scenario<any> {
         name,
         description,
       },
-      error,
       new InvalidProductIdErrorValidator()
     );
   };

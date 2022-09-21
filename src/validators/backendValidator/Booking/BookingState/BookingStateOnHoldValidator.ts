@@ -8,7 +8,7 @@ export class BookingStateOnHoldValidator implements ModelValidator {
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (booking: Booking): ValidatorError[] => {
+  public validate = (booking?: Booking): ValidatorError[] => {
     return [
       CommonValidator.validateUTCDateTime(
         `${this.path}.utcCreatedAt`,

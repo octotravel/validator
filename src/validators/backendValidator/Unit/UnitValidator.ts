@@ -29,7 +29,7 @@ export class UnitValidator implements ModelValidator {
     this.path = path;
     this.capabilities = capabilities;
   }
-  public validate = (unit: Unit, pricingPer: PricingPer): ValidatorError[] => {
+  public validate = (unit: Unit, pricingPer?: PricingPer): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.id`, unit?.id),
       StringValidator.validate(`${this.path}.internalName`, unit?.internalName),
@@ -51,7 +51,7 @@ export class UnitValidator implements ModelValidator {
 
   private validatePricingCapability = (
     unit: Unit,
-    pricingPer: PricingPer
+    pricingPer?: PricingPer
   ): ValidatorError[] => {
     if (
       this.capabilities.includes(CapabilityId.Pricing) &&

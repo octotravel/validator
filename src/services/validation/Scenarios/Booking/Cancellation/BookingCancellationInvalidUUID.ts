@@ -4,7 +4,7 @@ import { BookingCancellationScenarioHelper } from "../../../helpers/BookingCance
 import { Config } from "../../../config/Config";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingCancellationInvalidUUIDScenario implements Scenario<any> {
+export class BookingCancellationInvalidUUIDScenario implements Scenario {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
   private uuid: string;
@@ -21,7 +21,6 @@ export class BookingCancellationInvalidUUIDScenario implements Scenario<any> {
 
     const name =
       "Booking Cancellation Invalid Booking UUID (400 INVALID_BOOKING_UUID)";
-    const error = "Response should be INVALID_BOOKING_UUID";
     const description = descriptions.invalidUUID;
 
     return this.bookingCancellationScenarioHelper.validateError(
@@ -30,7 +29,6 @@ export class BookingCancellationInvalidUUIDScenario implements Scenario<any> {
         name,
         description,
       },
-      error,
       new InvalidBookingUUIDErrorValidator()
     );
   };

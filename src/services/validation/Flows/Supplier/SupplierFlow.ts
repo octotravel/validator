@@ -10,7 +10,7 @@ export class SupplierFlow extends BaseFlow implements Flow {
   }
 
   public validate = async (): Promise<FlowResult> => {
-    const scenarios: Scenario<unknown>[] = [new GetSupplierScenario()];
+    const scenarios: Scenario[] = [new GetSupplierScenario()];
     return this.validateScenarios(scenarios);
   };
 }

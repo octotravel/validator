@@ -122,6 +122,7 @@ export class NumberValidator extends BaseValidator {
           });
         }
       }
+      return null
     } catch (err) {
       return this.handleValidatedError(err);
     }
@@ -270,9 +271,10 @@ export class RegExpArrayValidator extends BaseValidator {
       }
       schema.validateSync(value, { strict: true });
       return null;
-    } catch (err) {
+    } catch (e) {
+      const err = e as Error
       if (err instanceof yup.ValidationError) {
-        if (err.path.length > 1) {
+        if (err.path && err?.path.length > 1) {
           const errorMessage = `${label}${err.errors.join()}`;
           return new ValidatorError({
             type: ErrorType.WARNING,
@@ -306,7 +308,7 @@ export class ArrayValidator extends BaseValidator {
       }
       schema = schema.label(label).required();
       schema.validateSync(value, { strict: true });
-      if (params.empty) {
+      if (params?.empty) {
         if (Array.isArray(value) && value.length !== 0) {
           return new ValidatorError({
             type: ErrorType.WARNING,

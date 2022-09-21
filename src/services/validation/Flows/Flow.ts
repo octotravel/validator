@@ -10,6 +10,6 @@ export interface FlowResult {
   validationResult: ValidationResult;
   totalScenarios: number;
   succesScenarios: number;
-  scenarios: ScenarioResult<any>[];
+  scenarios: ScenarioResult[];
   docs: string;
 }

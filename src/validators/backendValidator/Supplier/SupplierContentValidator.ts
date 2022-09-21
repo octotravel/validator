@@ -16,7 +16,7 @@ export class SupplierContentValidator implements ModelValidator {
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (supplier: Supplier): ValidatorError[] => {
+  public validate = (supplier: Nullable<Supplier>): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.country`, supplier?.country),
       ...this.validateDestination(supplier?.destinations ?? []),

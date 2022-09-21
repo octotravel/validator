@@ -86,8 +86,8 @@ export class ApiClient extends Client {
     data: ConfirmBookingBodySchema & ConfirmBookingPathParamsSchema
   ): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}/confirm`;
-    delete data.uuid;
-    const body = JSON.stringify(data);
+    const { uuid, ...rest} = data
+    const body = JSON.stringify(rest);
     return this.fetch({ url, body, method: "POST" });
   };
 
@@ -110,8 +110,8 @@ export class ApiClient extends Client {
     data: CancelBookingBodySchema & CancelBookingPathParamsSchema
   ): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}`;
-    delete data.uuid;
-    const body = JSON.stringify(data);
+    const { uuid, ...rest} = data
+    const body = JSON.stringify(rest);
     return this.fetch({ url, body, method: "DELETE" });
   };
 
@@ -119,8 +119,8 @@ export class ApiClient extends Client {
     data: ExtendBookingBodySchema & ExtendBookingPathParamsSchema
   ): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}/extend`;
-    delete data.uuid;
-    const body = JSON.stringify(data);
+    const { uuid, ...rest} = data
+    const body = JSON.stringify(rest);
     return this.fetch({ url, body, method: "POST" });
   };
 
@@ -128,8 +128,9 @@ export class ApiClient extends Client {
     data: UpdateBookingBodySchema & UpdateBookingPathParamsSchema
   ): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}`;
-    delete data.uuid;
-    const body = JSON.stringify(data);
+    /* tslint:disable-next-line  @typescript-eslint/no-unused-vars */
+    const { uuid, ...rest} = data
+    const body = JSON.stringify(rest);
     return this.fetch({ url, body, method: "PATCH" });
   };
 }

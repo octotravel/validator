@@ -5,7 +5,7 @@ import { BookingReservationScenarioHelper } from "../../../helpers/BookingReserv
 import { Result } from "../../../api/types";
 import descriptions from "../../../consts/descriptions";
 
-export class BookingReservationSoldOutScenario implements Scenario<any> {
+export class BookingReservationSoldOutScenario implements Scenario {
   private result: Result<Booking>;
   constructor({ result }: { result: Result<Booking> }) {
     this.result = result;
@@ -15,7 +15,6 @@ export class BookingReservationSoldOutScenario implements Scenario<any> {
 
   public validate = async () => {
     const name = "Booking Reservation SOLD_OUT (400 UNPROCESSABLE_ENTITY)";
-    const error = "Response should be UNPROCESSABLE_ENTITY";
     const description = descriptions.bookingReservationSoldOut;
 
     return this.bookingReservationScenarioHelper.validateError(
@@ -24,7 +23,6 @@ export class BookingReservationSoldOutScenario implements Scenario<any> {
         name,
         description,
       },
-      error,
       new UnprocessableEntityErrorValidator()
     );
   };

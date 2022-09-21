@@ -38,7 +38,7 @@ export class ProductValidator implements ModelValidator {
     this.contentValidator = new ProductContentValidator({ path: this.path });
   }
 
-  public validate = (product: Product): ValidatorError[] => {
+  public validate = (product?: Nullable<Product>): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.id`, product?.id),
       StringValidator.validate(
@@ -95,7 +95,7 @@ export class ProductValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateOptions = (product: Product): ValidatorError[] => {
+  private validateOptions = (product?: Nullable<Product>): ValidatorError[] => {
     const options = product?.options ?? [];
     const errors = [
       ArrayValidator.validate(`${this.path}.options`, options, { min: 1 }),
@@ -116,17 +116,17 @@ export class ProductValidator implements ModelValidator {
         .flat(1)
     );
 
-    return errors;
+    return errors.flatMap((v) => (v ? [v] : []));
   };
 
-  private validatePricingCapability = (product: Product): ValidatorError[] => {
+  private validatePricingCapability = (product?: Nullable<Product>): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pricing)) {
       return this.pricingValidator.validate(product);
     }
     return [];
   };
 
-  private validateContentCapability = (product: Product): ValidatorError[] => {
+  private validateContentCapability = (product?: Nullable<Product>): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Content)) {
       return this.contentValidator.validate(product);
     }

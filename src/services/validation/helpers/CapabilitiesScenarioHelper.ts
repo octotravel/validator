@@ -4,19 +4,19 @@ import { CapabilityValidator } from "../../../validators/backendValidator/Capabi
 
 export class CapabilitiesScenarioHelper extends ScenarioHelper {
   public validateCapabilities = (
-    data: ScenarioHelperData<null | Capability[]>
+    data: ScenarioHelperData<Capability[]>
   ) => {
     const validator = new CapabilityValidator({});
     const { result } = data;
-    if (result.response.error) {
+    if (result?.response?.error) {
       return this.handleResult({
         ...data,
         success: false,
         errors: [],
       });
     }
-    result.data;
-    const errors = result.data.map(validator.validate).flat(1);
+    const capabilities = result?.data ?? []
+    const errors = capabilities.map(validator.validate).flat(1);
     return this.handleResult({
       ...data,
       errors,
