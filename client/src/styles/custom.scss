@@ -1,0 +1,39 @@
+.highlighter {
+  &-attr {
+    position: relative;
+  }
+
+  &-fold-arrow {
+    cursor: pointer;
+    display: block;
+    padding: 0.4em;
+    position: absolute;
+    top: 0;
+    left: -1.2em;
+    line-height: 0;
+
+    &::before {
+      content: '';
+      display: block;
+      width: 0.36em;
+      height: 0.36em;
+      border-bottom: 1px solid;
+      border-left: 1px solid;
+      transform: rotate(-45deg);
+    }
+
+    &.folded::before {
+      transform: rotate(-130deg);
+    }
+  }
+
+  &-line-num {
+    display: inline-block;
+    opacity: 0.26;
+    width: 2em;
+  }
+
+  &-rest {
+    cursor: pointer;
+  }
+}
