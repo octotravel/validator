@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsc-watch --onSuccess \"node --inspect=0.0.0.0:5858 dist/index.js\"",
+    "frontend": "cd ./../client && npm instal && npm run build",
     "format": "prettier --write \"**/*.{ts,js,css,json,md}\"",
     "test": "jest",
     "test:coverage": "jest --coverage"

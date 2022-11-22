@@ -1,6 +1,7 @@
 {
   "name": "ventrata_validator",
   "version": "0.1.0",
+  "homepage": "./client/build",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "^2.9.5",
