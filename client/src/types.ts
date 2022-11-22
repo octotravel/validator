@@ -57,6 +57,5 @@ export type ValidationContextData = {
 
 export type PostData = {
   endpoint: string;
-  type: string;
   apiKey: string;
 }

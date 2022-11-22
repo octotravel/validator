@@ -9,7 +9,6 @@ import { usePersistForm } from '../components.tsx/usePersitForm'
 import 'react-toastify/dist/ReactToastify.css'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { querySchema } from '../schema/Schema'
-import FormSelect from '../components.tsx/formSelect'
 
 const FormInputView: FC = () => {
   const { handleFetchFlows, error, isLoading, resetError } = useFlowListManagement()
@@ -57,9 +56,6 @@ const FormInputView: FC = () => {
           <ToastContainer />
           <Container>
             <Row className="py-2" spacing={4}>
-              <Col xs={12} sm={6} md={4}>
-                <FormSelect label="Backend Type" name="type" required={true} options={['octo', 'anchor', 'cityconnect']} />
-              </Col>
               <Col xs={12} sm={6} md={4}>
                 <FormInput label="Endpoint" name="endpoint" required={true} />
               </Col>
