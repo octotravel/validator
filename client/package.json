@@ -2,6 +2,7 @@
   "name": "ventrata_validator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./client/",
   "dependencies": {
     "@hookform/resolvers": "^2.9.5",
     "@tabler/core": "^1.0.0-beta9",

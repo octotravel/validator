@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es6",
+    "module": "commonjs",
+    "sourceMap": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "typeRoots": ["node_modules/@types"],
+    "types": ["jest"],
+    "resolveJsonModule": true
+  },
+  "include": ["backend/src/**/**.ts", "backend/test/**/**.ts", "backend/src/models/Availability.ts"],
+  "exclude": ["node_modules", "client"]
+}
