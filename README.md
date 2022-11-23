@@ -4,18 +4,18 @@ OCTO API validator
 
 Usage
 
-```
-cd server
-```
-
-To run with front end
-
-```
-npm run frontend
-```
-
-Launch dev
-
+To run client and server in dev
 ```
 npm run dev
+```
+
+To build client 
+```
+npm run febuild
+```
+
+To run only server
+
+```
+npm run server
 ```
