@@ -1,11 +1,11 @@
+import { FC } from 'react'
 import { Row, Col, Container } from 'react-bootstrap'
 
-import { FC } from 'react'
 import Header from '../components.tsx/header'
 import FormInputView from './formView'
 import OutputView from './responseView'
 
-const HomeView = () => {
+const HomeView: FC = () => {
   return (
     <Container>
       <Header title="Validation" />
