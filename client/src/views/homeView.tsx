@@ -5,7 +5,7 @@ import Header from '../components.tsx/header'
 import FormInputView from './formView'
 import OutputView from './responseView'
 
-const HomeView: FC = () => {
+const HomeView = () => {
   return (
     <Container>
       <Header title="Validation" />

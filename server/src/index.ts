@@ -2,6 +2,8 @@ import "isomorphic-fetch";
 import Koa from "koa";
 import koaBody from "koa-body";
 import cors from "@koa/cors";
+import serve from "koa-static";
+import mount from 'koa-mount'
 import { router } from "./router/AppRouter";
 import { ValidationError } from "yup";
 import {
@@ -11,6 +13,8 @@ import {
 } from "./models/Error";
 
 const app = new Koa();
+
+app.use(mount("/", serve("./../client/build")));
 
 app.use(cors());
 app.use(koaBody());
