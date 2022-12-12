@@ -1,4 +1,4 @@
-import { Availability, Product } from "@octocloud/types";
+import { Availability, Product } from "npm:@octocloud/types@^1.3.1";
 
 export interface Scenario {
   validate: () => Promise<ScenarioResult>;
@@ -7,16 +7,16 @@ export interface Scenario {
 export interface ScenarioRequest {
   url: string;
   method: string;
-  body: Nullable<any>;
+  body: any | null;
   headers: Record<string, string>;
 }
 
 export interface ScenarioResponse {
-  body: Nullable<string>;
-  status: Nullable<number>;
-  error: Nullable<{
+  body: string | null;
+  status: number | null;
+  error: {
     body: any;
-  }>;
+  } | null;
   headers: Record<string, string>;
 }
 
@@ -30,8 +30,8 @@ export interface ScenarioResult {
   name: string;
   success: boolean;
   validationResult: ValidationResult;
-  request: Nullable<ScenarioRequest>;
-  response: Nullable<ScenarioResponse>;
+  request: ScenarioRequest | null;
+  response: ScenarioResponse | null;
   errors: any[]; // validation errors
   description: string;
 }

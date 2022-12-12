@@ -1,10 +1,10 @@
-import { Contact } from "@octocloud/types";
+import { Contact } from "npm:@octocloud/types@^1.3.1";
 import {
   ModelValidator,
   StringArrayValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class ContactValidator implements ModelValidator {
   private path: string;

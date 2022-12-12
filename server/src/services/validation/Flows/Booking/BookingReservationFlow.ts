@@ -1,16 +1,16 @@
-import { BookingReservationScenario } from "../../Scenarios/Booking/Reservation/BookingReservationScenario";
-import { Flow, FlowResult } from "../Flow";
-import { BookingReservationInvalidProductScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidProductScenario";
-import { BookingReservationInvalidOptionScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidOptionScenario";
-import { BookingReservationInvalidAvailabilityIdScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidAvailabilityIdScenario";
-import { BaseFlow } from "../BaseFlow";
-import { BookingReservationSoldOutScenario } from "../../Scenarios/Booking/Reservation/BookingReservationSoldOutScenario";
-import { BookingReservationMissingUnitItemsScenario } from "../../Scenarios/Booking/Reservation/BookingReservationMissingUnitItemsScenario";
-import { BookingReservationEmptyUnitItemsScenario } from "../../Scenarios/Booking/Reservation/BookingReservationEmptyUnitItemsScenario";
-import { BookingReservationInvalidUnitIdScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidUnitIdScenario";
-import { Scenario } from "../../Scenarios/Scenario";
-import { Booker } from "../../Booker";
-import docs from "../../consts/docs";
+import { BookingReservationScenario } from "../../Scenarios/Booking/Reservation/BookingReservationScenario.ts";
+import { Flow, FlowResult } from "../Flow.ts";
+import { BookingReservationInvalidProductScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidProductScenario.ts";
+import { BookingReservationInvalidOptionScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidOptionScenario.ts";
+import { BookingReservationInvalidAvailabilityIdScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidAvailabilityIdScenario.ts";
+import { BaseFlow } from "../BaseFlow.ts";
+import { BookingReservationSoldOutScenario } from "../../Scenarios/Booking/Reservation/BookingReservationSoldOutScenario.ts";
+import { BookingReservationMissingUnitItemsScenario } from "../../Scenarios/Booking/Reservation/BookingReservationMissingUnitItemsScenario.ts";
+import { BookingReservationEmptyUnitItemsScenario } from "../../Scenarios/Booking/Reservation/BookingReservationEmptyUnitItemsScenario.ts";
+import { BookingReservationInvalidUnitIdScenario } from "../../Scenarios/Booking/Reservation/BookingReservationInvalidUnitIdScenario.ts";
+import { Scenario } from "../../Scenarios/Scenario.ts";
+import { Booker } from "../../Booker.ts";
+import docs from "../../consts/docs.ts";
 
 export class BookingReservationFlow extends BaseFlow implements Flow {
   private booker = new Booker();

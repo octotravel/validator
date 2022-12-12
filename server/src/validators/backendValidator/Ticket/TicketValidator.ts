@@ -1,18 +1,18 @@
-import { RedemptionMethod, DeliveryFormat, Ticket } from "@octocloud/types";
+import { RedemptionMethod, DeliveryFormat, Ticket } from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   EnumValidator,
   NullValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class TicketValidator implements ModelValidator {
   private path: string;
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (ticket?: Nullable<Ticket>): ValidatorError[] => {
+  public validate = (ticket?: Ticket | null): ValidatorError[] => {
     const errors = [
       EnumValidator.validate(
         `${this.path}.redemptionMethod`,
@@ -28,7 +28,7 @@ export class TicketValidator implements ModelValidator {
 
     return errors.flatMap((v) => (v ? [v] : []));
   };
-  private validateDeliveryOptions = (ticket?: Nullable<Ticket>): ValidatorError[] => {
+  private validateDeliveryOptions = (ticket?: Ticket | null): ValidatorError[] => {
     const deliveryOptions = ticket?.deliveryOptions ?? [];
     return deliveryOptions
       .map((deliveryOption, i) => [

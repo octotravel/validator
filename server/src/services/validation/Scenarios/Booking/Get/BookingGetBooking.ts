@@ -1,11 +1,11 @@
-import { BookingContactSchema } from "@octocloud/types";
-import { Scenario } from "../../Scenario";
-import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper";
-import { Config } from "../../../config/Config";
-import descriptions from "../../../consts/descriptions";
-import { Booker } from "../../../Booker";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
+import { BookingContactSchema } from "npm:@octocloud/types@^1.3.1";
+import { Scenario } from "../../Scenario.ts";
+import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
+import { Config } from "../../../config/Config.ts";
+import descriptions from "../../../consts/descriptions.ts";
+import { Booker } from "../../../Booker.ts";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 
 export class BookingGetBookingScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -16,7 +16,7 @@ export class BookingGetBookingScenario implements Scenario {
   private bookingGetScenarionHelper = new BookingGetScenarioHelper();
 
   public validate = async () => {
-    const name = "Get Booking - Booking";
+    const name = "Get Booking - Booking.ts";
     const description = descriptions.bookingGetBooking;
     const [bookableProduct] = this.config.productConfig.availableProducts;
 

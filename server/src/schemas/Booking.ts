@@ -1,4 +1,5 @@
-import * as yup from "yup";
+// deno-lint-ignore-file no-empty-interface
+import * as yup from "npm:yup@^0.32.11";
 import {
   CreateBookingBodySchema,
   createBookingBodySchema,
@@ -22,21 +23,18 @@ import {
   getBookingPathParamsSchema,
   GetBookingsQueryParamsSchema,
   getBookingsQueryParamsSchema,
-} from "@octocloud/types";
+} from "npm:@octocloud/types@^1.3.1";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GetBookingSchema extends GetBookingPathParamsSchema {}
 
 export const getBookingSchema: yup.SchemaOf<GetBookingSchema> =
   getBookingPathParamsSchema.clone();
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface GetBookingsSchema extends GetBookingsQueryParamsSchema {}
 
 export const getBookingsSchema: yup.SchemaOf<GetBookingsSchema> =
   getBookingsQueryParamsSchema.clone();
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface CreateBookingSchema extends CreateBookingBodySchema {}
 
 export const createBookingSchema = createBookingBodySchema.clone();

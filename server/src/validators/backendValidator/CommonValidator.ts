@@ -1,9 +1,9 @@
-import { AvailabilityType, OpeningHours } from "@octocloud/types";
+import { AvailabilityType, OpeningHours } from "npm:@octocloud/types@^1.3.1";
 import {
   ArrayValidator,
   RegExpValidator,
   ValidatorError,
-} from "./ValidatorHelpers";
+} from "./ValidatorHelpers.ts";
 
 interface CommonValidatorParams {
   nullable?: boolean;
@@ -16,7 +16,7 @@ export class CommonValidator {
     availabilityType?: AvailabilityType
   ): ValidatorError[] => {
     const regExp = new RegExp(/^\d{2}:\d{2}$/g);
-    const errors: Nullable<ValidatorError>[] = [
+    const errors: ValidatorError[] | null = [
       ...openingHours
         .map((openingHour, i) => [
           RegExpValidator.validate(
@@ -45,7 +45,7 @@ export class CommonValidator {
   public static validateLocalDate = (
     label: string,
     localDateTime: string
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/
     );
@@ -55,7 +55,7 @@ export class CommonValidator {
   public static validateLocalDateTime = (
     label: string,
     localDateTime?: string
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])([+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$/
     );
@@ -64,9 +64,9 @@ export class CommonValidator {
 
   public static validateUTCDateTime = (
     label: string,
-    utcDate?: Nullable<string>,
+    utcDate?: string | null,
     params?: CommonValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])Z$/
     );

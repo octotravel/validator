@@ -1,14 +1,14 @@
-import { Result } from './../../../services/validation/api/types';
-import { NumberValidator } from "./../ValidatorHelpers";
+import { Result } from './../../../services/validation/api/types.ts';
+import { NumberValidator } from "./../ValidatorHelpers.ts";
 import {
   STATUS_BAD_REQUEST,
   UNPROCESSABLE_ENTITY,
-} from "../../../models/Error";
+} from "../../../models/Error.ts";
 import {
   ModelValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class UnprocessableEntityErrorValidator implements ModelValidator {
   public validate = (result: Result<any>): ValidatorError[] => {

@@ -1,14 +1,14 @@
-import { Result } from './../../../services/validation/api/types';
-import { NumberValidator } from "./../ValidatorHelpers";
+import { Result } from './../../../services/validation/api/types.ts';
+import { NumberValidator } from "./../ValidatorHelpers.ts";
 import {
   INVALID_BOOKING_UUID,
   STATUS_BAD_REQUEST,
-} from "../../../models/Error";
+} from "../../../models/Error.ts";
 import {
   ModelValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class InvalidBookingUUIDErrorValidator implements ModelValidator {
   public validate = (result: Result<any>): ValidatorError[] => {

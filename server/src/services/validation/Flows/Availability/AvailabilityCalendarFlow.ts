@@ -1,11 +1,11 @@
-import { Flow, FlowResult } from "../Flow";
-import { AvailabilityCalendarIntervalScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInterval";
-import { AvailabilityCalendarInvalidProductScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidProduct";
-import { AvailabilityCalendarInvalidOptionScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidOption";
-import { AvailabilityCalendarBadRequestScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarBadRequest";
-import { BaseFlow } from "../BaseFlow";
-import docs from "../../consts/docs";
-import { Scenario } from "../../Scenarios/Scenario";
+import { Flow, FlowResult } from "../Flow.ts";
+import { AvailabilityCalendarIntervalScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInterval.ts";
+import { AvailabilityCalendarInvalidProductScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidProduct.ts";
+import { AvailabilityCalendarInvalidOptionScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidOption.ts";
+import { AvailabilityCalendarBadRequestScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarBadRequest.ts";
+import { BaseFlow } from "../BaseFlow.ts";
+import docs from "../../consts/docs.ts";
+import { Scenario } from "../../Scenarios/Scenario.ts";
 
 export class AvailabilityCalendarFlow extends BaseFlow implements Flow {
   constructor() {
@@ -25,7 +25,7 @@ export class AvailabilityCalendarFlow extends BaseFlow implements Flow {
   private checkCalendarAvaialbility =
     (): AvailabilityCalendarIntervalScenario[] => {
       return this.config.productConfig.productsForAvailabilityCheck.map(
-        (product) => new AvailabilityCalendarIntervalScenario(product)
+        (product: any) => new AvailabilityCalendarIntervalScenario(product)
       );
     };
 }

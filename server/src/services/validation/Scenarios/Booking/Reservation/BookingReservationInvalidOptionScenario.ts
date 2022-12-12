@@ -1,9 +1,9 @@
-import { Booking } from "@octocloud/types";
-import { Scenario } from "../../Scenario";
-import { InvalidOptionIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator";
-import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper";
-import { Result } from "../../../api/types";
-import descriptions from "../../../consts/descriptions";
+import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { Scenario } from "../../Scenario.ts";
+import { InvalidOptionIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator.ts";
+import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
+import { Result } from "../../../api/types.ts";
+import descriptions from "../../../consts/descriptions.ts";
 
 export class BookingReservationInvalidOptionScenario implements Scenario {
   private result: Result<Booking>;
@@ -14,7 +14,7 @@ export class BookingReservationInvalidOptionScenario implements Scenario {
     new BookingReservationScenarioHelper();
 
   public validate = async () => {
-    const name = "Booking Reservation Invalid Option (400 INVALID_OPTION_ID)";
+    const name = "Booking Reservation Invalid Option (400 INVALID_OPTION_ID).ts";
     const description = descriptions.invalidOption;
 
     return this.bookingReservationScenarioHelper.validateError(

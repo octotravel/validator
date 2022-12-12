@@ -1,7 +1,7 @@
-import { Scenario } from "../Scenario";
-import { SupplierScenarioHelper } from "../../helpers/SupplierScenarioHelper";
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
+import { Scenario } from "../Scenario.ts";
+import { SupplierScenarioHelper } from "../../helpers/SupplierScenarioHelper.ts";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
 
 export class GetSupplierScenario implements Scenario {
   private config = Config.getInstance();
@@ -10,7 +10,7 @@ export class GetSupplierScenario implements Scenario {
 
   public validate = async () => {
     const result = await this.apiClient.getSupplier();
-    const name = "Get Supplier";
+    const name = "Get Supplier.ts";
     const description = descriptions.getSupplier;
 
     return this.supplierScenarioHelper.validateSupplier({

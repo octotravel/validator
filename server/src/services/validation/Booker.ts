@@ -1,8 +1,8 @@
-import { Booking } from "@octocloud/types";
-import { CreateBookingSchema } from "../../schemas/Booking";
-import { Result } from "./api/types";
-import { Config } from "./config/Config";
-import { ProductBookable } from "./config/ProductBookable";
+import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { CreateBookingSchema } from "../../schemas/Booking.ts";
+import { Result } from "./api/types.ts";
+import { Config } from "./config/Config.ts";
+import { ProductBookable } from "./config/ProductBookable.ts";
 
 interface CreateReservationParams {
   invalidProductId?: boolean;

@@ -1,8 +1,8 @@
-import { Scenario } from "../../Scenario";
-import { InvalidBookingUUIDErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidBookingUUIDErrorValidator";
-import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper";
-import { Config } from "../../../config/Config";
-import descriptions from "../../../consts/descriptions";
+import { Scenario } from "../../Scenario.ts";
+import { InvalidBookingUUIDErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidBookingUUIDErrorValidator.ts";
+import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper.ts";
+import { Config } from "../../../config/Config.ts";
+import descriptions from "../../../consts/descriptions.ts";
 
 export class BookingConfirmationInvalidUUIDScenario implements Scenario {
   private config = Config.getInstance();
@@ -18,7 +18,7 @@ export class BookingConfirmationInvalidUUIDScenario implements Scenario {
     });
 
     const name =
-      "Booking Confirmation Invalid Booking UUID (400 INVALID_BOOKING_UUID)";
+      "Booking Confirmation Invalid Booking UUID (400 INVALID_BOOKING_UUID).ts";
     const description = descriptions.invalidUUID;
 
     return this.bookingConfirmationScenarioHelper.validateError(

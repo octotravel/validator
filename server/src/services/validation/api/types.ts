@@ -8,24 +8,24 @@ export type ApiParams = {
   headers?: Record<string, string>;
 };
 export interface Result<T> {
-  request: Nullable<ResultRequest>;
-  response: Nullable<ResultResponse>;
-  data: Nullable<T>;
+  request: ResultRequest | null;
+  response: ResultResponse | null;
+  data: T | null;
 }
 
 export type ResultRequest = {
   url: string;
   method: string;
-  body: Nullable<Record<string, any>>;
+  body: Record<string, any> | null;
   headers: Record<string, string>;
 };
 
 export type ResultResponse = {
   status: number;
-  body: Nullable<string>;
-  error: Nullable<{
+  body: string | null;
+  error: {
     status: number;
-    body: Nullable<string>;
-  }>;
+    body: string | null;
+  } | null;
   headers: Record<string, string>;
 };

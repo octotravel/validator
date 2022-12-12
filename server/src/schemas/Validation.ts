@@ -1,4 +1,4 @@
-import * as yup from "yup";
+import * as yup from "npm:yup@^0.32.11";
 
 export interface ValidationEndpoint {
   backend: {

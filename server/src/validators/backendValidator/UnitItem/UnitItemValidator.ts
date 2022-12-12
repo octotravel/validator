@@ -5,8 +5,8 @@ import {
   PricingPer,
   DeliveryMethod,
   Ticket,
-} from "@octocloud/types";
-import { UnitValidator } from "../Unit/UnitValidator";
+} from "npm:@octocloud/types@^1.3.1";
+import { UnitValidator } from "../Unit/UnitValidator.ts";
 
 import {
   StringValidator,
@@ -14,10 +14,10 @@ import {
   NullValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
-import { ContactValidator } from "../Contact/ContactValidator";
-import { PricingValidator } from "../Pricing/PricingValidator";
-import { TicketValidator } from "../Ticket/TicketValidator";
+} from "../ValidatorHelpers.ts";
+import { ContactValidator } from "../Contact/ContactValidator.ts";
+import { PricingValidator } from "../Pricing/PricingValidator.ts";
+import { TicketValidator } from "../Ticket/TicketValidator.ts";
 
 export class UnitItemValidator implements ModelValidator {
   private path: string;
@@ -80,7 +80,7 @@ export class UnitItemValidator implements ModelValidator {
 
   private validateTicket = (
     deliveryMethods: DeliveryMethod[],
-    ticket?: Nullable<Ticket>,
+    ticket?: Ticket | null,
   ): ValidatorError[] => {
     if (deliveryMethods.includes(DeliveryMethod.TICKET)) {
       return this.ticketValidator.validate(ticket);

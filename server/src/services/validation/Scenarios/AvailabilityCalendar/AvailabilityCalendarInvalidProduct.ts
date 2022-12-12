@@ -1,10 +1,10 @@
-import { addDays } from "date-fns";
-import { DateHelper } from "../../../../helpers/DateHelper";
-import { InvalidProductIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidProductIdErrorValidator";
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
-import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper";
-import { Scenario, ScenarioResult } from "../Scenario";
+import { addDays } from "npm:date-fns@^2.29.1";
+import { DateHelper } from "../../../../helpers/DateHelper.ts";
+import { InvalidProductIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidProductIdErrorValidator.ts";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
+import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper.ts";
+import { Scenario, ScenarioResult } from "../Scenario.ts";
 
 export class AvailabilityCalendarInvalidProductScenario
   implements Scenario

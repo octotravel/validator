@@ -1,7 +1,7 @@
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
-import { SupplierValidator } from "../../../validators/backendValidator/Supplier/SupplierValidator";
-import { Supplier } from "@octocloud/types";
-import { ScenarioResult } from "../Scenarios/Scenario";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
+import { SupplierValidator } from "../../../validators/backendValidator/Supplier/SupplierValidator.ts";
+import { Supplier } from "npm:@octocloud/types@^1.3.1";
+import { ScenarioResult } from "../Scenarios/Scenario.ts";
 
 export class SupplierScenarioHelper extends ScenarioHelper {
   public validateSupplier = (

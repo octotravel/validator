@@ -1,10 +1,10 @@
-import { ErrorType, ValidatorError } from './../../../../../validators/backendValidator/ValidatorHelpers';
-import { Scenario } from "../../Scenario";
-import { BookingUpdateScenarioHelper } from "../../../helpers/BookingUpdateScenarioHelper";
-import { Config } from "../../../config/Config";
-import descriptions from "../../../consts/descriptions";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
-import { Booker } from "../../../Booker";
+import { ErrorType, ValidatorError } from './../../../../../validators/backendValidator/ValidatorHelpers.ts';
+import { Scenario } from "../../Scenario.ts";
+import { BookingUpdateScenarioHelper } from "../../../helpers/BookingUpdateScenarioHelper.ts";
+import { Config } from "../../../config/Config.ts";
+import descriptions from "../../../consts/descriptions.ts";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
+import { Booker } from "../../../Booker.ts";
 
 export class BookingUpdateDateScenario implements Scenario {
   private helper = new ScenarioHelper()

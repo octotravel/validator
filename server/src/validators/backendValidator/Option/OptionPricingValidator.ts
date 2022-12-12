@@ -1,6 +1,6 @@
-import { Pricing, Option } from "@octocloud/types";
-import { PricingValidator } from "../Pricing/PricingValidator";
-import { ModelValidator, ValidatorError } from "../ValidatorHelpers";
+import { Pricing, Option } from "npm:@octocloud/types@^1.3.1";
+import { PricingValidator } from "../Pricing/PricingValidator.ts";
+import { ModelValidator, ValidatorError } from "../ValidatorHelpers.ts";
 
 export class OptionPricingValidator implements ModelValidator {
   private pricingValidator: PricingValidator;
@@ -10,7 +10,7 @@ export class OptionPricingValidator implements ModelValidator {
     this.pricingValidator = new PricingValidator(path);
   }
 
-  public validate = (option?: Nullable<Option>): ValidatorError[] => {
+  public validate = (option?: Option | null): ValidatorError[] => {
     const isOnBooking = this.path.includes("booking");
     if (isOnBooking) {
       const pricing = option?.pricing ?? []

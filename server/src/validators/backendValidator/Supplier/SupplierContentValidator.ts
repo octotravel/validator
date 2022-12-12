@@ -2,21 +2,21 @@ import {
   SupplierDestination,
   SupplierCategory,
   Supplier,
-} from "@octocloud/types";
+} from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   BooleanValidator,
   StringArrayValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class SupplierContentValidator implements ModelValidator {
   private path: string;
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (supplier: Nullable<Supplier>): ValidatorError[] => {
+  public validate = (supplier: Supplier | null): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.country`, supplier?.country),
       ...this.validateDestination(supplier?.destinations ?? []),

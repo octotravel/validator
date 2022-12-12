@@ -1,9 +1,9 @@
-import { Flow, FlowResult } from "../Flow";
-import { BookingCancellationReservationScenario } from "../../Scenarios/Booking/Cancellation/BookingCancellationReservation";
-import { BookingCancellationBookingScenario } from "../../Scenarios/Booking/Cancellation/BookingCancellationBooking";
-import { BookingCancellationInvalidUUIDScenario } from "../../Scenarios/Booking/Cancellation/BookingCancellationInvalidUUID";
-import { BaseFlow } from "../BaseFlow";
-import docs from "../../consts/docs";
+import { Flow, FlowResult } from "../Flow.ts";
+import { BookingCancellationReservationScenario } from "../../Scenarios/Booking/Cancellation/BookingCancellationReservation.ts";
+import { BookingCancellationBookingScenario } from "../../Scenarios/Booking/Cancellation/BookingCancellationBooking.ts";
+import { BookingCancellationInvalidUUIDScenario } from "../../Scenarios/Booking/Cancellation/BookingCancellationInvalidUUID.ts";
+import { BaseFlow } from "../BaseFlow.ts";
+import docs from "../../consts/docs.ts";
 
 export class BookingCancellationFlow extends BaseFlow implements Flow {
   constructor() {

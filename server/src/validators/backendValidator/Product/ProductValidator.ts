@@ -1,4 +1,4 @@
-import { ArrayValidator } from "./../ValidatorHelpers";
+import { ArrayValidator } from "./../ValidatorHelpers.ts";
 import {
   CapabilityId,
   Product,
@@ -6,8 +6,8 @@ import {
   DeliveryMethod,
   RedemptionMethod,
   AvailabilityType,
-} from "@octocloud/types";
-import { OptionValidator } from "../Option/OptionValidator";
+} from "npm:@octocloud/types@^1.3.1";
+import { OptionValidator } from "../Option/OptionValidator.ts";
 import {
   StringValidator,
   BooleanValidator,
@@ -15,9 +15,9 @@ import {
   EnumArrayValidator,
   ValidatorError,
   ModelValidator,
-} from "../ValidatorHelpers";
-import { ProductContentValidator } from "./ProductContentValidator";
-import { ProductPricingValidator } from "./ProductPricingValidator";
+} from "../ValidatorHelpers.ts";
+import { ProductContentValidator } from "./ProductContentValidator.ts";
+import { ProductPricingValidator } from "./ProductPricingValidator.ts";
 
 export class ProductValidator implements ModelValidator {
   private pricingValidator: ProductPricingValidator;
@@ -38,7 +38,7 @@ export class ProductValidator implements ModelValidator {
     this.contentValidator = new ProductContentValidator({ path: this.path });
   }
 
-  public validate = (product?: Nullable<Product>): ValidatorError[] => {
+  public validate = (product?: Product | null): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.id`, product?.id),
       StringValidator.validate(
@@ -95,7 +95,7 @@ export class ProductValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateOptions = (product?: Nullable<Product>): ValidatorError[] => {
+  private validateOptions = (product?: Product | null): ValidatorError[] => {
     const options = product?.options ?? [];
     const errors = [
       ArrayValidator.validate(`${this.path}.options`, options, { min: 1 }),
@@ -119,14 +119,14 @@ export class ProductValidator implements ModelValidator {
     return errors.flatMap((v) => (v ? [v] : []));
   };
 
-  private validatePricingCapability = (product?: Nullable<Product>): ValidatorError[] => {
+  private validatePricingCapability = (product?: Product | null): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pricing)) {
       return this.pricingValidator.validate(product);
     }
     return [];
   };
 
-  private validateContentCapability = (product?: Nullable<Product>): ValidatorError[] => {
+  private validateContentCapability = (product?: Product | null): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Content)) {
       return this.contentValidator.validate(product);
     }

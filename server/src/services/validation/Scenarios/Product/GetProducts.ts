@@ -1,7 +1,7 @@
-import { Scenario } from "../Scenario";
-import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper";
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
+import { Scenario } from "../Scenario.ts";
+import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper.ts";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
 
 export class GetProductsScenario implements Scenario {
   private config = Config.getInstance();
@@ -11,7 +11,7 @@ export class GetProductsScenario implements Scenario {
 
   public validate = async () => {
     const result = await this.apiClient.getProducts();
-    const name = "Get Products";
+    const name = "Get Products.ts";
     const description = descriptions.getProducts;
 
     return this.productScenarioHelper.validateProducts({

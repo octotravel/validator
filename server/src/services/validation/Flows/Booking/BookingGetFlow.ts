@@ -1,9 +1,9 @@
-import { Flow, FlowResult } from "../Flow";
-import { BookingGetReservationScenario } from "../../Scenarios/Booking/Get/BookingGetReservation";
-import { BookingGetBookingScenario } from "../../Scenarios/Booking/Get/BookingGetBooking";
-import { BookingGetInvalidUUIDScenario } from "../../Scenarios/Booking/Get/BookingGetInvalidUUID";
-import { BaseFlow } from "../BaseFlow";
-import docs from "../../consts/docs";
+import { Flow, FlowResult } from "../Flow.ts";
+import { BookingGetReservationScenario } from "../../Scenarios/Booking/Get/BookingGetReservation.ts";
+import { BookingGetBookingScenario } from "../../Scenarios/Booking/Get/BookingGetBooking.ts";
+import { BookingGetInvalidUUIDScenario } from "../../Scenarios/Booking/Get/BookingGetInvalidUUID.ts";
+import { BaseFlow } from "../BaseFlow.ts";
+import docs from "../../consts/docs.ts";
 
 export class BookingGetFlow extends BaseFlow implements Flow {
   constructor() {

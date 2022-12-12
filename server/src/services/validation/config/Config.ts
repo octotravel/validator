@@ -1,14 +1,14 @@
-import { ProductConfig } from "./ProductConfig";
-import { Capability, CapabilityId, Product } from "@octocloud/types";
-import { ValidationEndpoint } from "../../../schemas/Validation";
-import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers";
-import { ApiClient } from "../api/ApiClient";
-import { DateHelper } from "../../../helpers/DateHelper";
-import { addDays } from "date-fns";
+import { ProductConfig } from "./ProductConfig.ts";
+import { Capability, CapabilityId, Product } from "npm:@octocloud/types@^1.3.1";
+import { ValidationEndpoint } from "../../../schemas/Validation.ts";
+import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
+import { ApiClient } from "../api/ApiClient.ts";
+import { DateHelper } from "../../../helpers/DateHelper.ts";
+import { addDays } from "npm:date-fns@^2.29.1";
 
 export interface ErrorResult<T> {
-  data: Nullable<T>;
-  error: Nullable<ValidatorError>;
+  data: T | null;
+  error: ValidatorError | null;
 }
 interface IConfig {
   setCapabilities(capabilities: Capability[]): ValidatorError[];

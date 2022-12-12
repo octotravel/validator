@@ -1,6 +1,6 @@
-import { Availability, Product } from "@octocloud/types";
-import { AvailabilityValidator } from "../../../validators/backendValidator/Availability/AvailabilityValidator";
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
+import { Availability, Product } from "npm:@octocloud/types@^1.3.1";
+import { AvailabilityValidator } from "../../../validators/backendValidator/Availability/AvailabilityValidator.ts";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 
 export class AvailabilityScenarioHelper extends ScenarioHelper {
   public validateAvailability = (

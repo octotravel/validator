@@ -1,14 +1,14 @@
-import { CapabilityId } from "@octocloud/types";
-import * as R from "ramda";
-import { STATUS_NOT_FOUND } from "../../../models/Error";
+import { CapabilityId } from "npm:@octocloud/types@^1.3.1";
+import * as R from "npm:ramda@^0.28.0";
+import { STATUS_NOT_FOUND } from "../../../models/Error.ts";
 import {
   ErrorType,
   ModelValidator,
   ValidatorError,
-} from "../../../validators/backendValidator/ValidatorHelpers";
-import { Result, ResultResponse } from "../api/types";
-import { Config } from "../config/Config";
-import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario";
+} from "../../../validators/backendValidator/ValidatorHelpers.ts";
+import { Result, ResultResponse } from "../api/types.ts";
+import { Config } from "../config/Config.ts";
+import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario.ts";
 
 interface ScenarioData<T> {
   name: string;
@@ -59,7 +59,7 @@ export class ScenarioHelper {
         ];
       }
     }
-    const response: Nullable<ResultResponse> =
+    const response: ResultResponse | null =
       result?.response === null
         ? null
         : {

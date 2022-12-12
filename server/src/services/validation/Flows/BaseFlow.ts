@@ -1,10 +1,10 @@
-import { Config } from "../config/Config";
+import { Config } from "../config/Config.ts";
 import {
   Scenario,
   ScenarioResult,
   ValidationResult,
-} from "../Scenarios/Scenario";
-import { FlowResult } from "./Flow";
+} from "../Scenarios/Scenario.ts";
+import { FlowResult } from "./Flow.ts";
 
 export abstract class BaseFlow {
   protected config = Config.getInstance();

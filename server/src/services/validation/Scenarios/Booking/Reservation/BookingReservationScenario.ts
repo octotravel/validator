@@ -1,8 +1,8 @@
-import { Result } from "./../../../api/types";
-import { Booking } from "@octocloud/types";
-import { Scenario } from "../../Scenario";
-import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper";
-import descriptions from "../../../consts/descriptions";
+import { Result } from "./../../../api/types.ts";
+import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { Scenario } from "../../Scenario.ts";
+import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
+import descriptions from "../../../consts/descriptions.ts";
 
 export class BookingReservationScenario implements Scenario {
   private result: Result<Booking>;

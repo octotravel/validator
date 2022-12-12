@@ -6,9 +6,9 @@ import {
   UnitRestrictions,
   PricingPer,
   AvailabilityType,
-} from "@octocloud/types";
-import { OptionPickupValidator } from "./OptionPickupValidator";
-import { UnitValidator } from "../Unit/UnitValidator";
+} from "npm:@octocloud/types@^1.3.1";
+import { OptionPickupValidator } from "./OptionPickupValidator.ts";
+import { UnitValidator } from "../Unit/UnitValidator.ts";
 import {
   StringValidator,
   RegExpArrayValidator,
@@ -18,8 +18,8 @@ import {
   ValidatorError,
   ModelValidator,
   ArrayValidator,
-} from "../ValidatorHelpers";
-import { OptionPricingValidator } from "./OptionPricingValidator";
+} from "../ValidatorHelpers.ts";
+import { OptionPricingValidator } from "./OptionPricingValidator.ts";
 
 export class OptionValidator implements ModelValidator {
   private path: string;
@@ -35,7 +35,7 @@ export class OptionValidator implements ModelValidator {
     this.capabilities = capabilities;
   }
   public validate = (
-    option?: Nullable<Option>,
+    option?: Option | null,
     availabilityType?: AvailabilityType,
     pricingPer?: PricingPer
   ): ValidatorError[] => {
@@ -131,7 +131,7 @@ export class OptionValidator implements ModelValidator {
   };
 
   private validatePricingCapability = (
-    option?: Nullable<Option>,
+    option?: Option | null,
     pricingPer?: PricingPer
   ): ValidatorError[] => {
     if (
@@ -146,7 +146,7 @@ export class OptionValidator implements ModelValidator {
     return [];
   };
 
-  private validatePickupCapability = (option?: Nullable<Option>): ValidatorError[] => {
+  private validatePickupCapability = (option?: Option | null): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pickups)) {
       const pickupValidator = new OptionPickupValidator({
         path: `${this.path}`,
