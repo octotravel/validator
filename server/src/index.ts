@@ -17,8 +17,8 @@ const app = new Koa();
 app.use(mount("/", serve("./../client/build")));
 
 app.use(cors());
-app.use(koaBody());
-app.use(async (ctx, next) => {
+app.use(koaBody.koaBody());
+app.use(async (ctx: any, next: any) => {
   try {
     await next();
   } catch (e) {
@@ -42,4 +42,4 @@ app.use(async (ctx, next) => {
 });
 app.use(router.routes());
 
-app.listen(3000);
+app.listen(3001);
