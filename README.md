@@ -19,3 +19,5 @@ To run only server
 ```
 npm run server
 ```
+
+ci test
