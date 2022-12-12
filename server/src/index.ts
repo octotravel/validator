@@ -42,4 +42,4 @@ app.use(async (ctx: any, next: any) => {
 });
 app.use(router.routes());
 
-app.listen(3001);
+app.listen(3000);
