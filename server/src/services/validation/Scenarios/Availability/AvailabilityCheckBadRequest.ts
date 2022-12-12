@@ -1,9 +1,9 @@
-import { DateHelper } from "../../../../helpers/DateHelper";
-import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator";
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
-import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
-import { Scenario, ScenarioResult } from "../Scenario";
+import { DateHelper } from "../../../../helpers/DateHelper.ts";
+import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator.ts";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
+import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
+import { Scenario, ScenarioResult } from "../Scenario.ts";
 
 export class AvailabilityCheckBadRequestScenario
   implements Scenario

@@ -1,8 +1,8 @@
-import { Booking } from "@octocloud/types";
-import { GetBookingsSchema } from "../../../schemas/Booking";
-import { BookingEndpointValidator } from "../../../validators/backendValidator/Booking/BookingEndpointValidator";
-import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator";
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
+import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { GetBookingsSchema } from "../../../schemas/Booking.ts";
+import { BookingEndpointValidator } from "../../../validators/backendValidator/Booking/BookingEndpointValidator.ts";
+import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 
 export class BookingListScenarioHelper extends ScenarioHelper {
   private bookingEndpointValidator = new BookingEndpointValidator();
@@ -12,7 +12,7 @@ export class BookingListScenarioHelper extends ScenarioHelper {
     const bookings = result.data ?? [];
     const request = result?.request;
     const response = result?.response;
-    const schema = request?.body as Nullable<GetBookingsSchema>;
+    const schema = request?.body as GetBookingsSchema | null;
     if (response?.error) {
       return this.handleResult({
         ...data,

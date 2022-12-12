@@ -1,13 +1,13 @@
-import { Booking, BookingStatus } from "@octocloud/types";
+import { Booking, BookingStatus } from "npm:@octocloud/types@^1.3.1";
 import {
   ErrorType,
   ModelValidator,
   ValidatorError,
-} from "../../ValidatorHelpers";
-import { BookingStateCancelledValidator } from "./BookingStateCancelledValidator";
-import { BookingStateConfirmedValidator } from "./BookingStateConfirmedValidator";
-import { BookingStateExpiredValidator } from "./BookingStateExpiredValidator";
-import { BookingStateOnHoldValidator } from "./BookingStateOnHoldValidator";
+} from "../../ValidatorHelpers.ts";
+import { BookingStateCancelledValidator } from "./BookingStateCancelledValidator.ts";
+import { BookingStateConfirmedValidator } from "./BookingStateConfirmedValidator.ts";
+import { BookingStateExpiredValidator } from "./BookingStateExpiredValidator.ts";
+import { BookingStateOnHoldValidator } from "./BookingStateOnHoldValidator.ts";
 
 export class BookingStateValidator implements ModelValidator {
   private onHoldValidator: BookingStateOnHoldValidator;
@@ -28,7 +28,7 @@ export class BookingStateValidator implements ModelValidator {
       path: this.path,
     });
   }
-  public validate = (booking: Nullable<Booking>): ValidatorError[] => {
+  public validate = (booking: Booking | null): ValidatorError[] => {
     switch (booking?.status) {
       case BookingStatus.ON_HOLD: {
         return this.onHoldValidator.validate(booking);

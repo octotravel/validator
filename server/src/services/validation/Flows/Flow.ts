@@ -1,4 +1,4 @@
-import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario";
+import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario.ts";
 
 export interface Flow {
   validate: () => Promise<FlowResult>;

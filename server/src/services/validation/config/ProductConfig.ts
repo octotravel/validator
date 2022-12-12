@@ -1,16 +1,16 @@
-import * as R from "ramda";
-import { AvailabilityType, Product } from "@octocloud/types";
+import * as R from "npm:ramda@^0.28.0";
+import { AvailabilityType, Product } from "npm:@octocloud/types@^1.3.1";
 import {
   ErrorType,
   ValidatorError,
-} from "../../../validators/backendValidator/ValidatorHelpers";
-import { ProductBookable } from "./ProductBookable";
+} from "../../../validators/backendValidator/ValidatorHelpers.ts";
+import { ProductBookable } from "./ProductBookable.ts";
 
 export class ProductConfig {
   private _openingHourProducts: Product[] = [];
   private _startTimeProducts: Product[] = [];
   private _products: Product[] = [];
-  private _soldOutProduct: Nullable<ProductBookable> = null;
+  private _soldOutProduct: ProductBookable | null = null;
   private _availableProducts: ProductBookable[] = [];
   private _availabilityIDs: { [key: string]: string } = {};
 
@@ -125,7 +125,7 @@ export class ProductConfig {
     return this._availabilityIDs;
   }
 
-  // public set availabilityIDs(data: Record<AvailabilityType, Nullable<string>>){
+  // public set availabilityIDs(data: Record<AvailabilityType, string | null>){
   //   this._availabilityIDs = data
   // }
 }

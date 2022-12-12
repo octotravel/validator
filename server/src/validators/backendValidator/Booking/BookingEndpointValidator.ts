@@ -1,4 +1,4 @@
-import { GetBookingsSchema } from "./../../../schemas/Booking";
+import { GetBookingsSchema } from "./../../../schemas/Booking.ts";
 import {
   Booking,
   CreateBookingBodySchema,
@@ -7,53 +7,53 @@ import {
   ConfirmBookingBodySchema,
   UpdateBookingBodySchema,
   CancelBookingBodySchema,
-} from "@octocloud/types";
+} from "npm:@octocloud/types@^1.3.1";
 import {
   ArrayValidator,
   ErrorType,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 interface ValidateData {
-  booking: Nullable<Booking>;
+  booking: Booking | null
   productId: string;
   optionId: string;
   availabilityId: string;
 }
 
 interface ValidateReservationData {
-  reservation?: Nullable<Booking>;
+  reservation?: Booking | null
   schema: CreateBookingBodySchema;
 }
 
 interface ValidateReservationExtendData {
   reservation: Booking;
-  reservationExtended: Nullable<Booking>;
+  reservationExtended: Booking | null
   schema: ExtendBookingBodySchema;
 }
 
 interface ValidateConfirmationdData {
   reservation: Booking;
-  booking: Nullable<Booking>;
+  booking: Booking | null
   schema: ConfirmBookingBodySchema;
 }
 
 interface ValidateUpdateData {
-  booking: Nullable<Booking>;
-  bookingUpdated: Nullable<Booking>;
+  booking: Booking | null
+  bookingUpdated: Booking | null
   schema: UpdateBookingBodySchema;
 }
 
 interface ValidateCancelData {
   booking: Booking;
-  bookingCancelled: Nullable<Booking>;
+  bookingCancelled: Booking | null
   schema: CancelBookingBodySchema;
 }
 
 interface ValidateGetBookingsData {
   bookings: Booking[];
-  schema: Nullable<GetBookingsSchema>;
+  schema: GetBookingsSchema | null;
 }
 
 export class BookingEndpointValidator {
@@ -125,7 +125,7 @@ export class BookingEndpointValidator {
     | CreateBookingBodySchema
     | ConfirmBookingBodySchema
     | UpdateBookingBodySchema,
-    booking?: Nullable<Booking>,
+    booking?: Booking | null,
     ): ValidatorError[] => {
     const errors = [];
     const label = `${this.path}.unitItems`;
@@ -163,7 +163,7 @@ export class BookingEndpointValidator {
     const reservation = data?.reservation;
     const reservationExtended = data?.reservationExtended;
     const schema = data?.schema;
-    const errors: Nullable<ValidatorError>[] = [
+    const errors: ValidatorError | null[] = [
       StringValidator.validate(`${this.path}.status`, reservation?.status, {
         equalsTo: BookingStatus.ON_HOLD,
       }),
@@ -188,7 +188,7 @@ export class BookingEndpointValidator {
     const booking = data?.booking;
     const schema = data?.schema;
 
-    const errors: Nullable<ValidatorError>[] = [
+    const errors: ValidatorError | null[] = [
       StringValidator.validate(
         `${this.path}.resellerReference`,
         booking?.resellerReference,
@@ -211,7 +211,7 @@ export class BookingEndpointValidator {
   public validateUpdate = (data: ValidateUpdateData): ValidatorError[] => {
     const bookingUpdated = data?.bookingUpdated;
     const schema = data?.schema;
-    const errors: Nullable<ValidatorError>[]  = [
+    const errors: ValidatorError | null[]  = [
       ...this.validateContact(bookingUpdated, schema),
       ...this.validateUnitItems(schema, bookingUpdated),
     ];
@@ -228,7 +228,7 @@ export class BookingEndpointValidator {
   };
 
   private validateContact = (
-    booking: Nullable<Booking>,
+    booking: Booking | null,
     schema: ConfirmBookingBodySchema | UpdateBookingBodySchema
   ) => {
     if (schema.contact) {

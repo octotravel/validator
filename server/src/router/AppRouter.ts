@@ -1,10 +1,10 @@
-import Router from "@koa/router";
-import { ValidationController } from "../services/validation/Controller";
-import { validationConfigSchema, ValidationEndpoint } from "../schemas/Validation";
-import { Config } from "../services/validation/config/Config";
+import Router from "npm:@koa/router@^12.0.0";
+import { ValidationController } from "../services/validation/Controller.ts";
+import { validationConfigSchema, ValidationEndpoint } from "../schemas/Validation.ts";
+import { Config } from "../services/validation/config/Config.ts";
 
 export const router = new Router();
-router.post("/validate", async (ctx, _) => {
+router.post("/validate", async (ctx: any, _: any) => {
   // create some init class
   await validationConfigSchema.validate(ctx.request.body);
   const schema = validationConfigSchema.cast(ctx.request.body) as ValidationEndpoint

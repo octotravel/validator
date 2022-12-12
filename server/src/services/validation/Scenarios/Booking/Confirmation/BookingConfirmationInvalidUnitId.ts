@@ -1,11 +1,11 @@
-import { Scenario } from "../../Scenario";
-import { InvalidUnitIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidUnitIdErrorValidator";
-import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper";
-import { Config } from "../../../config/Config";
-import descriptions from "../../../consts/descriptions";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
-import { Booker } from "../../../Booker";
+import { Scenario } from "../../Scenario.ts";
+import { InvalidUnitIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidUnitIdErrorValidator.ts";
+import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper.ts";
+import { Config } from "../../../config/Config.ts";
+import descriptions from "../../../consts/descriptions.ts";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
+import { Booker } from "../../../Booker.ts";
 
 export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -17,7 +17,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
     new BookingConfirmationScenarioHelper();
 
   public validate = async () => {
-    const name = "Booking Confirmation Invalid Unit ID (400 INVALID_UNIT_ID)";
+    const name = "Booking Confirmation Invalid Unit ID (400 INVALID_UNIT_ID).ts";
     const description = descriptions.invalidUnitId;
     const [bookableProduct] = this.config.productConfig.availableProducts;
 

@@ -1,10 +1,10 @@
-import { CapabilityId, Supplier } from "@octocloud/types";
+import { CapabilityId, Supplier } from "npm:@octocloud/types@^1.3.1";
 import {
   ModelValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
-import { SupplierContentValidator } from "./SupplierContentValidator";
+} from "../ValidatorHelpers.ts";
+import { SupplierContentValidator } from "./SupplierContentValidator.ts";
 
 export class SupplierValidator implements ModelValidator {
   private path: string;
@@ -23,7 +23,7 @@ export class SupplierValidator implements ModelValidator {
     this.contentValidator = new SupplierContentValidator({ path: this.path });
   }
 
-  public validate = (supplier: Nullable<Supplier>): ValidatorError[] => {
+  public validate = (supplier: Supplier | null): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.id`, supplier?.id),
       StringValidator.validate(`${this.path}.name`, supplier?.name),
@@ -33,7 +33,7 @@ export class SupplierValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateContact = (supplier: Nullable<Supplier>): ValidatorError[] =>
+  private validateContact = (supplier: Supplier | null): ValidatorError[] =>
     [
       StringValidator.validate(
         `${this.path}.contact.website`,
@@ -59,7 +59,7 @@ export class SupplierValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
 
   private validateContentCapability = (
-    supplier: Nullable<Supplier>
+    supplier: Supplier | null
   ): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Content)) {
       return this.contentValidator.validate(supplier);

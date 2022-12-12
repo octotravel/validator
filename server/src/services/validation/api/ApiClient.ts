@@ -19,10 +19,10 @@ import {
   Supplier,
   UpdateBookingBodySchema,
   UpdateBookingPathParamsSchema,
-} from "@octocloud/types";
-import { CreateBookingSchema } from "../../../schemas/Booking";
-import { Client } from "./Client";
-import { Result } from "./types";
+} from "npm:@octocloud/types@^1.3.1";
+import { CreateBookingSchema } from "../../../schemas/Booking.ts";
+import { Client } from "./Client.ts";
+import { Result } from "./types.ts";
 
 export class ApiClient extends Client {
   private url: string;

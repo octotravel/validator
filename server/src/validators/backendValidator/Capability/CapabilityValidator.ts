@@ -1,4 +1,4 @@
-import { Capability, CapabilityId } from "@octocloud/types";
+import { Capability, CapabilityId } from "npm:@octocloud/types@^1.3.1";
 import {
   BooleanValidator,
   EnumArrayValidator,
@@ -7,7 +7,7 @@ import {
   NumberValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class CapabilityValidator implements ModelValidator {
   private path: string;

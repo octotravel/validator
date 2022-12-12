@@ -1,11 +1,11 @@
-import { AvailabilityCalendarBodySchema } from "@octocloud/types";
-import { addDays } from "date-fns";
-import { DateHelper } from "../../../../helpers/DateHelper";
-import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator";
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
-import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper";
-import { Scenario, ScenarioResult } from "../Scenario";
+import { AvailabilityCalendarBodySchema } from "npm:@octocloud/types@^1.3.1";
+import { addDays } from "npm:date-fns@^2.29.1";
+import { DateHelper } from "../../../../helpers/DateHelper.ts";
+import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator.ts";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
+import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper.ts";
+import { Scenario, ScenarioResult } from "../Scenario.ts";
 
 export class AvailabilityCalendarBadRequestScenario
   implements Scenario

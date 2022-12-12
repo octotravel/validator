@@ -1,4 +1,4 @@
-import * as yup from "yup";
+import * as yup from "npm:yup@^0.32.11";
 
 interface StringValidatorParams {
   nullable?: boolean;
@@ -50,7 +50,7 @@ export class StringValidator extends BaseValidator {
     label: string,
     value: unknown,
     params?: StringValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema;
       if (params?.nullable) {
@@ -78,7 +78,7 @@ export class NullValidator extends BaseValidator {
   public static validate = (
     label: string,
     value: unknown
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     if (value !== null) {
       return new ValidatorError({
         type: ErrorType.WARNING,
@@ -101,7 +101,7 @@ export class NumberValidator extends BaseValidator {
     label: string,
     value: unknown,
     params?: NumberValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema = yup.number().label(label);
       if (params?.integer) {
@@ -139,7 +139,7 @@ export class BooleanValidator extends BaseValidator {
     label: string,
     value: unknown,
     params?: BooleanValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       const schema = yup.boolean().label(label).required();
       schema.validateSync(value, { strict: true });
@@ -170,7 +170,7 @@ export class EnumValidator extends BaseValidator {
     value: unknown,
     values: Array<string>,
     params?: EnumValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema;
       if (params?.nullable) {
@@ -205,7 +205,7 @@ export class EnumArrayValidator extends BaseValidator {
     value: unknown,
     values: Array<string>,
     params?: GeneralArrayValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema = yup.array(yup.mixed().oneOf(values)).label(label).required();
       if (params?.min) {
@@ -233,7 +233,7 @@ export class RegExpValidator extends BaseValidator {
     value: unknown,
     regexp: RegExp,
     params?: RegExpValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema;
       if (params?.isNull) {
@@ -257,7 +257,7 @@ export class RegExpArrayValidator extends BaseValidator {
     value: unknown,
     regexp: RegExp,
     params?: GeneralArrayValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema = yup
         .array(yup.string().matches(regexp))
@@ -297,7 +297,7 @@ export class ArrayValidator extends BaseValidator {
     label: string,
     value: unknown,
     params?: ArrayValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema = yup.array();
       if (params?.min) {
@@ -330,7 +330,7 @@ export class StringArrayValidator extends BaseValidator {
     label: string,
     value: unknown,
     params?: GeneralArrayValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let schema = yup.array(yup.string().required()).label(label).required();
       if (params?.min) {
@@ -355,7 +355,7 @@ export class NumberArrayValidator extends BaseValidator {
     label: string,
     value: unknown,
     params?: NumberArrayValidatorParams
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     try {
       let numberSchema = yup.number().required();
       if (params?.integer) {

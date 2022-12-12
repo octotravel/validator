@@ -1,10 +1,10 @@
-import { Booking } from "@octocloud/types";
-import { CommonValidator } from "../../CommonValidator";
+import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { CommonValidator } from "../../CommonValidator.ts";
 import {
   ModelValidator,
   NullValidator,
   ValidatorError,
-} from "../../ValidatorHelpers";
+} from "../../ValidatorHelpers.ts";
 
 export class BookingStateConfirmedValidator implements ModelValidator {
   private path: string;

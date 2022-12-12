@@ -1,10 +1,10 @@
-import { Scenario } from "../../Scenario";
-import { Config } from "../../../config/Config";
-import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper";
-import descriptions from "../../../consts/descriptions";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
-import { Booker } from "../../../Booker";
+import { Scenario } from "../../Scenario.ts";
+import { Config } from "../../../config/Config.ts";
+import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
+import descriptions from "../../../consts/descriptions.ts";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
+import { Booker } from "../../../Booker.ts";
 
 export class BookingGetReservationScenario implements Scenario {
   private booker = new Booker();
@@ -14,7 +14,7 @@ export class BookingGetReservationScenario implements Scenario {
   private bookingGetScenarionHelper = new BookingGetScenarioHelper();
 
   public validate = async () => {
-    const name = "Get Booking - Reservation";
+    const name = "Get Booking - Reservation.ts";
     const description = descriptions.bookingGetReservation;
     const [bookableProduct] = this.config.productConfig.availableProducts;
     const resultReservation = await this.booker.createReservation(bookableProduct);

@@ -1,5 +1,5 @@
-import { CapabilityId } from "@octocloud/types";
-import { Result } from "./types";
+import { CapabilityId } from "npm:@octocloud/types@^1.3.1";
+import { Result } from "./types.ts";
 
 interface FetchData {
   url: string;
@@ -50,7 +50,7 @@ export class Client {
     request: {
       url: string;
       method: string;
-      body: Nullable<string>;
+      body: string | null;
       headers: Record<string, string>;
     },
     response: Response
@@ -99,8 +99,8 @@ export class Client {
   };
 
   private parseBody = (
-    body: Nullable<string>
-  ): Nullable<Record<string, any>> => {
+    body: string | null
+  ): Record<string, any> | null => {
     if (body === null) {
       return null;
     }
@@ -110,9 +110,9 @@ export class Client {
   private parseResponse = async <T>(
     response: Response
   ): Promise<{
-    data: Nullable<T>;
-    text: Nullable<string>;
-    error: Nullable<Error>;
+    data: T | null;
+    text: string | null;
+    error: Error | null;
   }> => {
     let text = "";
     try {

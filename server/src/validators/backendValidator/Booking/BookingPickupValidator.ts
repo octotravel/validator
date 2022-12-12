@@ -1,11 +1,11 @@
-import { Booking } from "@octocloud/types";
+import { Booking } from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   ModelValidator,
   ValidatorError,
   BooleanValidator,
   NumberValidator,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class BookingPickupValidator implements ModelValidator {
   private path: string;
@@ -13,7 +13,7 @@ export class BookingPickupValidator implements ModelValidator {
     this.path = path;
   }
 
-  public validate = (booking: Nullable<Booking>): ValidatorError[] => {
+  public validate = (booking: Booking | null): ValidatorError[] => {
     return [
       BooleanValidator.validate(
         `${this.path}.pickupRequested`,
@@ -37,7 +37,7 @@ export class BookingPickupValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validatePickupPoint = (booking: Nullable<Booking>): ValidatorError[] => {
+  private validatePickupPoint = (booking: Booking | null): ValidatorError[] => {
     if (booking?.pickupPoint) {
       return [
         StringValidator.validate(

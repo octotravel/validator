@@ -1,18 +1,18 @@
-import { PickupPoint, Option } from "@octocloud/types";
+import { PickupPoint, Option } from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   BooleanValidator,
   ModelValidator,
   ValidatorError,
   NumberValidator,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class OptionPickupValidator implements ModelValidator {
   private path: string;
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (option?: Nullable<Option>): ValidatorError[] => {
+  public validate = (option?: Option | null): ValidatorError[] => {
     return [
       BooleanValidator.validate(
         `${this.path}.pickupAvailable`,

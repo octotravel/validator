@@ -1,8 +1,8 @@
-import { Product } from "@octocloud/types";
-import { Scenario, ScenarioResult } from "../Scenario";
-import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper";
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
+import { Product } from "npm:@octocloud/types@^1.3.1";
+import { Scenario, ScenarioResult } from "../Scenario.ts";
+import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper.ts";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
 
 export class AvailabilityCalendarIntervalScenario implements Scenario {
   private config = Config.getInstance();

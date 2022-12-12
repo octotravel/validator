@@ -1,7 +1,7 @@
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
-import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper";
-import { Scenario } from "../Scenario";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
+import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper.ts";
+import { Scenario } from "../Scenario.ts";
 
 export class GetProductScenario implements Scenario {
   private config = Config.getInstance();

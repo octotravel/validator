@@ -3,7 +3,7 @@ import {
   Option,
   Product,
   UnitType,
-} from "@octocloud/types";
+} from "npm:@octocloud/types@^1.3.1";
 
 const randomInteger = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -20,15 +20,15 @@ interface GetAvailabilityIDData {
 export class ProductBookable {
   public product: Product;
   private _availabilityIdAvailable: string[] = [];
-  private _availabilityIdSoldOut: Nullable<string>;
+  private _availabilityIdSoldOut: string | null;
   constructor({
     product,
     availabilityIdAvailable,
     availabilityIdSoldOut,
   }: {
     product: Product;
-    availabilityIdAvailable: Nullable<string[]>;
-    availabilityIdSoldOut: Nullable<string>;
+    availabilityIdAvailable: string[] | null;
+    availabilityIdSoldOut: string | null;
   }) {
     this.product = product;
     this._availabilityIdAvailable = availabilityIdAvailable ?? [];
@@ -100,7 +100,7 @@ export class ProductBookable {
 
   public getOption = (): Option => {
     const option =
-      this.product.options.find((option) => option.default) ??
+      this.product.options.find((option: Option) => option.default) ??
       this.product.options[0];
 
     return option;

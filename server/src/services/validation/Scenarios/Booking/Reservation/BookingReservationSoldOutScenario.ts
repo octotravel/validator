@@ -1,9 +1,9 @@
-import { Booking } from "@octocloud/types";
-import { Scenario } from "../../Scenario";
-import { UnprocessableEntityErrorValidator } from "../../../../../validators/backendValidator/Error/UnprocessableEntityErrorValidator";
-import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper";
-import { Result } from "../../../api/types";
-import descriptions from "../../../consts/descriptions";
+import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { Scenario } from "../../Scenario.ts";
+import { UnprocessableEntityErrorValidator } from "../../../../../validators/backendValidator/Error/UnprocessableEntityErrorValidator.ts";
+import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
+import { Result } from "../../../api/types.ts";
+import descriptions from "../../../consts/descriptions.ts";
 
 export class BookingReservationSoldOutScenario implements Scenario {
   private result: Result<Booking>;
@@ -14,7 +14,7 @@ export class BookingReservationSoldOutScenario implements Scenario {
     new BookingReservationScenarioHelper();
 
   public validate = async () => {
-    const name = "Booking Reservation SOLD_OUT (400 UNPROCESSABLE_ENTITY)";
+    const name = "Booking Reservation SOLD_OUT (400 UNPROCESSABLE_ENTITY).ts";
     const description = descriptions.bookingReservationSoldOut;
 
     return this.bookingReservationScenarioHelper.validateError(

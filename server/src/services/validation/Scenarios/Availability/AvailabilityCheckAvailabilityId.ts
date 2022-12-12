@@ -1,8 +1,8 @@
-import { Product } from "@octocloud/types";
-import { Scenario } from "../Scenario";
-import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
-import { Config } from "../../config/Config";
-import descriptions from "../../consts/descriptions";
+import { Product } from "npm:@octocloud/types@^1.3.1";
+import { Scenario } from "../Scenario.ts";
+import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
+import { Config } from "../../config/Config.ts";
+import descriptions from "../../consts/descriptions.ts";
 
 export class AvailabilityCheckAvailabilityIdScenario
   implements Scenario

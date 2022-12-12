@@ -1,10 +1,10 @@
-import { PricingUnit, Availability, Pricing } from "@octocloud/types";
+import { PricingUnit, Availability, Pricing } from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
-import { PricingValidator } from "../Pricing/PricingValidator";
+} from "../ValidatorHelpers.ts";
+import { PricingValidator } from "../Pricing/PricingValidator.ts";
 
 export class AvailabilityPricingValidator implements ModelValidator {
   private pricingValidator: PricingValidator;

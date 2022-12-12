@@ -1,10 +1,10 @@
-import { Scenario } from "../../Scenario";
-import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper";
-import { Config } from "../../../config/Config";
-import descriptions from "../../../consts/descriptions";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
-import { Booker } from "../../../Booker";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
+import { Scenario } from "../../Scenario.ts";
+import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper.ts";
+import { Config } from "../../../config/Config.ts";
+import descriptions from "../../../consts/descriptions.ts";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
+import { Booker } from "../../../Booker.ts";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 
 export class BookingListResellerReferenceScenario
   implements Scenario
@@ -16,7 +16,7 @@ export class BookingListResellerReferenceScenario
   private bookingListScenarionHelper = new BookingListScenarioHelper();
 
   public validate = async () => {
-    const name = "List Bookings - Reseller Reference";
+    const name = "List Bookings - Reseller Reference.ts";
     const description = descriptions.bookingListResellerReference;
     const [bookableProduct] = this.config.productConfig.availableProducts;
 

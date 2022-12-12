@@ -1,11 +1,11 @@
-import { Availability, PickupPoint } from "@octocloud/types";
+import { Availability, PickupPoint } from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   ModelValidator,
   ValidatorError,
   BooleanValidator,
   NumberValidator,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class AvailabilityPickupValidator implements ModelValidator {
   private path: string;

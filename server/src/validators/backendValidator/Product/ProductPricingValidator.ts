@@ -1,11 +1,11 @@
-import { PricingPer, Product } from "@octocloud/types";
+import { PricingPer, Product } from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   StringArrayValidator,
   EnumValidator,
   ValidatorError,
   ModelValidator,
-} from "./../ValidatorHelpers";
+} from "./../ValidatorHelpers.ts";
 
 export class ProductPricingValidator implements ModelValidator {
   private path: string;
@@ -13,7 +13,7 @@ export class ProductPricingValidator implements ModelValidator {
     this.path = path;
   }
 
-  public validate = (product?: Nullable<Product>): ValidatorError[] => {
+  public validate = (product?: Product | null): ValidatorError[] => {
     return [
       StringValidator.validate(
         `${this.path}.defaultCurrency`,

@@ -1,8 +1,8 @@
-import docs from "../../consts/docs";
-import { Scenario } from "../../Scenarios/Scenario";
-import { GetSupplierScenario } from "../../Scenarios/Supplier/GetSuppliers";
-import { BaseFlow } from "../BaseFlow";
-import { Flow, FlowResult } from "../Flow";
+import docs from "../../consts/docs.ts";
+import { Scenario } from "../../Scenarios/Scenario.ts";
+import { GetSupplierScenario } from "../../Scenarios/Supplier/GetSuppliers.ts";
+import { BaseFlow } from "../BaseFlow.ts";
+import { Flow, FlowResult } from "../Flow.ts";
 
 export class SupplierFlow extends BaseFlow implements Flow {
   constructor() {

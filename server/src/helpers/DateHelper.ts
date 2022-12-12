@@ -1,4 +1,4 @@
-import format from "date-fns-tz/format";
+import format from "npm:date-fns-tz@^1.3.6/format";
 
 export abstract class DateHelper {
   public static availabilityIdFormat = (

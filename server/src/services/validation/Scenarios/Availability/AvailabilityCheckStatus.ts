@@ -1,7 +1,7 @@
-import { Scenario } from "../Scenario";
-import { Config } from "../../config/Config";
-import { AvailabilityStatusScenarioHelper } from "../../helpers/AvailabilityStatusScenarioHelper";
-import { Product } from "@octocloud/types";
+import { Scenario } from "../Scenario.ts";
+import { Config } from "../../config/Config.ts";
+import { AvailabilityStatusScenarioHelper } from "../../helpers/AvailabilityStatusScenarioHelper.ts";
+import { Product } from "npm:@octocloud/types@^1.3.1";
 
 export class AvailabilityCheckStatusScenario implements Scenario {
   private config = Config.getInstance();

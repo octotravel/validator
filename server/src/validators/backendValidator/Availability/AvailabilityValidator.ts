@@ -3,8 +3,8 @@ import {
   AvailabilityStatus,
   AvailabilityType,
   CapabilityId,
-} from "@octocloud/types";
-import { CommonValidator } from "../CommonValidator";
+} from "npm:@octocloud/types@^1.3.1";
+import { CommonValidator } from "../CommonValidator.ts";
 import {
   StringValidator,
   BooleanValidator,
@@ -13,9 +13,9 @@ import {
   RegExpValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
-import { AvailabilityPickupValidator } from "./AvailabilityPickupValidator";
-import { AvailabilityPricingValidator } from "./AvailabilityPricingValidator";
+} from "../ValidatorHelpers.ts";
+import { AvailabilityPickupValidator } from "./AvailabilityPickupValidator.ts";
+import { AvailabilityPricingValidator } from "./AvailabilityPricingValidator.ts";
 
 export class AvailabilityValidator implements ModelValidator {
   private pricingValidator: AvailabilityPricingValidator;
@@ -151,7 +151,7 @@ export class AvailabilityValidator implements ModelValidator {
   private validateLocalDateTime = (
     label: string,
     localDateTime: string
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])([+-](?:2[0-3]|[01][0-9]):[0-5][0-9])$/
     );
@@ -161,7 +161,7 @@ export class AvailabilityValidator implements ModelValidator {
   private validateUTCDate = (
     label: string,
     utcDate: string
-  ): Nullable<ValidatorError> => {
+  ): ValidatorError | null => {
     const regExp = new RegExp(
       /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])Z$/
     );

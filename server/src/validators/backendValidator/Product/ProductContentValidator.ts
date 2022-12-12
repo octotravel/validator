@@ -1,18 +1,18 @@
-import { Destination, Category, FAQ, Image, Product } from "@octocloud/types";
+import { Destination, Category, FAQ, Image, Product } from "npm:@octocloud/types@^1.3.1";
 import {
   StringValidator,
   BooleanValidator,
   StringArrayValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
+} from "../ValidatorHelpers.ts";
 
 export class ProductContentValidator implements ModelValidator {
   private path: string;
   constructor({ path }: { path: string }) {
     this.path = path;
   }
-  public validate = (product?: Nullable<Product>): ValidatorError[] => {
+  public validate = (product?: Product | null): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.title`, product?.title),
       StringValidator.validate(`${this.path}.country`, product?.country),

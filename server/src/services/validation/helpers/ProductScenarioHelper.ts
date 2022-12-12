@@ -1,7 +1,7 @@
-import { ProductValidator } from "./../../../validators/backendValidator/Product/ProductValidator";
-import { Product } from "@octocloud/types";
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
-import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers";
+import { ProductValidator } from "./../../../validators/backendValidator/Product/ProductValidator.ts";
+import { Product } from "npm:@octocloud/types@^1.3.1";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
+import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
 
 export class ProductScenarioHelper extends ScenarioHelper {
   public validateProducts = (data: ScenarioHelperData<Product[]>) => {
@@ -19,7 +19,7 @@ export class ProductScenarioHelper extends ScenarioHelper {
     errors.push(...configErrors);
 
     const validatorErrors = products
-      .map((product, i) =>
+      .map((product: any, i: number) =>
         new ProductValidator({
           capabilities: this.config.getCapabilityIDs(),
           path: `[${i}]`,

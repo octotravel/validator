@@ -1,13 +1,13 @@
-import { TicketValidator } from "./../Ticket/TicketValidator";
+import { TicketValidator } from "./../Ticket/TicketValidator.ts";
 import {
   CapabilityId,
   Booking,
   BookingStatus,
   DeliveryMethod,
-} from "@octocloud/types";
-import { BookingStateValidator } from "./BookingState/BookingStateValidator";
-import { OptionValidator } from "../Option/OptionValidator";
-import { ProductValidator } from "../Product/ProductValidator";
+} from "npm:@octocloud/types@^1.3.1";
+import { BookingStateValidator } from "./BookingState/BookingStateValidator.ts";
+import { OptionValidator } from "../Option/OptionValidator.ts";
+import { ProductValidator } from "../Product/ProductValidator.ts";
 import {
   BooleanValidator,
   EnumArrayValidator,
@@ -16,12 +16,12 @@ import {
   NullValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers";
-import { ContactValidator } from "../Contact/ContactValidator";
-import { UnitItemValidator } from "../UnitItem/UnitItemValidator";
-import { PricingValidator } from "../Pricing/PricingValidator";
-import { CommonValidator } from "../CommonValidator";
-import { BookingPickupValidator } from "./BookingPickupValidator";
+} from "../ValidatorHelpers.ts";
+import { ContactValidator } from "../Contact/ContactValidator.ts";
+import { UnitItemValidator } from "../UnitItem/UnitItemValidator.ts";
+import { PricingValidator } from "../Pricing/PricingValidator.ts";
+import { CommonValidator } from "../CommonValidator.ts";
+import { BookingPickupValidator } from "./BookingPickupValidator.ts";
 
 // TODO: add support for validating pricing
 // TODO: add support for validating delivery method related things
@@ -56,7 +56,7 @@ export class BookingValidator implements ModelValidator {
     this.pickupValidator = new BookingPickupValidator({ path: this.path });
   }
 
-  public validate = (booking: Nullable<Booking>): ValidatorError[] => {
+  public validate = (booking: Booking | null): ValidatorError[] => {
     console;
     return [
       StringValidator.validate(`${this.path}.id`, booking?.id),
@@ -103,7 +103,7 @@ export class BookingValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateVoucher = (booking: Nullable<Booking>): ValidatorError[] => {
+  private validateVoucher = (booking: Booking | null): ValidatorError[] => {
     if ((booking?.deliveryMethods ?? []).includes(DeliveryMethod.VOUCHER)) {
       return this.ticketValidator.validate(booking?.voucher);
     }
@@ -111,7 +111,7 @@ export class BookingValidator implements ModelValidator {
     return [NullValidator.validate(`${this.path}.voucher`, booking?.voucher)].flatMap((v) => (v ? [v] : []));
   };
 
-  private validateDeliveryMethods = (booking: Nullable<Booking>): ValidatorError[] => {
+  private validateDeliveryMethods = (booking: Booking | null): ValidatorError[] => {
     const path = `${this.path}.deliveryMethods`;
     const errors = new Array<ValidatorError>();
     const deliveryMethodsValidated = EnumArrayValidator.validate(
@@ -140,7 +140,7 @@ export class BookingValidator implements ModelValidator {
     return errors;
   };
 
-  private validateBookingAvailability = (booking: Nullable<Booking>): ValidatorError[] =>
+  private validateBookingAvailability = (booking: Booking | null): ValidatorError[] =>
     [
       CommonValidator.validateLocalDateTime(
         `${this.path}.availabilityId`,
@@ -169,7 +169,7 @@ export class BookingValidator implements ModelValidator {
       ),
     ].flatMap((v) => (v ? [v] : []));
 
-  private validateUnitItems = (booking: Nullable<Booking>): ValidatorError[] => {
+  private validateUnitItems = (booking: Booking | null): ValidatorError[] => {
     const unitItems = booking?.unitItems ?? [];
     return unitItems
       .map((unitItem, i) => {
@@ -187,14 +187,14 @@ export class BookingValidator implements ModelValidator {
       .flatMap((v) => (v ? [v] : []));
   };
 
-  private validatePricingCapability = (booking: Nullable<Booking>): ValidatorError[] => {
+  private validatePricingCapability = (booking: Booking | null): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pricing)) {
       return this.pricingValidator.validate(booking?.pricing);
     }
     return [];
   };
 
-  private validatePickupCapability = (booking: Nullable<Booking>): ValidatorError[] => {
+  private validatePickupCapability = (booking: Booking | null): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.Pickups)) {
       return this.pickupValidator.validate(booking);
     }
