@@ -7,7 +7,7 @@ import { PostData } from '../types'
 import { ToastContainer, toast } from 'react-toastify'
 import { usePersistForm } from '../components.tsx/usePersitForm'
 import 'react-toastify/dist/ReactToastify.css'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 import { querySchema } from '../schema/Schema'
 
 const FormInputView: FC = () => {
