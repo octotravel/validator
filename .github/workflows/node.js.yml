@@ -20,10 +20,13 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - name: Setup node v16
+      uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: client/package-lock.json
-    - run: cd client && npm run build
+        node-version: 16
+    - name: Install deps
+      run: cd client && npm install
+    - name: Build react app
+      run: cd client && npm run build
