@@ -5,7 +5,7 @@ import cors from "npm:@koa/cors";
 import serve from "npm:koa-static";
 import mount from 'npm:koa-mount'
 import { router } from "./router/AppRouter.ts";
-import { ValidationError } from "npm:yup@^0.32.11";
+import { ValidationError } from "https://esm.sh/yup@0.32.11";
 import {
   OctoError,
   InternalServerError,

@@ -1,4 +1,4 @@
-import * as yup from "npm:yup@^0.32.11";
+import * as yup from "https://esm.sh/yup@0.32.11";
 
 interface StringValidatorParams {
   nullable?: boolean;
