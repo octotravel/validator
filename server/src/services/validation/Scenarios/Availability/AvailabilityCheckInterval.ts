@@ -27,10 +27,14 @@ export class AvailabilityChecIntervalScenario
 
     const availabilities = result.data ?? [];
     const randomAvailability =
-      availabilities[Math.floor(Math.random() * availabilities.length)];
+      availabilities[Math.floor(Math.random() * availabilities.length)] ?? null;
+
+    if (randomAvailability === null) {
+      this.config.terminateValidation = true
+    }
     this.config.productConfig.addAvailabilityID = {
       availabilityType: this.product.availabilityType,
-      availabilityID: randomAvailability.id,
+      availabilityID: randomAvailability?.id ?? '',
     };
     const name = `Availability Check Interval (${this.product.availabilityType})`;
     const description = descriptions.availabilityCheckInterval;
