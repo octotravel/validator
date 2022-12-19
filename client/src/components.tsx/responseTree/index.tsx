@@ -32,6 +32,7 @@ const ResponseTree: FC<IListView> = ({ scenario, id }) => {
       <Accordion.Body as="div" className="h-25 .bg-gradient overflow-auto">
         <div className="card-body">
           <div className="mb-2">
+            {scenario.description && <p className="mb-3 text-muted">{scenario.description}</p>}
             <strong className="mb-3 text-muted">url</strong>
           </div>
 
