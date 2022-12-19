@@ -1,4 +1,4 @@
-import { addDays } from "npm:date-fns@^2.29.1";
+import { addDays } from "https://esm.sh/date-fns@2.29.1";
 import { DateHelper } from "../../../../helpers/DateHelper.ts";
 import { InvalidOptionIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator.ts";
 import { Config } from "../../config/Config.ts";

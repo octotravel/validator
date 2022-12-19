@@ -4,7 +4,7 @@ import { ValidationEndpoint } from "../../../schemas/Validation.ts";
 import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
 import { ApiClient } from "../api/ApiClient.ts";
 import { DateHelper } from "../../../helpers/DateHelper.ts";
-import { addDays } from "npm:date-fns@^2.29.1";
+import { addDays } from "https://esm.sh/date-fns@2.29.1";
 
 export interface ErrorResult<T> {
   data: T | null;

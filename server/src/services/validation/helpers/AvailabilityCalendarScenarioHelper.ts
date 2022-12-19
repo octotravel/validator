@@ -1,5 +1,5 @@
 import { ScenarioResult } from "./../Scenarios/Scenario.ts";
-import * as R from "npm:ramda@^0.28.0";
+import * as R from "https://esm.sh/ramda@0.28.0";
 import { AvailabilityCalendar, Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 import {

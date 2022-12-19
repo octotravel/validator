@@ -1,4 +1,4 @@
-import * as R from "npm:ramda@^0.28.0";
+import * as R from "https://esm.sh/ramda@0.28.0";
 import { AvailabilityType, Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import {
   ErrorType,
