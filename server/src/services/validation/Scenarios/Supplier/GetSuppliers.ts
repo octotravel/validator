@@ -10,7 +10,7 @@ export class GetSupplierScenario implements Scenario {
 
   public validate = async () => {
     const result = await this.apiClient.getSupplier();
-    const name = "Get Supplier.ts";
+    const name = "Get Supplier";
     const description = descriptions.getSupplier;
 
     return this.supplierScenarioHelper.validateSupplier({

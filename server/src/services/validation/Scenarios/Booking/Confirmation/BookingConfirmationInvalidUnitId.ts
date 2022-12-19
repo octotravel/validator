@@ -17,7 +17,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
     new BookingConfirmationScenarioHelper();
 
   public validate = async () => {
-    const name = "Booking Confirmation Invalid Unit ID (400 INVALID_UNIT_ID).ts";
+    const name = "Booking Confirmation Invalid Unit ID (400 INVALID_UNIT_ID)";
     const description = descriptions.invalidUnitId;
     const [bookableProduct] = this.config.productConfig.availableProducts;
 

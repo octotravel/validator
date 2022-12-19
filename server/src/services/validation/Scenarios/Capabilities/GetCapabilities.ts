@@ -10,7 +10,7 @@ export class GetCapabilitiesScenario implements Scenario {
 
   public validate = async () => {
     const result = await this.apiClient.getCapabilities();
-    const name = "Get Capabilities.ts";
+    const name = "Get Capabilities";
     const description = descriptions.getCapabilities;
 
     return this.capabilitiesScenarioHelper.validateCapabilities({

@@ -17,7 +17,7 @@ export class BookingReservationInvalidAvailabilityIdScenario
 
   public validate = async () => {
     const name =
-      "Booking Reservation Invalid Availability ID (400 INVALID_AVAILABILITY_ID).ts";
+      "Booking Reservation Invalid Availability ID (400 INVALID_AVAILABILITY_ID)";
     const description = descriptions.bookingReservationInvalidAvailabilityId;
 
     return this.bookingReservationScenarioHelper.validateError(

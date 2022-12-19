@@ -14,7 +14,7 @@ export class BookingReservationInvalidOptionScenario implements Scenario {
     new BookingReservationScenarioHelper();
 
   public validate = async () => {
-    const name = "Booking Reservation Invalid Option (400 INVALID_OPTION_ID).ts";
+    const name = "Booking Reservation Invalid Option (400 INVALID_OPTION_ID)";
     const description = descriptions.invalidOption;
 
     return this.bookingReservationScenarioHelper.validateError(

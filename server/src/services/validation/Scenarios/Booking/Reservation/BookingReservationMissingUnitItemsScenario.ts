@@ -17,7 +17,7 @@ export class BookingReservationMissingUnitItemsScenario
 
   public validate = async () => {
     const name =
-      "Booking Reservation Missing UnitItems (400 UNPROCESSABLE_ENTITY).ts";
+      "Booking Reservation Missing UnitItems (400 UNPROCESSABLE_ENTITY)";
     const description = descriptions.bookingReservationMissingUnitItems;
 
     return this.bookingReservationScenarioHelper.validateError(

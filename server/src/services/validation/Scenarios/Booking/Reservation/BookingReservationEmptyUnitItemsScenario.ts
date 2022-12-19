@@ -15,7 +15,7 @@ export class BookingReservationEmptyUnitItemsScenario implements Scenario {
 
   public validate = async () => {
     const name =
-      "Booking Reservation Missing UnitItems (400 UNPROCESSABLE_ENTITY).ts";
+      "Booking Reservation Missing UnitItems (400 UNPROCESSABLE_ENTITY)";
     const description = descriptions.bookingReservationEmptyUnitItems;
 
     return this.bookingReservationScenarioHelper.validateError(

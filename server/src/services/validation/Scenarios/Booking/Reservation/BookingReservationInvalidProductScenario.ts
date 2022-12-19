@@ -14,7 +14,7 @@ export class BookingReservationInvalidProductScenario implements Scenario {
     new BookingReservationScenarioHelper();
 
   public validate = async () => {
-    const name = "Booking Reservation Invalid Product (400 INVALID_PRODUCT_ID).ts";
+    const name = "Booking Reservation Invalid Product (400 INVALID_PRODUCT_ID)";
     const description = descriptions.invalidProduct;
 
     return this.bookingReservationScenarioHelper.validateError(

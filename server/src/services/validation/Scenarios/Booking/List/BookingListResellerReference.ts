@@ -16,7 +16,7 @@ export class BookingListResellerReferenceScenario
   private bookingListScenarionHelper = new BookingListScenarioHelper();
 
   public validate = async () => {
-    const name = "List Bookings - Reseller Reference.ts";
+    const name = "List Bookings - Reseller Reference";
     const description = descriptions.bookingListResellerReference;
     const [bookableProduct] = this.config.productConfig.availableProducts;
 

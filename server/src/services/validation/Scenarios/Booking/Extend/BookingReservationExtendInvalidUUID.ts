@@ -12,7 +12,7 @@ export class BookingReservationExtendInvalidUUIDScenario
   private bookingExtendScenarioHelper = new BookingExtendScenarioHelper();
 
   public validate = async () => {
-    const name = "Extend Reservation Invalid UUID (INVALID_BOOKING_UUID).ts";
+    const name = "Extend Reservation Invalid UUID (INVALID_BOOKING_UUID)";
     const description = descriptions.invalidUUID;
     const result = await this.apiClient.bookingExtend({
       uuid: this.config.invalidUUID,

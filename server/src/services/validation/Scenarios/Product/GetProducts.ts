@@ -11,7 +11,7 @@ export class GetProductsScenario implements Scenario {
 
   public validate = async () => {
     const result = await this.apiClient.getProducts();
-    const name = "Get Products.ts";
+    const name = "Get Products";
     const description = descriptions.getProducts;
 
     return this.productScenarioHelper.validateProducts({

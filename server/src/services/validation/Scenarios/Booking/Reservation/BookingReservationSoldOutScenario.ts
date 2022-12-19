@@ -14,7 +14,7 @@ export class BookingReservationSoldOutScenario implements Scenario {
     new BookingReservationScenarioHelper();
 
   public validate = async () => {
-    const name = "Booking Reservation SOLD_OUT (400 UNPROCESSABLE_ENTITY).ts";
+    const name = "Booking Reservation SOLD_OUT (400 UNPROCESSABLE_ENTITY)";
     const description = descriptions.bookingReservationSoldOut;
 
     return this.bookingReservationScenarioHelper.validateError(

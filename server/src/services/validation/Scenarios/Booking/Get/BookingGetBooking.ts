@@ -16,7 +16,7 @@ export class BookingGetBookingScenario implements Scenario {
   private bookingGetScenarionHelper = new BookingGetScenarioHelper();
 
   public validate = async () => {
-    const name = "Get Booking - Booking.ts";
+    const name = "Get Booking - Booking";
     const description = descriptions.bookingGetBooking;
     const [bookableProduct] = this.config.productConfig.availableProducts;
 

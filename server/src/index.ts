@@ -14,8 +14,6 @@ const router = new Router();
 router
   .post("/validate", async (ctx) => {
     try {
-      console.log('fap')
-      console.log(ctx.request)
       const reqBody = await ctx.request.body().value;
       await validationConfigSchema.validate(reqBody);
       const schema = validationConfigSchema.cast(reqBody)
