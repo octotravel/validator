@@ -1,4 +1,4 @@
-import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
 import {
   ScenarioHelper,

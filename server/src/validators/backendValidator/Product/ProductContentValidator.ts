@@ -1,4 +1,4 @@
-import { Destination, Category, FAQ, Image, Product } from "npm:@octocloud/types@^1.3.1";
+import { Destination, Category, FAQ, Image, Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import {
   StringValidator,
   BooleanValidator,

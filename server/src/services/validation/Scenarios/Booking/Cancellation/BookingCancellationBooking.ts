@@ -5,7 +5,7 @@ import descriptions from "../../../consts/descriptions.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
-import { BookingContactSchema } from "npm:@octocloud/types@^1.3.1";
+import { BookingContactSchema } from "https://esm.sh/@octocloud/types@1.3.1";
 
 export class BookingCancellationBookingScenario implements Scenario {
   private helper = new ScenarioHelper()

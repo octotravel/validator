@@ -1,4 +1,4 @@
-import { Booking } from "npm:@octocloud/types@^1.3.1";
+import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Scenario } from "../../Scenario.ts";
 import { InvalidUnitIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidUnitIdErrorValidator.ts";
 import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";

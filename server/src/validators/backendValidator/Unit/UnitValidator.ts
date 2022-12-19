@@ -4,7 +4,7 @@ import {
   Unit,
   ContactField,
   PricingPer,
-} from "npm:@octocloud/types@^1.3.1";
+} from "https://esm.sh/@octocloud/types@1.3.1";
 import {
   StringValidator,
   BooleanValidator,

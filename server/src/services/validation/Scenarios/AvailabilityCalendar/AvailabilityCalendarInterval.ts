@@ -1,4 +1,4 @@
-import { Product } from "npm:@octocloud/types@^1.3.1";
+import { Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Scenario, ScenarioResult } from "../Scenario.ts";
 import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper.ts";
 import { Config } from "../../config/Config.ts";

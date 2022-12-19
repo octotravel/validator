@@ -1,4 +1,4 @@
-import { Pricing, Option } from "npm:@octocloud/types@^1.3.1";
+import { Pricing, Option } from "https://esm.sh/@octocloud/types@1.3.1";
 import { PricingValidator } from "../Pricing/PricingValidator.ts";
 import { ModelValidator, ValidatorError } from "../ValidatorHelpers.ts";
 

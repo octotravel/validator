@@ -6,7 +6,7 @@ import {
   UnitRestrictions,
   PricingPer,
   AvailabilityType,
-} from "npm:@octocloud/types@^1.3.1";
+} from "https://esm.sh/@octocloud/types@1.3.1";
 import { OptionPickupValidator } from "./OptionPickupValidator.ts";
 import { UnitValidator } from "../Unit/UnitValidator.ts";
 import {

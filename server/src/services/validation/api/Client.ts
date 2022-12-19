@@ -1,4 +1,4 @@
-import { CapabilityId } from "npm:@octocloud/types@^1.3.1";
+import { CapabilityId } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Result } from "./types.ts";
 
 interface FetchData {

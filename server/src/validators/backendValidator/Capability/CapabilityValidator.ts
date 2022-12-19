@@ -1,4 +1,4 @@
-import { Capability, CapabilityId } from "npm:@octocloud/types@^1.3.1";
+import { Capability, CapabilityId } from "https://esm.sh/@octocloud/types@1.3.1";
 import {
   BooleanValidator,
   EnumArrayValidator,

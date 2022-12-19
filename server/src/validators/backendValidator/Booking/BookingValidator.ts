@@ -4,7 +4,7 @@ import {
   Booking,
   BookingStatus,
   DeliveryMethod,
-} from "npm:@octocloud/types@^1.3.1";
+} from "https://esm.sh/@octocloud/types@1.3.1";
 import { BookingStateValidator } from "./BookingState/BookingStateValidator.ts";
 import { OptionValidator } from "../Option/OptionValidator.ts";
 import { ProductValidator } from "../Product/ProductValidator.ts";

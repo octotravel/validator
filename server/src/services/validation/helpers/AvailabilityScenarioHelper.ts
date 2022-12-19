@@ -1,4 +1,4 @@
-import { Availability, Product } from "npm:@octocloud/types@^1.3.1";
+import { Availability, Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { AvailabilityValidator } from "../../../validators/backendValidator/Availability/AvailabilityValidator.ts";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 
