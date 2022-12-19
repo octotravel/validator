@@ -18,10 +18,10 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v3
 
-      - name: Install Deno
-          run: |-
-            curl -fsSL https://deno.land/x/install/install.sh | sh
-            echo "$HOME/.deno/bin" >> $GITHUB_PATH
+      # - name: Install Deno
+      #     run: |-
+      #       curl -fsSL https://deno.land/x/install/install.sh | sh
+      #       echo "$HOME/.deno/bin" >> $GITHUB_PATH
       - name: Upload to Deno Deploy
         uses: denoland/deployctl@v1
         with:
