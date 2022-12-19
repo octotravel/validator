@@ -1,45 +1,57 @@
-import "npm:isomorphic-fetch";
-import Koa from "npm:koa";
-import koaBody from "npm:koa-body";
-import cors from "npm:@koa/cors";
-import serve from "npm:koa-static";
-import mount from 'npm:koa-mount'
-import { router } from "./router/AppRouter.ts";
+import { Config } from './services/validation/config/Config.ts';
+import { validationConfigSchema } from './schemas/Validation.ts';
+import { ValidationController } from './services/validation/Controller.ts';
 import { ValidationError } from "https://esm.sh/yup@0.32.11";
+import { serve } from "https://deno.land/std@0.160.0/http/server.ts";
 import {
   OctoError,
   InternalServerError,
   BadRequestError,
 } from "./models/Error.ts";
 
-const app = new Koa();
-
-app.use(mount("/", serve("./../client/build")));
-
-app.use(cors());
-app.use(koaBody.koaBody());
-app.use(async (ctx: any, next: any) => {
+serve(async (req: Request) => {
+  if (req.method !== "POST") {
+    return new Response("Method Not Allowed", { status: 400 });
+  }
   try {
-    await next();
+    const reqBody = await req.json();
+    await validationConfigSchema.validate(reqBody);
+    const schema = validationConfigSchema.cast(reqBody)
+    const config = Config.getInstance();
+    config.init(schema);
+    const body = await new ValidationController().validate();
+
+    return new Response(JSON.stringify(body), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
   } catch (e) {
     const err = e as Error
     if (err instanceof OctoError) {
-      ctx.status = err.status;
-      ctx.body = err.body;
+      return new Response(JSON.stringify(err.body), {
+        status: err.status,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     } else if (err instanceof ValidationError) {
       const error = new BadRequestError(err.message);
-      ctx.status = error.status;
-      ctx.body = error.body;
+      return new Response(JSON.stringify(error.body), {
+        status: error.status,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     } else {
       const error = new InternalServerError(err.message);
-      ctx.status = error.status;
-      ctx.body = {
-        ...error.body,
-        stack: error.stack,
-      };
+      return new Response(JSON.stringify(error.body), {
+        status: error.status,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
     }
   }
-});
-app.use(router.routes());
-
-app.listen(3000);
+}, { port: 3000 });
