@@ -1,1 +1,1 @@
-export const BaseUrl = 'http://localhost:3000/validate'
+export const BaseUrl = 'https://octotravel-validator.deno.dev/validate'
