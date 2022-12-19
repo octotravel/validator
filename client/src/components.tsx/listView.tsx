@@ -24,6 +24,7 @@ const ListView: FC<IListView> = ({ flow, id }) => {
           }`}</span>
         </div>
         <label className="w-50 text-truncate px-3 text-muted">{flow.name}</label>
+        {flow.docs && <a className="w-50 text-truncate px-3 text-muted" href={flow.docs}>docs</a>}
       </Accordion.Header>
       <Accordion.Body as="div" className="h-25 .bg-gradient overflow-auto">
         <Accordion as="div" className=" h-50 bg-light">
