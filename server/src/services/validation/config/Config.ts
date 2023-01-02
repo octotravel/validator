@@ -48,6 +48,8 @@ export class Config implements IConfig {
   public init = (data: ValidationEndpoint): void => {
     this.endpoint = data.backend.endpoint;
     this.apiKey = data.backend.apiKey;
+    this.capabilities = [];
+    this._terminateValidation = false;
   };
 
   public getApiClient = (): ApiClient => {

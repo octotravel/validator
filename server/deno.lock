@@ -321,6 +321,7 @@
     "https://esm.sh/v99/@octocloud/types@1.3.1/dist/types/Unit.d.ts": "97a6556e73ec0e02037db4b5f5c43c90a3f95cf167c4864a9df4dfd46f0aa616",
     "https://esm.sh/v99/@types/ramda@0.28.20/index.d.ts": "707c8528088d251d0e83381d0e965aa004425921b7e8d39a68b437e57c26c5a6",
     "https://esm.sh/v99/@types/ramda@0.28.20/tools.d.ts": "d279fd09e575a21780eac9b1323380d9cf42dc887eb48783e80101394ae4edde",
+    "https://esm.sh/v99/@types/yup@0.32.0/yup~.d.ts": "854cdc32752c20a63ea380b17a93c803d6d1e06fa939fdc231732a7b35e8a906",
     "https://esm.sh/v99/date-fns@2.29.1/deno/date-fns.js": "7b81a56ab3480f6e3fb586511d649b191e8ee1d73afc45eb1cfc15dc8df2a044",
     "https://esm.sh/v99/date-fns@2.29.1/esm~.d.ts": "854cdc32752c20a63ea380b17a93c803d6d1e06fa939fdc231732a7b35e8a906",
     "https://esm.sh/v99/date-fns@2.29.1/typings.d.ts": "00ffc2ca90607361084741dc5e10e8e909e6bceb131df129d82515c0bc156a4d",
