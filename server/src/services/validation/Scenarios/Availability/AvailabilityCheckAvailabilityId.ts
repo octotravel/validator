@@ -18,12 +18,12 @@ export class AvailabilityCheckAvailabilityIdScenario
   }
 
   public validate = async () => {
-    const availabilityID =
-      this.config.productConfig.availabilityIDs[this.product.availabilityType];
+    const availability =
+      this.config.productConfig.availability[this.product.availabilityType];
     const result = await this.apiClient.getAvailability({
       productId: this.product.id,
       optionId: this.product.options[0].id,
-      availabilityIds: [availabilityID],
+      availabilityIds: [availability.id],
     });
 
     const name = `Availability Check AvailabilityId (${this.product.availabilityType})`;

@@ -17,12 +17,11 @@ export class AvailabilityCheckDateScenario implements Scenario {
   }
 
   public validate = async () => {
-    const availabilityID =
-      this.config.productConfig.availabilityIDs[this.product.availabilityType];
+    const availability = this.config.productConfig.availability[this.product.availabilityType];
     const result = await this.apiClient.getAvailability({
       productId: this.product.id,
       optionId: this.product.options[0].id,
-      localDate: DateHelper.getDate(availabilityID),
+      localDate: DateHelper.getDate(availability.localDateTimeStart),
     });
     const name = `Availability Check Date (${this.product.availabilityType})`;
     const description = descriptions.availabilityCheckDate;

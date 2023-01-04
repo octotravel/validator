@@ -1,5 +1,5 @@
 import * as R from "https://esm.sh/ramda@0.28.0";
-import { AvailabilityType, Product } from "https://esm.sh/@octocloud/types@1.3.1";
+import { AvailabilityType, Product, Availability } from "https://esm.sh/@octocloud/types@1.3.1";
 import {
   ErrorType,
   ValidatorError,
@@ -12,7 +12,7 @@ export class ProductConfig {
   private _products: Product[] = [];
   private _soldOutProduct: ProductBookable | null = null;
   private _availableProducts: ProductBookable[] = [];
-  private _availabilityIDs: { [key: string]: string } = {};
+  private _availability: { [key: string]: Availability } = {};
 
   public setProducts = (products: Product[]): ValidatorError[] => {
     this._products = products;
@@ -111,18 +111,18 @@ export class ProductConfig {
     return products;
   }
 
-  public set addAvailabilityID({
+  public set addAvailability({
     availabilityType,
-    availabilityID,
+    availability,
   }: {
     availabilityType: AvailabilityType;
-    availabilityID: string;
+    availability: Availability;
   }) {
-    this._availabilityIDs[availabilityType] = availabilityID;
+    this._availability[availabilityType] = availability;
   }
 
-  public get availabilityIDs() {
-    return this._availabilityIDs;
+  public get availability() {
+    return this._availability;
   }
 
   // public set availabilityIDs(data: Record<AvailabilityType, string | null>){

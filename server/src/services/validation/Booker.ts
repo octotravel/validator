@@ -18,7 +18,7 @@ export class Booker {
   private config = Config.getInstance();
   private apiClient = this.config.getApiClient();
 
-  public createReservation = async (
+  public createReservation = (
     productBookable: ProductBookable,
     params?: CreateReservationParams
   ): Promise<Result<Booking>> => {

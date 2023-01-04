@@ -14,15 +14,15 @@ export class AvailabilityCheckBadRequestScenario
 
   public validate = async (): Promise<ScenarioResult> => {
     const [product] = this.config.productConfig.productsForAvailabilityCheck;
-    const availabilityID =
-      this.config.productConfig.availabilityIDs[product.availabilityType];
+    const availability =
+      this.config.productConfig.availability[product.availabilityType];
     const result = await this.apiClient.getAvailability({
       productId: product.id,
       optionId: product.options[0].id,
       localDateStart: this.config.localDateStart,
       localDateEnd: this.config.localDateEnd,
-      localDate: DateHelper.getDate(availabilityID),
-      availabilityIds: [availabilityID],
+      localDate: DateHelper.getDate(availability.localDateTimeStart),
+      availabilityIds: [availability.id],
     });
 
     const name = `Availability Check BAD_REQUEST (400 BAD_REQUEST)`;

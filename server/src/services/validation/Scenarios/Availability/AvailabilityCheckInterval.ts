@@ -32,9 +32,9 @@ export class AvailabilityChecIntervalScenario
     if (randomAvailability === null) {
       this.config.terminateValidation = true
     }
-    this.config.productConfig.addAvailabilityID = {
+    this.config.productConfig.addAvailability = {
       availabilityType: this.product.availabilityType,
-      availabilityID: randomAvailability?.id ?? '',
+      availability: randomAvailability
     };
     const name = `Availability Check Interval (${this.product.availabilityType})`;
     const description = descriptions.availabilityCheckInterval;
