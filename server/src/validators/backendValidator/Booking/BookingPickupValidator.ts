@@ -21,7 +21,8 @@ export class BookingPickupValidator implements ModelValidator {
       ),
       StringValidator.validate(
         `${this.path}.pickupPointId`,
-        booking?.pickupPointId
+        booking?.pickupPointId,
+        { nullable: true }
       ),
       StringValidator.validate(
         `${this.path}.pickupHotel`,
