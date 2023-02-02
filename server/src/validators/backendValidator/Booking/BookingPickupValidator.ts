@@ -5,8 +5,8 @@ import {
   ValidatorError,
   BooleanValidator,
   NumberValidator,
-  CommonValidator,
 } from "../ValidatorHelpers.ts";
+import { CommonValidator } from "../CommonValidator.ts";
 
 export class BookingPickupValidator implements ModelValidator {
   private path: string;

@@ -64,7 +64,7 @@ export class ScenarioHelper {
         ? null
         : {
             headers: result.response.headers,
-            body: result.response.body,
+            body: JSON.parse(result.response.body ?? ''),
             status: result.response.status,
             error: result.response.error
               ? {
