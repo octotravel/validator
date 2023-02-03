@@ -4,17 +4,18 @@ import { BookingGetBookingScenario } from "../../Scenarios/Booking/Get/BookingGe
 import { BookingGetInvalidUUIDScenario } from "../../Scenarios/Booking/Get/BookingGetInvalidUUID.ts";
 import { BaseFlow } from "../BaseFlow.ts";
 import docs from "../../consts/docs.ts";
+import { Context } from "../../context/Context.ts";
 
 export class BookingGetFlow extends BaseFlow implements Flow {
   constructor() {
     super("Get Booking", docs.bookingGet);
   }
-  public validate = async (): Promise<FlowResult> => {
+  public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios = [
       new BookingGetReservationScenario(),
       new BookingGetBookingScenario(),
       new BookingGetInvalidUUIDScenario(),
     ];
-    return this.validateScenarios(scenarios);
+    return this.validateScenarios(scenarios, context);
   };
 }

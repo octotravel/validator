@@ -1,27 +1,27 @@
 import { Scenario } from "../../Scenario.ts";
 import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper.ts";
-import { Config } from "../../../config/Config.ts";
 import descriptions from "../../../consts/descriptions.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
+import { Context } from "../../../context/Context.ts";
 
 export class BookingListResellerReferenceScenario
   implements Scenario
 {
   private helper = new ScenarioHelper()
   private booker = new Booker();
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private bookingListScenarionHelper = new BookingListScenarioHelper();
 
-  public validate = async () => {
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
     const name = "List Bookings - Reseller Reference";
     const description = descriptions.bookingListResellerReference;
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+    const [bookableProduct] = context.productConfig.availableProducts;
 
     const resultReservation = await this.booker.createReservation(
-      bookableProduct
+      bookableProduct,
+      context
     );
 
     if (resultReservation.data === null) {
@@ -34,7 +34,7 @@ export class BookingListResellerReferenceScenario
     }
 
     const resellerReference = `RESREF${resultReservation.data.resellerReference}`;
-    const resultConfirmation = await this.apiClient.bookingConfirmation({
+    const resultConfirmation = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       contact: {
         fullName: "John Doe",
@@ -50,7 +50,7 @@ export class BookingListResellerReferenceScenario
         errors: [new ValidatorError({type: ErrorType.CRITICAL, message: 'Reservation Confirm Failed'})],
       })
     }
-    const result = await this.apiClient.getBookings({
+    const result = await apiClient.getBookings({
       resellerReference,
     });
 
@@ -58,6 +58,6 @@ export class BookingListResellerReferenceScenario
       result,
       name,
       description,
-    });
+    }, context);
   };
 }

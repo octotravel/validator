@@ -2,9 +2,10 @@ import { ProductValidator } from "./../../../validators/backendValidator/Product
 import { Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
+import { Context } from "../context/Context.ts";
 
 export class ProductScenarioHelper extends ScenarioHelper {
-  public validateProducts = (data: ScenarioHelperData<Product[]>) => {
+  public validateProducts = (data: ScenarioHelperData<Product[]>, context: Context) => {
     const { result } = data;
     if (result?.response?.error) {
       return this.handleResult({
@@ -15,13 +16,13 @@ export class ProductScenarioHelper extends ScenarioHelper {
     }
     const products = result.data ?? [];
     const errors = new Array<ValidatorError>();
-    const configErrors = this.config.setProducts(products);
+    const configErrors = context.setProducts(products);
     errors.push(...configErrors);
 
     const validatorErrors = products
       .map((product: any, i: number) =>
         new ProductValidator({
-          capabilities: this.config.getCapabilityIDs(),
+          capabilities: context.getCapabilityIDs(),
           path: `[${i}]`,
         }).validate(product)
       )
@@ -34,7 +35,7 @@ export class ProductScenarioHelper extends ScenarioHelper {
     });
   };
 
-  public validateProduct = (data: ScenarioHelperData<Product>) => {
+  public validateProduct = (data: ScenarioHelperData<Product>, context: Context) => {
     const { result } = data;
     if (result?.response?.error) {
       return this.handleResult({
@@ -45,7 +46,7 @@ export class ProductScenarioHelper extends ScenarioHelper {
     }
 
     const errors = new ProductValidator({
-      capabilities: this.config.getCapabilityIDs(),
+      capabilities: context.getCapabilityIDs(),
     }).validate(result.data);
     return this.handleResult({
       ...data,

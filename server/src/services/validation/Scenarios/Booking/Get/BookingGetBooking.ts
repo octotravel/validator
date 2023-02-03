@@ -1,27 +1,27 @@
 import { BookingContactSchema } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Scenario } from "../../Scenario.ts";
 import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
-import { Config } from "../../../config/Config.ts";
 import descriptions from "../../../consts/descriptions.ts";
 import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
+import { Context } from "../../../context/Context.ts";
 
 export class BookingGetBookingScenario implements Scenario {
   private helper = new ScenarioHelper()
   private booker = new Booker();
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
 
   private bookingGetScenarionHelper = new BookingGetScenarioHelper();
 
-  public validate = async () => {
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
     const name = "Get Booking - Booking";
     const description = descriptions.bookingGetBooking;
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+    const [bookableProduct] = context.productConfig.availableProducts;
 
     const resultReservation = await this.booker.createReservation(
-      bookableProduct
+      bookableProduct,
+      context
     );
 
     if (resultReservation.data === null) {
@@ -33,7 +33,7 @@ export class BookingGetBookingScenario implements Scenario {
       })
     }
 
-    const resultConfirmation = await this.apiClient.bookingConfirmation({
+    const resultConfirmation = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       contact: {} as BookingContactSchema,
     });
@@ -48,7 +48,7 @@ export class BookingGetBookingScenario implements Scenario {
     }
 
 
-    const result = await this.apiClient.getBooking({
+    const result = await apiClient.getBooking({
       uuid: resultConfirmation.data.uuid,
     });
 
@@ -59,6 +59,7 @@ export class BookingGetBookingScenario implements Scenario {
         name,
         description,
       },
+      context
     );
   };
 }

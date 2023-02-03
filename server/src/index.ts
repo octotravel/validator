@@ -1,5 +1,4 @@
-import { Config } from './services/validation/config/Config.ts';
-import { validationConfigSchema } from './schemas/Validation.ts';
+import { validationConfigSchema, ValidationEndpoint } from './schemas/Validation.ts';
 import { ValidationController } from './services/validation/Controller.ts';
 import { ValidationError } from "https://esm.sh/yup@0.32.11";
 import {
@@ -7,8 +6,9 @@ import {
   InternalServerError,
   BadRequestError,
 } from "./models/Error.ts";
-import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
+import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
+import { Context } from "./services/validation/context/Context.ts";
 
 const router = new Router();
 router
@@ -16,10 +16,9 @@ router
     try {
       const reqBody = await ctx.request.body().value;
       await validationConfigSchema.validate(reqBody);
-      const schema = validationConfigSchema.cast(reqBody)
-      const config = Config.getInstance();
-      config.init(schema);
-      const body = await new ValidationController().validate();
+      const schema = validationConfigSchema.cast(reqBody) as ValidationEndpoint;
+      const context = new Context(schema);
+      const body = await new ValidationController().validate(context);
 
 
       ctx.response.body = body;

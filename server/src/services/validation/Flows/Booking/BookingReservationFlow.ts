@@ -11,6 +11,7 @@ import { BookingReservationInvalidUnitIdScenario } from "../../Scenarios/Booking
 import { Scenario } from "../../Scenarios/Scenario.ts";
 import { Booker } from "../../Booker.ts";
 import docs from "../../consts/docs.ts";
+import { Context } from "../../context/Context.ts";
 
 export class BookingReservationFlow extends BaseFlow implements Flow {
   private booker = new Booker();
@@ -18,49 +19,55 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     super("Booking Reservation", docs.bookingReservation);
   }
   
-  public validate = async (): Promise<FlowResult> => {
+  public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios = [
-      await this.reserveAvailableProduct(),
-      await this.reserveSoldOutProduct(),
-      await this.reserveInvalidProduct(),
-      await this.reserveInvalidOption(),
-      await this.reserveInvalidAvailabilityID(),
-      await this.reserveWithMissingUnitItems(),
-      await this.reserveWithEmptyUnitItems(),
-      await this.validateBookingInvalidUnitId(),
+      await this.reserveAvailableProduct(context),
+      await this.reserveSoldOutProduct(context),
+      await this.reserveInvalidProduct(context),
+      await this.reserveInvalidOption(context),
+      await this.reserveInvalidAvailabilityID(context),
+      await this.reserveWithMissingUnitItems(context),
+      await this.reserveWithEmptyUnitItems(context),
+      await this.validateBookingInvalidUnitId(context),
     ];
-    return this.validateScenarios(scenarios);
+    return this.validateScenarios(scenarios, context);
   };
 
-  private reserveAvailableProduct = async (): Promise<Scenario> => {
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+  private reserveAvailableProduct = async (context: Context): Promise<Scenario> => {
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const result = await this.booker.createReservation(bookableProduct);
+    const result = await this.booker.createReservation(bookableProduct, context);
     return new BookingReservationScenario({ result });
   };
 
-  private reserveSoldOutProduct = async (): Promise<Scenario> => {
-    const bookableProduct = this.config.productConfig.soldOutProduct;
+  private reserveSoldOutProduct = async (context: Context): Promise<Scenario> => {
+    const bookableProduct = context.productConfig.soldOutProduct;
 
-    const result = await this.booker.createReservation(bookableProduct, {
+    const result = await this.booker.createReservation(bookableProduct,
+      context,
+       {
       soldOutAvailability: true,
     });
     return new BookingReservationSoldOutScenario({ result });
   };
 
-  private reserveInvalidProduct = async (): Promise<Scenario> => {
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+  private reserveInvalidProduct = async (context: Context): Promise<Scenario> => {
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const result = await this.booker.createReservation(bookableProduct, {
+    const result = await this.booker.createReservation(bookableProduct,
+      context,
+        {
       invalidProductId: true,
     });
     return new BookingReservationInvalidProductScenario({ result });
   };
 
-  private reserveInvalidOption = async (): Promise<Scenario> => {
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+  private reserveInvalidOption = async (context: Context): Promise<Scenario> => {
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const result = await this.booker.createReservation(bookableProduct, {
+    const result = await this.booker.createReservation(bookableProduct,
+      context,
+        {
       invalidOptionId: true,
     });
     return new BookingReservationInvalidOptionScenario({
@@ -68,12 +75,14 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     });
   };
 
-  private reserveInvalidAvailabilityID = async (): Promise<
+  private reserveInvalidAvailabilityID = async (context: Context): Promise<
     Scenario
   > => {
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const result = await this.booker.createReservation(bookableProduct, {
+    const result = await this.booker.createReservation(bookableProduct,
+      context,
+        {
       invalidAvailabilityId: true,
     });
     return new BookingReservationInvalidAvailabilityIdScenario({
@@ -81,12 +90,14 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     });
   };
 
-  private reserveWithMissingUnitItems = async (): Promise<
+  private reserveWithMissingUnitItems = async (context: Context): Promise<
     Scenario
   > => {
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const result = await this.booker.createReservation(bookableProduct, {
+    const result = await this.booker.createReservation(bookableProduct,
+      context,
+        {
       unitItemsMissing: true,
     });
     return new BookingReservationMissingUnitItemsScenario({
@@ -94,21 +105,25 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     });
   };
 
-  private reserveWithEmptyUnitItems = async (): Promise<Scenario> => {
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+  private reserveWithEmptyUnitItems = async (context: Context): Promise<Scenario> => {
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const result = await this.booker.createReservation(bookableProduct, {
+    const result = await this.booker.createReservation(bookableProduct,
+      context,
+        {
       unitItemsEmpty: true,
     });
     return new BookingReservationEmptyUnitItemsScenario({ result });
   };
 
-  private validateBookingInvalidUnitId = async (): Promise<
+  private validateBookingInvalidUnitId = async (context: Context): Promise<
     Scenario
   > => {
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const result = await this.booker.createReservation(bookableProduct, {
+    const result = await this.booker.createReservation(bookableProduct,
+      context,
+        {
       invalidUnitItems: true,
     });
 

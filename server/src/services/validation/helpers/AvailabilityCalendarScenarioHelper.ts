@@ -7,11 +7,13 @@ import {
   ValidatorError,
 } from "./../../../validators/backendValidator/ValidatorHelpers.ts";
 import { AvailabilityCalendarValidator } from "../../../validators/backendValidator/AvailabilityCalendar/AvailabilityCalendarValidator.ts";
+import { Context } from "../context/Context.ts";
 
 export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
   public validateAvailability = (
     data: ScenarioHelperData<AvailabilityCalendar[]>,
-    product: Product
+    product: Product,
+    context: Context
   ): ScenarioResult => {
     const { result } = data;
     const availabilities = result.data ?? [];
@@ -37,7 +39,7 @@ export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
     const validationErrors = availabilities
       .map((availability: any, i: number) =>
         new AvailabilityCalendarValidator({
-          capabilities: this.config.getCapabilityIDs(),
+          capabilities: context.getCapabilityIDs(),
           path: `[${i}]`,
           availabilityType: product.availabilityType,
         }).validate(availability)

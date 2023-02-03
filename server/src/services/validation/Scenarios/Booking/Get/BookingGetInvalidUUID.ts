@@ -1,17 +1,16 @@
 import { Scenario } from "../../Scenario.ts";
 import { InvalidBookingUUIDErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidBookingUUIDErrorValidator.ts";
 import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
-import { Config } from "../../../config/Config.ts";
 import descriptions from "../../../consts/descriptions.ts";
+import { Context } from "../../../context/Context.ts";
 
 export class BookingGetInvalidUUIDScenario implements Scenario {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private bookingGetScenarioHelper = new BookingGetScenarioHelper();
 
-  public validate = async () => {
-    const result = await this.apiClient.getBooking({
-      uuid: this.config.invalidUUID,
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
+    const result = await apiClient.getBooking({
+      uuid: context.invalidUUID,
     });
 
     const name = "Get Booking Invalid Booking UUID (400 INVALID_BOOKING_UUID)";

@@ -1,23 +1,23 @@
 import { Scenario } from "../../Scenario.ts";
 import { BookingExtendScenarioHelper } from "../../../helpers/BookingExtendScenarioHelper.ts";
-import { Config } from "../../../config/Config.ts";
 import descriptions from "../../../consts/descriptions.ts";
 import { Booker } from "../../../Booker.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
+import { Context } from "../../../context/Context.ts";
 
 export class BookingReservationExtendScenario implements Scenario {
   private booker = new Booker();
   private helper = new ScenarioHelper()
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private bookingExtendScenarioHelper = new BookingExtendScenarioHelper();
 
-  public validate = async () => {
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
     const name = `Extend Reservation`;
     const description = descriptions.bookingReservationExtend;
-    const [bookableProduct] = this.config.productConfig.availableProducts;
-    const resultReservation = await this.booker.createReservation(bookableProduct);
+    const [bookableProduct] = context.productConfig.availableProducts;
+    const resultReservation = await this.booker.createReservation(bookableProduct,
+      context);
     if (resultReservation.data === null) {
       return this.helper.handleResult({
         result: resultReservation,
@@ -26,7 +26,7 @@ export class BookingReservationExtendScenario implements Scenario {
         errors: [new ValidatorError({type: ErrorType.CRITICAL, message: 'Reservation Creation Failed'})],
       })
     }
-    const result = await this.apiClient.bookingExtend({
+    const result = await apiClient.bookingExtend({
       uuid: resultReservation.data.uuid,
       expirationMinutes: 31,
     });
@@ -37,7 +37,8 @@ export class BookingReservationExtendScenario implements Scenario {
         name,
         description,
       },
-      resultReservation.data
+      resultReservation.data,
+      context
     );
   };
 }

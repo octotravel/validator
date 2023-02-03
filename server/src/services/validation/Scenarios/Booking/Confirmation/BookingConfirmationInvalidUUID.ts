@@ -1,19 +1,17 @@
 import { Scenario } from "../../Scenario.ts";
 import { InvalidBookingUUIDErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidBookingUUIDErrorValidator.ts";
 import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper.ts";
-import { Config } from "../../../config/Config.ts";
 import descriptions from "../../../consts/descriptions.ts";
+import { Context } from "../../../context/Context.ts";
 
 export class BookingConfirmationInvalidUUIDScenario implements Scenario {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
-
   private bookingConfirmationScenarioHelper =
     new BookingConfirmationScenarioHelper();
 
-  public validate = async () => {
-    const result = await this.apiClient.bookingConfirmation({
-      uuid: this.config.invalidUUID,
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
+    const result = await apiClient.bookingConfirmation({
+      uuid: context.invalidUUID,
       contact: {},
     });
 

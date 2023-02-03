@@ -6,22 +6,23 @@ import { BookingUpdateContactScenario } from "../../Scenarios/Booking/Update/Boo
 import { BookingUpdateProductScenario } from "../../Scenarios/Booking/Update/BookingUpdateProduct.ts";
 import { BaseFlow } from "../BaseFlow.ts";
 import docs from "../../consts/docs.ts";
+import { Context } from "../../context/Context.ts";
 
 export class BookingUpdateFlow extends BaseFlow implements Flow {
   constructor() {
     super("Booking Update", docs.bookingUpdate);
   }
-  public validate = async (): Promise<FlowResult> => {
+  public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios: Scenario[] = [
       new BookingUpdateDateScenario(),
       new BookingUpdateUnitItemsScenario(),
       new BookingUpdateContactScenario(),
     ];
 
-    if (this.config.productConfig.isRebookAvailable) {
+    if (context.productConfig.isRebookAvailable) {
       scenarios.push(new BookingUpdateProductScenario());
     }
 
-    return this.validateScenarios(scenarios);
+    return this.validateScenarios(scenarios, context);
   };
 }

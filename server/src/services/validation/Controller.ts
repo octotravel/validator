@@ -11,11 +11,10 @@ import { ProductFlow } from "./Flows/Product/ProductFlow.ts";
 import { SupplierFlow } from "./Flows/Supplier/SupplierFlow.ts";
 import { CapabilitiesFlow } from "./Flows/Capabilites/CapabilitiesFlow.ts";
 import { Flow, FlowResult } from "./Flows/Flow.ts";
-import { Config } from "./config/Config.ts";
+import { Context } from "./context/Context.ts";
 
 export class ValidationController {
-  private config = Config.getInstance();
-  public validate = async (): Promise<FlowResult[]> => {
+  public validate = async (context: Context): Promise<FlowResult[]> => {
     const flows: Flow[] = [
       new CapabilitiesFlow(),
       new SupplierFlow(),
@@ -31,10 +30,12 @@ export class ValidationController {
       new BookingListFlow(),
     ];
     const results = [];
+    let index = 0;
     for await (const flow of flows) {
-      const result = await flow.validate();
+      console.log('flow', index++)
+      const result = await flow.validate(context);
       results.push(result);
-      if (this.config.terminateValidation) {
+      if (context.terminateValidation) {
         break;
       }
     }

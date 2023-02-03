@@ -4,18 +4,19 @@ import { BookingListResellerReferenceScenario } from "../../Scenarios/Booking/Li
 import { BookingListBadRequestScenario } from "../../Scenarios/Booking/List/BookingListBadRequest.ts";
 import { BaseFlow } from "../BaseFlow.ts";
 import docs from "../../consts/docs.ts";
+import { Context } from "../../context/Context.ts";
 
 export class BookingListFlow extends BaseFlow implements Flow {
   constructor() {
     super("List Bookings", docs.bookingList);
   }
 
-  public validate = async (): Promise<FlowResult> => {
+  public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios = [
       new BookingListSupplierReferenceScenario(),
       new BookingListResellerReferenceScenario(),
       new BookingListBadRequestScenario(),
     ];
-    return this.validateScenarios(scenarios);
+    return this.validateScenarios(scenarios, context);
   };
 }

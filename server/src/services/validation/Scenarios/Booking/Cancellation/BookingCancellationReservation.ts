@@ -1,28 +1,28 @@
 import { ValidatorError, ErrorType } from './../../../../../validators/backendValidator/ValidatorHelpers.ts';
 import { Scenario } from "../../Scenario.ts";
 import { BookingCancellationScenarioHelper } from "../../../helpers/BookingCancellationScenarioHelper.ts";
-import { Config } from "../../../config/Config.ts";
 import descriptions from "../../../consts/descriptions.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
+import { Context } from '../../../context/Context.ts';
 
 export class BookingCancellationReservationScenario
   implements Scenario
 {
   private helper = new ScenarioHelper()
   private booker = new Booker();
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private bookingCancellationScenarioHelper =
     new BookingCancellationScenarioHelper();
 
-  public validate = async () => {
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
     const name = `Booking Cancellation - Reservation`;
     const description = descriptions.bookingCancellationReservation;
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+    const [bookableProduct] = context.productConfig.availableProducts;
 
     const resultReservation = await this.booker.createReservation(
-      bookableProduct
+      bookableProduct,
+      context
     );
 
     if (resultReservation.data === null) {
@@ -35,7 +35,7 @@ export class BookingCancellationReservationScenario
     }
 
       
-    const result = await this.apiClient.cancelBooking({
+    const result = await apiClient.cancelBooking({
       uuid: resultReservation.data.uuid,
       reason: "Reason for cancellation",
     });
@@ -47,7 +47,8 @@ export class BookingCancellationReservationScenario
         name,
         description,
       },
-      resultReservation.data
+      resultReservation.data,
+      context
     );
   };
 }

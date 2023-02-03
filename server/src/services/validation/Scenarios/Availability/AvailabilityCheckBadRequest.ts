@@ -1,26 +1,25 @@
 import { DateHelper } from "../../../../helpers/DateHelper.ts";
 import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator.ts";
-import { Config } from "../../config/Config.ts";
 import descriptions from "../../consts/descriptions.ts";
+import { Context } from "../../context/Context.ts";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
 import { Scenario, ScenarioResult } from "../Scenario.ts";
 
 export class AvailabilityCheckBadRequestScenario
   implements Scenario
 {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private availabilityScenarioHelper = new AvailabilityScenarioHelper();
 
-  public validate = async (): Promise<ScenarioResult> => {
-    const [product] = this.config.productConfig.productsForAvailabilityCheck;
+  public validate = async (context: Context): Promise<ScenarioResult> => {
+    const apiClient = context.getApiClient();
+    const [product] = context.productConfig.productsForAvailabilityCheck;
     const availability =
-      this.config.productConfig.availability[product.availabilityType];
-    const result = await this.apiClient.getAvailability({
+      context.productConfig.availability[product.availabilityType];
+    const result = await apiClient.getAvailability({
       productId: product.id,
       optionId: product.options[0].id,
-      localDateStart: this.config.localDateStart,
-      localDateEnd: this.config.localDateEnd,
+      localDateStart: context.localDateStart,
+      localDateEnd: context.localDateEnd,
       localDate: DateHelper.getDate(availability.localDateTimeStart),
       availabilityIds: [availability.id],
     });

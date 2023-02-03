@@ -1,15 +1,12 @@
 import { Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Scenario } from "../Scenario.ts";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
-import { Config } from "../../config/Config.ts";
 import descriptions from "../../consts/descriptions.ts";
+import { Context } from "../../context/Context.ts";
 
 export class AvailabilityChecIntervalScenario
   implements Scenario
 {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
-
   private product: Product;
   private availabilityScenarioHelper = new AvailabilityScenarioHelper();
 
@@ -17,12 +14,13 @@ export class AvailabilityChecIntervalScenario
     this.product = product;
   }
 
-  public validate = async () => {
-    const result = await this.apiClient.getAvailability({
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
+    const result = await apiClient.getAvailability({
       productId: this.product.id,
       optionId: this.product.options[0].id,
-      localDateStart: this.config.localDateStart,
-      localDateEnd: this.config.localDateEnd,
+      localDateStart: context.localDateStart,
+      localDateEnd: context.localDateEnd,
     });
 
     const availabilities = result.data ?? [];
@@ -30,9 +28,9 @@ export class AvailabilityChecIntervalScenario
       availabilities[Math.floor(Math.random() * availabilities.length)] ?? null;
 
     if (randomAvailability === null) {
-      this.config.terminateValidation = true
+      context.terminateValidation = true
     }
-    this.config.productConfig.addAvailability = {
+    context.productConfig.addAvailability = {
       availabilityType: this.product.availabilityType,
       availability: randomAvailability
     };
@@ -45,7 +43,8 @@ export class AvailabilityChecIntervalScenario
         result,
         description,
       },
-      this.product
+      this.product,
+      context
     );
   };
 }

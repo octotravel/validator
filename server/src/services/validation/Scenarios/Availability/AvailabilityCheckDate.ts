@@ -1,13 +1,11 @@
 import { Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Scenario } from "../Scenario.ts";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
-import { Config } from "../../config/Config.ts";
 import { DateHelper } from "../../../../helpers/DateHelper.ts";
 import descriptions from "../../consts/descriptions.ts";
+import { Context } from "../../context/Context.ts";
 
 export class AvailabilityCheckDateScenario implements Scenario {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
 
   private product: Product;
   private availabilityScenarioHelper = new AvailabilityScenarioHelper();
@@ -16,9 +14,10 @@ export class AvailabilityCheckDateScenario implements Scenario {
     this.product = product;
   }
 
-  public validate = async () => {
-    const availability = this.config.productConfig.availability[this.product.availabilityType];
-    const result = await this.apiClient.getAvailability({
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
+    const availability = context.productConfig.availability[this.product.availabilityType];
+    const result = await apiClient.getAvailability({
       productId: this.product.id,
       optionId: this.product.options[0].id,
       localDate: DateHelper.getDate(availability.localDateTimeStart),
@@ -32,7 +31,8 @@ export class AvailabilityCheckDateScenario implements Scenario {
         result,
         description,
       },
-      this.product
+      this.product,
+      context
     );
   };
 }

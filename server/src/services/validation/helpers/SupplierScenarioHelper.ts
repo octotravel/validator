@@ -2,10 +2,12 @@ import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 import { SupplierValidator } from "../../../validators/backendValidator/Supplier/SupplierValidator.ts";
 import { Supplier } from "https://esm.sh/@octocloud/types@1.3.1";
 import { ScenarioResult } from "../Scenarios/Scenario.ts";
+import { Context } from "../context/Context.ts";
 
 export class SupplierScenarioHelper extends ScenarioHelper {
   public validateSupplier = (
-    data: ScenarioHelperData<Supplier>
+    data: ScenarioHelperData<Supplier>,
+    context: Context
   ): ScenarioResult => {
     const { result } = data;
     if (result?.response?.error) {
@@ -16,7 +18,7 @@ export class SupplierScenarioHelper extends ScenarioHelper {
       });
     }
     const errors = new SupplierValidator({
-      capabilities: this.config.getCapabilityIDs(),
+      capabilities: context.getCapabilityIDs(),
     }).validate(result.data);
     return this.handleResult({
       ...data,

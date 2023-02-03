@@ -5,13 +5,14 @@ import { BookingConfirmationInvalidUUIDScenario } from "../../Scenarios/Booking/
 import { BookingConfirmationInvalidUnitIdScenario } from "../../Scenarios/Booking/Confirmation/BookingConfirmationInvalidUnitId.ts";
 import { BaseFlow } from "../BaseFlow.ts";
 import docs from "../../consts/docs.ts";
+import { Context } from "../../context/Context.ts";
 
 export class BookingConfirmationFlow extends BaseFlow implements Flow {
   constructor() {
     super("Booking Confirmation", docs.bookingConfirmation);
   }
 
-  public validate = async (): Promise<FlowResult> => {
+  public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios = [
       new BookingConfirmationScenario(),
       new BookingConfirmationUnitItemUpdateScenario(),
@@ -19,6 +20,6 @@ export class BookingConfirmationFlow extends BaseFlow implements Flow {
       new BookingConfirmationInvalidUnitIdScenario(),
     ];
 
-    return this.validateScenarios(scenarios);
+    return this.validateScenarios(scenarios, context);
   };
 }

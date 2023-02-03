@@ -1,15 +1,14 @@
 import { Scenario } from "../Scenario.ts";
 import { SupplierScenarioHelper } from "../../helpers/SupplierScenarioHelper.ts";
-import { Config } from "../../config/Config.ts";
 import descriptions from "../../consts/descriptions.ts";
+import { Context } from "../../context/Context.ts";
 
 export class GetSupplierScenario implements Scenario {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private supplierScenarioHelper = new SupplierScenarioHelper();
 
-  public validate = async () => {
-    const result = await this.apiClient.getSupplier();
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
+    const result = await apiClient.getSupplier();
     const name = "Get Supplier";
     const description = descriptions.getSupplier;
 
@@ -17,6 +16,6 @@ export class GetSupplierScenario implements Scenario {
       result,
       name,
       description,
-    });
+    }, context);
   };
 }
