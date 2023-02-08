@@ -1,4 +1,4 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
+import { Booking, CapabilityId } from "https://esm.sh/@octocloud/types@1.3.1";
 import { CreateBookingSchema } from "../../schemas/Booking.ts";
 import { Result } from "./api/types.ts";
 import { Context } from "./context/Context.ts";
@@ -42,6 +42,13 @@ export class Booker {
       data.unitItems = unitItems;
     }
 
+    if (context.getCapabilityIDs().includes(CapabilityId.Pickups)) {
+      const option = product.options.find(option => option.id === optionId);
+      if (option?.pickupAvailable) {
+        data.pickupRequested = option.pickupAvailable;
+        data.pickupPointId = option.pickupPoints && option.pickupPoints[0] && option.pickupPoints[0].id;
+      }
+    }
     return apiClient.bookingReservation(data);
   };
 

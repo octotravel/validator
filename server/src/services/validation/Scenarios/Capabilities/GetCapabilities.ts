@@ -1,7 +1,6 @@
 import { Scenario } from "../Scenario.ts";
 import { CapabilitiesScenarioHelper } from "../../helpers/CapabilitiesScenarioHelper.ts";
 import descriptions from "../../consts/descriptions.ts";
-import { CapabilityId, Capability } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Context } from "../../context/Context.ts";
 
 export class GetCapabilitiesScenario implements Scenario {
@@ -14,13 +13,7 @@ export class GetCapabilitiesScenario implements Scenario {
     const description = descriptions.getCapabilities;
 
     if(result.data) {
-      const supportedCapabilities = [CapabilityId.Pricing];
-      const capabilities = result.data.map(capability => {
-        if (supportedCapabilities.includes(capability.id)) {
-          return capability;
-        }
-      }).filter(Boolean) as Capability[];
-      context.setCapabilities(capabilities);  
+      context.setCapabilities(result.data);  
     }
 
     return this.capabilitiesScenarioHelper.validateCapabilities({

@@ -117,6 +117,14 @@ export class BookingEndpointValidator {
       );
     }
 
+    if (schema?.pickupRequested) {
+      errors.push(
+        StringValidator.validate(`${this.path}.pickupPointId`, reservation?.pickupPointId, {
+          equalsTo: schema?.pickupPointId
+        })
+      )
+    }
+
     return errors.flatMap((v) => (v ? [v] : []));
   };
 

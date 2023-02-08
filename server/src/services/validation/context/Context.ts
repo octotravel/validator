@@ -59,9 +59,10 @@ export class Context implements IContext {
   }
 
   public setCapabilities = (capabilities: Capability[]): ValidatorError[] => {
+    const supportedCapabilities = [CapabilityId.Pricing, CapabilityId.Content, CapabilityId.Pickups]
     this.capabilities = capabilities.map((capability) => {
       return capability.id;
-    });
+    }).filter(capability => supportedCapabilities.includes(capability));
     return [];
   };
 
