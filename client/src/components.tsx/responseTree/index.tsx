@@ -79,7 +79,7 @@ const ResponseTree: FC<IListView> = ({ scenario, id }) => {
                       whiteSpace: 'pre',
                     }}
                   >
-                    <code>{!R.isNil(scenario.response?.body) && <ReponseTreeJson value={JSON.parse(scenario.response?.body ?? '')} />}</code>
+                    <code>{!R.isNil(scenario.response?.body) && <ReponseTreeJson value={scenario.response?.body} />}</code>
                   </pre>
                 ) : (
                   <pre
@@ -93,7 +93,7 @@ const ResponseTree: FC<IListView> = ({ scenario, id }) => {
                     }}
                   >
                     <code>
-                      {!R.isNil(scenario.response?.error) && <ReponseTreeJson value={JSON.parse(scenario.response?.error?.body ?? '')} />}
+                      {!R.isNil(scenario.response?.error) && <ReponseTreeJson value={scenario.response?.error?.body} />}
                     </code>
                   </pre>
                 )}
