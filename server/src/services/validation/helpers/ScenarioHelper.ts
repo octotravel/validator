@@ -59,24 +59,12 @@ export class ScenarioHelper {
         ];
       }
     }
-    let parsedResponseBody = '';
-    if (result.response?.body) {
-      try {
-        parsedResponseBody = JSON.parse(result.response.body);
-      } catch (e) {
-        console.log(e)
-        data.errors.push(new ValidatorError({
-          type: ErrorType.CRITICAL,
-          message: 'Endpoint returned invalid JSON'
-        }))
-      }
-    }
     const response: ResultResponse | null =
       result?.response === null
         ? null
         : {
             headers: result.response.headers,
-            body: parsedResponseBody,
+            body: result.response.body,
             status: result.response.status,
             error: result.response.error
               ? {
