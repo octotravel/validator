@@ -59,7 +59,7 @@ export class ScenarioHelper {
         ];
       }
 
-      if (!Boolean(errorExpected) && status < 200 || status >= 400) {
+      if (!Boolean(errorExpected) && (status < 200 || status >= 400)) {
         data.errors = [
           ...data.errors,
           new ValidatorError({
