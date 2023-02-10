@@ -7,6 +7,7 @@ export class ProductScenarioHelper extends ScenarioHelper {
   public validateProducts = (data: ScenarioHelperData<Product[]>) => {
     const { result } = data;
     if (result?.response?.error) {
+      this.config.terminateValidation = true;
       return this.handleResult({
         ...data,
         success: false,

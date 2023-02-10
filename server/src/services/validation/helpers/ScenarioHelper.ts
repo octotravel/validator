@@ -49,7 +49,8 @@ export class ScenarioHelper {
   public handleResult = <T>(data: ScenarioData<T>): ScenarioResult => {
     const { result } = data;
     if (result?.response?.error) {
-      if (result.response.error.status === STATUS_NOT_FOUND) {
+      const status = result.response.error.status
+      if (status === STATUS_NOT_FOUND) {
         data.errors = [
           ...data.errors,
           new ValidatorError({
@@ -58,7 +59,18 @@ export class ScenarioHelper {
           }),
         ];
       }
+
+      if (status < 200 || status >= 400) {
+        data.errors = [
+          ...data.errors,
+          new ValidatorError({
+            type: ErrorType.CRITICAL,
+            message: "Endpoint cannot be validated",
+          }),
+        ];
+      }
     }
+
     let parsedResponseBody = null;
     if (result.response?.body) {
       try {
