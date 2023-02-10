@@ -1,16 +1,15 @@
-import { Config } from "../../config/Config.ts";
 import descriptions from "../../consts/descriptions.ts";
+import { Context } from "../../context/Context.ts";
 import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper.ts";
 import { Scenario } from "../Scenario.ts";
 
 export class GetProductScenario implements Scenario {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private productScenarioHelper = new ProductScenarioHelper();
 
-  public validate = async () => {
-    const product = this.config.getProduct();
-    const result = await this.apiClient.getProduct({
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
+    const product = context.getProduct();
+    const result = await apiClient.getProduct({
       id: product.id,
     });
     const name = `Get Product`;
@@ -20,6 +19,6 @@ export class GetProductScenario implements Scenario {
       result,
       name,
       description,
-    });
+    }, context);
   };
 }

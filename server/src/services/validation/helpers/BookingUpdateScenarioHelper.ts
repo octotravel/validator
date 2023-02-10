@@ -1,13 +1,15 @@
 import { Booking, UpdateBookingBodySchema } from "https://esm.sh/@octocloud/types@1.3.1";
 import { BookingEndpointValidator } from "../../../validators/backendValidator/Booking/BookingEndpointValidator.ts";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
+import { Context } from "../context/Context.ts";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 
 export class BookingUpdateScenarioHelper extends ScenarioHelper {
   private bookingEndpointValidator = new BookingEndpointValidator();
   public validateBookingUpdate = (
     data: ScenarioHelperData<Booking>,
-    booking: Booking
+    booking: Booking,
+    context: Context
   ) => {
     const { result } = data;
     const bookingUpdated = result?.data;
@@ -35,7 +37,7 @@ export class BookingUpdateScenarioHelper extends ScenarioHelper {
         availabilityId: schema.availabilityId ?? booking.availabilityId,
       }),
       ...new BookingValidator({
-        capabilities: this.config.getCapabilityIDs(),
+        capabilities: context.getCapabilityIDs(),
       }).validate(booking),
     ];
     return this.handleResult({

@@ -1,4 +1,4 @@
-import { Config } from "../config/Config.ts";
+import { Context } from "../context/Context.ts";
 import {
   Scenario,
   ScenarioResult,
@@ -7,7 +7,6 @@ import {
 import { FlowResult } from "./Flow.ts";
 
 export abstract class BaseFlow {
-  protected config = Config.getInstance();
   private name: string;
   private docs: string;
   constructor(name: string, docs: string) {
@@ -48,12 +47,12 @@ export abstract class BaseFlow {
     };
   };
 
-  protected validateScenarios = async (scenarios: Scenario[]) => {
+  protected validateScenarios = async (scenarios: Scenario[], context: Context) => {
     const results = [];
     for await (const scenario of scenarios) {
-      const result = await scenario.validate();
+      const result = await scenario.validate(context);
       results.push(result);
-      if (this.config.terminateValidation) {
+      if (context.terminateValidation) {
         break;
       }
     }

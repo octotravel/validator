@@ -6,25 +6,26 @@ import { AvailabilityCalendarBadRequestScenario } from "../../Scenarios/Availabi
 import { BaseFlow } from "../BaseFlow.ts";
 import docs from "../../consts/docs.ts";
 import { Scenario } from "../../Scenarios/Scenario.ts";
+import { Context } from "../../context/Context.ts";
 
 export class AvailabilityCalendarFlow extends BaseFlow implements Flow {
   constructor() {
     super("Availability Calendar", docs.availabilityCalendar);
   }
 
-  public validate = async (): Promise<FlowResult> => {
+  public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios: Scenario[] = [
-      ...this.checkCalendarAvaialbility(),
+      ...this.checkCalendarAvaialbility(context),
       new AvailabilityCalendarInvalidProductScenario(),
       new AvailabilityCalendarInvalidOptionScenario(),
       new AvailabilityCalendarBadRequestScenario(),
     ];
-    return this.validateScenarios(scenarios);
+    return this.validateScenarios(scenarios, context);
   };
 
   private checkCalendarAvaialbility =
-    (): AvailabilityCalendarIntervalScenario[] => {
-      return this.config.productConfig.productsForAvailabilityCheck.map(
+    (context: Context): AvailabilityCalendarIntervalScenario[] => {
+      return context.productConfig.productsForAvailabilityCheck.map(
         (product: any) => new AvailabilityCalendarIntervalScenario(product)
       );
     };

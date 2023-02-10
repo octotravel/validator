@@ -1,4 +1,4 @@
-import { ProductConfig } from "./ProductConfig.ts";
+import { ProductContext } from "./ProductContext.ts";
 import { Capability, CapabilityId, Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { ValidationEndpoint } from "../../../schemas/Validation.ts";
 import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
@@ -10,47 +10,37 @@ export interface ErrorResult<T> {
   data: T | null;
   error: ValidatorError | null;
 }
-interface IConfig {
+interface IContext {
   setCapabilities(capabilities: Capability[]): ValidatorError[];
   getCapabilityIDs(): CapabilityId[];
   setProducts(products: Product[]): ValidatorError[];
   getProduct(): Product;
 }
-export class Config implements IConfig {
-  private static instance: Config;
-
-  private endpoint = ''
-  private apiKey = ''
-
+export class Context implements IContext {
+  private endpoint = '';
+  private apiKey = '';
   private capabilities: CapabilityId[] = [];
+  public _terminateValidation = false;
+
+  constructor(data: ValidationEndpoint) {
+    this.endpoint = data.backend.endpoint;
+    this.apiKey = data.backend.apiKey;
+    this.capabilities = [];
+    this._terminateValidation = false;
+  }
 
   public invalidProductId = "invalidProductId";
   public invalidOptionId = "invalidOptionId";
   public invalidAvailabilityId = "invalidAvailabilityId";
   public invalidUUID = "invalidUUID";
   public note = "Test Note";
-  public _terminateValidation = false;
 
   public localDateStart = DateHelper.getDate(new Date().toISOString());
   public localDateEnd = DateHelper.getDate(
     addDays(new Date(), 30).toISOString()
   );
 
-  public readonly productConfig = new ProductConfig();
-
-  public static getInstance = (): Config => {
-    if (!Config.instance) {
-      Config.instance = new Config();
-    }
-    return Config.instance;
-  };
-
-  public init = (data: ValidationEndpoint): void => {
-    this.endpoint = data.backend.endpoint;
-    this.apiKey = data.backend.apiKey;
-    this.capabilities = [];
-    this._terminateValidation = false;
-  };
+  public readonly productConfig = new ProductContext();
 
   public getApiClient = (): ApiClient => {
     return new ApiClient({

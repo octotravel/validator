@@ -59,7 +59,6 @@ export class Client {
     const requestBody = this.parseBody(request.body);
     const { data, text } = await this.parseResponse<T>(response);
     const resHeaders = this.transformHeaders(response.headers);
-    console.log(status);
     if (status === 200) {
       return {
         data,

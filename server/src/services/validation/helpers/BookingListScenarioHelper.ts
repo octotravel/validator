@@ -2,12 +2,13 @@ import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
 import { GetBookingsSchema } from "../../../schemas/Booking.ts";
 import { BookingEndpointValidator } from "../../../validators/backendValidator/Booking/BookingEndpointValidator.ts";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
+import { Context } from "../context/Context.ts";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 
 export class BookingListScenarioHelper extends ScenarioHelper {
   private bookingEndpointValidator = new BookingEndpointValidator();
 
-  public validateBookingList = (data: ScenarioHelperData<Booking[]>) => {
+  public validateBookingList = (data: ScenarioHelperData<Booking[]>, context: Context) => {
     const { result } = data;
     const bookings = result.data ?? [];
     const request = result?.request;
@@ -28,7 +29,7 @@ export class BookingListScenarioHelper extends ScenarioHelper {
       ...bookings
         .map(
           new BookingValidator({
-            capabilities: this.config.getCapabilityIDs(),
+            capabilities: context.getCapabilityIDs(),
           }).validate
         )
         .flat(),

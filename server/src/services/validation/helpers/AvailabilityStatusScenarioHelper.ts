@@ -2,12 +2,12 @@ import * as R from "https://esm.sh/ramda@0.28.0";
 import { Availability, AvailabilityStatus, Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { ScenarioHelper } from "./ScenarioHelper.ts";
 import { Result } from "../api/types.ts";
-import { ErrorResult } from "../config/Config.ts";
+import { Context, ErrorResult } from "../context/Context.ts";
 import {
   ErrorType,
   ValidatorError,
 } from "../../../validators/backendValidator/ValidatorHelpers.ts";
-import { ProductBookable } from "../config/ProductBookable.ts";
+import { ProductBookable } from "../context/ProductBookable.ts";
 import descriptions from "../consts/descriptions.ts";
 
 export interface AvailabilityScenarioData {
@@ -21,21 +21,21 @@ interface ProductResults {
 }
 
 export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
-  public validateAvailability = (data: AvailabilityScenarioData) => {
+  public validateAvailability = (data: AvailabilityScenarioData, context: Context) => {
     const errors: ValidatorError[] = [];
 
     const products = data.products;
-    const soldOutData = this.findSoldOutProduct(products);
+    const soldOutData = this.findSoldOutProduct(products, context);
     if (soldOutData.error !== null) {
       errors.push(soldOutData.error);
     } else if (soldOutData.data !== null) {
-      this.config.productConfig.soldOutProduct = soldOutData.data;
+      context.productConfig.soldOutProduct = soldOutData.data;
     }
-    const availableData = this.findAvailableProducts(products);
+    const availableData = this.findAvailableProducts(products, context);
     if (availableData.error !== null) {
       errors.push(availableData.error);
     } else if (availableData.data !== null) {
-      this.config.productConfig.availableProducts = availableData.data;
+      context.productConfig.availableProducts = availableData.data;
     }
     return this.handleResult({
       name: data.name,
@@ -50,7 +50,8 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
   };
 
   public findSoldOutProduct = (
-    data: ProductResults[]
+    data: ProductResults[],
+    context: Context
   ): ErrorResult<ProductBookable> => {
     const result =
       data.find(({ result }) => {
@@ -62,7 +63,7 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
       }) ?? null;
 
     if (result === null) {
-      this.config.terminateValidation = true;
+      context.terminateValidation = true;
       return {
         error: new ValidatorError({
           type: ErrorType.CRITICAL,
@@ -86,7 +87,8 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
   };
 
   public findAvailableProducts = (
-    data: ProductResults[]
+    data: ProductResults[],
+    context: Context
   ): ErrorResult<ProductBookable[]> => {
     const result =
       data.filter(({ result }) => {
@@ -105,7 +107,7 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
       }) ?? null;
 
     if (result.length < 1) {
-      this.config.terminateValidation = true;
+      context.terminateValidation = true;
       return {
         error: new ValidatorError({
           type: ErrorType.CRITICAL,

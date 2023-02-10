@@ -5,12 +5,14 @@ import {
   ScenarioHelper,
   ScenarioHelperData,
 } from "./ScenarioHelper.ts";
+import { Context } from "../context/Context.ts";
 
 export class BookingReservationScenarioHelper extends ScenarioHelper {
   private bookingEndpointValidator = new BookingEndpointValidator();
 
   public validateBookingReservation = (
     data: ScenarioHelperData<Booking>,
+    context: Context
   ) => {
     const { result } = data;
     const reservation = result?.data;
@@ -36,12 +38,12 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
         availabilityId: request?.body?.availabilityId,
       }),
       ...new BookingValidator({
-        capabilities: this.config.getCapabilityIDs(),
+        capabilities: context.getCapabilityIDs(),
       }).validate(result.data),
     ];
 
     if (!this.isSuccess(errors)) {
-      this.config.terminateValidation = true;
+      context.terminateValidation = true;
     }
     return this.handleResult({
       ...data,

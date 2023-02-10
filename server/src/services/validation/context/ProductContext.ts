@@ -6,7 +6,7 @@ import {
 } from "../../../validators/backendValidator/ValidatorHelpers.ts";
 import { ProductBookable } from "./ProductBookable.ts";
 
-export class ProductConfig {
+export class ProductContext {
   private _openingHourProducts: Product[] = [];
   private _startTimeProducts: Product[] = [];
   private _products: Product[] = [];

@@ -1,6 +1,7 @@
 import { Booking, CancelBookingBodySchema } from "https://esm.sh/@octocloud/types@1.3.1";
 import { BookingEndpointValidator } from "../../../validators/backendValidator/Booking/BookingEndpointValidator.ts";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
+import { Context } from "../context/Context.ts";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 
 export class BookingCancellationScenarioHelper extends ScenarioHelper {
@@ -8,7 +9,8 @@ export class BookingCancellationScenarioHelper extends ScenarioHelper {
 
   public validateBookingCancellation = (
     data: ScenarioHelperData<Booking>,
-    booking: Booking
+    booking: Booking,
+    context: Context
   ) => {
     const { result } = data;
     const bookingCancelled = result?.data;
@@ -35,7 +37,7 @@ export class BookingCancellationScenarioHelper extends ScenarioHelper {
         availabilityId: booking?.availabilityId,
       }),
       ...new BookingValidator({
-        capabilities: this.config.getCapabilityIDs(),
+        capabilities: context.getCapabilityIDs(),
       }).validate(booking),
     ];
 

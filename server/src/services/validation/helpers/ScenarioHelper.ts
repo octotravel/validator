@@ -7,7 +7,6 @@ import {
   ValidatorError,
 } from "../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Result, ResultResponse } from "../api/types.ts";
-import { Config } from "../config/Config.ts";
 import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario.ts";
 
 interface ScenarioData<T> {
@@ -31,7 +30,6 @@ export interface ScenarioConfigData {
 }
 
 export class ScenarioHelper {
-  protected config = Config.getInstance();
   private getValidationResult = <T>(
     data: ScenarioData<T>
   ): ValidationResult => {

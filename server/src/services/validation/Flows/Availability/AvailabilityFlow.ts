@@ -1,4 +1,4 @@
-import { Config } from "../../config/Config.ts";
+import { Context } from "../../context/Context.ts";
 import docs from "../../consts/docs.ts";
 import { AvailabilityCheckAvailabilityIdScenario } from "../../Scenarios/Availability/AvailabilityCheckAvailabilityId.ts";
 import { AvailabilityCheckBadRequestScenario } from "../../Scenarios/Availability/AvailabilityCheckBadRequest.ts";
@@ -11,55 +11,54 @@ import { BaseFlow } from "../BaseFlow.ts";
 import { Flow, FlowResult } from "../Flow.ts";
 
 export class AvailabilityFlow extends BaseFlow implements Flow {
-  public config = Config.getInstance();
   constructor() {
     super("Availability Check", docs.availabilityCheck);
   }
 
-  public validate = async (): Promise<FlowResult> => {
+  public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios = [
-      ...this.checkInterval(),
-      ...this.checkDate(),
-      ...this.checkAvailabilityID(),
-      ...this.checkAvailabilityStatus(),
+      ...this.checkInterval(context),
+      ...this.checkDate(context),
+      ...this.checkAvailabilityID(context),
+      ...this.checkAvailabilityStatus(context),
       new AvailabilityCheckInvalidProductScenario(),
       new AvailabilityCheckInvalidOptionScenario(),
       new AvailabilityCheckBadRequestScenario(),
     ];
-    return this.validateScenarios(scenarios);
+    return this.validateScenarios(scenarios, context);
   };
 
-  private checkInterval = () => {
-    return this.config.productConfig.productsForAvailabilityCheck.map(
+  private checkInterval = (context: Context) => {
+    return context.productConfig.productsForAvailabilityCheck.map(
       (product) => new AvailabilityChecIntervalScenario(product)
     );
   };
 
-  private checkDate = () => {
-    return this.config.productConfig.productsForAvailabilityCheck.map(
+  private checkDate = (context: Context) => {
+    return context.productConfig.productsForAvailabilityCheck.map(
       (product) => new AvailabilityCheckDateScenario(product)
     );
   };
 
-  private checkAvailabilityID = () => {
-    return this.config.productConfig.productsForAvailabilityCheck.map(
+  private checkAvailabilityID = (context: Context) => {
+    return context.productConfig.productsForAvailabilityCheck.map(
       (product) => new AvailabilityCheckAvailabilityIdScenario(product)
     );
   };
 
-  private checkAvailabilityStatus = () => {
+  private checkAvailabilityStatus = (context: Context) => {
     const scenarios = [];
-    if (this.config.productConfig.hasStartTimeProducts) {
+    if (context.productConfig.hasStartTimeProducts) {
       scenarios.push(
         new AvailabilityCheckStatusScenario(
-          this.config.productConfig.startTimeProducts
+          context.productConfig.startTimeProducts
         )
       );
     }
-    if (this.config.productConfig.hasOpeningHourProducts) {
+    if (context.productConfig.hasOpeningHourProducts) {
       scenarios.push(
         new AvailabilityCheckStatusScenario(
-          this.config.productConfig.openingHourProducts
+          context.productConfig.openingHourProducts
         )
       );
     }

@@ -1,25 +1,25 @@
 import { Scenario } from "../../Scenario.ts";
 import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper.ts";
-import { Config } from "../../../config/Config.ts";
 import descriptions from "../../../consts/descriptions.ts";
 import { Booker } from "../../../Booker.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
+import { Context } from "../../../context/Context.ts";
 
 export class BookingConfirmationScenario implements Scenario {
   private helper = new ScenarioHelper()
   private booker = new Booker();
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
   private bookingConfirmationScenarioHelper =
     new BookingConfirmationScenarioHelper();
 
-  public validate = async () => {
+  public validate = async (context: Context) => {
+    const apiClient = context.getApiClient();
     const name = `Booking Confirmation`;
     const description = descriptions.bookingConfirmation;
-    const [bookableProduct] = this.config.productConfig.availableProducts;
+    const [bookableProduct] = context.productConfig.availableProducts;
 
-    const resultReservation = await this.booker.createReservation(bookableProduct);
+    const resultReservation = await this.booker.createReservation(bookableProduct,
+      context);
     if (resultReservation.data === null) {
       return this.helper.handleResult({
         result: resultReservation,
@@ -29,7 +29,7 @@ export class BookingConfirmationScenario implements Scenario {
       })
     }
 
-    const result = await this.apiClient.bookingConfirmation({
+    const result = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       contact: {
         firstName: "John",
@@ -47,7 +47,8 @@ export class BookingConfirmationScenario implements Scenario {
         name,
         description,
       },
-      resultReservation.data
+      resultReservation.data,
+      context
     );
   };
 }

@@ -3,6 +3,7 @@ import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
 import { Scenario } from "../../Scenario.ts";
 import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
 import descriptions from "../../../consts/descriptions.ts";
+import { Context } from "../../../context/Context.ts";
 
 export class BookingReservationScenario implements Scenario {
   private result: Result<Booking>;
@@ -11,7 +12,7 @@ export class BookingReservationScenario implements Scenario {
   }
   private bookingReservationScenarioHelper =
     new BookingReservationScenarioHelper();
-  public validate = async () => {
+  public validate = async (context: Context) => {
     const name = `Booking Reservation`;
     const description = descriptions.bookingReservation;
 
@@ -21,6 +22,7 @@ export class BookingReservationScenario implements Scenario {
         name,
         description,
       },
+      context
     );
   };
 }

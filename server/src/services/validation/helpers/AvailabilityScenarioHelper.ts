@@ -3,14 +3,16 @@ import * as R from "https://esm.sh/ramda@0.28.0";
 import { Availability, Product } from "https://esm.sh/@octocloud/types@1.3.1";
 import { AvailabilityValidator } from "../../../validators/backendValidator/Availability/AvailabilityValidator.ts";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
+import { Context } from '../context/Context.ts';
 
 export class AvailabilityScenarioHelper extends ScenarioHelper {
   public validateAvailability = (
     data: ScenarioHelperData<Availability[]>,
-    product: Product
+    product: Product,
+    context: Context
   ) => {
     const validator = new AvailabilityValidator({
-      capabilities: this.config.getCapabilityIDs(),
+      capabilities: context.getCapabilityIDs(),
       availabilityType: product.availabilityType,
     });
     const { result } = data;

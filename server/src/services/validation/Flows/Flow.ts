@@ -1,7 +1,8 @@
 import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario.ts";
+import { Context } from "../context/Context.ts";
 
 export interface Flow {
-  validate: () => Promise<FlowResult>;
+  validate: (context: Context) => Promise<FlowResult>;
 }
 
 export interface FlowResult {

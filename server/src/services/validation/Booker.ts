@@ -1,8 +1,8 @@
 import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
 import { CreateBookingSchema } from "../../schemas/Booking.ts";
 import { Result } from "./api/types.ts";
-import { Config } from "./config/Config.ts";
-import { ProductBookable } from "./config/ProductBookable.ts";
+import { Context } from "./context/Context.ts";
+import { ProductBookable } from "./context/ProductBookable.ts";
 
 interface CreateReservationParams {
   invalidProductId?: boolean;
@@ -15,22 +15,22 @@ interface CreateReservationParams {
   unitItemsQuantity?: number;
 }
 export class Booker {
-  private config = Config.getInstance();
-  private apiClient = this.config.getApiClient();
 
   public createReservation = (
     productBookable: ProductBookable,
-    params?: CreateReservationParams
+    context: Context,
+    params?: CreateReservationParams,
   ): Promise<Result<Booking>> => {
+    const apiClient = context.getApiClient();
     const { product } = productBookable;
 
     const productId = params?.invalidProductId
-      ? this.config.invalidProductId
+      ? context.invalidProductId
       : product.id;
     const optionId = params?.invalidOptionId
-      ? this.config.invalidOptionId
+      ? context.invalidOptionId
       : productBookable.getOption().id;
-    const availabilityId = this.getAvailabilityId(productBookable, params);
+    const availabilityId = this.getAvailabilityId(productBookable, context, params);
     const unitItems = this.getUnitItems(productBookable, params);
 
     const data = {
@@ -42,15 +42,16 @@ export class Booker {
       data.unitItems = unitItems;
     }
 
-    return this.apiClient.bookingReservation(data);
+    return apiClient.bookingReservation(data);
   };
 
   private getAvailabilityId(
     productBookable: ProductBookable,
+    context: Context,
     params?: CreateReservationParams
   ) {
     if (params?.invalidAvailabilityId) {
-      return this.config.invalidAvailabilityId;
+      return context.invalidAvailabilityId;
     } else if (params?.soldOutAvailability) {
       return productBookable.availabilityIdSoldOut;
     }
