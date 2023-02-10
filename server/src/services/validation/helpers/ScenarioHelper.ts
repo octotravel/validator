@@ -15,6 +15,7 @@ interface ScenarioData<T> {
   result: Result<T>;
   errors: ValidatorError[];
   description: string;
+  errorExpected?: boolean;
 }
 
 export interface ScenarioHelperData<T> {
@@ -45,7 +46,7 @@ export class ScenarioHelper {
   };
 
   public handleResult = <T>(data: ScenarioData<T>): ScenarioResult => {
-    const { result } = data;
+    const { result, errorExpected } = data;
     if (result?.response?.error) {
       const status = result.response.error.status
       if (status === STATUS_NOT_FOUND) {
@@ -58,7 +59,7 @@ export class ScenarioHelper {
         ];
       }
 
-      if (status < 200 || status >= 400) {
+      if (!Boolean(errorExpected) && status < 200 || status >= 400) {
         data.errors = [
           ...data.errors,
           new ValidatorError({
@@ -133,6 +134,7 @@ export class ScenarioHelper {
     return this.handleResult({
       ...data,
       success: this.isSuccess(errors),
+      errorExpected: true,
       errors: errors,
     });
   };
