@@ -13,16 +13,6 @@ export class GetCapabilitiesScenario implements Scenario {
     const name = "Get Capabilities";
     const description = descriptions.getCapabilities;
 
-    if(result.data) {
-      const supportedCapabilities = [CapabilityId.Pricing];
-      const capabilities = result.data.map(capability => {
-        if (supportedCapabilities.includes(capability.id)) {
-          return capability;
-        }
-      }).filter(Boolean) as Capability[];
-      context.setCapabilities(capabilities);  
-    }
-
     return this.capabilitiesScenarioHelper.validateCapabilities({
       result,
       name,

@@ -47,7 +47,8 @@ export class ScenarioHelper {
   public handleResult = <T>(data: ScenarioData<T>): ScenarioResult => {
     const { result } = data;
     if (result?.response?.error) {
-      if (result.response.error.status === STATUS_NOT_FOUND) {
+      const status = result.response.error.status
+      if (status === STATUS_NOT_FOUND) {
         data.errors = [
           ...data.errors,
           new ValidatorError({
@@ -56,17 +57,57 @@ export class ScenarioHelper {
           }),
         ];
       }
+
+      if (status < 200 || status >= 400) {
+        data.errors = [
+          ...data.errors,
+          new ValidatorError({
+            type: ErrorType.CRITICAL,
+            message: "Endpoint cannot be validated",
+          }),
+        ];
+      }
     }
+
+    let parsedResponseBody = null;
+    if (result.response?.body) {
+      try {
+        parsedResponseBody = JSON.parse(result.response.body)
+      } catch (e) {
+        data.errors = [
+          ...data.errors,
+          new ValidatorError({
+            type: ErrorType.CRITICAL,
+            message: `Endpoint response cannot be parsed: ${e}`
+          })
+        ]
+      }
+    };
+
+    let parsedResponseErrorBody = null;
+    if (result.response?.error?.body) {
+      try {
+        parsedResponseErrorBody = JSON.parse(result.response.error.body)
+      } catch (e) {
+        data.errors = [
+          ...data.errors,
+          new ValidatorError({
+            type: ErrorType.CRITICAL,
+            message: `Endpoint response cannot be parsed: ${e}`
+          })
+        ]
+      }
+    };
     const response: ResultResponse | null =
       result?.response === null
         ? null
         : {
             headers: result.response.headers,
-            body: JSON.parse(result.response.body ?? ''),
+            body: parsedResponseBody,
             status: result.response.status,
             error: result.response.error
               ? {
-                  body: result.response.error.body,
+                  body: parsedResponseErrorBody,
                   status: result.response.status,
                 }
               : null,

@@ -69,10 +69,10 @@ export class BookingPickupValidator implements ModelValidator {
           booking?.pickupPoint?.longitude,
           { nullable: true }
         ),
-        CommonValidator.validateLocalDateTime(
-          `${this.path}.booking.pickupPoint.localDateTime`,
-          booking.pickupPoint.localDateTime
-        ),
+        // CommonValidator.validateLocalDateTime(
+        //   `${this.path}.booking.pickupPoint.localDateTime`,
+        //   booking.pickupPoint.localDateTime
+        // ),
         StringValidator.validate(
           `${this.path}.booking.pickupPoint.googlePlaceId`,
           booking?.pickupPoint?.googlePlaceId,
