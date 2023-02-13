@@ -93,7 +93,7 @@ const ResponseTree: FC<IListView> = ({ scenario, id }) => {
                     }}
                   >
                     <code>
-                      {!R.isNil(scenario.response?.error) && <ReponseTreeJson value={JSON.parse(scenario.response?.error?.body ?? '')} />}
+                      {!R.isNil(scenario.response?.error) && <ReponseTreeJson value={scenario.response?.error?.body} />}
                     </code>
                   </pre>
                 )}

@@ -30,9 +30,7 @@ export class ValidationController {
       new BookingListFlow(),
     ];
     const results = [];
-    let index = 0;
     for await (const flow of flows) {
-      console.log('flow', index++)
       const result = await flow.validate(context);
       results.push(result);
       if (context.terminateValidation) {
