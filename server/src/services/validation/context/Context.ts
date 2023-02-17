@@ -1,5 +1,5 @@
 import { ProductContext } from "./ProductContext.ts";
-import { Capability, CapabilityId, Product } from "https://esm.sh/@octocloud/types@1.4.8";
+import { Capability, CapabilityId, Product } from "@octocloud/types";
 import { ValidationEndpoint } from "../../../schemas/Validation.ts";
 import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
 import { ApiClient } from "../api/ApiClient.ts";

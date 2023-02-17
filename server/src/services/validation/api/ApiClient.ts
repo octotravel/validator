@@ -19,7 +19,7 @@ import {
   Supplier,
   UpdateBookingBodySchema,
   UpdateBookingPathParamsSchema,
-} from "https://esm.sh/@octocloud/types@1.4.8";
+} from "@octocloud/types";
 import { CreateBookingSchema } from "../../../schemas/Booking.ts";
 import { Client } from "./Client.ts";
 import { Result } from "./types.ts";

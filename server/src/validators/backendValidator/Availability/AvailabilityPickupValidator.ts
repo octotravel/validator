@@ -1,4 +1,4 @@
-import { Availability, PickupPoint } from "https://esm.sh/@octocloud/types@1.4.8";
+import { Availability, PickupPoint } from "@octocloud/types";
 import {
   StringValidator,
   ModelValidator,

@@ -1,4 +1,4 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.4.8";
+import { Booking } from "@octocloud/types";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
 import { Context } from "../context/Context.ts";
 import {

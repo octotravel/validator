@@ -1,4 +1,4 @@
-import { AvailabilityType, OpeningHours } from "https://esm.sh/@octocloud/types@1.4.8";
+import { AvailabilityType, OpeningHours } from "@octocloud/types";
 import {
   ArrayValidator,
   RegExpValidator,

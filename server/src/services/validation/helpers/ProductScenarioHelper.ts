@@ -1,5 +1,5 @@
 import { ProductValidator } from "./../../../validators/backendValidator/Product/ProductValidator.ts";
-import { Product } from "https://esm.sh/@octocloud/types@1.4.8";
+import { Product } from "@octocloud/types";
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Context } from "../context/Context.ts";

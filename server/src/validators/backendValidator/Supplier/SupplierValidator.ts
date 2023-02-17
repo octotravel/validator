@@ -1,4 +1,4 @@
-import { CapabilityId, Supplier } from "https://esm.sh/@octocloud/types@1.4.8";
+import { CapabilityId, Supplier } from "@octocloud/types";
 import {
   ModelValidator,
   StringValidator,

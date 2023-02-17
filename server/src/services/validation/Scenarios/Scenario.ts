@@ -1,4 +1,4 @@
-import { Availability, Product } from "https://esm.sh/@octocloud/types@1.4.8";
+import { Availability, Product } from "@octocloud/types";
 import { Context } from "../context/Context.ts";
 
 export interface Scenario {

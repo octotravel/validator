@@ -1,6 +1,6 @@
 import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
 import { SupplierValidator } from "../../../validators/backendValidator/Supplier/SupplierValidator.ts";
-import { Supplier } from "https://esm.sh/@octocloud/types@1.4.8";
+import { Supplier } from "@octocloud/types";
 import { ScenarioResult } from "../Scenarios/Scenario.ts";
 import { Context } from "../context/Context.ts";
 

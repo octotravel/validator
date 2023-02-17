@@ -1,6 +1,6 @@
 import { Scenario } from "../Scenario.ts";
 import { AvailabilityStatusScenarioHelper } from "../../helpers/AvailabilityStatusScenarioHelper.ts";
-import { Product } from "https://esm.sh/@octocloud/types@1.4.8";
+import { Product } from "@octocloud/types";
 import { Context } from "../../context/Context.ts";
 
 export class AvailabilityCheckStatusScenario implements Scenario {
