@@ -146,7 +146,7 @@ export class BookingValidator implements ModelValidator {
         `${this.path}.availabilityId`,
         booking?.availabilityId
       ),
-      CommonValidator.validateLocalDateTime(
+      StringValidator.validate(
         `${this.path}.availability.id`,
         booking?.availability?.id
       ),
