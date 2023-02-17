@@ -7,7 +7,7 @@ import {
   ConfirmBookingBodySchema,
   UpdateBookingBodySchema,
   CancelBookingBodySchema,
-} from "https://esm.sh/@octocloud/types@1.3.1";
+} from "https://esm.sh/@octocloud/types@1.4.8";
 import {
   ArrayValidator,
   ErrorType,

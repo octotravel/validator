@@ -1,4 +1,4 @@
-import { Contact } from "https://esm.sh/@octocloud/types@1.3.1";
+import { Contact } from "https://esm.sh/@octocloud/types@1.4.8";
 import {
   ModelValidator,
   StringArrayValidator,

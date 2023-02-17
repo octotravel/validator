@@ -1,4 +1,4 @@
-import { BookingContactSchema } from "https://esm.sh/@octocloud/types@1.3.1";
+import { BookingContactSchema } from "https://esm.sh/@octocloud/types@1.4.8";
 import { Scenario } from "../../Scenario.ts";
 import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
 import descriptions from "../../../consts/descriptions.ts";

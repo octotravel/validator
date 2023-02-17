@@ -6,7 +6,7 @@ import {
   DeliveryMethod,
   RedemptionMethod,
   AvailabilityType,
-} from "https://raw.githubusercontent.com/octotravel/octo-types/main/src/index.ts"
+} from "https://esm.sh/@octocloud/types@1.4.8";
 import { OptionValidator } from "../Option/OptionValidator.ts";
 import {
   StringValidator,

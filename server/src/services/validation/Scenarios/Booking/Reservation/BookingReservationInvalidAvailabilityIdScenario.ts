@@ -1,7 +1,7 @@
 import { InvalidAvailabilityIdErrorValidator } from "./../../../../../validators/backendValidator/Error/InvalidAvailabilityIdErrorValidator.ts";
 import { Scenario } from "../../Scenario.ts";
 import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
-import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
+import { Booking } from "https://esm.sh/@octocloud/types@1.4.8";
 import { Result } from "../../../api/types.ts";
 import descriptions from "../../../consts/descriptions.ts";
 

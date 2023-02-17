@@ -1,4 +1,4 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.3.1";
+import { Booking } from "https://esm.sh/@octocloud/types@1.4.8";
 import { CommonValidator } from "../../CommonValidator.ts";
 import { NullValidator } from "../../ValidatorHelpers.ts";
 import { ModelValidator, ValidatorError } from "./../../ValidatorHelpers.ts";
