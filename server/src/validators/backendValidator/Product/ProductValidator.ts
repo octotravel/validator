@@ -6,7 +6,7 @@ import {
   DeliveryMethod,
   RedemptionMethod,
   AvailabilityType,
-} from "https://esm.sh/@octocloud/types@1.3.1";
+} from "@octocloud/types";
 import { OptionValidator } from "../Option/OptionValidator.ts";
 import {
   StringValidator,
@@ -86,7 +86,7 @@ export class ProductValidator implements ModelValidator {
       EnumValidator.validate(
         `${this.path}.redemptionMethod`,
         product?.redemptionMethod,
-        [RedemptionMethod.DIGITAL, RedemptionMethod.PRINT]
+        [RedemptionMethod.DIGITAL, RedemptionMethod.PRINT, RedemptionMethod.MANIFEST]
       ),
       ...this.validateOptions(product),
 

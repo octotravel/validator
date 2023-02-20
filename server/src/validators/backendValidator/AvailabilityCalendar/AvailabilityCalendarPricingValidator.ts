@@ -1,4 +1,4 @@
-import { PricingUnit, Pricing, AvailabilityCalendar } from "https://esm.sh/@octocloud/types@1.3.1";
+import { PricingUnit, Pricing, AvailabilityCalendar } from "@octocloud/types";
 import {
   StringValidator,
   ModelValidator,

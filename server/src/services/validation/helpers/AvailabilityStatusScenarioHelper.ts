@@ -1,5 +1,5 @@
 import * as R from "https://esm.sh/ramda@0.28.0";
-import { Availability, AvailabilityStatus, Product } from "https://esm.sh/@octocloud/types@1.3.1";
+import { Availability, AvailabilityStatus, Product } from "@octocloud/types";
 import { ScenarioHelper } from "./ScenarioHelper.ts";
 import { Result } from "../api/types.ts";
 import { Context, ErrorResult } from "../context/Context.ts";
