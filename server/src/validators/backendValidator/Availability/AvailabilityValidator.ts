@@ -46,7 +46,6 @@ export class AvailabilityValidator implements ModelValidator {
   public validate = (availability: Availability): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.id`, availability?.id),
-      this.validateLocalDateTime(`${this.path}.id`, availability?.id),
 
       StringValidator.validate(
         `${this.path}.localDateTimeStart`,
