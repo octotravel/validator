@@ -4,7 +4,7 @@ import {
   Booking,
   BookingStatus,
   DeliveryMethod,
-} from "https://esm.sh/@octocloud/types@1.3.1";
+} from "@octocloud/types";
 import { BookingStateValidator } from "./BookingState/BookingStateValidator.ts";
 import { OptionValidator } from "../Option/OptionValidator.ts";
 import { ProductValidator } from "../Product/ProductValidator.ts";
@@ -146,7 +146,7 @@ export class BookingValidator implements ModelValidator {
         `${this.path}.availabilityId`,
         booking?.availabilityId
       ),
-      CommonValidator.validateLocalDateTime(
+      StringValidator.validate(
         `${this.path}.availability.id`,
         booking?.availability?.id
       ),

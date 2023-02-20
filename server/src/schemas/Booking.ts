@@ -23,7 +23,7 @@ import {
   getBookingPathParamsSchema,
   GetBookingsQueryParamsSchema,
   getBookingsQueryParamsSchema,
-} from "https://esm.sh/@octocloud/types@1.3.1";
+} from "@octocloud/types";
 
 export interface GetBookingSchema extends GetBookingPathParamsSchema {}
 

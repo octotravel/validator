@@ -1,6 +1,7 @@
 import { Scenario } from "../Scenario.ts";
 import { CapabilitiesScenarioHelper } from "../../helpers/CapabilitiesScenarioHelper.ts";
 import descriptions from "../../consts/descriptions.ts";
+import { CapabilityId, Capability } from "@octocloud/types";
 import { Context } from "../../context/Context.ts";
 
 export class GetCapabilitiesScenario implements Scenario {
