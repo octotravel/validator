@@ -9,14 +9,14 @@ import {
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { Context } from "./services/validation/context/Context.ts";
-import * as octoCore from "https://raw.githubusercontent.com/octotravel/octo-core/master/src/index.ts";
+import { RequestContext } from "https://raw.githubusercontent.com/octotravel/octo-core/master/src/models/RequestContext.ts";
 
 const router = new Router();
-const logger = new octoCore.NullRequestLogger();
+const logger = {};
 
 router
   .post("/validate", async (ctx) => {
-    const rctx = new octoCore.RequestContext({
+    const rctx = new RequestContext({
       request: new Request(ctx.request.url, {
         headers: ctx.request.headers,
         body: await ctx.request.body().value
@@ -55,10 +55,10 @@ router
       }
     }
 
-    logger.logRequest(rctx.getRequestData(new Response(JSON.stringify(ctx.response.body), {
-      headers: ctx.response.headers,
-      status: ctx.response.status
-    })), rctx);
+    // logger.logRequest(rctx.getRequestData(new Response(JSON.stringify(ctx.response.body), {
+    //   headers: ctx.response.headers,
+    //   status: ctx.response.status
+    // })), rctx);
   });
 const app = new Application();
 app.use(oakCors()); // Enable CORS for All Routes
