@@ -18,7 +18,7 @@ export class BookingUpdateDateScenario implements Scenario {
     const name = `Booking Update - Change Date`;
     const description = descriptions.bookingUpdateDate;
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -38,9 +38,7 @@ export class BookingUpdateDateScenario implements Scenario {
       availabilityId: bookableProduct.getAvialabilityID({
         omitID: resultReservation.data.availabilityId,
       }),
-    });
-
-    context.subrequestMapper.map(result, context, date);
+    }, context);
 
     return this.bookingUpdateScenarioHelper.validateBookingUpdate(
       {

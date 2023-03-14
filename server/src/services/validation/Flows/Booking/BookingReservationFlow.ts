@@ -12,7 +12,6 @@ import { Scenario } from "../../Scenarios/Scenario.ts";
 import { Booker } from "../../Booker.ts";
 import docs from "../../consts/docs.ts";
 import { Context } from "../../context/Context.ts";
-import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 
 export class BookingReservationFlow extends BaseFlow implements Flow {
   private booker = new Booker();
@@ -36,45 +35,45 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
 
   private reserveAvailableProduct = async (context: Context): Promise<Scenario> => {
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct, context);
-    context.subrequestMapper.map(result, context, date);
+    
     return new BookingReservationScenario({ result });
   };
 
   private reserveSoldOutProduct = async (context: Context): Promise<Scenario> => {
     const bookableProduct = context.productConfig.soldOutProduct;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct,
       context,
        {
       soldOutAvailability: true,
     });
-    context.subrequestMapper.map(result, context, date);
+    
     return new BookingReservationSoldOutScenario({ result });
   };
 
   private reserveInvalidProduct = async (context: Context): Promise<Scenario> => {
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct,
       context,
         {
       invalidProductId: true,
     });
-    context.subrequestMapper.map(result, context, date);
+    
     return new BookingReservationInvalidProductScenario({ result });
   };
 
   private reserveInvalidOption = async (context: Context): Promise<Scenario> => {
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct,
       context,
         {
       invalidOptionId: true,
     });
-    context.subrequestMapper.map(result, context, date);
+    
     return new BookingReservationInvalidOptionScenario({
       result,
     });
@@ -84,13 +83,13 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     Scenario
   > => {
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct,
       context,
         {
       invalidAvailabilityId: true,
     });
-    context.subrequestMapper.map(result, context, date);
+    
     return new BookingReservationInvalidAvailabilityIdScenario({
       result,
     });
@@ -100,13 +99,13 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     Scenario
   > => {
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct,
       context,
         {
       unitItemsMissing: true,
     });
-    context.subrequestMapper.map(result, context, date);
+    
     return new BookingReservationMissingUnitItemsScenario({
       result,
     });
@@ -114,13 +113,13 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
 
   private reserveWithEmptyUnitItems = async (context: Context): Promise<Scenario> => {
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct,
       context,
         {
       unitItemsEmpty: true,
     });
-    context.subrequestMapper.map(result, context, date);
+    
     return new BookingReservationEmptyUnitItemsScenario({ result });
   };
 
@@ -128,14 +127,14 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
     Scenario
   > => {
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const result = await this.booker.createReservation(bookableProduct,
       context,
         {
       invalidUnitItems: true,
     });
 
-    context.subrequestMapper.map(result, context, date);
+    
 
     return new BookingReservationInvalidUnitIdScenario({
       result,

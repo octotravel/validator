@@ -50,15 +50,15 @@ export class SupabaseLogger {
         : null;
       return {
         request: {
-          url: subrequest.request.url,
-          method: subrequest.request.method,
+          url: subrequest.request?.url,
+          method: subrequest.request?.method,
           body: await this.parseBody(subrequest.request),
-          headers: this.transformHeaders(subrequest.request.headers),
+          headers: this.transformHeaders(subrequest.request?.headers),
         },
         response: {
-          status: subrequest.response.status,
+          status: subrequest.response?.status,
           body: await this.parseBody(subrequest.response),
-          headers: this.transformHeaders(subrequest.response.headers),
+          headers: this.transformHeaders(subrequest.response?.headers),
           duration: subrequest.metadata.duration,
           error,
         },
@@ -67,11 +67,13 @@ export class SupabaseLogger {
     return Promise.all(promises);
   };
 
-  private transformHeaders = (headers: Headers): { [key: string]: string } => {
+  private transformHeaders = (headers?: Headers): { [key: string]: string } => {
     const obj: { [key: string]: string } = {};
-    headers.forEach((value, key) => {
-      obj[key] = value;
-    });
+    if (headers) {
+      headers.forEach((value, key) => {
+        obj[key] = value;
+      });
+    }
     return obj;
   };
 

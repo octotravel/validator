@@ -4,10 +4,8 @@ import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHe
 import { DateHelper } from "../../../../helpers/DateHelper.ts";
 import descriptions from "../../consts/descriptions.ts";
 import { Context } from "../../context/Context.ts";
-import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 
 export class AvailabilityCheckDateScenario implements Scenario {
-
   private product: Product;
   private availabilityScenarioHelper = new AvailabilityScenarioHelper();
 
@@ -18,16 +16,14 @@ export class AvailabilityCheckDateScenario implements Scenario {
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
     const availability = context.productConfig.availability[this.product.availabilityType];
-    const date = new Date();
+    
     const result = await apiClient.getAvailability({
       productId: this.product.id,
       optionId: this.product.options[0].id,
       localDate: DateHelper.getDate(availability.localDateTimeStart),
-    });
+    }, context);
     const name = `Availability Check Date (${this.product.availabilityType})`;
     const description = descriptions.availabilityCheckDate;
-
-    context.subrequestMapper.map(result, context, date);
 
     return this.availabilityScenarioHelper.validateAvailability(
       {

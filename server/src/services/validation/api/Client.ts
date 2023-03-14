@@ -1,10 +1,12 @@
 import { CapabilityId } from "@octocloud/types";
 import { Result } from "./types.ts";
+import { Context } from "../context/Context.ts"
 
-interface FetchData {
+export interface FetchData {
   url: string;
   method?: "GET" | "POST" | "PATCH" | "DELETE";
   body?: string;
+  context: Context;
 }
 export class Client {
   private capabilities: CapabilityId[];
@@ -22,6 +24,7 @@ export class Client {
   }
 
   protected fetch = async <T>(data: FetchData): Promise<Result<T>> => {
+    const date = new Date();
     const { url, method = "GET", body } = data;
     console.log(`${new Date().toISOString()} | ${method}: ${url}`);
     const headers = this.createHeaders();
@@ -33,6 +36,8 @@ export class Client {
       init.body = body;
     }
     const res = await fetch(url, init);
+    const resClone = res.clone();
+    data.context.subrequestMapper.map(data, headers, resClone, date);
     return this.setResponse({ url, method, body: body ?? null, headers }, res);
   };
 

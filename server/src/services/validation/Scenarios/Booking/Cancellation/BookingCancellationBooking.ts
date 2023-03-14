@@ -6,7 +6,6 @@ import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { BookingContactSchema } from "@octocloud/types";
 import { Context } from "../../../context/Context.ts";
-import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingCancellationBookingScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -19,7 +18,7 @@ export class BookingCancellationBookingScenario implements Scenario {
     const name = `Booking Cancellation - Booking`;
     const description = descriptions.bookingCancellationBooking;
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context);
     if (resultReservation.data === null) {
@@ -34,7 +33,7 @@ export class BookingCancellationBookingScenario implements Scenario {
     const resultConfirmation = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       contact: {} as BookingContactSchema,
-    });
+    }, context);
 
     if (resultConfirmation.data === null) {
       return this.helper.handleResult({
@@ -47,9 +46,7 @@ export class BookingCancellationBookingScenario implements Scenario {
     const result = await apiClient.cancelBooking({
       uuid: resultConfirmation.data.uuid,
       reason: "Reason for cancellation",
-    });
-
-    context.subrequestMapper.map(result, context, date);
+    }, context);
 
     return this.bookingCancellationScenarioHelper.validateBookingCancellation(
       {

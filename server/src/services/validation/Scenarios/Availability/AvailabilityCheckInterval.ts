@@ -3,7 +3,6 @@ import { Scenario } from "../Scenario.ts";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
 import descriptions from "../../consts/descriptions.ts";
 import { Context } from "../../context/Context.ts";
-import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 
 export class AvailabilityChecIntervalScenario
   implements Scenario
@@ -17,13 +16,13 @@ export class AvailabilityChecIntervalScenario
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
-    const date = new Date();
+    
     const result = await apiClient.getAvailability({
       productId: this.product.id,
       optionId: this.product.options[0].id,
       localDateStart: context.localDateStart,
       localDateEnd: context.localDateEnd,
-    });
+    }, context);
 
     const availabilities = result.data ?? [];
     const randomAvailability =
@@ -37,9 +36,7 @@ export class AvailabilityChecIntervalScenario
       availability: randomAvailability
     };
     const name = `Availability Check Interval (${this.product.availabilityType})`;
-    const description = descriptions.availabilityCheckInterval;
-
-    context.subrequestMapper.map(result, context, date);
+    const description = descriptions.availabilityCheckInterval;    
 
     return this.availabilityScenarioHelper.validateAvailability(
       {

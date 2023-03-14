@@ -5,7 +5,6 @@ import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Context } from "../../../context/Context.ts";
-import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingConfirmationUnitItemUpdateScenario
   implements Scenario
@@ -20,7 +19,7 @@ export class BookingConfirmationUnitItemUpdateScenario
     const name = `Booking Confirmation unitItems update`;
     const description = descriptions.bookingConfirmationUnitItemsUpdate;
     const [bookableProduct] = context.productConfig.availableProducts;
-    const date = new Date();
+    
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context,
       {unitItemsQuantity: 2});
@@ -45,9 +44,7 @@ export class BookingConfirmationUnitItemUpdateScenario
       // TODO: make it dynamic
       resellerReference: "RESELLERREF#1",
       unitItems,
-    });
-
-    context.subrequestMapper.map(result, context, date);
+    }, context);
 
     return this.bookingConfirmationScenarioHelper.validateBookingConfirmation(
       {

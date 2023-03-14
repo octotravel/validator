@@ -1,37 +1,34 @@
-import { Result } from "../validation/api/types.ts";
-import { Context } from "../validation/context/Context.ts";
 import { SubRequestData } from "./RequestData.ts";
 import { uuid } from " https://deno.land/x/uuid/mod.ts";
+import { FetchData } from "../validation/api/Client.ts";
 
 export class SubRequestMapper {
-  public map = (result: Result<any>, context: Context, date: Date): void => {
+  public map = (data: FetchData, headers: Record<string, string>, response: Response, date: Date): void => {
     let requestOptions: any = {
-      method: result.request?.method,
-      headers: result.request?.headers,
+      method: data.method,
+      headers: headers,
     };
-    if (result.request?.method !== "GET") {
+    if (data.method !== "GET") {
       requestOptions = {
         ...requestOptions,
-        body: JSON.stringify(result.request?.body),
+        body: JSON.stringify(data.body),
       }
     }
-    context.subrequests.push(new SubRequestData({
+    const request = new Request(data.url, requestOptions);
+    data.context.subrequests.push(new SubRequestData({
       id: uuid(),
-      request: new Request(result.request?.url ?? "", requestOptions),
-      response: new Response(result.response?.body ?? result.response?.error?.body, {
-        headers: result.response?.headers,
-        status: result.response?.status,
-      }),
+      request: request,
+      response,
       logsEnabled: true,
       metadata: {
         id: uuid(),
-        requestId: context.requestId,
+        requestId: data.context.requestId,
         date: new Date(),
-        url: result.request?.url ?? "",
-        method: result.request?.method ?? "",
-        status: result.response?.status ?? 0,
-        success: result.response?.status === 200,
-        duration: context.getDuration(date, new Date())
+        url: request.url,
+        method: request.method,
+        status: response?.status,
+        success: response.status === 200,
+        duration: data.context.getDuration(date, new Date())
       }
     }))
   }

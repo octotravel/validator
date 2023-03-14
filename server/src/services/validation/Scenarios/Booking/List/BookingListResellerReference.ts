@@ -5,7 +5,6 @@ import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Context } from "../../../context/Context.ts";
-import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingListResellerReferenceScenario
   implements Scenario
@@ -20,7 +19,7 @@ export class BookingListResellerReferenceScenario
     const description = descriptions.bookingListResellerReference;
     const [bookableProduct] = context.productConfig.availableProducts;
 
-    const date = new Date();
+    
 
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
@@ -43,7 +42,7 @@ export class BookingListResellerReferenceScenario
         fullName: "John Doe",
       },
       resellerReference,
-    });
+    }, context);
 
     if (resultConfirmation.data === null) {
       return this.helper.handleResult({
@@ -55,9 +54,7 @@ export class BookingListResellerReferenceScenario
     }
     const result = await apiClient.getBookings({
       resellerReference,
-    });
-
-    context.subrequestMapper.map(result, context, date);
+    }, context); 
 
     return this.bookingListScenarionHelper.validateBookingList({
       result,

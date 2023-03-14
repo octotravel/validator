@@ -2,7 +2,6 @@ import { AvailabilityCalendarBodySchema } from "@octocloud/types";
 import { addDays } from "https://esm.sh/date-fns@2.29.1";
 import { DateHelper } from "../../../../helpers/DateHelper.ts";
 import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator.ts";
-import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 import descriptions from "../../consts/descriptions.ts";
 import { Context } from "../../context/Context.ts";
 import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper.ts";
@@ -19,17 +18,15 @@ export class AvailabilityCalendarBadRequestScenario
   > => {
     const apiClient = context.getApiClient();
     const product = context.getProduct();
-    const date = new Date();
+    
     const result = await apiClient.getAvailabilityCalendar({
       productId: product.id,
       optionId: product.options[0].id,
       localDateEnd: DateHelper.getDate(addDays(new Date(), 30).toISOString()),
-    } as AvailabilityCalendarBodySchema);
+    } as AvailabilityCalendarBodySchema, context);
 
     const name = `Availability Calendar BAD_REQUEST (400 BAD_REQUEST)`;
     const description = descriptions.availabilityCalendarBadRequest;
-
-    context.subrequestMapper.map(result, context, date);
 
     return this.availabilityCalendarScenarioHelper.validateError(
       {

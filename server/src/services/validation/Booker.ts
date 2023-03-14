@@ -42,7 +42,7 @@ export class Booker {
       data.unitItems = unitItems;
     }
 
-    return apiClient.bookingReservation(data);
+    return apiClient.bookingReservation(data, context);
   };
 
   private getAvailabilityId(

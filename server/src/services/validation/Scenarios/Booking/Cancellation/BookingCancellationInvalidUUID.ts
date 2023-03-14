@@ -3,7 +3,6 @@ import { InvalidBookingUUIDErrorValidator } from "../../../../../validators/back
 import { BookingCancellationScenarioHelper } from "../../../helpers/BookingCancellationScenarioHelper.ts";
 import descriptions from "../../../consts/descriptions.ts";
 import { Context } from "../../../context/Context.ts";
-import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingCancellationInvalidUUIDScenario implements Scenario {
   private bookingCancellationScenarioHelper =
@@ -11,16 +10,14 @@ export class BookingCancellationInvalidUUIDScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
-    const date = new Date();
+    
     const result = await apiClient.cancelBooking({
       uuid: context.invalidUUID,
-    });
+    }, context);
 
     const name =
       "Booking Cancellation Invalid Booking UUID (400 INVALID_BOOKING_UUID)";
     const description = descriptions.invalidUUID;
-
-    context.subrequestMapper.map(result, context, date);
 
     return this.bookingCancellationScenarioHelper.validateError(
       {

@@ -1,5 +1,4 @@
 import { InvalidProductIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidProductIdErrorValidator.ts";
-import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 import descriptions from "../../consts/descriptions.ts";
 import { Context } from "../../context/Context.ts";
 import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper.ts";
@@ -10,14 +9,12 @@ export class GetProductInvalidScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
-    const date = new Date();
+    
     const result = await apiClient.getProduct({
       id: context.invalidProductId,
-    });
+    }, context);
     const name = `Get Product Invalid (400 INVALID_PRODUCT_ID)`;
     const description = descriptions.invalidProduct;
-
-    context.subrequestMapper.map(result, context, date);
 
     return this.productScenarioHelper.validateError(
       {

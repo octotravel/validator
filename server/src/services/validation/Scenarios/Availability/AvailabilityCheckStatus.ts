@@ -2,7 +2,6 @@ import { Scenario } from "../Scenario.ts";
 import { AvailabilityStatusScenarioHelper } from "../../helpers/AvailabilityStatusScenarioHelper.ts";
 import { Product } from "@octocloud/types";
 import { Context } from "../../context/Context.ts";
-import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 
 export class AvailabilityCheckStatusScenario implements Scenario {
   private products: Product[];
@@ -36,7 +35,7 @@ export class AvailabilityCheckStatusScenario implements Scenario {
           optionId: option.id,
           localDateStart: context.localDateStart,
           localDateEnd: context.localDateEnd,
-        });
+        }, context);
         return {
           result,
           product,
