@@ -5,6 +5,7 @@ import descriptions from "../../../consts/descriptions.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { Context } from '../../../context/Context.ts';
+import { SubRequestMapper } from '../../../../logging/SubRequestMapper.ts';
 
 export class BookingUpdateDateScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -17,7 +18,7 @@ export class BookingUpdateDateScenario implements Scenario {
     const name = `Booking Update - Change Date`;
     const description = descriptions.bookingUpdateDate;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -38,6 +39,8 @@ export class BookingUpdateDateScenario implements Scenario {
         omitID: resultReservation.data.availabilityId,
       }),
     });
+
+    context.subrequestMapper.map(result, context, date);
 
     return this.bookingUpdateScenarioHelper.validateBookingUpdate(
       {

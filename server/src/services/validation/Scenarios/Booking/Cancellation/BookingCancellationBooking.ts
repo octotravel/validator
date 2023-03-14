@@ -6,6 +6,7 @@ import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { BookingContactSchema } from "@octocloud/types";
 import { Context } from "../../../context/Context.ts";
+import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingCancellationBookingScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -18,7 +19,7 @@ export class BookingCancellationBookingScenario implements Scenario {
     const name = `Booking Cancellation - Booking`;
     const description = descriptions.bookingCancellationBooking;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context);
     if (resultReservation.data === null) {
@@ -48,6 +49,7 @@ export class BookingCancellationBookingScenario implements Scenario {
       reason: "Reason for cancellation",
     });
 
+    context.subrequestMapper.map(result, context, date);
 
     return this.bookingCancellationScenarioHelper.validateBookingCancellation(
       {

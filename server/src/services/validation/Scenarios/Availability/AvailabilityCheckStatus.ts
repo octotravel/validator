@@ -2,6 +2,7 @@ import { Scenario } from "../Scenario.ts";
 import { AvailabilityStatusScenarioHelper } from "../../helpers/AvailabilityStatusScenarioHelper.ts";
 import { Product } from "@octocloud/types";
 import { Context } from "../../context/Context.ts";
+import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 
 export class AvailabilityCheckStatusScenario implements Scenario {
   private products: Product[];
@@ -16,6 +17,7 @@ export class AvailabilityCheckStatusScenario implements Scenario {
     const availabilityType = this.products[0].availabilityType;
     const name = `Availability Check Status ${availabilityType}`;
     const products = await this.fetchAvailabilityForProducts(this.products, context);
+
     return this.availabilityStatusScenarioHelper.validateAvailability({
       name,
       products,

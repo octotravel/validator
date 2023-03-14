@@ -6,6 +6,7 @@ import { ErrorType, ValidatorError } from "../../../../../validators/backendVali
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { Context } from "../../../context/Context.ts";
+import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -19,7 +20,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
     const name = "Booking Confirmation Invalid Unit ID (400 INVALID_UNIT_ID)";
     const description = descriptions.invalidUnitId;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(bookableProduct, 
       context,
       {
@@ -34,6 +35,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
       })
     }
     const unitItems = bookableProduct.getInvalidUnitItems({ quantity: 2 });
+
     const result = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       unitItems,
@@ -45,6 +47,8 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
         notes: "Test note",
       },
     });
+
+    context.subrequestMapper.map(result, context, date);
 
     return this.bookingConfirmationScenarioHelper.validateError(
       {

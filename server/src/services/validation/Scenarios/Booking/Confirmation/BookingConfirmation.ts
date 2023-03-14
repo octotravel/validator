@@ -5,6 +5,7 @@ import { Booker } from "../../../Booker.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Context } from "../../../context/Context.ts";
+import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingConfirmationScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -17,7 +18,7 @@ export class BookingConfirmationScenario implements Scenario {
     const name = `Booking Confirmation`;
     const description = descriptions.bookingConfirmation;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context);
     if (resultReservation.data === null) {
@@ -28,7 +29,7 @@ export class BookingConfirmationScenario implements Scenario {
         errors: [new ValidatorError({type: ErrorType.CRITICAL, message: 'Reservation Creation Failed'})],
       })
     }
-
+    
     const result = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       contact: {
@@ -40,6 +41,8 @@ export class BookingConfirmationScenario implements Scenario {
       },
       resellerReference: "RESELLERREF#1",
     });
+
+    context.subrequestMapper.map(result, context, date);
 
     return this.bookingConfirmationScenarioHelper.validateBookingConfirmation(
       {

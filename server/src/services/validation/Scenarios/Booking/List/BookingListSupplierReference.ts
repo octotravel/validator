@@ -5,6 +5,7 @@ import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Context } from "../../../context/Context.ts";
+import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingListSupplierReferenceScenario
   implements Scenario
@@ -18,7 +19,7 @@ export class BookingListSupplierReferenceScenario
     const name = "List Bookings - Supplier Reference";
     const description = descriptions.bookingListSupplierReference;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -48,9 +49,12 @@ export class BookingListSupplierReferenceScenario
         errors: [new ValidatorError({type: ErrorType.CRITICAL, message: 'Reservation Confirm Failed'})],
       })
     }
+
     const result = await apiClient.getBookings({
       supplierReference: resultConfirmation.data.supplierReference as string,
     });
+
+    context.subrequestMapper.map(result, context, date);
 
     return this.bookingListScenarionHelper.validateBookingList({
       result,

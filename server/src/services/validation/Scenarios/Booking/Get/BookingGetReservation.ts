@@ -5,6 +5,7 @@ import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Booker } from "../../../Booker.ts";
 import { Context } from "../../../context/Context.ts";
+import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingGetReservationScenario implements Scenario {
   private booker = new Booker();
@@ -16,6 +17,7 @@ export class BookingGetReservationScenario implements Scenario {
     const name = "Get Booking - Reservation.ts";
     const description = descriptions.bookingGetReservation;
     const [bookableProduct] = context.productConfig.availableProducts;
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context);
     if (resultReservation.data === null) {
@@ -31,13 +33,16 @@ export class BookingGetReservationScenario implements Scenario {
       const resultBooking = await apiClient.getBooking({
         uuid,
       })
-      return this.bookingGetScenarionHelper.validateBookingGet(
-        {
-          result: resultBooking,
-          name,
-          description,
-        },
-        context
-      );
+    
+    context.subrequestMapper.map(resultBooking, context, date);
+
+    return this.bookingGetScenarionHelper.validateBookingGet(
+      {
+        result: resultBooking,
+        name,
+        description,
+      },
+      context
+    );
   };
 }

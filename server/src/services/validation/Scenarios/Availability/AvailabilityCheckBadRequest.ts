@@ -1,5 +1,6 @@
 import { DateHelper } from "../../../../helpers/DateHelper.ts";
 import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator.ts";
+import { SubRequestMapper } from "../../../logging/SubRequestMapper.ts";
 import descriptions from "../../consts/descriptions.ts";
 import { Context } from "../../context/Context.ts";
 import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
@@ -15,6 +16,7 @@ export class AvailabilityCheckBadRequestScenario
     const [product] = context.productConfig.productsForAvailabilityCheck;
     const availability =
       context.productConfig.availability[product.availabilityType];
+    const date = new Date();
     const result = await apiClient.getAvailability({
       productId: product.id,
       optionId: product.options[0].id,
@@ -26,6 +28,9 @@ export class AvailabilityCheckBadRequestScenario
 
     const name = `Availability Check BAD_REQUEST (400 BAD_REQUEST)`;
     const description = descriptions.availabilityCheckBadRequest;
+
+    context.subrequestMapper.map(result, context, date);
+
     return this.availabilityScenarioHelper.validateError(
       {
         name,

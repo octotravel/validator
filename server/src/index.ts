@@ -9,29 +9,22 @@ import {
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { Context } from "./services/validation/context/Context.ts";
-import { RequestContext } from "https://raw.githubusercontent.com/octotravel/octo-core/master/src/models/RequestContext.ts";
+import { SupabaseLogger } from './services/logging/Logger.ts';
+import { uuid } from " https://deno.land/x/uuid/mod.ts";
+import { RequestData } from './services/logging/RequestData.ts';
 
 const router = new Router();
-const logger = {};
+const logger = new SupabaseLogger();
 
 router
   .post("/validate", async (ctx) => {
-    const rctx = new RequestContext({
-      request: new Request(ctx.request.url, {
-        headers: ctx.request.headers,
-        body: await ctx.request.body().value
-      }),
-      channel: `octo`,
-      connection: null,
-      config: {},
-    })
+    const context = new Context();
     try {
       const reqBody = await ctx.request.body().value;
       await validationConfigSchema.validate(reqBody);
       const schema = validationConfigSchema.cast(reqBody) as ValidationEndpoint;
-      const context = new Context(schema);
+      context.setSchema(schema);
       const body = await new ValidationController().validate(context);
-
 
       ctx.response.body = body;
       ctx.response.type = "json";
@@ -54,12 +47,41 @@ router
         ctx.response.status = error.status;
       }
     }
-
-    // logger.logRequest(rctx.getRequestData(new Response(JSON.stringify(ctx.response.body), {
-    //   headers: ctx.response.headers,
-    //   status: ctx.response.status
-    // })), rctx);
-  });
+    logger.logRequest(
+      new RequestData({
+        id: context.requestId,
+        request: new Request(ctx.request.url, {
+          method: ctx.request.method,
+          body: JSON.stringify(await ctx.request.body().value),
+        }),
+        response: new Response(JSON.stringify(ctx.response.body), {
+          status: ctx.response.status,
+          headers: ctx.response.headers          
+        }),
+        metadata: {
+          id: uuid(),
+          date: new Date(),
+          connection: {
+            id: "",
+            channel: "",
+            name: "",
+            endpoint: "",
+            backend: "",
+            account: null,
+            environment: "",
+          },
+          action: "Validation",
+          status: ctx.response.status,
+          success: ctx.response.status === 200,
+          duration: context.getRequestDuration(),
+          environment: ""
+        },
+        logsEnabled: true,
+        subrequests: context.subrequests,
+        productIds: [],
+      })
+    );
+  })
 const app = new Application();
 app.use(oakCors()); // Enable CORS for All Routes
 app.use(router.routes());

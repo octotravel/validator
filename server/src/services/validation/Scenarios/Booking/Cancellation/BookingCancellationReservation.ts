@@ -5,6 +5,7 @@ import descriptions from "../../../consts/descriptions.ts";
 import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { Context } from '../../../context/Context.ts';
+import { SubRequestMapper } from '../../../../logging/SubRequestMapper.ts';
 
 export class BookingCancellationReservationScenario
   implements Scenario
@@ -19,7 +20,7 @@ export class BookingCancellationReservationScenario
     const name = `Booking Cancellation - Reservation`;
     const description = descriptions.bookingCancellationReservation;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -34,12 +35,12 @@ export class BookingCancellationReservationScenario
       })
     }
 
-      
     const result = await apiClient.cancelBooking({
       uuid: resultReservation.data.uuid,
       reason: "Reason for cancellation",
     });
     
+    context.subrequestMapper.map(result, context, date);
 
     return this.bookingCancellationScenarioHelper.validateBookingCancellation(
       {

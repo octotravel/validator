@@ -5,6 +5,7 @@ import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
 import { Booker } from "../../../Booker.ts";
 import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
 import { Context } from "../../../context/Context.ts";
+import { SubRequestMapper } from "../../../../logging/SubRequestMapper.ts";
 
 export class BookingUpdateUnitItemsScenario implements Scenario {
   private helper = new ScenarioHelper()
@@ -16,7 +17,7 @@ export class BookingUpdateUnitItemsScenario implements Scenario {
     const name = `Booking Update - Unit Items`;
     const description = descriptions.bookingUpdateUnitItems;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    const date = new Date();
     const resultReservation = await this.booker.createReservation(bookableProduct, context, {
       unitItemsQuantity: 2,
     });
@@ -34,6 +35,7 @@ export class BookingUpdateUnitItemsScenario implements Scenario {
       unitItems,
     });
 
+    context.subrequestMapper.map(result, context, date);
 
     return this.bookingUpdateScenarioHelper.validateBookingUpdate(
       {
