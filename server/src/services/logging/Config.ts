@@ -1,9 +1,7 @@
 // @ts-ignore
-const ENVIRONMENT: string = globalThis.ENVIRONMENT;
+const SUPABASE_URL: string = Deno.env.get("SUPABASE_URL");
 // @ts-ignore
-const SUPABASE_URL: string = globalThis.SUPABASE_URL;
-// @ts-ignore
-const SUPABASE_KEY: string = globalThis.SUPABASE_KEY;
+const SUPABASE_KEY: string = Deno.env.get("SUPABASE_KEY");
 
 export class Config {
   public supabaseUrl = SUPABASE_URL;
