@@ -34,7 +34,7 @@ export class UnitItemValidator implements ModelValidator {
   }) {
     this.path = path;
     this.capabilities = capabilities;
-    this.unitValidator = new UnitValidator({ path: this.path, capabilities });
+    this.unitValidator = new UnitValidator({ path: `${this.path}.unit`, capabilities });
     this.contactValidator = new ContactValidator({ path: this.path });
     this.ticketValidator = new TicketValidator({ path: `${this.path}.ticket` });
   }
