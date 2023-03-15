@@ -1,4 +1,4 @@
-import { Booking, BookingStatus } from "@octocloud/types";
+import { Booking, BookingStatus } from "https://esm.sh/@octocloud/types@1.5.2";
 import {
   ErrorType,
   ModelValidator,

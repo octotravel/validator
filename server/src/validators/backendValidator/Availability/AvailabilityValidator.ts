@@ -3,7 +3,7 @@ import {
   AvailabilityStatus,
   AvailabilityType,
   CapabilityId,
-} from "@octocloud/types";
+} from "https://esm.sh/@octocloud/types@1.5.2";
 import { CommonValidator } from "../CommonValidator.ts";
 import {
   StringValidator,

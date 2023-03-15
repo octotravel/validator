@@ -1,5 +1,5 @@
 import * as R from "https://esm.sh/ramda@0.28.0";
-import { AvailabilityType, Product, Availability } from "@octocloud/types";
+import { AvailabilityType, Product, Availability } from "https://esm.sh/@octocloud/types@1.5.2";
 import {
   ErrorType,
   ValidatorError,

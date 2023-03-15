@@ -1,4 +1,4 @@
-import { Booking, ExtendBookingBodySchema } from "@octocloud/types";
+import { Booking, ExtendBookingBodySchema } from "https://esm.sh/@octocloud/types@1.5.2";
 import { BookingEndpointValidator } from "../../../validators/backendValidator/Booking/BookingEndpointValidator.ts";
 import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
 import { Context } from "../context/Context.ts";

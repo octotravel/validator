@@ -1,4 +1,4 @@
-import { PickupPoint, Option } from "@octocloud/types";
+import { PickupPoint, Option } from "https://esm.sh/@octocloud/types@1.5.2";
 import {
   StringValidator,
   BooleanValidator,

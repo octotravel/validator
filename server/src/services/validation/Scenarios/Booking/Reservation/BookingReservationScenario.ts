@@ -1,5 +1,5 @@
 import { Result } from "./../../../api/types.ts";
-import { Booking } from "@octocloud/types";
+import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
 import { Scenario } from "../../Scenario.ts";
 import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
 import descriptions from "../../../consts/descriptions.ts";

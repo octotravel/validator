@@ -5,7 +5,7 @@ import {
   PricingPer,
   DeliveryMethod,
   Ticket,
-} from "@octocloud/types";
+} from "https://esm.sh/@octocloud/types@1.5.2";
 import { UnitValidator } from "../Unit/UnitValidator.ts";
 
 import {
@@ -34,7 +34,7 @@ export class UnitItemValidator implements ModelValidator {
   }) {
     this.path = path;
     this.capabilities = capabilities;
-    this.unitValidator = new UnitValidator({ path: this.path, capabilities });
+    this.unitValidator = new UnitValidator({ path: `${this.path}.unit`, capabilities });
     this.contactValidator = new ContactValidator({ path: this.path });
     this.ticketValidator = new TicketValidator({ path: `${this.path}.ticket` });
   }

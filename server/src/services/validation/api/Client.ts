@@ -1,4 +1,4 @@
-import { CapabilityId } from "@octocloud/types";
+import { CapabilityId } from "https://esm.sh/@octocloud/types@1.5.2";
 import { Result } from "./types.ts";
 import { Context } from "../context/Context.ts"
 
