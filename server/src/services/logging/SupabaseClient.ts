@@ -1,5 +1,5 @@
 import { createClient, SupabaseClient as SupabaseDBClient } from 'https://esm.sh/@supabase/supabase-js@1.28.1';
-import { Config } from './config.ts';
+import { Config } from './Config.ts';
 
 export class SupabaseClient {
   private config = new Config();
