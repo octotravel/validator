@@ -6,7 +6,7 @@ import {
   DeliveryMethod,
   RedemptionMethod,
   AvailabilityType,
-} from "@octocloud/types";
+} from "https://esm.sh/@octocloud/types@1.5.2";
 import { OptionValidator } from "../Option/OptionValidator.ts";
 import {
   StringValidator,

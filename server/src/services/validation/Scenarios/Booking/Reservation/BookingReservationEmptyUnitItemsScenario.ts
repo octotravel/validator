@@ -1,4 +1,4 @@
-import { Booking } from "@octocloud/types";
+import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
 import { Scenario } from "../../Scenario.ts";
 import { UnprocessableEntityErrorValidator } from "../../../../../validators/backendValidator/Error/UnprocessableEntityErrorValidator.ts";
 import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";

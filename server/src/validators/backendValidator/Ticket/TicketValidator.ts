@@ -1,4 +1,4 @@
-import { RedemptionMethod, DeliveryFormat, Ticket } from "@octocloud/types";
+import { RedemptionMethod, DeliveryFormat, Ticket } from "https://esm.sh/@octocloud/types@1.5.2";
 import {
   StringValidator,
   EnumValidator,

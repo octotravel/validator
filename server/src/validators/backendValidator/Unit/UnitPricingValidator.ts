@@ -1,4 +1,4 @@
-import { Unit, Pricing } from "@octocloud/types";
+import { Unit, Pricing } from "https://esm.sh/@octocloud/types@1.5.2";
 import { PricingValidator } from "../Pricing/PricingValidator.ts";
 import { ModelValidator, ValidatorError } from "../ValidatorHelpers.ts";
 

@@ -1,4 +1,4 @@
-import { AvailabilityCalendarBodySchema } from "@octocloud/types";
+import { AvailabilityCalendarBodySchema } from "https://esm.sh/@octocloud/types@1.5.2";
 import { addDays } from "https://esm.sh/date-fns@2.29.1";
 import { DateHelper } from "../../../../helpers/DateHelper.ts";
 import { BadRequestErrorValidator } from "../../../../validators/backendValidator/Error/BadRequestErrorValidator.ts";

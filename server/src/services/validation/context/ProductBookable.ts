@@ -3,7 +3,7 @@ import {
   Option,
   Product,
   UnitType,
-} from "@octocloud/types";
+} from "https://esm.sh/@octocloud/types@1.5.2";
 
 const randomInteger = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;

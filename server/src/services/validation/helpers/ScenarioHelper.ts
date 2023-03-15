@@ -1,4 +1,4 @@
-import { CapabilityId } from "@octocloud/types";
+import { CapabilityId } from "https://esm.sh/@octocloud/types@1.5.2";
 import * as R from "https://esm.sh/ramda@0.28.0";
 import { STATUS_NOT_FOUND } from "../../../models/Error.ts";
 import {

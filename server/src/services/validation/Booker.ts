@@ -1,4 +1,4 @@
-import { Booking } from "@octocloud/types";
+import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
 import { CreateBookingSchema } from "../../schemas/Booking.ts";
 import { Result } from "./api/types.ts";
 import { Context } from "./context/Context.ts";

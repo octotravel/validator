@@ -1,4 +1,4 @@
-import { Pricing, Tax } from "@octocloud/types";
+import { Pricing, Tax } from "https://esm.sh/@octocloud/types@1.5.2";
 import {
   ModelValidator,
   NumberValidator,

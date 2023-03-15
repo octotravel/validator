@@ -1,4 +1,4 @@
-import { PricingPer, Product } from "@octocloud/types";
+import { PricingPer, Product } from "https://esm.sh/@octocloud/types@1.5.2";
 import {
   StringValidator,
   StringArrayValidator,

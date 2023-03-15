@@ -5,7 +5,7 @@ import {
   PricingPer,
   DeliveryMethod,
   Ticket,
-} from "@octocloud/types";
+} from "https://esm.sh/@octocloud/types@1.5.2";
 import { UnitValidator } from "../Unit/UnitValidator.ts";
 
 import {
