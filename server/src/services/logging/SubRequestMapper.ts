@@ -1,4 +1,3 @@
-import { SubRequestData } from "./RequestData.ts";
 import { uuid } from " https://deno.land/x/uuid/mod.ts";
 import { FetchData } from "../validation/api/Client.ts";
 
@@ -11,15 +10,13 @@ export class SubRequestMapper {
     if (data.method !== "GET") {
       requestOptions = {
         ...requestOptions,
-        body: JSON.stringify(data.body),
+        body: data.body,
       }
     }
     const request = new Request(data.url, requestOptions);
-    data.context.subrequests.push(new SubRequestData({
-      id: uuid(),
-      request: request,
+    const subrequest = {
+      request,
       response,
-      logsEnabled: true,
       metadata: {
         id: uuid(),
         requestId: data.context.requestId,
@@ -30,6 +27,7 @@ export class SubRequestMapper {
         success: response.status === 200,
         duration: data.context.getDuration(date, new Date())
       }
-    }))
+    }
+    data.context.subrequests.push(subrequest)
   }
 }

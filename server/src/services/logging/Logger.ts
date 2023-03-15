@@ -1,10 +1,14 @@
-import { RequestData, SubRequestData } from './RequestData.ts';
+import { RequestData } from './RequestData.ts';
 import { LoggerRepository } from './LoggerRepository.ts';
+import { Context } from '../validation/context/Context.ts';
+import { uuid } from " https://deno.land/x/uuid/mod.ts";
 
 export class SupabaseLogger {
   private requestService = new LoggerRepository();
 
-  public logRequest = async (data: RequestData): Promise<void> => {
+  public logRequest = async (request: any, response: any, context: Context): Promise<void> => {
+    const data = await this.mapData(request, response, context);
+
     const req = data.request.clone();
     const res = data.response.clone();
     const subrequests = await this.mapSubrequests(data.subrequests);
@@ -39,7 +43,7 @@ export class SupabaseLogger {
     await this.requestService.set(requestData);
   };
 
-  private mapSubrequests = async (subrequests: SubRequestData[]) => {
+  private mapSubrequests = async (subrequests: any[]) => {
     const promises = subrequests.map(async (subrequest) => {
       const error = subrequest.error
         ? {
@@ -88,4 +92,39 @@ export class SupabaseLogger {
       return await req.text();
     }
   };
+
+  private mapData = async (request: any, response: any, context: Context): Promise<RequestData> => {
+    return new RequestData({
+      id: context.requestId,
+      request: new Request(request.url, {
+        method: request.method,
+        body: JSON.stringify(await request.body().value),
+      }),
+      response: new Response(JSON.stringify(response.body), {
+        status: response.status,
+        headers: response.headers          
+      }),
+      metadata: {
+        id: uuid(),
+        date: new Date(),
+        connection: {
+          id: "",
+          channel: "",
+          name: "",
+          endpoint: "",
+          backend: "",
+          account: null,
+          environment: "",
+        },
+        action: "Validation",
+        status: response.status,
+        success: response.status === 200,
+        duration: context.getRequestDuration(),
+        environment: ""
+      },
+      logsEnabled: true,
+      subrequests: context.subrequests,
+      productIds: [],
+    })
+  }
 }

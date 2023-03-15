@@ -1,33 +1,12 @@
-export type ConnectionMetaData = {
-  id: string;
-  channel: string;
-  name: string;
-  endpoint: string;
-  backend: string;
-  account: string | null;
-  environment: string;
-};
-
 export type RequestMetaData = {
   id: string;
   date: Date;
-  connection: ConnectionMetaData;
+  connection: any;
   action: string;
   status: number;
   success: boolean;
   duration: number;
   environment: string;
-};
-
-export type SubMetadata = {
-  id: string;
-  requestId: string;
-  date: Date;
-  url: string;
-  method: string;
-  status: number;
-  success: boolean;
-  duration: number;
 };
 
 export interface IBaseRequestData {
@@ -54,7 +33,7 @@ export class RequestData extends BaseRequestData implements IBaseRequestData {
   public error: Error | null = null;
   public searchKeys: Array<string> = [];
   public logsEnabled: boolean;
-  public subrequests: SubRequestData[] = [];
+  public subrequests: any[] = [];
   public productIds: Array<string> = [];
 
   constructor({
@@ -71,7 +50,7 @@ export class RequestData extends BaseRequestData implements IBaseRequestData {
     response: Response;
     metadata: RequestMetaData;
     logsEnabled: boolean;
-    subrequests: SubRequestData[];
+    subrequests: any[];
     productIds: string[];
   }) {
     super();
@@ -90,49 +69,5 @@ export class RequestData extends BaseRequestData implements IBaseRequestData {
 
   public setError = (error: Error): void => {
     this.error = error;
-  };
-}
-
-export class SubRequestData extends BaseRequestData implements IBaseRequestData {
-  public id: string;
-  public request: Request | null;
-  public response: Response | null;
-  public metadata: SubMetadata;
-  public error: Error | null = null;
-  public logsEnabled: boolean;
-
-  constructor({
-    id,
-    request,
-    response,
-    metadata,
-    logsEnabled,
-  }: {
-    id: string;
-    request: Request | null;
-    response: Response | null;
-    metadata: SubMetadata;
-    logsEnabled: boolean;
-  }) {
-    super();
-    this.id = id;
-    this.response = response;
-    this.request = request;
-    this.metadata = metadata;
-    this.logsEnabled = logsEnabled;
-  }
-
-  public setError = (error: Error): void => {
-    this.error = error;
-  };
-
-  public clone = (): SubRequestData => {
-    return new SubRequestData({
-      id: this.id,
-      request: this.request?.clone() ?? null,
-      response: this.response?.clone() ?? null,
-      metadata: this.metadata,
-      logsEnabled: this.logsEnabled,
-    });
   };
 }

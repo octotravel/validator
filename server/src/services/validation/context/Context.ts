@@ -5,7 +5,6 @@ import { ValidatorError } from "../../../validators/backendValidator/ValidatorHe
 import { ApiClient } from "../api/ApiClient.ts";
 import { DateHelper } from "../../../helpers/DateHelper.ts";
 import { addDays } from "https://esm.sh/date-fns@2.29.1";
-import { SubRequestData } from "../../logging/RequestData.ts";
 import { uuid } from " https://deno.land/x/uuid/mod.ts";
 import { SubRequestMapper } from "../../logging/SubRequestMapper.ts";
 
@@ -28,7 +27,7 @@ export class Context implements IContext {
   public subrequestMapper = new SubRequestMapper();
   private date = new Date();
 
-  public subrequests: SubRequestData[] = [];
+  public subrequests: any[] = [];
 
   public invalidProductId = "invalidProductId";
   public invalidOptionId = "invalidOptionId";
