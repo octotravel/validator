@@ -19,7 +19,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
     const name = "Booking Confirmation Invalid Unit ID (400 INVALID_UNIT_ID)";
     const description = descriptions.invalidUnitId;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(bookableProduct, 
       context,
       {
@@ -34,6 +34,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
       })
     }
     const unitItems = bookableProduct.getInvalidUnitItems({ quantity: 2 });
+
     const result = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       unitItems,
@@ -44,7 +45,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
         fullName: "John Doe",
         notes: "Test note",
       },
-    });
+    }, context);
 
     return this.bookingConfirmationScenarioHelper.validateError(
       {

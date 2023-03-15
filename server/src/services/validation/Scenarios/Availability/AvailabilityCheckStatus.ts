@@ -16,6 +16,7 @@ export class AvailabilityCheckStatusScenario implements Scenario {
     const availabilityType = this.products[0].availabilityType;
     const name = `Availability Check Status ${availabilityType}`;
     const products = await this.fetchAvailabilityForProducts(this.products, context);
+
     return this.availabilityStatusScenarioHelper.validateAvailability({
       name,
       products,
@@ -34,7 +35,7 @@ export class AvailabilityCheckStatusScenario implements Scenario {
           optionId: option.id,
           localDateStart: context.localDateStart,
           localDateEnd: context.localDateEnd,
-        });
+        }, context);
         return {
           result,
           product,

@@ -15,6 +15,7 @@ export class AvailabilityCheckBadRequestScenario
     const [product] = context.productConfig.productsForAvailabilityCheck;
     const availability =
       context.productConfig.availability[product.availabilityType];
+    
     const result = await apiClient.getAvailability({
       productId: product.id,
       optionId: product.options[0].id,
@@ -22,10 +23,11 @@ export class AvailabilityCheckBadRequestScenario
       localDateEnd: context.localDateEnd,
       localDate: DateHelper.getDate(availability.localDateTimeStart),
       availabilityIds: [availability.id],
-    });
+    }, context);
 
     const name = `Availability Check BAD_REQUEST (400 BAD_REQUEST)`;
     const description = descriptions.availabilityCheckBadRequest;
+
     return this.availabilityScenarioHelper.validateError(
       {
         name,

@@ -19,7 +19,7 @@ export class BookingCancellationReservationScenario
     const name = `Booking Cancellation - Reservation`;
     const description = descriptions.bookingCancellationReservation;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -34,13 +34,11 @@ export class BookingCancellationReservationScenario
       })
     }
 
-      
     const result = await apiClient.cancelBooking({
       uuid: resultReservation.data.uuid,
       reason: "Reason for cancellation",
-    });
+    }, context);
     
-
     return this.bookingCancellationScenarioHelper.validateBookingCancellation(
       {
         result,

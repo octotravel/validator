@@ -9,17 +9,20 @@ import {
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
 import { oakCors } from "https://deno.land/x/cors/mod.ts";
 import { Context } from "./services/validation/context/Context.ts";
+import { SupabaseLogger } from './services/logging/Logger.ts';
 
 const router = new Router();
+const logger = new SupabaseLogger();
+
 router
   .post("/validate", async (ctx) => {
+    const context = new Context();
     try {
       const reqBody = await ctx.request.body().value;
       await validationConfigSchema.validate(reqBody);
       const schema = validationConfigSchema.cast(reqBody) as ValidationEndpoint;
-      const context = new Context(schema);
+      context.setSchema(schema);
       const body = await new ValidationController().validate(context);
-
 
       ctx.response.body = body;
       ctx.response.type = "json";
@@ -42,8 +45,8 @@ router
         ctx.response.status = error.status;
       }
     }
+    logger.logRequest(ctx.request, ctx.response, context);
   })
-
 const app = new Application();
 app.use(oakCors()); // Enable CORS for All Routes
 app.use(router.routes());

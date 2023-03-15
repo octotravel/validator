@@ -16,6 +16,7 @@ export class BookingReservationExtendScenario implements Scenario {
     const name = `Extend Reservation`;
     const description = descriptions.bookingReservationExtend;
     const [bookableProduct] = context.productConfig.availableProducts;
+    
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context);
     if (resultReservation.data === null) {
@@ -29,7 +30,7 @@ export class BookingReservationExtendScenario implements Scenario {
     const result = await apiClient.bookingExtend({
       uuid: resultReservation.data.uuid,
       expirationMinutes: 31,
-    });
+    }, context);
 
     return this.bookingExtendScenarioHelper.validateBookingExtend(
       {

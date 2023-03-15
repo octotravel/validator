@@ -17,7 +17,7 @@ export class BookingConfirmationScenario implements Scenario {
     const name = `Booking Confirmation`;
     const description = descriptions.bookingConfirmation;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context);
     if (resultReservation.data === null) {
@@ -28,7 +28,7 @@ export class BookingConfirmationScenario implements Scenario {
         errors: [new ValidatorError({type: ErrorType.CRITICAL, message: 'Reservation Creation Failed'})],
       })
     }
-
+    
     const result = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
       contact: {
@@ -39,7 +39,7 @@ export class BookingConfirmationScenario implements Scenario {
         notes: "Test note",
       },
       resellerReference: "RESELLERREF#1",
-    });
+    }, context);
 
     return this.bookingConfirmationScenarioHelper.validateBookingConfirmation(
       {

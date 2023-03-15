@@ -18,11 +18,12 @@ export class AvailabilityCalendarBadRequestScenario
   > => {
     const apiClient = context.getApiClient();
     const product = context.getProduct();
+    
     const result = await apiClient.getAvailabilityCalendar({
       productId: product.id,
       optionId: product.options[0].id,
       localDateEnd: DateHelper.getDate(addDays(new Date(), 30).toISOString()),
-    } as AvailabilityCalendarBodySchema);
+    } as AvailabilityCalendarBodySchema, context);
 
     const name = `Availability Calendar BAD_REQUEST (400 BAD_REQUEST)`;
     const description = descriptions.availabilityCalendarBadRequest;

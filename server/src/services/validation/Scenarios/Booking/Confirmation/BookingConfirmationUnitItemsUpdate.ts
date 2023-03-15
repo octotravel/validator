@@ -19,7 +19,7 @@ export class BookingConfirmationUnitItemUpdateScenario
     const name = `Booking Confirmation unitItems update`;
     const description = descriptions.bookingConfirmationUnitItemsUpdate;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context,
       {unitItemsQuantity: 2});
@@ -44,7 +44,7 @@ export class BookingConfirmationUnitItemUpdateScenario
       // TODO: make it dynamic
       resellerReference: "RESELLERREF#1",
       unitItems,
-    });
+    }, context);
 
     return this.bookingConfirmationScenarioHelper.validateBookingConfirmation(
       {

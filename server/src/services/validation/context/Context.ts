@@ -5,6 +5,8 @@ import { ValidatorError } from "../../../validators/backendValidator/ValidatorHe
 import { ApiClient } from "../api/ApiClient.ts";
 import { DateHelper } from "../../../helpers/DateHelper.ts";
 import { addDays } from "https://esm.sh/date-fns@2.29.1";
+import { uuid } from " https://deno.land/x/uuid/mod.ts";
+import { SubRequestMapper } from "../../logging/SubRequestMapper.ts";
 
 export interface ErrorResult<T> {
   data: T | null;
@@ -21,13 +23,11 @@ export class Context implements IContext {
   private apiKey = '';
   private capabilities: CapabilityId[] = [];
   public _terminateValidation = false;
+  public requestId: string = '';
+  public subrequestMapper = new SubRequestMapper();
+  private date = new Date();
 
-  constructor(data: ValidationEndpoint) {
-    this.endpoint = data.backend.endpoint;
-    this.apiKey = data.backend.apiKey;
-    this.capabilities = [];
-    this._terminateValidation = false;
-  }
+  public subrequests: any[] = [];
 
   public invalidProductId = "invalidProductId";
   public invalidOptionId = "invalidOptionId";
@@ -41,6 +41,14 @@ export class Context implements IContext {
   );
 
   public readonly productConfig = new ProductContext();
+
+  public setSchema = (data: ValidationEndpoint) => {
+    this.endpoint = data.backend.endpoint;
+    this.apiKey = data.backend.apiKey;
+    this.capabilities = [];
+    this._terminateValidation = false;
+    this.requestId = uuid();
+  }
 
   public getApiClient = (): ApiClient => {
     return new ApiClient({
@@ -80,4 +88,10 @@ export class Context implements IContext {
   public getProduct = (): Product => {
     return this.productConfig.products[0];
   };
+
+  public getDuration = (start: Date, end: Date): number => {
+    return (end.getTime() - start.getTime()) / 1000;
+  };
+
+  public getRequestDuration = (): number => this.getDuration(this.date, new Date());
 }

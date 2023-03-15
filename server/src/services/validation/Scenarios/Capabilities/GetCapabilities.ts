@@ -1,7 +1,6 @@
 import { Scenario } from "../Scenario.ts";
 import { CapabilitiesScenarioHelper } from "../../helpers/CapabilitiesScenarioHelper.ts";
 import descriptions from "../../consts/descriptions.ts";
-import { CapabilityId, Capability } from "https://esm.sh/@octocloud/types@1.5.2";
 import { Context } from "../../context/Context.ts";
 
 export class GetCapabilitiesScenario implements Scenario {
@@ -9,7 +8,8 @@ export class GetCapabilitiesScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
-    const result = await apiClient.getCapabilities();
+    
+    const result = await apiClient.getCapabilities(context);
     const name = "Get Capabilities";
     const description = descriptions.getCapabilities;
 

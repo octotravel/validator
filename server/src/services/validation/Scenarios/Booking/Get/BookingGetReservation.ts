@@ -16,6 +16,7 @@ export class BookingGetReservationScenario implements Scenario {
     const name = "Get Booking - Reservation.ts";
     const description = descriptions.bookingGetReservation;
     const [bookableProduct] = context.productConfig.availableProducts;
+    
     const resultReservation = await this.booker.createReservation(bookableProduct,
       context);
     if (resultReservation.data === null) {
@@ -30,14 +31,15 @@ export class BookingGetReservationScenario implements Scenario {
     const uuid = resultReservation.data.uuid
       const resultBooking = await apiClient.getBooking({
         uuid,
-      })
-      return this.bookingGetScenarionHelper.validateBookingGet(
-        {
-          result: resultBooking,
-          name,
-          description,
-        },
-        context
-      );
+      }, context)
+    
+    return this.bookingGetScenarionHelper.validateBookingGet(
+      {
+        result: resultBooking,
+        name,
+        description,
+      },
+      context
+    );
   };
 }

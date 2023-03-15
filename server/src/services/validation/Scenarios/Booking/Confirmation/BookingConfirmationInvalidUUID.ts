@@ -10,10 +10,11 @@ export class BookingConfirmationInvalidUUIDScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
+    
     const result = await apiClient.bookingConfirmation({
       uuid: context.invalidUUID,
       contact: {},
-    });
+    }, context);
 
     const name =
       "Booking Confirmation Invalid Booking UUID (400 INVALID_BOOKING_UUID)";

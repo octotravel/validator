@@ -16,7 +16,7 @@ export class BookingUpdateContactScenario implements Scenario {
     const name = `Booking Update - Contact`;
     const description = descriptions.bookingUpdateContact;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -44,8 +44,8 @@ export class BookingUpdateContactScenario implements Scenario {
         locales: ["en"],
       },
       notes: "Test note",
-    });
-
+    }, context);
+    
     return this.bookingUpdateScenarioHelper.validateBookingUpdate(
       {
         result,

@@ -18,12 +18,13 @@ export class AvailabilityCalendarIntervalScenario implements Scenario {
     const apiClient = context.getApiClient();
     const option =
       this.product.options.find((o) => o.default) ?? this.product.options[0];
+    
     const result = await apiClient.getAvailabilityCalendar({
       productId: this.product.id,
       optionId: option.id,
       localDateStart: context.localDateStart,
       localDateEnd: context.localDateEnd,
-    });
+    }, context);
     const name = `Availability Calendar Interval (${this.product.availabilityType})`;
     const description = descriptions.availabilityCalendarInterval;
 

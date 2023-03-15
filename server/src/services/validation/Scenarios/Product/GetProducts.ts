@@ -8,7 +8,8 @@ export class GetProductsScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
-    const result = await apiClient.getProducts();
+    
+    const result = await apiClient.getProducts(context);
     const name = "Get Products";
     const description = descriptions.getProducts;
 

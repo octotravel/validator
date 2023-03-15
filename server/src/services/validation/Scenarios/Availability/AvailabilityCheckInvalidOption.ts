@@ -10,12 +10,13 @@ export class AvailabilityCheckInvalidOptionScenario implements Scenario {
   public validate = async (context: Context): Promise<ScenarioResult> => {
     const apiClient = context.getApiClient();
     const [product] = context.productConfig.productsForAvailabilityCheck;
+    
     const result = await apiClient.getAvailability({
       productId: product.id,
       optionId: context.invalidOptionId,
       localDateStart: context.localDateStart,
       localDateEnd: context.localDateEnd,
-    });
+    }, context);
     const name = `Availability Check Invalid Option (400 INVALID_OPTION_ID)`;
     const description = descriptions.invalidOption;
 

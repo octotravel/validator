@@ -17,12 +17,13 @@ export class AvailabilityCalendarInvalidProductScenario
   > => {
     const apiClient = context.getApiClient();
     const product = context.getProduct();
+    
     const result = await apiClient.getAvailabilityCalendar({
       productId: context.invalidProductId,
       optionId: product.options[0].id,
       localDateStart: DateHelper.getDate(new Date().toISOString()),
       localDateEnd: DateHelper.getDate(addDays(new Date(), 30).toISOString()),
-    });
+    }, context);
 
     const name = `Availability Calendar Invalid Product (400 INVALID_PRODUCT_ID)`;
     const description = descriptions.invalidProduct;

@@ -9,12 +9,13 @@ export class GetProductScenario implements Scenario {
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
     const product = context.getProduct();
+    
     const result = await apiClient.getProduct({
       id: product.id,
-    });
+    }, context);
     const name = `Get Product`;
     const description = descriptions.getProduct;
-
+    
     return this.productScenarioHelper.validateProduct({
       result,
       name,

@@ -9,7 +9,8 @@ export class BookingListBadRequestScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
-    const result = await apiClient.getBookings({});
+    
+    const result = await apiClient.getBookings({}, context);
 
     const name = "List Bookings BAD_REQUEST (400 BAD_REQUEST)";
     const description = descriptions.bookingListBadRequest;

@@ -16,7 +16,7 @@ export class BookingUpdateUnitItemsScenario implements Scenario {
     const name = `Booking Update - Unit Items`;
     const description = descriptions.bookingUpdateUnitItems;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(bookableProduct, context, {
       unitItemsQuantity: 2,
     });
@@ -32,8 +32,7 @@ export class BookingUpdateUnitItemsScenario implements Scenario {
     const result = await apiClient.bookingUpdate({
       uuid: resultReservation.data.uuid,
       unitItems,
-    });
-
+    }, context);
 
     return this.bookingUpdateScenarioHelper.validateBookingUpdate(
       {

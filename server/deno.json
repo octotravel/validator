@@ -7,6 +7,7 @@
       ]
     },
     "imports": {
+      "@supabase/supabase-js" : "https://esm.sh/@supabase/supabase-js@1.28.1",
       "@octocloud/types": "https://esm.sh/@octocloud/types@1.5.2"
     }
   }

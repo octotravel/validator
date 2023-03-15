@@ -19,6 +19,8 @@ export class BookingListResellerReferenceScenario
     const description = descriptions.bookingListResellerReference;
     const [bookableProduct] = context.productConfig.availableProducts;
 
+    
+
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -40,7 +42,7 @@ export class BookingListResellerReferenceScenario
         fullName: "John Doe",
       },
       resellerReference,
-    });
+    }, context);
 
     if (resultConfirmation.data === null) {
       return this.helper.handleResult({
@@ -52,7 +54,7 @@ export class BookingListResellerReferenceScenario
     }
     const result = await apiClient.getBookings({
       resellerReference,
-    });
+    }, context); 
 
     return this.bookingListScenarionHelper.validateBookingList({
       result,

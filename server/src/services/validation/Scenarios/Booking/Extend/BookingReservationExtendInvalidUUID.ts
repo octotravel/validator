@@ -13,11 +13,11 @@ export class BookingReservationExtendInvalidUUIDScenario
     const apiClient = context.getApiClient();
     const name = "Extend Reservation Invalid UUID (INVALID_BOOKING_UUID)";
     const description = descriptions.invalidUUID;
+    
     const result = await apiClient.bookingExtend({
       uuid: context.invalidUUID,
       expirationMinutes: 31,
-    });
-
+    }, context);
 
     return this.bookingExtendScenarioHelper.validateError(
       {

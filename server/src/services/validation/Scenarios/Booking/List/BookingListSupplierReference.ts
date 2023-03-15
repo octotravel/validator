@@ -18,7 +18,7 @@ export class BookingListSupplierReferenceScenario
     const name = "List Bookings - Supplier Reference";
     const description = descriptions.bookingListSupplierReference;
     const [bookableProduct] = context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(
       bookableProduct,
       context
@@ -38,7 +38,7 @@ export class BookingListSupplierReferenceScenario
       contact: {
         fullName: "John Doe",
       },
-    });
+    }, context);
 
     if (resultConfirmation.data === null) {
       return this.helper.handleResult({
@@ -48,9 +48,10 @@ export class BookingListSupplierReferenceScenario
         errors: [new ValidatorError({type: ErrorType.CRITICAL, message: 'Reservation Confirm Failed'})],
       })
     }
+
     const result = await apiClient.getBookings({
       supplierReference: resultConfirmation.data.supplierReference as string,
-    });
+    }, context);
 
     return this.bookingListScenarionHelper.validateBookingList({
       result,

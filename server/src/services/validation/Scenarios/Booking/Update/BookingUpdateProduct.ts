@@ -17,7 +17,7 @@ export class BookingUpdateProductScenario implements Scenario {
     const description = descriptions.bookingUpdateProduct;
     const [bookableProduct1, bookableProduct2] =
     context.productConfig.availableProducts;
-
+    
     const resultReservation = await this.booker.createReservation(
       bookableProduct1,
       context
@@ -37,8 +37,7 @@ export class BookingUpdateProductScenario implements Scenario {
       optionId: bookableProduct2.getOption().id,
       unitItems: bookableProduct2.getValidUnitItems(),
       availabilityId: bookableProduct2.randomAvailabilityID,
-    });
-
+    }, context);
 
     return this.bookingUpdateScenarioHelper.validateBookingUpdate(
       {

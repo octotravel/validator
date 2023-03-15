@@ -9,9 +9,10 @@ export class GetProductInvalidScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
+    
     const result = await apiClient.getProduct({
       id: context.invalidProductId,
-    });
+    }, context);
     const name = `Get Product Invalid (400 INVALID_PRODUCT_ID)`;
     const description = descriptions.invalidProduct;
 

@@ -10,12 +10,13 @@ export class AvailabilityCheckInvalidProductScenario implements Scenario {
   public validate = async (context: Context): Promise<ScenarioResult> => {
     const apiClient = context.getApiClient();
     const [product] = context.productConfig.productsForAvailabilityCheck;
+    
     const result = await apiClient.getAvailability({
       productId: context.invalidProductId,
       optionId: product.options[0].id,
       localDateStart: context.localDateStart,
       localDateEnd: context.localDateEnd,
-    });
+    }, context);
 
     const name = `Availability Check Invalid Product (400 INVALID_PRODUCT_ID)`;
     const description = descriptions.invalidProduct;
