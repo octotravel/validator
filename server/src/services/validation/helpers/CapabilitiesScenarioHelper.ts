@@ -15,7 +15,7 @@ export class CapabilitiesScenarioHelper extends ScenarioHelper {
         errors: [],
       });
     }
-    const capabilities = result?.data ?? []
+    const capabilities = Array.isArray(result?.data) ? result?.data : []
     const errors = capabilities.map(validator.validate).flat(1);
     return this.handleResult({
       ...data,
