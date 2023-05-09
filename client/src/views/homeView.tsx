@@ -8,7 +8,7 @@ import OutputView from './responseView'
 const HomeView: FC = () => {
   return (
     <Container>
-      <Header title="Validation" />
+      <Header title="OCTO Validation Tool" />
       <Container>
         <Row>
           <Col md={12} xs={12}>
