@@ -39,7 +39,16 @@ const FormInputView: FC = () => {
         },
       })
     }
-  }, [error, resetError])
+  }, [error, resetError]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const endpoint = params.get('endpoint')
+    const apiKey = params.get('apiKey')
+    if (endpoint && apiKey) {
+      handleFetchFlows({ endpoint, apiKey })
+    }
+  }, [handleFetchFlows]);
 
   const onSubmitHandler: SubmitHandler<PostData> = values => {
     handleFetchFlows(values)
