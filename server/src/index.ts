@@ -18,10 +18,24 @@ router
   .post("/validate", async (ctx) => {
     const context = new Context();
     try {
-      const reqBody = await ctx.request.body().value;
-      await validationConfigSchema.validate(reqBody);
-      const schema = validationConfigSchema.cast(reqBody) as ValidationEndpoint;
-      context.setSchema(schema);
+      const urlParams = ctx.request.url.searchParams;
+      const endpointParam = urlParams.get("endpoint");
+      const apiKeyParam = urlParams.get("apiKey");
+
+      if (endpointParam && apiKeyParam) {
+        const schema = validationConfigSchema.cast({
+          backend: {
+            endpoint: endpointParam,
+            apiKey: apiKeyParam,
+          },
+        }) as ValidationEndpoint;
+        context.setSchema(schema);
+      } else {
+        const reqBody = await ctx.request.body().value;
+        await validationConfigSchema.validate(reqBody);
+        const schema = validationConfigSchema.cast(reqBody) as ValidationEndpoint;
+        context.setSchema(schema);
+      }
       const body = await new ValidationController().validate(context);
 
       ctx.response.body = body;
