@@ -46,9 +46,10 @@ const FormInputView: FC = () => {
     const endpoint = params.get('endpoint')
     const apiKey = params.get('apiKey')
     if (endpoint && apiKey) {
-      handleFetchFlows({ endpoint, apiKey })
+      setValue('endpoint', endpoint)
+      setValue('apiKey', apiKey)
     }
-  }, [handleFetchFlows]);
+  }, []);
 
   const onSubmitHandler: SubmitHandler<PostData> = values => {
     handleFetchFlows(values)
