@@ -4,7 +4,7 @@ import {
   NumberArrayValidator,
   NullValidator,
   ArrayValidator,
-} from "./../ValidatorHelpers.ts";
+} from "./../ValidatorHelpers";
 import {
   StringValidator,
   ValidatorError,
@@ -12,7 +12,7 @@ import {
   EnumValidator,
   EnumArrayValidator,
   RegExpArrayValidator,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 describe("ValidatorHelpers", () => {
   describe("StringValidator", () => {

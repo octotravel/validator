@@ -1,10 +1,10 @@
-import { PricingUnit, Pricing, AvailabilityCalendar } from "https://esm.sh/@octocloud/types@1.5.2";
+import { PricingUnit, Pricing, AvailabilityCalendar } from "@octocloud/types";
 import {
   StringValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
-import { PricingValidator } from "../Pricing/PricingValidator.ts";
+} from "../ValidatorHelpers";
+import { PricingValidator } from "../Pricing/PricingValidator";
 
 export class AvailabilityCalendarPricingValidator implements ModelValidator {
   private pricingValidator: PricingValidator;

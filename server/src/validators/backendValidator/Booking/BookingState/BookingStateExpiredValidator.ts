@@ -1,11 +1,11 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
-import { CommonValidator } from "../../CommonValidator.ts";
+import { Booking } from "@octocloud/types";
+import { CommonValidator } from "../../CommonValidator";
 import {
   ModelValidator,
   NullValidator,
   StringValidator,
   ValidatorError,
-} from "../../ValidatorHelpers.ts";
+} from "../../ValidatorHelpers";
 
 export class BookingStateExpiredValidator implements ModelValidator {
   private path: string;

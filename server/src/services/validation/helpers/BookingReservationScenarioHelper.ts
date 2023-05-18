@@ -1,11 +1,11 @@
-import { BookingEndpointValidator } from "./../../../validators/backendValidator/Booking/BookingEndpointValidator.ts";
-import { Booking, CreateBookingBodySchema } from "https://esm.sh/@octocloud/types@1.5.2";
-import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
+import { BookingEndpointValidator } from "./../../../validators/backendValidator/Booking/BookingEndpointValidator";
+import { Booking, CreateBookingBodySchema } from "@octocloud/types";
+import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator";
 import {
   ScenarioHelper,
   ScenarioHelperData,
-} from "./ScenarioHelper.ts";
-import { Context } from "../context/Context.ts";
+} from "./ScenarioHelper";
+import { Context } from "../context/Context";
 
 export class BookingReservationScenarioHelper extends ScenarioHelper {
   private bookingEndpointValidator = new BookingEndpointValidator();

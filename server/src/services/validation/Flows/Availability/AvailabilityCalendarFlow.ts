@@ -1,12 +1,12 @@
-import { Flow, FlowResult } from "../Flow.ts";
-import { AvailabilityCalendarIntervalScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInterval.ts";
-import { AvailabilityCalendarInvalidProductScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidProduct.ts";
-import { AvailabilityCalendarInvalidOptionScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidOption.ts";
-import { AvailabilityCalendarBadRequestScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarBadRequest.ts";
-import { BaseFlow } from "../BaseFlow.ts";
-import docs from "../../consts/docs.ts";
-import { Scenario } from "../../Scenarios/Scenario.ts";
-import { Context } from "../../context/Context.ts";
+import { Flow, FlowResult } from "../Flow";
+import { AvailabilityCalendarIntervalScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInterval";
+import { AvailabilityCalendarInvalidProductScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidProduct";
+import { AvailabilityCalendarInvalidOptionScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidOption";
+import { AvailabilityCalendarBadRequestScenario } from "../../Scenarios/AvailabilityCalendar/AvailabilityCalendarBadRequest";
+import { BaseFlow } from "../BaseFlow";
+import docs from "../../consts/docs";
+import { Scenario } from "../../Scenarios/Scenario";
+import { Context } from "../../context/Context";
 
 export class AvailabilityCalendarFlow extends BaseFlow implements Flow {
   constructor() {

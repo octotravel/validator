@@ -1,54 +1,13 @@
-import { validationConfigSchema, ValidationEndpoint } from './schemas/Validation.ts';
-import { ValidationController } from './services/validation/Controller.ts';
-import { ValidationError } from "https://esm.sh/yup@0.32.11";
-import {
-  OctoError,
-  InternalServerError,
-  BadRequestError,
-} from "./models/Error.ts";
-import { Application, Router } from "https://deno.land/x/oak/mod.ts";
-import { oakCors } from "https://deno.land/x/cors/mod.ts";
-import { Context } from "./services/validation/context/Context.ts";
-import { SupabaseLogger } from './services/logging/Logger.ts';
+import "dotenv/config";
+import Koa from 'koa';
+import koaBody from 'koa-body';
+import cors from '@koa/cors';
+import { router } from './router/router';
 
-const router = new Router();
-const logger = new SupabaseLogger();
+const app = new Koa();
+const port = process.env.PORT ?? 3000;
 
-router
-  .post("/validate", async (ctx) => {
-    const context = new Context();
-    try {
-      const reqBody = await ctx.request.body().value;
-      await validationConfigSchema.validate(reqBody);
-      const schema = validationConfigSchema.cast(reqBody) as ValidationEndpoint;
-      context.setSchema(schema);
-      const body = await new ValidationController().validate(context);
-
-      ctx.response.body = body;
-      ctx.response.type = "json";
-      ctx.response.status = 200;
-    } catch (e) {
-      const err = e as Error
-      if (err instanceof OctoError) {
-        ctx.response.body = err.body;
-        ctx.response.type = "json";
-        ctx.response.status = err.status;
-      } else if (err instanceof ValidationError) {
-        const error = new BadRequestError(err.message);
-        ctx.response.body = error.body;
-        ctx.response.type = "json";
-        ctx.response.status = error.status;
-      } else {
-        const error = new InternalServerError(err.message);
-        ctx.response.body = error.body;
-        ctx.response.type = "json";
-        ctx.response.status = error.status;
-      }
-    }
-    logger.logRequest(ctx.request, ctx.response, context);
-  })
-const app = new Application();
-app.use(oakCors()); // Enable CORS for All Routes
+app.use(koaBody());
+app.use(cors());
 app.use(router.routes());
-
-await app.listen({ port: 3000 });
+app.listen({ port: port });

@@ -1,13 +1,13 @@
-import { CapabilityId } from "https://esm.sh/@octocloud/types@1.5.2";
-import * as R from "https://esm.sh/ramda@0.28.0";
-import { STATUS_NOT_FOUND } from "../../../models/Error.ts";
+import { CapabilityId } from "@octocloud/types";
+import * as R from "ramda";
+import { STATUS_NOT_FOUND } from "../../../models/Error";
 import {
   ErrorType,
   ModelValidator,
   ValidatorError,
-} from "../../../validators/backendValidator/ValidatorHelpers.ts";
-import { Result, ResultResponse } from "../api/types.ts";
-import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario.ts";
+} from "../../../validators/backendValidator/ValidatorHelpers";
+import { Result, ResultResponse } from "../api/types";
+import { ScenarioResult, ValidationResult } from "../Scenarios/Scenario";
 
 interface ScenarioData<T> {
   name: string;

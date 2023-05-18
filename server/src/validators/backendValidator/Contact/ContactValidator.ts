@@ -1,10 +1,10 @@
-import { Contact } from "https://esm.sh/@octocloud/types@1.5.2";
+import { Contact } from "@octocloud/types";
 import {
   ModelValidator,
   StringArrayValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class ContactValidator implements ModelValidator {
   private path: string;

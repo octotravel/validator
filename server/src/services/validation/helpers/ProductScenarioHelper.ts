@@ -1,8 +1,8 @@
-import { ProductValidator } from "./../../../validators/backendValidator/Product/ProductValidator.ts";
-import { Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
-import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
-import { Context } from "../context/Context.ts";
+import { ProductValidator } from "./../../../validators/backendValidator/Product/ProductValidator";
+import { Product } from "@octocloud/types";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
+import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers";
+import { Context } from "../context/Context";
 
 export class ProductScenarioHelper extends ScenarioHelper {
   public validateProducts = (data: ScenarioHelperData<Product[]>, context: Context) => {

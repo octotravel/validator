@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  octo_validator_server:
+    container_name: octo_validator_server
+    build:
+      context: .
+      dockerfile: ./ops/docker/node/local/Dockerfile
+    volumes:
+      - ./:/var/www/server:cached
+      - octo_validator_server_node_modules:/var/www/server/node_modules:delegated
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+    restart: unless-stopped
+
+volumes:
+  octo_validator_server_node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/node_modules'

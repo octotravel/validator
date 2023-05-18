@@ -6,9 +6,9 @@ import {
   UnitRestrictions,
   PricingPer,
   AvailabilityType,
-} from "https://esm.sh/@octocloud/types@1.5.2";
-import { OptionPickupValidator } from "./OptionPickupValidator.ts";
-import { UnitValidator } from "../Unit/UnitValidator.ts";
+} from "@octocloud/types";
+import { OptionPickupValidator } from "./OptionPickupValidator";
+import { UnitValidator } from "../Unit/UnitValidator";
 import {
   StringValidator,
   RegExpArrayValidator,
@@ -18,8 +18,8 @@ import {
   ValidatorError,
   ModelValidator,
   ArrayValidator,
-} from "../ValidatorHelpers.ts";
-import { OptionPricingValidator } from "./OptionPricingValidator.ts";
+} from "../ValidatorHelpers";
+import { OptionPricingValidator } from "./OptionPricingValidator";
 
 export class OptionValidator implements ModelValidator {
   private path: string;

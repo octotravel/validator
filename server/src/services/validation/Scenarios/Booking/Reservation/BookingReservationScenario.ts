@@ -1,9 +1,9 @@
-import { Result } from "./../../../api/types.ts";
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Scenario } from "../../Scenario.ts";
-import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { Context } from "../../../context/Context.ts";
+import { Result } from "./../../../api/types";
+import { Booking } from "@octocloud/types";
+import { Scenario } from "../../Scenario";
+import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper";
+import descriptions from "../../../consts/descriptions";
+import { Context } from "../../../context/Context";
 
 export class BookingReservationScenario implements Scenario {
   private result: Result<Booking>;

@@ -2,14 +2,14 @@ import {
   SupplierDestination,
   SupplierCategory,
   Supplier,
-} from "https://esm.sh/@octocloud/types@1.5.2";
+} from "@octocloud/types";
 import {
   StringValidator,
   BooleanValidator,
   StringArrayValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class SupplierContentValidator implements ModelValidator {
   private path: string;

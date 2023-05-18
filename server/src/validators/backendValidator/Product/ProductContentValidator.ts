@@ -1,11 +1,11 @@
-import { Destination, Category, FAQ, Image, Product } from "https://esm.sh/@octocloud/types@1.5.2";
+import { Destination, Category, FAQ, Image, Product } from "@octocloud/types";
 import {
   StringValidator,
   BooleanValidator,
   StringArrayValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class ProductContentValidator implements ModelValidator {
   private path: string;

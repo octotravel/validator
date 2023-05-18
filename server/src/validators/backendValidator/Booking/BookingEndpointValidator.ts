@@ -1,4 +1,4 @@
-import { GetBookingsSchema } from "./../../../schemas/Booking.ts";
+import { GetBookingsSchema } from "./../../../schemas/Booking";
 import {
   Booking,
   CreateBookingBodySchema,
@@ -7,13 +7,13 @@ import {
   ConfirmBookingBodySchema,
   UpdateBookingBodySchema,
   CancelBookingBodySchema,
-} from "https://esm.sh/@octocloud/types@1.5.2";
+} from "@octocloud/types";
 import {
   ArrayValidator,
   ErrorType,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 interface ValidateData {
   booking: Booking | null

@@ -1,7 +1,7 @@
-import { Flow, FlowResult } from "../Flow.ts";
-import { GetCapabilitiesScenario } from "../../Scenarios/Capabilities/GetCapabilities.ts";
-import { BaseFlow } from "../BaseFlow.ts";
-import { Context } from "../../context/Context.ts";
+import { Flow, FlowResult } from "../Flow";
+import { GetCapabilitiesScenario } from "../../Scenarios/Capabilities/GetCapabilities";
+import { BaseFlow } from "../BaseFlow";
+import { Context } from "../../context/Context";
 
 export class CapabilitiesFlow extends BaseFlow implements Flow {
   constructor() {

@@ -1,4 +1,4 @@
-import { ArrayValidator } from "./../ValidatorHelpers.ts";
+import { ArrayValidator } from "./../ValidatorHelpers";
 import {
   CapabilityId,
   Product,
@@ -6,8 +6,8 @@ import {
   DeliveryMethod,
   RedemptionMethod,
   AvailabilityType,
-} from "https://esm.sh/@octocloud/types@1.5.2";
-import { OptionValidator } from "../Option/OptionValidator.ts";
+} from "@octocloud/types";
+import { OptionValidator } from "../Option/OptionValidator";
 import {
   StringValidator,
   BooleanValidator,
@@ -15,9 +15,9 @@ import {
   EnumArrayValidator,
   ValidatorError,
   ModelValidator,
-} from "../ValidatorHelpers.ts";
-import { ProductContentValidator } from "./ProductContentValidator.ts";
-import { ProductPricingValidator } from "./ProductPricingValidator.ts";
+} from "../ValidatorHelpers";
+import { ProductContentValidator } from "./ProductContentValidator";
+import { ProductPricingValidator } from "./ProductPricingValidator";
 
 export class ProductValidator implements ModelValidator {
   private pricingValidator: ProductPricingValidator;

@@ -1,9 +1,9 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Scenario } from "../../Scenario.ts";
-import { UnprocessableEntityErrorValidator } from "../../../../../validators/backendValidator/Error/UnprocessableEntityErrorValidator.ts";
-import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
-import { Result } from "../../../api/types.ts";
-import descriptions from "../../../consts/descriptions.ts";
+import { Booking } from "@octocloud/types";
+import { Scenario } from "../../Scenario";
+import { UnprocessableEntityErrorValidator } from "../../../../../validators/backendValidator/Error/UnprocessableEntityErrorValidator";
+import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper";
+import { Result } from "../../../api/types";
+import descriptions from "../../../consts/descriptions";
 
 export class BookingReservationMissingUnitItemsScenario
   implements Scenario

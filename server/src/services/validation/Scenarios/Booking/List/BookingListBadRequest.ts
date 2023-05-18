@@ -1,8 +1,8 @@
-import { Scenario } from "../../Scenario.ts";
-import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper.ts";
-import { BadRequestErrorValidator } from "../../../../../validators/backendValidator/Error/BadRequestErrorValidator.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { Context } from "../../../context/Context.ts";
+import { Scenario } from "../../Scenario";
+import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper";
+import { BadRequestErrorValidator } from "../../../../../validators/backendValidator/Error/BadRequestErrorValidator";
+import descriptions from "../../../consts/descriptions";
+import { Context } from "../../../context/Context";
 
 export class BookingListBadRequestScenario implements Scenario {
   private bookingListScenarioHelper = new BookingListScenarioHelper();

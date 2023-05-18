@@ -1,10 +1,10 @@
-import { Scenario } from "../../Scenario.ts";
-import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
-import { Booker } from "../../../Booker.ts";
-import { Context } from "../../../context/Context.ts";
+import { Scenario } from "../../Scenario";
+import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper";
+import descriptions from "../../../consts/descriptions";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
+import { Booker } from "../../../Booker";
+import { Context } from "../../../context/Context";
 
 export class BookingGetReservationScenario implements Scenario {
   private booker = new Booker();
@@ -13,7 +13,7 @@ export class BookingGetReservationScenario implements Scenario {
 
   public validate = async (context: Context) => {
     const apiClient = context.getApiClient();
-    const name = "Get Booking - Reservation.ts";
+    const name = "Get Booking - Reservation";
     const description = descriptions.bookingGetReservation;
     const [bookableProduct] = context.productConfig.availableProducts;
     

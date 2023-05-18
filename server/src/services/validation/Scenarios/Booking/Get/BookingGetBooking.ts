@@ -1,11 +1,11 @@
-import { BookingContactSchema } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Scenario } from "../../Scenario.ts";
-import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { Booker } from "../../../Booker.ts";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
-import { Context } from "../../../context/Context.ts";
+import { BookingContactSchema } from "@octocloud/types";
+import { Scenario } from "../../Scenario";
+import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper";
+import descriptions from "../../../consts/descriptions";
+import { Booker } from "../../../Booker";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
+import { Context } from "../../../context/Context";
 
 export class BookingGetBookingScenario implements Scenario {
   private helper = new ScenarioHelper()

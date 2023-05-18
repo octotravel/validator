@@ -1,7 +1,7 @@
-import { Scenario } from "../Scenario.ts";
-import { CapabilitiesScenarioHelper } from "../../helpers/CapabilitiesScenarioHelper.ts";
-import descriptions from "../../consts/descriptions.ts";
-import { Context } from "../../context/Context.ts";
+import { Scenario } from "../Scenario";
+import { CapabilitiesScenarioHelper } from "../../helpers/CapabilitiesScenarioHelper";
+import descriptions from "../../consts/descriptions";
+import { Context } from "../../context/Context";
 
 export class GetCapabilitiesScenario implements Scenario {
   private capabilitiesScenarioHelper = new CapabilitiesScenarioHelper();

@@ -19,11 +19,11 @@ import {
   Supplier,
   UpdateBookingBodySchema,
   UpdateBookingPathParamsSchema,
-} from "https://esm.sh/@octocloud/types@1.5.2";
-import { CreateBookingSchema } from "../../../schemas/Booking.ts";
-import { Context } from "../context/Context.ts";
-import { Client } from "./Client.ts";
-import { Result } from "./types.ts";
+} from "@octocloud/types";
+import { CreateBookingSchema } from "../../../schemas/Booking";
+import { Context } from "../context/Context";
+import { Client } from "./Client";
+import { Result } from "./types";
 
 export class ApiClient extends Client {
   private url: string;

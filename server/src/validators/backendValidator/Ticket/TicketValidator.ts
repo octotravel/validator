@@ -1,11 +1,11 @@
-import { RedemptionMethod, DeliveryFormat, Ticket } from "https://esm.sh/@octocloud/types@1.5.2";
+import { RedemptionMethod, DeliveryFormat, Ticket } from "@octocloud/types";
 import {
   StringValidator,
   EnumValidator,
   NullValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class TicketValidator implements ModelValidator {
   private path: string;

@@ -1,10 +1,10 @@
-import { CapabilityId, Supplier } from "https://esm.sh/@octocloud/types@1.5.2";
+import { CapabilityId, Supplier } from "@octocloud/types";
 import {
   ModelValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
-import { SupplierContentValidator } from "./SupplierContentValidator.ts";
+} from "../ValidatorHelpers";
+import { SupplierContentValidator } from "./SupplierContentValidator";
 
 export class SupplierValidator implements ModelValidator {
   private path: string;

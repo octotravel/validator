@@ -1,9 +1,9 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Scenario } from "../../Scenario.ts";
-import { InvalidOptionIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator.ts";
-import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
-import { Result } from "../../../api/types.ts";
-import descriptions from "../../../consts/descriptions.ts";
+import { Booking } from "@octocloud/types";
+import { Scenario } from "../../Scenario";
+import { InvalidOptionIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator";
+import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper";
+import { Result } from "../../../api/types";
+import descriptions from "../../../consts/descriptions";
 
 export class BookingReservationInvalidOptionScenario implements Scenario {
   private result: Result<Booking>;

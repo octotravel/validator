@@ -1,7 +1,7 @@
-import { Scenario } from "../Scenario.ts";
-import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper.ts";
-import descriptions from "../../consts/descriptions.ts";
-import { Context } from "../../context/Context.ts";
+import { Scenario } from "../Scenario";
+import { ProductScenarioHelper } from "../../helpers/ProductScenarioHelper";
+import descriptions from "../../consts/descriptions";
+import { Context } from "../../context/Context";
 
 export class GetProductsScenario implements Scenario {
   private productScenarioHelper = new ProductScenarioHelper();

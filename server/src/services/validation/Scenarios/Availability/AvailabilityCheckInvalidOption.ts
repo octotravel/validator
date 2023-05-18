@@ -1,8 +1,8 @@
-import { InvalidOptionIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator.ts";
-import descriptions from "../../consts/descriptions.ts";
-import { Context } from "../../context/Context.ts";
-import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
-import { Scenario, ScenarioResult } from "../Scenario.ts";
+import { InvalidOptionIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator";
+import descriptions from "../../consts/descriptions";
+import { Context } from "../../context/Context";
+import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
+import { Scenario, ScenarioResult } from "../Scenario";
 
 export class AvailabilityCheckInvalidOptionScenario implements Scenario {
   private availabilityScenarioHelper = new AvailabilityScenarioHelper();

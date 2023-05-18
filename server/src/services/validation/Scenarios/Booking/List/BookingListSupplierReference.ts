@@ -1,10 +1,10 @@
-import { Scenario } from "../../Scenario.ts";
-import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
-import { Booker } from "../../../Booker.ts";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
-import { Context } from "../../../context/Context.ts";
+import { Scenario } from "../../Scenario";
+import { BookingListScenarioHelper } from "../../../helpers/BookingListScenarioHelper";
+import descriptions from "../../../consts/descriptions";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
+import { Booker } from "../../../Booker";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
+import { Context } from "../../../context/Context";
 
 export class BookingListSupplierReferenceScenario
   implements Scenario

@@ -1,12 +1,12 @@
-import { Scenario } from "./../../Scenarios/Scenario.ts";
-import { Flow, FlowResult } from "../Flow.ts";
-import { BookingUpdateDateScenario } from "../../Scenarios/Booking/Update/BookingUpdateDate.ts";
-import { BookingUpdateUnitItemsScenario } from "../../Scenarios/Booking/Update/BookingUpdateUnitItems.ts";
-import { BookingUpdateContactScenario } from "../../Scenarios/Booking/Update/BookingUpdateContact.ts";
-import { BookingUpdateProductScenario } from "../../Scenarios/Booking/Update/BookingUpdateProduct.ts";
-import { BaseFlow } from "../BaseFlow.ts";
-import docs from "../../consts/docs.ts";
-import { Context } from "../../context/Context.ts";
+import { Scenario } from "./../../Scenarios/Scenario";
+import { Flow, FlowResult } from "../Flow";
+import { BookingUpdateDateScenario } from "../../Scenarios/Booking/Update/BookingUpdateDate";
+import { BookingUpdateUnitItemsScenario } from "../../Scenarios/Booking/Update/BookingUpdateUnitItems";
+import { BookingUpdateContactScenario } from "../../Scenarios/Booking/Update/BookingUpdateContact";
+import { BookingUpdateProductScenario } from "../../Scenarios/Booking/Update/BookingUpdateProduct";
+import { BaseFlow } from "../BaseFlow";
+import docs from "../../consts/docs";
+import { Context } from "../../context/Context";
 
 export class BookingUpdateFlow extends BaseFlow implements Flow {
   constructor() {

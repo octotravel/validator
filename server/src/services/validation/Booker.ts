@@ -1,8 +1,8 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
-import { CreateBookingSchema } from "../../schemas/Booking.ts";
-import { Result } from "./api/types.ts";
-import { Context } from "./context/Context.ts";
-import { ProductBookable } from "./context/ProductBookable.ts";
+import { Booking } from "@octocloud/types";
+import { CreateBookingSchema } from "../../schemas/Booking";
+import { Result } from "./api/types";
+import { Context } from "./context/Context";
+import { ProductBookable } from "./context/ProductBookable";
 
 interface CreateReservationParams {
   invalidProductId?: boolean;

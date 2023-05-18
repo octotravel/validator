@@ -1,4 +1,4 @@
-import {format} from "https://esm.sh/date-fns-tz@1.3.7";
+import { format } from "date-fns-tz";
 
 export abstract class DateHelper {
   public static availabilityIdFormat = (

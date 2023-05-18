@@ -1,10 +1,10 @@
-import { Scenario } from "../../Scenario.ts";
-import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
-import { Booker } from "../../../Booker.ts";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
-import { Context } from "../../../context/Context.ts";
+import { Scenario } from "../../Scenario";
+import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper";
+import descriptions from "../../../consts/descriptions";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
+import { Booker } from "../../../Booker";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
+import { Context } from "../../../context/Context";
 
 export class BookingConfirmationUnitItemUpdateScenario
   implements Scenario
