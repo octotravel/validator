@@ -96,7 +96,7 @@ export class SupabaseLogger {
   private mapData = async (request: any, response: any, context: Context): Promise<RequestData> => {
     return new RequestData({
       id: context.requestId,
-      request: new Request(request.url, {
+      request: new Request(request.href, {
         method: request.method,
         body: JSON.stringify(await request.body),
       }),
