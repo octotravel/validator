@@ -2,7 +2,7 @@ FROM node:18.7.0-alpine3.15
 
 RUN apk add --no-cache libc6-compat
 
-WORKDIR /var/www/client/
+WORKDIR /var/www/server/
 
 COPY . .
 

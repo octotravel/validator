@@ -11,9 +11,6 @@ services:
       - octo_validator_server_node_modules:/var/www/server/node_modules:delegated
     ports:
       - ${PORT}:${PORT}
-    environment:
-      - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_KEY=${SUPABASE_KEY}
     restart: unless-stopped
 
 volumes:

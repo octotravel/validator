@@ -16,7 +16,7 @@ export class CommonValidator {
     availabilityType?: AvailabilityType
   ): ValidatorError[] => {
     const regExp = new RegExp(/^\d{2}:\d{2}$/g);
-    const errors: ValidatorError[] | null = [
+    const errors: Array<ValidatorError | null> = [
       ...openingHours
         .map((openingHour, i) => [
           RegExpValidator.validate(
