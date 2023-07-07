@@ -1,11 +1,11 @@
-import { Scenario } from "../../Scenario.ts";
-import { InvalidUnitIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidUnitIdErrorValidator.ts";
-import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers.ts";
-import { ScenarioHelper } from "../../../helpers/ScenarioHelper.ts";
-import { Booker } from "../../../Booker.ts";
-import { Context } from "../../../context/Context.ts";
+import { Scenario } from "../../Scenario";
+import { InvalidUnitIdErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidUnitIdErrorValidator";
+import { BookingConfirmationScenarioHelper } from "../../../helpers/BookingConfirmationScenarioHelper";
+import descriptions from "../../../consts/descriptions";
+import { ErrorType, ValidatorError } from "../../../../../validators/backendValidator/ValidatorHelpers";
+import { ScenarioHelper } from "../../../helpers/ScenarioHelper";
+import { Booker } from "../../../Booker";
+import { Context } from "../../../context/Context";
 
 export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
   private helper = new ScenarioHelper()

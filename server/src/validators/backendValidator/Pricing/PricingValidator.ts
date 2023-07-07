@@ -1,10 +1,10 @@
-import { Pricing, Tax } from "https://esm.sh/@octocloud/types@1.5.2";
+import { Pricing, Tax } from "@octocloud/types";
 import {
   ModelValidator,
   NumberValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class PricingValidator implements ModelValidator {
   private path: string;

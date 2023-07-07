@@ -1,6 +1,6 @@
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
-import { Capability } from "https://esm.sh/@octocloud/types@1.5.2";
-import { CapabilityValidator } from "../../../validators/backendValidator/Capability/CapabilityValidator.ts";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
+import { Capability } from "@octocloud/types";
+import { CapabilityValidator } from "../../../validators/backendValidator/Capability/CapabilityValidator";
 
 export class CapabilitiesScenarioHelper extends ScenarioHelper {
   public validateCapabilities = (

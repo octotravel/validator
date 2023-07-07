@@ -1,17 +1,17 @@
-import { BookingListFlow } from "./Flows/Booking/BookingListFlow.ts";
-import { BookingGetFlow } from "./Flows/Booking/BookingGetFlow.ts";
-import { BookingCancellationFlow } from "./Flows/Booking/BookingCancellationFlow.ts";
-import { BookingUpdateFlow } from "./Flows/Booking/BookingUpdateFlow.ts";
-import { BookingConfirmationFlow } from "./Flows/Booking/BookingConfirmationFlow.ts";
-import { BookingExtendFlow } from "./Flows/Booking/BookingExtendFlow.ts";
-import { BookingReservationFlow } from "./Flows/Booking/BookingReservationFlow.ts";
-import { AvailabilityFlow } from "./Flows/Availability/AvailabilityFlow.ts";
-import { AvailabilityCalendarFlow } from "./Flows/Availability/AvailabilityCalendarFlow.ts";
-import { ProductFlow } from "./Flows/Product/ProductFlow.ts";
-import { SupplierFlow } from "./Flows/Supplier/SupplierFlow.ts";
-// import { CapabilitiesFlow } from "./Flows/Capabilites/CapabilitiesFlow.ts";
-import { Flow, FlowResult } from "./Flows/Flow.ts";
-import { Context } from "./context/Context.ts";
+import { BookingListFlow } from "./Flows/Booking/BookingListFlow";
+import { BookingGetFlow } from "./Flows/Booking/BookingGetFlow";
+import { BookingCancellationFlow } from "./Flows/Booking/BookingCancellationFlow";
+import { BookingUpdateFlow } from "./Flows/Booking/BookingUpdateFlow";
+import { BookingConfirmationFlow } from "./Flows/Booking/BookingConfirmationFlow";
+import { BookingExtendFlow } from "./Flows/Booking/BookingExtendFlow";
+import { BookingReservationFlow } from "./Flows/Booking/BookingReservationFlow";
+import { AvailabilityFlow } from "./Flows/Availability/AvailabilityFlow";
+import { AvailabilityCalendarFlow } from "./Flows/Availability/AvailabilityCalendarFlow";
+import { ProductFlow } from "./Flows/Product/ProductFlow";
+import { SupplierFlow } from "./Flows/Supplier/SupplierFlow";
+import { CapabilitiesFlow } from "./Flows/Capabilites/CapabilitiesFlow";
+import { Flow, FlowResult } from "./Flows/Flow";
+import { Context } from "./context/Context";
 
 export class ValidationController {
   public validate = async (context: Context): Promise<FlowResult[]> => {

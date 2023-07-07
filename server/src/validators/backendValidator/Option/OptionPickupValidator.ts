@@ -1,11 +1,11 @@
-import { PickupPoint, Option } from "https://esm.sh/@octocloud/types@1.5.2";
+import { PickupPoint, Option } from "@octocloud/types";
 import {
   StringValidator,
   BooleanValidator,
   ModelValidator,
   ValidatorError,
   NumberValidator,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class OptionPickupValidator implements ModelValidator {
   private path: string;

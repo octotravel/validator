@@ -1,9 +1,9 @@
-import { Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Scenario } from "../Scenario.ts";
-import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
-import { DateHelper } from "../../../../helpers/DateHelper.ts";
-import descriptions from "../../consts/descriptions.ts";
-import { Context } from "../../context/Context.ts";
+import { Product } from "@octocloud/types";
+import { Scenario } from "../Scenario";
+import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
+import { DateHelper } from "../../../../helpers/DateHelper";
+import descriptions from "../../consts/descriptions";
+import { Context } from "../../context/Context";
 
 export class AvailabilityCheckDateScenario implements Scenario {
   private product: Product;

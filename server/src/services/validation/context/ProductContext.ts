@@ -1,10 +1,10 @@
-import * as R from "https://esm.sh/ramda@0.28.0";
-import { AvailabilityType, Product, Availability } from "https://esm.sh/@octocloud/types@1.5.2";
+import * as R from "ramda";
+import { AvailabilityType, Product, Availability } from "@octocloud/types";
 import {
   ErrorType,
   ValidatorError,
-} from "../../../validators/backendValidator/ValidatorHelpers.ts";
-import { ProductBookable } from "./ProductBookable.ts";
+} from "../../../validators/backendValidator/ValidatorHelpers";
+import { ProductBookable } from "./ProductBookable";
 
 export class ProductContext {
   private _openingHourProducts: Product[] = [];

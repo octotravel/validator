@@ -1,11 +1,11 @@
-import { Result } from './../../../services/validation/api/types.ts';
-import { NOT_FOUND, STATUS_NOT_FOUND } from "../../../models/Error.ts";
+import { Result } from './../../../services/validation/api/types';
+import { NOT_FOUND, STATUS_NOT_FOUND } from "../../../models/Error";
 import {
   ModelValidator,
   NumberValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class NotFoundErrorValidator implements ModelValidator {
   public validate = (result: Result<any>): ValidatorError[] => {

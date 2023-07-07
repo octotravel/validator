@@ -1,5 +1,5 @@
-import { Availability, Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Context } from "../context/Context.ts";
+import { Availability, Product } from "@octocloud/types";
+import { Context } from "../context/Context";
 
 export interface Scenario {
   validate: (context: Context) => Promise<ScenarioResult>;

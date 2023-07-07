@@ -1,12 +1,10 @@
-import { createClient, SupabaseClient as SupabaseDBClient } from 'https://esm.sh/@supabase/supabase-js@1.28.1';
-import { Config } from './Config.ts';
+import { createClient, SupabaseClient as SupabaseDBClient } from '@supabase/supabase-js';
 
 export class SupabaseClient {
-  private config = new Config();
-
   private client: SupabaseDBClient;
+  
   constructor() {
-    this.client = this.createClient(this.config.supabaseUrl, this.config.supabaseKey);
+    this.client = this.createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
   }
 
   private createClient = (url: string, key: string): SupabaseDBClient => {

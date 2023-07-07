@@ -1,13 +1,13 @@
-import { Booking, BookingStatus } from "https://esm.sh/@octocloud/types@1.5.2";
+import { Booking, BookingStatus } from "@octocloud/types";
 import {
   ErrorType,
   ModelValidator,
   ValidatorError,
-} from "../../ValidatorHelpers.ts";
-import { BookingStateCancelledValidator } from "./BookingStateCancelledValidator.ts";
-import { BookingStateConfirmedValidator } from "./BookingStateConfirmedValidator.ts";
-import { BookingStateExpiredValidator } from "./BookingStateExpiredValidator.ts";
-import { BookingStateOnHoldValidator } from "./BookingStateOnHoldValidator.ts";
+} from "../../ValidatorHelpers";
+import { BookingStateCancelledValidator } from "./BookingStateCancelledValidator";
+import { BookingStateConfirmedValidator } from "./BookingStateConfirmedValidator";
+import { BookingStateExpiredValidator } from "./BookingStateExpiredValidator";
+import { BookingStateOnHoldValidator } from "./BookingStateOnHoldValidator";
 
 export class BookingStateValidator implements ModelValidator {
   private onHoldValidator: BookingStateOnHoldValidator;

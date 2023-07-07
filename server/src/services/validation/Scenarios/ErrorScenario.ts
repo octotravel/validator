@@ -1,5 +1,5 @@
-import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
-import { Scenario, ScenarioResult, ValidationResult } from "./Scenario.ts";
+import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers";
+import { Scenario, ScenarioResult, ValidationResult } from "./Scenario";
 
 export class ErrorScenario implements Scenario {
   private errors: ValidatorError[] = [];

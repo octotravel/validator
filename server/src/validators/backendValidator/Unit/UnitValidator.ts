@@ -4,7 +4,7 @@ import {
   Unit,
   ContactField,
   PricingPer,
-} from "https://esm.sh/@octocloud/types@1.5.2";
+} from "@octocloud/types";
 import {
   StringValidator,
   BooleanValidator,
@@ -13,8 +13,8 @@ import {
   ModelValidator,
   ValidatorError,
   StringArrayValidator,
-} from "../ValidatorHelpers.ts";
-import { UnitPricingValidator } from "./UnitPricingValidator.ts";
+} from "../ValidatorHelpers";
+import { UnitPricingValidator } from "./UnitPricingValidator";
 
 export class UnitValidator implements ModelValidator {
   private path: string;

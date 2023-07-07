@@ -1,8 +1,8 @@
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
-import { SupplierValidator } from "../../../validators/backendValidator/Supplier/SupplierValidator.ts";
-import { Supplier } from "https://esm.sh/@octocloud/types@1.5.2";
-import { ScenarioResult } from "../Scenarios/Scenario.ts";
-import { Context } from "../context/Context.ts";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
+import { SupplierValidator } from "../../../validators/backendValidator/Supplier/SupplierValidator";
+import { Supplier } from "@octocloud/types";
+import { ScenarioResult } from "../Scenarios/Scenario";
+import { Context } from "../context/Context";
 
 export class SupplierScenarioHelper extends ScenarioHelper {
   public validateSupplier = (

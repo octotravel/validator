@@ -1,6 +1,6 @@
-import { CapabilityId } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Result } from "./types.ts";
-import { Context } from "../context/Context.ts"
+import { CapabilityId } from "@octocloud/types";
+import { Result } from "./types";
+import { Context } from "../context/Context"
 
 export interface FetchData {
   url: string;

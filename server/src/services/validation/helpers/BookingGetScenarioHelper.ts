@@ -1,10 +1,10 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
-import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator.ts";
-import { Context } from "../context/Context.ts";
+import { Booking } from "@octocloud/types";
+import { BookingValidator } from "../../../validators/backendValidator/Booking/BookingValidator";
+import { Context } from "../context/Context";
 import {
   ScenarioHelper,
   ScenarioHelperData,
-} from "./ScenarioHelper.ts";
+} from "./ScenarioHelper";
 
 export class BookingGetScenarioHelper extends ScenarioHelper {
   public validateBookingGet = (

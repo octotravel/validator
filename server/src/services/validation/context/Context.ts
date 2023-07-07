@@ -1,12 +1,12 @@
-import { ProductContext } from "./ProductContext.ts";
-import { Capability, CapabilityId, Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { ValidationEndpoint } from "../../../schemas/Validation.ts";
-import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers.ts";
-import { ApiClient } from "../api/ApiClient.ts";
-import { DateHelper } from "../../../helpers/DateHelper.ts";
-import { addDays } from "https://esm.sh/date-fns@2.29.1";
-import { uuid } from " https://deno.land/x/uuid/mod.ts";
-import { SubRequestMapper } from "../../logging/SubRequestMapper.ts";
+import { ProductContext } from "./ProductContext";
+import { Capability, CapabilityId, Product } from "@octocloud/types";
+import { ValidationEndpoint } from "../../../schemas/Validation";
+import { ValidatorError } from "../../../validators/backendValidator/ValidatorHelpers";
+import { ApiClient } from "../api/ApiClient";
+import { DateHelper } from "../../../helpers/DateHelper";
+import { addDays } from "date-fns";
+import { v4 as uuid } from 'uuid';
+import { SubRequestMapper } from "../../logging/SubRequestMapper";
 
 export interface ErrorResult<T> {
   data: T | null;

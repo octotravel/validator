@@ -1,10 +1,10 @@
-import { Flow, FlowResult } from "../Flow.ts";
-import { BookingListSupplierReferenceScenario } from "../../Scenarios/Booking/List/BookingListSupplierReference.ts";
-import { BookingListResellerReferenceScenario } from "../../Scenarios/Booking/List/BookingListResellerReference.ts";
-import { BookingListBadRequestScenario } from "../../Scenarios/Booking/List/BookingListBadRequest.ts";
-import { BaseFlow } from "../BaseFlow.ts";
-import docs from "../../consts/docs.ts";
-import { Context } from "../../context/Context.ts";
+import { Flow, FlowResult } from "../Flow";
+import { BookingListSupplierReferenceScenario } from "../../Scenarios/Booking/List/BookingListSupplierReference";
+import { BookingListResellerReferenceScenario } from "../../Scenarios/Booking/List/BookingListResellerReference";
+import { BookingListBadRequestScenario } from "../../Scenarios/Booking/List/BookingListBadRequest";
+import { BaseFlow } from "../BaseFlow";
+import docs from "../../consts/docs";
+import { Context } from "../../context/Context";
 
 export class BookingListFlow extends BaseFlow implements Flow {
   constructor() {
