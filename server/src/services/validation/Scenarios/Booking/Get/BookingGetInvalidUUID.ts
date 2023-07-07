@@ -1,8 +1,8 @@
-import { Scenario } from "../../Scenario.ts";
-import { InvalidBookingUUIDErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidBookingUUIDErrorValidator.ts";
-import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper.ts";
-import descriptions from "../../../consts/descriptions.ts";
-import { Context } from "../../../context/Context.ts";
+import { Scenario } from "../../Scenario";
+import { InvalidBookingUUIDErrorValidator } from "../../../../../validators/backendValidator/Error/InvalidBookingUUIDErrorValidator";
+import { BookingGetScenarioHelper } from "../../../helpers/BookingGetScenarioHelper";
+import descriptions from "../../../consts/descriptions";
+import { Context } from "../../../context/Context";
 
 export class BookingGetInvalidUUIDScenario implements Scenario {
   private bookingGetScenarioHelper = new BookingGetScenarioHelper();

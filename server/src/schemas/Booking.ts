@@ -1,29 +1,5 @@
-// deno-lint-ignore-file no-empty-interface
-import * as yup from "https://esm.sh/yup@0.32.11";
-import {
-  CreateBookingBodySchema,
-  createBookingBodySchema,
-  ConfirmBookingBodySchema,
-  ConfirmBookingPathParamsSchema,
-  confirmBookingBodySchema,
-  confirmBookingPathParamsSchema,
-  UpdateBookingBodySchema,
-  UpdateBookingPathParamsSchema,
-  updateBookingPathParamsSchema,
-  updateBookingBodySchema,
-  CancelBookingBodySchema,
-  CancelBookingPathParamsSchema,
-  cancelBookingBodySchema,
-  cancelBookingPathParamsSchema,
-  ExtendBookingBodySchema,
-  ExtendBookingPathParamsSchema,
-  extendBookingBodySchema,
-  extendBookingPathParamsSchema,
-  GetBookingPathParamsSchema,
-  getBookingPathParamsSchema,
-  GetBookingsQueryParamsSchema,
-  getBookingsQueryParamsSchema,
-} from "https://esm.sh/@octocloud/types@1.5.2";
+import { CancelBookingBodySchema, CancelBookingPathParamsSchema, ConfirmBookingBodySchema, ConfirmBookingPathParamsSchema, CreateBookingBodySchema, ExtendBookingBodySchema, ExtendBookingPathParamsSchema, GetBookingPathParamsSchema, GetBookingsQueryParamsSchema, UpdateBookingBodySchema, UpdateBookingPathParamsSchema, cancelBookingBodySchema, cancelBookingPathParamsSchema, confirmBookingBodySchema, confirmBookingPathParamsSchema, createBookingBodySchema, extendBookingBodySchema, extendBookingPathParamsSchema, getBookingPathParamsSchema, getBookingsQueryParamsSchema, updateBookingBodySchema, updateBookingPathParamsSchema } from '@octocloud/types';
+import * as yup from 'yup';
 
 export interface GetBookingSchema extends GetBookingPathParamsSchema {}
 

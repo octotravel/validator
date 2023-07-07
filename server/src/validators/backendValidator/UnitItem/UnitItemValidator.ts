@@ -5,8 +5,8 @@ import {
   PricingPer,
   DeliveryMethod,
   Ticket,
-} from "https://esm.sh/@octocloud/types@1.5.2";
-import { UnitValidator } from "../Unit/UnitValidator.ts";
+} from "@octocloud/types";
+import { UnitValidator } from "../Unit/UnitValidator";
 
 import {
   StringValidator,
@@ -14,10 +14,10 @@ import {
   NullValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
-import { ContactValidator } from "../Contact/ContactValidator.ts";
-import { PricingValidator } from "../Pricing/PricingValidator.ts";
-import { TicketValidator } from "../Ticket/TicketValidator.ts";
+} from "../ValidatorHelpers";
+import { ContactValidator } from "../Contact/ContactValidator";
+import { PricingValidator } from "../Pricing/PricingValidator";
+import { TicketValidator } from "../Ticket/TicketValidator";
 
 export class UnitItemValidator implements ModelValidator {
   private path: string;

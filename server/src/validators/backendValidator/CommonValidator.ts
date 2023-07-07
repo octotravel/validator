@@ -1,9 +1,9 @@
-import { AvailabilityType, OpeningHours } from "https://esm.sh/@octocloud/types@1.5.2";
+import { AvailabilityType, OpeningHours } from "@octocloud/types";
 import {
   ArrayValidator,
   RegExpValidator,
   ValidatorError,
-} from "./ValidatorHelpers.ts";
+} from "./ValidatorHelpers";
 
 interface CommonValidatorParams {
   nullable?: boolean;
@@ -16,7 +16,7 @@ export class CommonValidator {
     availabilityType?: AvailabilityType
   ): ValidatorError[] => {
     const regExp = new RegExp(/^\d{2}:\d{2}$/g);
-    const errors: ValidatorError[] | null = [
+    const errors: Array<ValidatorError | null> = [
       ...openingHours
         .map((openingHour, i) => [
           RegExpValidator.validate(

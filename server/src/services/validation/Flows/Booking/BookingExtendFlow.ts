@@ -1,9 +1,9 @@
-import { Flow, FlowResult } from "../Flow.ts";
-import { BookingReservationExtendScenario } from "../../Scenarios/Booking/Extend/BookingReservationExtend.ts";
-import { BookingReservationExtendInvalidUUIDScenario } from "../../Scenarios/Booking/Extend/BookingReservationExtendInvalidUUID.ts";
-import { BaseFlow } from "../BaseFlow.ts";
-import docs from "../../consts/docs.ts";
-import { Context } from "../../context/Context.ts";
+import { Flow, FlowResult } from "../Flow";
+import { BookingReservationExtendScenario } from "../../Scenarios/Booking/Extend/BookingReservationExtend";
+import { BookingReservationExtendInvalidUUIDScenario } from "../../Scenarios/Booking/Extend/BookingReservationExtendInvalidUUID";
+import { BaseFlow } from "../BaseFlow";
+import docs from "../../consts/docs";
+import { Context } from "../../context/Context";
 
 export class BookingExtendFlow extends BaseFlow implements Flow {
   constructor() {

@@ -1,13 +1,13 @@
-import { TicketValidator } from "./../Ticket/TicketValidator.ts";
+import { TicketValidator } from "./../Ticket/TicketValidator";
 import {
   CapabilityId,
   Booking,
   BookingStatus,
   DeliveryMethod,
-} from "https://esm.sh/@octocloud/types@1.5.2";
-import { BookingStateValidator } from "./BookingState/BookingStateValidator.ts";
-import { OptionValidator } from "../Option/OptionValidator.ts";
-import { ProductValidator } from "../Product/ProductValidator.ts";
+} from "@octocloud/types";
+import { BookingStateValidator } from "./BookingState/BookingStateValidator";
+import { OptionValidator } from "../Option/OptionValidator";
+import { ProductValidator } from "../Product/ProductValidator";
 import {
   BooleanValidator,
   EnumArrayValidator,
@@ -16,12 +16,12 @@ import {
   NullValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
-import { ContactValidator } from "../Contact/ContactValidator.ts";
-import { UnitItemValidator } from "../UnitItem/UnitItemValidator.ts";
-import { PricingValidator } from "../Pricing/PricingValidator.ts";
-import { CommonValidator } from "../CommonValidator.ts";
-import { BookingPickupValidator } from "./BookingPickupValidator.ts";
+} from "../ValidatorHelpers";
+import { ContactValidator } from "../Contact/ContactValidator";
+import { UnitItemValidator } from "../UnitItem/UnitItemValidator";
+import { PricingValidator } from "../Pricing/PricingValidator";
+import { CommonValidator } from "../CommonValidator";
+import { BookingPickupValidator } from "./BookingPickupValidator";
 
 // TODO: add support for validating pricing
 // TODO: add support for validating delivery method related things

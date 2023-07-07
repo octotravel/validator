@@ -1,14 +1,14 @@
-import * as R from "https://esm.sh/ramda@0.28.0";
-import { Availability, AvailabilityStatus, Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { ScenarioHelper } from "./ScenarioHelper.ts";
-import { Result } from "../api/types.ts";
-import { Context, ErrorResult } from "../context/Context.ts";
+import * as R from "ramda";
+import { Availability, AvailabilityStatus, Product } from "@octocloud/types";
+import { ScenarioHelper } from "./ScenarioHelper";
+import { Result } from "../api/types";
+import { Context, ErrorResult } from "../context/Context";
 import {
   ErrorType,
   ValidatorError,
-} from "../../../validators/backendValidator/ValidatorHelpers.ts";
-import { ProductBookable } from "../context/ProductBookable.ts";
-import descriptions from "../consts/descriptions.ts";
+} from "../../../validators/backendValidator/ValidatorHelpers";
+import { ProductBookable } from "../context/ProductBookable";
+import descriptions from "../consts/descriptions";
 
 export interface AvailabilityScenarioData {
   name: string;

@@ -1,13 +1,13 @@
-import { ScenarioResult } from "./../Scenarios/Scenario.ts";
-import * as R from "https://esm.sh/ramda@0.28.0";
-import { AvailabilityCalendar, Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper.ts";
+import { ScenarioResult } from "./../Scenarios/Scenario";
+import * as R from "ramda";
+import { AvailabilityCalendar, Product } from "@octocloud/types";
+import { ScenarioHelper, ScenarioHelperData } from "./ScenarioHelper";
 import {
   ErrorType,
   ValidatorError,
-} from "./../../../validators/backendValidator/ValidatorHelpers.ts";
-import { AvailabilityCalendarValidator } from "../../../validators/backendValidator/AvailabilityCalendar/AvailabilityCalendarValidator.ts";
-import { Context } from "../context/Context.ts";
+} from "./../../../validators/backendValidator/ValidatorHelpers";
+import { AvailabilityCalendarValidator } from "../../../validators/backendValidator/AvailabilityCalendar/AvailabilityCalendarValidator";
+import { Context } from "../context/Context";
 
 export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
   public validateAvailability = (

@@ -1,8 +1,8 @@
-import { Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Scenario } from "../Scenario.ts";
-import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper.ts";
-import descriptions from "../../consts/descriptions.ts";
-import { Context } from "../../context/Context.ts";
+import { Product } from "@octocloud/types";
+import { Scenario } from "../Scenario";
+import { AvailabilityScenarioHelper } from "../../helpers/AvailabilityScenarioHelper";
+import descriptions from "../../consts/descriptions";
+import { Context } from "../../context/Context";
 
 export class AvailabilityCheckAvailabilityIdScenario
   implements Scenario

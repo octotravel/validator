@@ -1,5 +1,5 @@
-import { uuid } from " https://deno.land/x/uuid/mod.ts";
-import { FetchData } from "../validation/api/Client.ts";
+import { FetchData } from "../validation/api/Client";
+import { v4 as uuid } from 'uuid';
 
 export class SubRequestMapper {
   public map = (data: FetchData, headers: Record<string, string>, response: Response, date: Date): void => {

@@ -1,9 +1,9 @@
-import { InvalidAvailabilityIdErrorValidator } from "./../../../../../validators/backendValidator/Error/InvalidAvailabilityIdErrorValidator.ts";
-import { Scenario } from "../../Scenario.ts";
-import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper.ts";
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Result } from "../../../api/types.ts";
-import descriptions from "../../../consts/descriptions.ts";
+import { InvalidAvailabilityIdErrorValidator } from "./../../../../../validators/backendValidator/Error/InvalidAvailabilityIdErrorValidator";
+import { Scenario } from "../../Scenario";
+import { BookingReservationScenarioHelper } from "../../../helpers/BookingReservationScenarioHelper";
+import { Booking } from "@octocloud/types";
+import { Result } from "../../../api/types";
+import descriptions from "../../../consts/descriptions";
 
 export class BookingReservationInvalidAvailabilityIdScenario
   implements Scenario

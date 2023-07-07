@@ -3,8 +3,8 @@ import {
   CapabilityId,
   AvailabilityCalendar,
   AvailabilityType,
-} from "https://esm.sh/@octocloud/types@1.5.2";
-import { CommonValidator } from "../CommonValidator.ts";
+} from "@octocloud/types";
+import { CommonValidator } from "../CommonValidator";
 import {
   StringValidator,
   BooleanValidator,
@@ -12,8 +12,8 @@ import {
   NumberValidator,
   ModelValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
-import { AvailabilityCalendarPricingValidator } from "./AvailabilityCalendarPricingValidator.ts";
+} from "../ValidatorHelpers";
+import { AvailabilityCalendarPricingValidator } from "./AvailabilityCalendarPricingValidator";
 
 export class AvailabilityCalendarValidator implements ModelValidator {
   private pricingValidator: AvailabilityCalendarPricingValidator;

@@ -1,8 +1,8 @@
-import { Product } from "https://esm.sh/@octocloud/types@1.5.2";
-import { Scenario, ScenarioResult } from "../Scenario.ts";
-import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper.ts";
-import descriptions from "../../consts/descriptions.ts";
-import { Context } from "../../context/Context.ts";
+import { Product } from "@octocloud/types";
+import { Scenario, ScenarioResult } from "../Scenario";
+import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper";
+import descriptions from "../../consts/descriptions";
+import { Context } from "../../context/Context";
 
 export class AvailabilityCalendarIntervalScenario implements Scenario {
   private product: Product;

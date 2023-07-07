@@ -1,4 +1,4 @@
-import { GetBookingsSchema } from "./../../../schemas/Booking.ts";
+import { GetBookingsSchema } from "./../../../schemas/Booking";
 import {
   Booking,
   CreateBookingBodySchema,
@@ -7,13 +7,13 @@ import {
   ConfirmBookingBodySchema,
   UpdateBookingBodySchema,
   CancelBookingBodySchema,
-} from "https://esm.sh/@octocloud/types@1.5.2";
+} from "@octocloud/types";
 import {
   ArrayValidator,
   ErrorType,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 interface ValidateData {
   booking: Booking | null
@@ -163,7 +163,7 @@ export class BookingEndpointValidator {
     const reservation = data?.reservation;
     const reservationExtended = data?.reservationExtended;
     const schema = data?.schema;
-    const errors: ValidatorError | null[] = [
+    const errors: Array<ValidatorError | null> = [
       StringValidator.validate(`${this.path}.status`, reservation?.status, {
         equalsTo: BookingStatus.ON_HOLD,
       }),
@@ -188,7 +188,7 @@ export class BookingEndpointValidator {
     const booking = data?.booking;
     const schema = data?.schema;
 
-    const errors: ValidatorError | null[] = [
+    const errors: Array<ValidatorError | null> = [
       StringValidator.validate(
         `${this.path}.resellerReference`,
         booking?.resellerReference,
@@ -211,7 +211,7 @@ export class BookingEndpointValidator {
   public validateUpdate = (data: ValidateUpdateData): ValidatorError[] => {
     const bookingUpdated = data?.bookingUpdated;
     const schema = data?.schema;
-    const errors: ValidatorError | null[]  = [
+    const errors: Array<ValidatorError | null>  = [
       ...this.validateContact(bookingUpdated, schema),
       ...this.validateUnitItems(schema, bookingUpdated),
     ];

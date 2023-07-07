@@ -1,11 +1,11 @@
-import { Result } from './../../../services/validation/api/types.ts';
-import { NumberValidator } from "../ValidatorHelpers.ts";
-import { INVALID_PRODUCT_ID, STATUS_BAD_REQUEST } from "../../../models/Error.ts";
+import { Result } from './../../../services/validation/api/types';
+import { NumberValidator } from "../ValidatorHelpers";
+import { INVALID_PRODUCT_ID, STATUS_BAD_REQUEST } from "../../../models/Error";
 import {
   ModelValidator,
   StringValidator,
   ValidatorError,
-} from "../ValidatorHelpers.ts";
+} from "../ValidatorHelpers";
 
 export class InvalidProductIdErrorValidator implements ModelValidator {
   public validate = (result: Result<any>): ValidatorError[] => {

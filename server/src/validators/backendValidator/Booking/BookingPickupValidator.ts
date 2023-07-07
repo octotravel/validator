@@ -1,12 +1,12 @@
-import { Booking } from "https://esm.sh/@octocloud/types@1.5.2";
+import { Booking } from "@octocloud/types";
 import {
   StringValidator,
   ModelValidator,
   ValidatorError,
   BooleanValidator,
   NumberValidator,
-} from "../ValidatorHelpers.ts";
-import { CommonValidator } from "../CommonValidator.ts";
+} from "../ValidatorHelpers";
+import { CommonValidator } from "../CommonValidator";
 
 export class BookingPickupValidator implements ModelValidator {
   private path: string;

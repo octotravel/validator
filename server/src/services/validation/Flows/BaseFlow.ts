@@ -1,10 +1,10 @@
-import { Context } from "../context/Context.ts";
+import { Context } from "../context/Context";
 import {
   Scenario,
   ScenarioResult,
   ValidationResult,
-} from "../Scenarios/Scenario.ts";
-import { FlowResult } from "./Flow.ts";
+} from "../Scenarios/Scenario";
+import { FlowResult } from "./Flow";
 
 export abstract class BaseFlow {
   private name: string;

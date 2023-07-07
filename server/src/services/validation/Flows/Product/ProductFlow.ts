@@ -1,11 +1,11 @@
-import { Scenario } from "./../../Scenarios/Scenario.ts";
-import { GetProductScenario } from "../../Scenarios/Product/GetProduct.ts";
-import { GetProductInvalidScenario } from "../../Scenarios/Product/GetProductInvalid.ts";
-import { GetProductsScenario } from "../../Scenarios/Product/GetProducts.ts";
-import { Flow, FlowResult } from "../Flow.ts";
-import { BaseFlow } from "../BaseFlow.ts";
-import docs from "../../consts/docs.ts";
-import { Context } from "../../context/Context.ts";
+import { Scenario } from "./../../Scenarios/Scenario";
+import { GetProductScenario } from "../../Scenarios/Product/GetProduct";
+import { GetProductInvalidScenario } from "../../Scenarios/Product/GetProductInvalid";
+import { GetProductsScenario } from "../../Scenarios/Product/GetProducts";
+import { Flow, FlowResult } from "../Flow";
+import { BaseFlow } from "../BaseFlow";
+import docs from "../../consts/docs";
+import { Context } from "../../context/Context";
 
 export class ProductFlow extends BaseFlow implements Flow {
   constructor() {

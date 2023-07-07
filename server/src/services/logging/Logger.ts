@@ -1,7 +1,7 @@
-import { RequestData } from './RequestData.ts';
-import { LoggerRepository } from './LoggerRepository.ts';
-import { Context } from '../validation/context/Context.ts';
-import { uuid } from " https://deno.land/x/uuid/mod.ts";
+import { RequestData } from './RequestData';
+import { LoggerRepository } from './LoggerRepository';
+import { Context } from '../validation/context/Context';
+import { v4 as uuid } from 'uuid';
 
 export class SupabaseLogger {
   private requestService = new LoggerRepository();
@@ -96,9 +96,9 @@ export class SupabaseLogger {
   private mapData = async (request: any, response: any, context: Context): Promise<RequestData> => {
     return new RequestData({
       id: context.requestId,
-      request: new Request(request.url, {
+      request: new Request(request.href, {
         method: request.method,
-        body: JSON.stringify(await request.body().value),
+        body: JSON.stringify(await request.body),
       }),
       response: new Response(JSON.stringify(response.body), {
         status: response.status,

@@ -1,10 +1,10 @@
-import { addDays } from "https://esm.sh/date-fns@2.29.1";
-import { DateHelper } from "../../../../helpers/DateHelper.ts";
-import { InvalidOptionIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator.ts";
-import descriptions from "../../consts/descriptions.ts";
-import { Context } from "../../context/Context.ts";
-import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper.ts";
-import { Scenario, ScenarioResult } from "../Scenario.ts";
+import { addDays } from "date-fns";
+import { DateHelper } from "../../../../helpers/DateHelper";
+import { InvalidOptionIdErrorValidator } from "../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator";
+import descriptions from "../../consts/descriptions";
+import { Context } from "../../context/Context";
+import { AvailabilityCalendarScenarioHelper } from "../../helpers/AvailabilityCalendarScenarioHelper";
+import { Scenario, ScenarioResult } from "../Scenario";
 
 export class AvailabilityCalendarInvalidOptionScenario
   implements Scenario

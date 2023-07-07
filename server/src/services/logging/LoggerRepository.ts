@@ -1,6 +1,6 @@
-import { PostgrestResponse } from 'https://esm.sh/@supabase/supabase-js@1.28.1';
-import { SupabaseClient } from './SupabaseClient.ts';
-import { SupabaseRequest } from './types.ts';
+import { PostgrestResponse } from '@supabase/supabase-js';
+import { SupabaseClient } from './SupabaseClient';
+import { SupabaseRequest } from './types';
 
 export class LoggerRepository {
   private client = new SupabaseClient().getClient();
