@@ -1,10 +1,10 @@
 const baseUrl = `https://docs.octo.travel/docs/octo`;
 
-const supplier = `${baseUrl}/92eb495eed75c-get-supplier`;
-const products = `${baseUrl}/3e6759d23a9bb-get-products`;
-const product = `${baseUrl}/723421057eea3-get-product`;
-const availabilityCheck = `${baseUrl}/5b08f5f75e75d-availability-check`;
-const availabilityCalendar = `${baseUrl}/11e01f57f9cb0-availability-calendar`;
+const supplier = `https://docs.octo.travel/octo-core/suppliers`;
+const products = `https://docs.octo.travel/octo-core/products`;
+const product = products;
+const availabilityCheck = `https://docs.octo.travel/octo-core/availability`;
+const availabilityCalendar = availabilityCheck;
 const bookingReservation = `${baseUrl}/813abcef90135-booking-reservation`;
 const bookingReservationExtend = `${baseUrl}/2c7924ab9128f-extend-reservation`;
 const bookingConfirmation = `${baseUrl}/def664af6bc1d-booking-confirmation`;
