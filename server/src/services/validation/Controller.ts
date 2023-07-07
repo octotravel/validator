@@ -9,14 +9,14 @@ import { AvailabilityFlow } from "./Flows/Availability/AvailabilityFlow.ts";
 import { AvailabilityCalendarFlow } from "./Flows/Availability/AvailabilityCalendarFlow.ts";
 import { ProductFlow } from "./Flows/Product/ProductFlow.ts";
 import { SupplierFlow } from "./Flows/Supplier/SupplierFlow.ts";
-import { CapabilitiesFlow } from "./Flows/Capabilites/CapabilitiesFlow.ts";
+// import { CapabilitiesFlow } from "./Flows/Capabilites/CapabilitiesFlow.ts";
 import { Flow, FlowResult } from "./Flows/Flow.ts";
 import { Context } from "./context/Context.ts";
 
 export class ValidationController {
   public validate = async (context: Context): Promise<FlowResult[]> => {
     const flows: Flow[] = [
-      new CapabilitiesFlow(),
+      // new CapabilitiesFlow(),
       new SupplierFlow(),
       new ProductFlow(),
       new AvailabilityCalendarFlow(),
