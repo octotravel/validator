@@ -34,6 +34,7 @@ export class Context implements IContext {
   public invalidAvailabilityId = "invalidAvailabilityId";
   public invalidUUID = "invalidUUID";
   public note = "Test Note";
+  private _shouldWarnOnNonHydrated = true;
 
   public localDateStart = DateHelper.getDate(new Date().toISOString());
   public localDateEnd = DateHelper.getDate(
@@ -94,4 +95,9 @@ export class Context implements IContext {
   };
 
   public getRequestDuration = (): number => this.getDuration(this.date, new Date());
+
+  public get shouldWarnOnNonHydrated(): boolean {
+    return this._shouldWarnOnNonHydrated;
+  }
+
 }

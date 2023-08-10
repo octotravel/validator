@@ -28,14 +28,16 @@ export class UnitItemValidator implements ModelValidator {
   constructor({
     path,
     capabilities,
+    shouldWarnOnNonHydrated = false,
   }: {
     path: string;
     capabilities: CapabilityId[];
+    shouldWarnOnNonHydrated?: boolean;
   }) {
     this.path = path;
     this.capabilities = capabilities;
-    this.unitValidator = new UnitValidator({ path: `${this.path}.unit`, capabilities });
-    this.contactValidator = new ContactValidator({ path: this.path });
+    this.unitValidator = new UnitValidator({ path: `${this.path}.unit`, capabilities, shouldWarnOnNonHydrated });
+    this.contactValidator = new ContactValidator({ path: this.path, shouldWarnOnNonHydrated });
     this.ticketValidator = new TicketValidator({ path: `${this.path}.ticket` });
   }
   public validate = (
@@ -43,6 +45,7 @@ export class UnitItemValidator implements ModelValidator {
     deliveryMethods?: DeliveryMethod[],
     pricingPer?: PricingPer,
   ): ValidatorError[] => {
+    const shouldWarn = Boolean(unitItem?.uuid);
     const errors = [
       StringValidator.validate(`${this.path}.uuid`, unitItem?.uuid),
       StringValidator.validate(
@@ -50,6 +53,7 @@ export class UnitItemValidator implements ModelValidator {
         unitItem?.uuid,
         {
           nullable: true,
+          shouldWarn
         }
       ),
       StringValidator.validate(
@@ -57,14 +61,16 @@ export class UnitItemValidator implements ModelValidator {
         unitItem?.uuid,
         {
           nullable: true,
+          shouldWarn
         }
       ),
-      StringValidator.validate(`${this.path}.unitId`, unitItem?.unitId),
+      StringValidator.validate(`${this.path}.unitId`, unitItem?.unitId, { shouldWarn }),
       ...this.unitValidator.validate(unitItem?.unit, pricingPer),
       EnumValidator.validate(
         `${this.path}.status`,
         unitItem?.status,
-        Object.values(BookingStatus)
+        Object.values(BookingStatus),
+        { shouldWarn }
       ),
       NullValidator.validate(
         `${this.path}.utcRedeemedAt`,

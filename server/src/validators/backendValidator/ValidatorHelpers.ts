@@ -1,6 +1,10 @@
 import * as yup from "yup";
 
-interface StringValidatorParams {
+interface BaseValidatorParams {
+  shouldWarn?: boolean;
+}
+
+interface StringValidatorParams extends BaseValidatorParams {
   nullable?: boolean;
   equalsTo?: string;
 }
@@ -29,11 +33,11 @@ export interface ModelValidator {
 }
 
 class BaseValidator {
-  protected static handleValidatedError = (error: any) => {
+  protected static handleValidatedError = (error: any, shouldWarn: boolean = false) => {
     if (error instanceof yup.ValidationError) {
       if (error.type === "required" || error.type === "typeError") {
         return new ValidatorError({
-          type: ErrorType.CRITICAL,
+          type: shouldWarn ? ErrorType.WARNING : ErrorType.CRITICAL,
           message: error.errors as any,
         });
       }
@@ -69,7 +73,7 @@ export class StringValidator extends BaseValidator {
       }
       return null;
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
@@ -89,7 +93,7 @@ export class NullValidator extends BaseValidator {
   };
 }
 
-interface NumberValidatorParams {
+interface NumberValidatorParams extends BaseValidatorParams {
   nullable?: boolean;
   integer?: boolean;
   equalsTo?: number;
@@ -124,12 +128,12 @@ export class NumberValidator extends BaseValidator {
       }
       return null
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
 
-interface BooleanValidatorParams {
+interface BooleanValidatorParams extends BaseValidatorParams {
   equalsTo?: boolean;
   errorType?: ErrorType;
 }
@@ -153,12 +157,12 @@ export class BooleanValidator extends BaseValidator {
       }
       return null;
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
 
-interface EnumValidatorParams {
+interface EnumValidatorParams extends BaseValidatorParams {
   nullable?: boolean;
   equalsTo?: boolean;
   errorType?: ErrorType;
@@ -189,12 +193,12 @@ export class EnumValidator extends BaseValidator {
       }
       return null;
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
 
-interface GeneralArrayValidatorParams {
+interface GeneralArrayValidatorParams extends BaseValidatorParams {
   min?: number;
   max?: number;
 }
@@ -217,12 +221,12 @@ export class EnumArrayValidator extends BaseValidator {
       schema.validateSync(value, { strict: true });
       return null;
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
 
-interface RegExpValidatorParams {
+interface RegExpValidatorParams extends BaseValidatorParams {
   nullable?: boolean;
   isNull?: boolean;
 }
@@ -246,7 +250,7 @@ export class RegExpValidator extends BaseValidator {
       schema.validateSync(value, { strict: true });
       return null;
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
@@ -283,7 +287,7 @@ export class RegExpArrayValidator extends BaseValidator {
         }
       }
 
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
@@ -321,7 +325,7 @@ export class ArrayValidator extends BaseValidator {
       if (err instanceof ValidatorError) {
         return err;
       }
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
@@ -342,7 +346,7 @@ export class StringArrayValidator extends BaseValidator {
       schema.validateSync(value, { strict: true });
       return null;
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }
@@ -371,7 +375,7 @@ export class NumberArrayValidator extends BaseValidator {
       schema.validateSync(value, { strict: true });
       return null;
     } catch (err) {
-      return this.handleValidatedError(err);
+      return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
 }

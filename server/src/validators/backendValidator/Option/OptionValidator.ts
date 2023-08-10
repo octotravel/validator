@@ -24,52 +24,62 @@ import { OptionPricingValidator } from "./OptionPricingValidator";
 export class OptionValidator implements ModelValidator {
   private path: string;
   private capabilities: CapabilityId[];
+  private shouldWarnOnNonHydrated: boolean;
   constructor({
     path,
     capabilities,
+    shouldWarnOnNonHydrated = false
   }: {
     path: string;
     capabilities: CapabilityId[];
+    shouldWarnOnNonHydrated?: boolean
   }) {
     this.path = path;
     this.capabilities = capabilities;
+    this.shouldWarnOnNonHydrated = shouldWarnOnNonHydrated;
   }
   public validate = (
     option?: Option | null,
     availabilityType?: AvailabilityType,
-    pricingPer?: PricingPer
+    pricingPer?: PricingPer,
   ): ValidatorError[] => {
+    const shouldWarn = this.shouldWarnOnNonHydrated;
     return [
       StringValidator.validate(`${this.path}.id`, option?.id),
-      BooleanValidator.validate(`${this.path}.default`, option?.default),
+      BooleanValidator.validate(`${this.path}.default`, option?.default, { shouldWarn }),
       StringValidator.validate(
         `${this.path}.internalName`,
-        option?.internalName
+        option?.internalName,
+        { shouldWarn }
       ),
       StringValidator.validate(`${this.path}.reference`, option?.reference, {
         nullable: true,
+        shouldWarn
       }),
       this.validateAvailabilityLocalStartTimes(
         option?.availabilityLocalStartTimes ?? [],
-        availabilityType
+        availabilityType,
       ),
       StringValidator.validate(
         `${this.path}.cancellationCutoff`,
-        option?.cancellationCutoff
+        option?.cancellationCutoff,
+        { shouldWarn }
       ),
       NumberValidator.validate(
         `${this.path}.cancellationCutoffAmount`,
         option?.cancellationCutoffAmount,
-        { integer: true }
+        { integer: true, shouldWarn }
       ),
       StringValidator.validate(
         `${this.path}.cancellationCutoffUnit`,
-        option?.cancellationCutoffUnit
+        option?.cancellationCutoffUnit,
+        { shouldWarn }
       ),
       EnumArrayValidator.validate(
         `${this.path}.requiredContactFields`,
         option?.requiredContactFields,
-        Object.values(ContactField)
+        Object.values(ContactField),
+        { shouldWarn }
       ),
       ...this.validateUnitRestrictions(option?.restrictions),
       ...this.validateUnits(option?.units ?? [], pricingPer),
@@ -99,24 +109,25 @@ export class OptionValidator implements ModelValidator {
   };
 
   private validateUnitRestrictions = (
-    restrictions?: UnitRestrictions
+    restrictions?: UnitRestrictions,
   ): ValidatorError[] =>
     [
       NumberValidator.validate(
         `${this.path}.restrictions.minUnits`,
         restrictions?.minUnits,
-        { integer: true }
+        { integer: true, shouldWarn: this.shouldWarnOnNonHydrated }
       ),
       NumberValidator.validate(
         `${this.path}.restrictions.maxUnits`,
         restrictions?.maxUnits,
-        { nullable: true, integer: true }
+        { nullable: true, integer: true, shouldWarn: this.shouldWarnOnNonHydrated }
       ),
     ].flatMap((v) => (v ? [v] : []));
 
   private validateUnits = (
     units: Unit[],
-    pricingPer?: PricingPer
+    pricingPer?: PricingPer,
+    shouldWarn: boolean = false,
   ): ValidatorError[] => {
     return units
       .map((unit, i) => {

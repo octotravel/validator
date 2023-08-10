@@ -24,69 +24,82 @@ export class ProductValidator implements ModelValidator {
   private contentValidator: ProductContentValidator;
   private path: string;
   private capabilities: CapabilityId[];
+  private shouldWarnOnNonHydrated: boolean;
 
   constructor({
     path = "",
     capabilities,
+    shouldWarnOnNonHydrated = false
   }: {
     path?: string;
     capabilities: CapabilityId[];
+    shouldWarnOnNonHydrated?: boolean 
   }) {
     this.path = path ? path : `product`;
     this.capabilities = capabilities;
     this.pricingValidator = new ProductPricingValidator({ path: this.path });
     this.contentValidator = new ProductContentValidator({ path: this.path });
+    this.shouldWarnOnNonHydrated = shouldWarnOnNonHydrated;
   }
 
   public validate = (product?: Product | null): ValidatorError[] => {
+    const shouldWarn = this.shouldWarnOnNonHydrated;
     return [
       StringValidator.validate(`${this.path}.id`, product?.id),
       StringValidator.validate(
         `${this.path}.internalName`,
-        product?.internalName
+        product?.internalName,
+        { shouldWarn }
       ),
       StringValidator.validate(`${this.path}.reference`, product?.reference, {
         nullable: true,
+        shouldWarn
       }),
-      StringValidator.validate(`${this.path}.locale`, product?.locale),
-      StringValidator.validate(`${this.path}.timeZone`, product?.timeZone),
+      StringValidator.validate(`${this.path}.locale`, product?.locale, { shouldWarn }),
+      StringValidator.validate(`${this.path}.timeZone`, product?.timeZone, { shouldWarn }),
       BooleanValidator.validate(
         `${this.path}.allowFreesale`,
-        product?.allowFreesale
+        product?.allowFreesale,
+        { shouldWarn }
       ),
       BooleanValidator.validate(
         `${this.path}.instantConfirmation`,
-        product?.instantConfirmation
+        product?.instantConfirmation,
+        { shouldWarn }
       ),
       BooleanValidator.validate(
         `${this.path}.instantDelivery`,
-        product?.instantDelivery
+        product?.instantDelivery,
+        { shouldWarn }
       ),
       BooleanValidator.validate(
         `${this.path}.availabilityRequired`,
-        product?.availabilityRequired
+        product?.availabilityRequired,
+        { shouldWarn }
       ),
       EnumValidator.validate(
         `${this.path}.availabilityType`,
         product?.availabilityType,
-        [AvailabilityType.START_TIME, AvailabilityType.OPENING_HOURS]
+        [AvailabilityType.START_TIME, AvailabilityType.OPENING_HOURS],
+        { shouldWarn }
       ),
       EnumArrayValidator.validate(
         `${this.path}.deliveryFormats`,
         product?.deliveryFormats,
         Object.values(DeliveryFormat),
-        { min: 1 }
+        { min: 1, shouldWarn }
       ),
       EnumArrayValidator.validate(
         `${this.path}.deliveryMethods`,
         product?.deliveryMethods,
         Object.values(DeliveryMethod),
-        { min: 1 }
+        { min: 1, shouldWarn }
       ),
       EnumValidator.validate(
         `${this.path}.redemptionMethod`,
         product?.redemptionMethod,
-        [RedemptionMethod.DIGITAL, RedemptionMethod.PRINT, RedemptionMethod.MANIFEST]
+        [RedemptionMethod.DIGITAL, RedemptionMethod.PRINT, RedemptionMethod.MANIFEST],
+        { shouldWarn }
       ),
       ...this.validateOptions(product),
 
@@ -98,7 +111,7 @@ export class ProductValidator implements ModelValidator {
   private validateOptions = (product?: Product | null): ValidatorError[] => {
     const options = product?.options ?? [];
     const errors = [
-      ArrayValidator.validate(`${this.path}.options`, options, { min: 1 }),
+      ArrayValidator.validate(`${this.path}.options`, options, { min: 1, shouldWarn: this.shouldWarnOnNonHydrated }),
     ];
     errors.push(
       ...options
@@ -106,6 +119,7 @@ export class ProductValidator implements ModelValidator {
           const optionValidator = new OptionValidator({
             path: `${this.path}.options[${i}]`,
             capabilities: this.capabilities,
+            shouldWarnOnNonHydrated: this.shouldWarnOnNonHydrated
           });
           return optionValidator.validate(
             option,
