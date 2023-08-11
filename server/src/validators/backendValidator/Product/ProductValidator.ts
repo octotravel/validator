@@ -24,26 +24,26 @@ export class ProductValidator implements ModelValidator {
   private contentValidator: ProductContentValidator;
   private path: string;
   private capabilities: CapabilityId[];
-  private shouldWarnOnNonHydrated: boolean;
+  private shouldNotHydrate: boolean;
 
   constructor({
     path = "",
     capabilities,
-    shouldWarnOnNonHydrated = false
+    shouldNotHydrate = false
   }: {
     path?: string;
     capabilities: CapabilityId[];
-    shouldWarnOnNonHydrated?: boolean 
+    shouldNotHydrate?: boolean
   }) {
     this.path = path ? path : `product`;
     this.capabilities = capabilities;
     this.pricingValidator = new ProductPricingValidator({ path: this.path });
     this.contentValidator = new ProductContentValidator({ path: this.path });
-    this.shouldWarnOnNonHydrated = shouldWarnOnNonHydrated;
+    this.shouldNotHydrate = shouldNotHydrate;
   }
 
   public validate = (product?: Product | null): ValidatorError[] => {
-    const shouldWarn = this.shouldWarnOnNonHydrated;
+    const shouldWarn = this.shouldNotHydrate;
     return [
       StringValidator.validate(`${this.path}.id`, product?.id),
       StringValidator.validate(
@@ -111,7 +111,7 @@ export class ProductValidator implements ModelValidator {
   private validateOptions = (product?: Product | null): ValidatorError[] => {
     const options = product?.options ?? [];
     const errors = [
-      ArrayValidator.validate(`${this.path}.options`, options, { min: 1, shouldWarn: this.shouldWarnOnNonHydrated }),
+      ArrayValidator.validate(`${this.path}.options`, options, { min: 1, shouldWarn: this.shouldNotHydrate }),
     ];
     errors.push(
       ...options
@@ -119,7 +119,7 @@ export class ProductValidator implements ModelValidator {
           const optionValidator = new OptionValidator({
             path: `${this.path}.options[${i}]`,
             capabilities: this.capabilities,
-            shouldWarnOnNonHydrated: this.shouldWarnOnNonHydrated
+            shouldNotHydrate: this.shouldNotHydrate
           });
           return optionValidator.validate(
             option,

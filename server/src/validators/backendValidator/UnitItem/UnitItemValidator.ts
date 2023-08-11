@@ -28,16 +28,16 @@ export class UnitItemValidator implements ModelValidator {
   constructor({
     path,
     capabilities,
-    shouldWarnOnNonHydrated = false,
+    shouldNotHydrate = false,
   }: {
     path: string;
     capabilities: CapabilityId[];
-    shouldWarnOnNonHydrated?: boolean;
+    shouldNotHydrate?: boolean;
   }) {
     this.path = path;
     this.capabilities = capabilities;
-    this.unitValidator = new UnitValidator({ path: `${this.path}.unit`, capabilities, shouldWarnOnNonHydrated });
-    this.contactValidator = new ContactValidator({ path: this.path, shouldWarnOnNonHydrated });
+    this.unitValidator = new UnitValidator({ path: `${this.path}.unit`, capabilities, shouldNotHydrate });
+    this.contactValidator = new ContactValidator({ path: this.path, shouldNotHydrate });
     this.ticketValidator = new TicketValidator({ path: `${this.path}.ticket` });
   }
   public validate = (

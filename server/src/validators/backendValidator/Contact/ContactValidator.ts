@@ -8,14 +8,14 @@ import {
 
 export class ContactValidator implements ModelValidator {
   private path: string;
-  private shouldWarnOnNonHydrated: boolean;
-  constructor({ path, shouldWarnOnNonHydrated = false, }: { path: string, shouldWarnOnNonHydrated?: boolean, }) {
+  private shouldNotHydrate: boolean;
+  constructor({ path, shouldNotHydrate = false, }: { path: string, shouldNotHydrate?: boolean, }) {
     this.path = `${path}.contact`;
-    this.shouldWarnOnNonHydrated = shouldWarnOnNonHydrated;
+    this.shouldNotHydrate = shouldNotHydrate;
   }
 
   public validate = (contact?: Contact): ValidatorError[] => {
-    const shouldWarn = this.shouldWarnOnNonHydrated;
+    const shouldWarn = this.shouldNotHydrate;
     return [
       StringValidator.validate(`${this.path}.fullName`, contact?.fullName, {
         nullable: true,

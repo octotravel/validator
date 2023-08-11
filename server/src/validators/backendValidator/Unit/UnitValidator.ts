@@ -19,22 +19,22 @@ import { UnitPricingValidator } from "./UnitPricingValidator";
 export class UnitValidator implements ModelValidator {
   private path: string;
   private capabilities: CapabilityId[];
-  private shouldWarnOnNonHydrated: boolean;
+  private shouldNotHydrate: boolean;
   constructor({
     path,
     capabilities,
-    shouldWarnOnNonHydrated = false,
+    shouldNotHydrate = false,
   }: {
     path: string;
     capabilities: CapabilityId[];
-    shouldWarnOnNonHydrated?: boolean;
+    shouldNotHydrate?: boolean;
   }) {
     this.path = path;
     this.capabilities = capabilities;
-    this.shouldWarnOnNonHydrated = shouldWarnOnNonHydrated;
+    this.shouldNotHydrate = shouldNotHydrate;
   }
   public validate = (unit: Unit, pricingPer?: PricingPer): ValidatorError[] => {
-    const shouldWarn = this.shouldWarnOnNonHydrated;
+    const shouldWarn = this.shouldNotHydrate;
     return [
       StringValidator.validate(`${this.path}.id`, unit?.id, { shouldWarn }),
       StringValidator.validate(`${this.path}.internalName`, unit?.internalName, { shouldWarn }),
@@ -76,7 +76,7 @@ export class UnitValidator implements ModelValidator {
   private validateRestrictions = (
     restrictions: Restrictions
   ): ValidatorError[] => {
-    const shouldWarn = this.shouldWarnOnNonHydrated;
+    const shouldWarn = this.shouldNotHydrate;
     return [
       NumberValidator.validate(
         `${this.path}.restrictions.minAge`,
