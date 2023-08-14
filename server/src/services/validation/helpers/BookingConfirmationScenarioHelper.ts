@@ -41,10 +41,11 @@ export class BookingConfirmationScenarioHelper extends ScenarioHelper {
       }),
       ...new BookingValidator({
         capabilities: context.getCapabilityIDs(),
+        shouldNotHydrate: context.shouldNotHydrate
       }).validate(booking),
     ];
 
-    if (!this.isSuccess(errors)) {
+    if (this.shouldTerminateValidation(errors, booking?.uuid, response?.status)) {
       context.terminateValidation = true;
     }
     return this.handleResult({

@@ -142,4 +142,13 @@ export class ScenarioHelper {
   protected isSuccess = (errors: ValidatorError[]): boolean => {
     return !errors.some((e) => e.type === ErrorType.CRITICAL);
   };
+
+  protected shouldTerminateValidation = (
+    errors: ValidatorError[],
+    uuid?: string,
+    httpStatus?: number,
+    expectedHttpStatus: number = 200
+  ): boolean => {
+    return ((httpStatus && httpStatus !== expectedHttpStatus) || !uuid && !this.isSuccess(errors))
+  };
 }

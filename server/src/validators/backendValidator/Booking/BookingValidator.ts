@@ -36,16 +36,21 @@ export class BookingValidator implements ModelValidator {
   private pricingValidator: PricingValidator;
   private pickupValidator: BookingPickupValidator;
   private capabilities: CapabilityId[];
-  constructor({ capabilities }: { capabilities: CapabilityId[] }) {
+  private shouldNotHydrate: boolean;
+
+  constructor({ capabilities, shouldNotHydrate = false }: { capabilities: CapabilityId[], shouldNotHydrate?: boolean }) {
     this.path = `booking`;
     this.capabilities = capabilities;
+    this.shouldNotHydrate = shouldNotHydrate;
     this.productValidator = new ProductValidator({
       path: `${this.path}.product`,
       capabilities: this.capabilities,
+      shouldNotHydrate
     });
     this.optionValidator = new OptionValidator({
       path: `${this.path}.option`,
       capabilities: this.capabilities,
+      shouldNotHydrate
     });
     this.bookingStateValidator = new BookingStateValidator({ path: this.path });
     this.contactValidator = new ContactValidator({ path: this.path });
@@ -176,6 +181,7 @@ export class BookingValidator implements ModelValidator {
         const validator = new UnitItemValidator({
           path: `${this.path}.unitItems[${i}]`,
           capabilities: this.capabilities,
+          shouldNotHydrate: this.shouldNotHydrate
         });
         return validator.validate(
           unitItem,

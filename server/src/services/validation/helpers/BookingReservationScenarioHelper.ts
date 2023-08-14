@@ -42,7 +42,7 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
       }).validate(result.data),
     ];
 
-    if (!this.isSuccess(errors)) {
+    if (this.shouldTerminateValidation(errors, reservation?.uuid, response?.status)) {
       context.terminateValidation = true;
     }
     return this.handleResult({

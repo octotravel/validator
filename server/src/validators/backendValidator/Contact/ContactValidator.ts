@@ -8,11 +8,14 @@ import {
 
 export class ContactValidator implements ModelValidator {
   private path: string;
-  constructor({ path }: { path: string }) {
+  private shouldNotHydrate: boolean;
+  constructor({ path, shouldNotHydrate = false, }: { path: string, shouldNotHydrate?: boolean, }) {
     this.path = `${path}.contact`;
+    this.shouldNotHydrate = shouldNotHydrate;
   }
 
   public validate = (contact?: Contact): ValidatorError[] => {
+    const shouldWarn = this.shouldNotHydrate;
     return [
       StringValidator.validate(`${this.path}.fullName`, contact?.fullName, {
         nullable: true,
@@ -35,7 +38,7 @@ export class ContactValidator implements ModelValidator {
           nullable: true,
         }
       ),
-      StringArrayValidator.validate(`${this.path}.locales`, contact?.locales),
+      StringArrayValidator.validate(`${this.path}.locales`, contact?.locales, { shouldWarn }),
       StringValidator.validate(`${this.path}.country`, contact?.country, {
         nullable: true,
       }),
