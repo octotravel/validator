@@ -39,7 +39,8 @@ export class BookingGetReservationScenario implements Scenario {
         name,
         description,
       },
-      context
+      context,
+      context.shouldNotHydrate
     );
   };
 }

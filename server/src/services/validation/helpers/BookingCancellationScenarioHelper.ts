@@ -38,6 +38,7 @@ export class BookingCancellationScenarioHelper extends ScenarioHelper {
       }),
       ...new BookingValidator({
         capabilities: context.getCapabilityIDs(),
+        shouldNotHydrate: context.shouldNotHydrate,
       }).validate(booking),
     ];
 

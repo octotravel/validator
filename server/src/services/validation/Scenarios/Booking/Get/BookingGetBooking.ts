@@ -35,7 +35,13 @@ export class BookingGetBookingScenario implements Scenario {
 
     const resultConfirmation = await apiClient.bookingConfirmation({
       uuid: resultReservation.data.uuid,
-      contact: {} as BookingContactSchema,
+      contact: {
+        firstName: "John",
+        lastName: "Doe",
+        emailAddress: "johndoe@mail.com",
+        fullName: "John Doe",
+        notes: "Test note",
+      },
     }, context);
 
     if (resultConfirmation.data === null) {

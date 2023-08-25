@@ -9,7 +9,8 @@ import {
 export class BookingGetScenarioHelper extends ScenarioHelper {
   public validateBookingGet = (
     data: ScenarioHelperData<Booking>,
-    context: Context
+    context: Context,
+    shouldNotHydrate: boolean = false,
   ) => {
     const { result } = data;
     const response = result?.response;
@@ -23,6 +24,7 @@ export class BookingGetScenarioHelper extends ScenarioHelper {
 
     const errors = new BookingValidator({
       capabilities: context.getCapabilityIDs(),
+      shouldNotHydrate: shouldNotHydrate,
     }).validate(result.data);
     return this.handleResult({
       ...data,
