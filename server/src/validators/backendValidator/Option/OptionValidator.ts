@@ -3,7 +3,7 @@ import {
   Unit,
   ContactField,
   Option,
-  UnitRestrictions,
+  OptionRestrictions,
   PricingPer,
   AvailabilityType,
 } from "@octocloud/types";
@@ -109,7 +109,7 @@ export class OptionValidator implements ModelValidator {
   };
 
   private validateUnitRestrictions = (
-    restrictions?: UnitRestrictions,
+    restrictions?: OptionRestrictions,
   ): ValidatorError[] =>
     [
       NumberValidator.validate(

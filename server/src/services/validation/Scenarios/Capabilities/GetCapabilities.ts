@@ -13,6 +13,10 @@ export class GetCapabilitiesScenario implements Scenario {
     const name = "Get Capabilities";
     const description = descriptions.getCapabilities;
 
+    if (result.data) {
+      context.setCapabilities(result.data);
+    }
+
     return this.capabilitiesScenarioHelper.validateCapabilities({
       result,
       name,

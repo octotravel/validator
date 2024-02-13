@@ -30,6 +30,7 @@ export class SupplierValidator implements ModelValidator {
       StringValidator.validate(`${this.path}.endpoint`, supplier?.endpoint),
 
       ...this.validateContact(supplier),
+      ...this.validateContentCapability(supplier),
     ].flatMap((v) => (v ? [v] : []));
   };
 
@@ -55,7 +56,6 @@ export class SupplierValidator implements ModelValidator {
         supplier?.contact?.address,
         { nullable: true }
       ),
-      ...this.validateContentCapability(supplier),
     ].flatMap((v) => (v ? [v] : []));
 
   private validateContentCapability = (
