@@ -16,7 +16,7 @@ import { Context } from "./context/Context";
 export class ValidationController {
   public validate = async (context: Context): Promise<FlowResult[]> => {
     const flows: Flow[] = [
-      // new CapabilitiesFlow(),
+      new CapabilitiesFlow(),
       new SupplierFlow(),
       new ProductFlow(),
       new AvailabilityCalendarFlow(),

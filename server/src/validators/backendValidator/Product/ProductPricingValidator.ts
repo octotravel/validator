@@ -5,6 +5,7 @@ import {
   EnumValidator,
   ValidatorError,
   ModelValidator,
+  BooleanValidator,
 } from "./../ValidatorHelpers";
 
 export class ProductPricingValidator implements ModelValidator {
@@ -31,6 +32,7 @@ export class ProductPricingValidator implements ModelValidator {
         product?.pricingPer,
         Object.values(PricingPer)
       ),
+      BooleanValidator.validate(`${this.path}.includeTax`, product?.includeTax),
     ].flatMap((v) => (v ? [v] : []));
   };
 }

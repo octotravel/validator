@@ -1,4 +1,4 @@
-import { ArrayValidator } from "./../ValidatorHelpers";
+import { ArrayValidator, NumberValidator } from "./../ValidatorHelpers";
 import {
   CapabilityId,
   Product,
@@ -62,6 +62,8 @@ export class ProductValidator implements ModelValidator {
         product?.allowFreesale,
         { shouldWarn }
       ),
+      NumberValidator.validate(`${this.path}.freesaleDurationAmount`, product?.freesaleDurationAmount, { shouldWarn }),
+      StringValidator.validate(`${this.path}.freesaleDurationUnit`, product?.freesaleDurationUnit, { shouldWarn }),
       BooleanValidator.validate(
         `${this.path}.instantConfirmation`,
         product?.instantConfirmation,
