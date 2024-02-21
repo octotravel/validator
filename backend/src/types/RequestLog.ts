@@ -1,6 +1,5 @@
 export interface RequestLog {
   id: string;
-  service_id: Service;
   session_id: string | null;
   connection_id: string | null;
   created_at: Date;

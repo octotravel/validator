@@ -1,15 +1,20 @@
 import { HttpNotFound } from '@octocloud/core';
 import { Router as BaseRouter, RouterType } from 'itty-router';
 import { inject, singleton } from 'tsyringe';
-import { GetDocsHandler } from './v2/GetDocsHandler';
 import { Context, Next } from 'koa';
 import { RequestMapper } from './http/request/RequestMapper';
+import { GetDocsHandler } from './v2/docs/GetDocsHandler';
+import { CreateSessionHandler } from './v2/session/CreateSessionHandler';
+import { UpdateSessionHandler } from './v2/session/UpdateSessionHandler';
+import { ValidateHandler } from './v1/validate/ValidateHandler';
 
 @singleton()
 export class ApiRouter {
   public constructor(
-    @inject(RequestMapper) private readonly requestMapper: RequestMapper,
+    @inject(ValidateHandler) private readonly validateHandler: ValidateHandler,
     @inject(GetDocsHandler) private readonly getDocsHandler: GetDocsHandler,
+    @inject(CreateSessionHandler) private readonly createSessionHandler: CreateSessionHandler,
+    @inject(UpdateSessionHandler) private readonly updateSessionHandler: UpdateSessionHandler,
     private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
@@ -18,9 +23,11 @@ export class ApiRouter {
     this.router.get('/', async (request) => await this.getDocsHandler.handleRequest(request));
 
     // V1 (Old validator)
-    this.router.post('/validate', async (request) => await this.getDocsHandler.handleRequest(request));
+    this.router.post('/validate', async (request) => await this.validateHandler.handleRequest(request));
 
     // V2 (New validator)
+    this.router.post('/session', async (request) => await this.createSessionHandler.handleRequest(request));
+    this.router.put('/session/:sessionId', async (request) => await this.updateSessionHandler.handleRequest(request));
 
     this.router.all('*', () => {
       throw new HttpNotFound({
@@ -31,7 +38,7 @@ export class ApiRouter {
   }
 
   public serve = async (ctx: Context, next: Next): Promise<void> => {
-    const request = this.requestMapper.mapRequest(ctx);
+    const request = RequestMapper.mapRequest(ctx);
     let response: Response;
 
     try {

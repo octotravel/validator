@@ -1,9 +1,7 @@
 import Koa from 'koa';
-import { singleton } from 'tsyringe';
 
-@singleton()
 export class RequestMapper {
-  public mapRequest = (ctx: Koa.Context): Request => {
+  public static mapRequest(ctx: Koa.Context): Request {
     let body: string | null = null;
 
     if (ctx.request.method !== 'GET' && ctx.request.method !== 'HEAD') {
@@ -15,5 +13,5 @@ export class RequestMapper {
       body,
       headers: ctx.headers as any,
     });
-  };
+  }
 }

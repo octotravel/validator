@@ -19,6 +19,7 @@ module.exports = {
         'no-console': 'error',
         'promise/param-names': 'off',
         'no-tabs': 'off',
+        'accessor-pairs': 'off',
         'n/handle-callback-err': 'off',
         '@typescript-eslint/semi': 'off',
         '@typescript-eslint/comma-dangle': 'off',

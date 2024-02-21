@@ -9,7 +9,14 @@ import { AnsibleDecryptCommand } from '../../console/command/AnsibleDecryptComma
 import { AnsibleEncryptCommand } from '../../console/command/AnsibleEncryptCommand';
 import { ClearDbCommand } from '../../console/command/ClearDbCommand';
 import { MigrateDbCommand } from '../../console/command/MigrateDbCommand';
-import { RequestMapper } from '../../api/http/request/RequestMapper';
+import { ValidationController } from '../validation/v1/services/validation/Controller';
+import { GetDocsHandler } from '../../api/v2/docs/GetDocsHandler';
+import { CreateSessionHandler } from '../../api/v2/session/CreateSessionHandler';
+import { UpdateSessionHandler } from '../../api/v2/session/UpdateSessionHandler';
+import { SessionFacade } from '../session/SessionFacade';
+import { SessionRepository } from '../session/SessionRepository';
+import { PostgresSessionRepository } from '../session/PostgresSessionRepository';
+import { SessionService } from '../session/SessionService';
 
 export const validatorContainer = container.createChildContainer();
 
@@ -24,12 +31,25 @@ validatorContainer.registerSingleton(Migrator);
 validatorContainer.registerSingleton(ConsoleLoggerFactory);
 validatorContainer.registerSingleton<ExceptionLogger>('ExceptionLogger', SentryExceptionLogger);
 
+// Session
+validatorContainer.registerSingleton(SessionFacade);
+validatorContainer.registerSingleton(SessionService);
+validatorContainer.registerSingleton<SessionRepository>('SessionRepository', PostgresSessionRepository);
+
 // API
 validatorContainer.registerSingleton(ApiRouter);
-validatorContainer.registerSingleton(RequestMapper);
+validatorContainer.registerSingleton(GetDocsHandler);
+validatorContainer.registerSingleton(CreateSessionHandler);
+validatorContainer.registerSingleton(UpdateSessionHandler);
 
 // Commands
 validatorContainer.registerSingleton(AnsibleDecryptCommand);
 validatorContainer.registerSingleton(AnsibleEncryptCommand);
 validatorContainer.registerSingleton(ClearDbCommand);
 validatorContainer.registerSingleton(MigrateDbCommand);
+
+// V1 validator
+validatorContainer.registerSingleton(ValidationController);
+
+// V2 validator
+validatorContainer.registerSingleton(ValidationController);
