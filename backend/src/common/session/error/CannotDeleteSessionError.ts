@@ -1,4 +1,4 @@
-import { DatabaseError } from '../../../database/error/DatabaseError';
+import { DatabaseError } from '../../database/error/DatabaseError';
 
 export class CannotDeleteSessionError extends DatabaseError {
   public readonly sessionId: string;
