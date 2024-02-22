@@ -5,11 +5,11 @@ import * as esbuild from 'esbuild';
 import esbuildPluginPino from 'esbuild-plugin-pino';
 import dotenv from 'dotenv';
 import { sentryEsbuildPlugin } from '@sentry/esbuild-plugin';
-import { EnvUtil } from './src/common/util/EnvUtil';
+import Config from './src/common/config/config';
 
 dotenv.config();
 
-const env = EnvUtil.getEnvironment(process.env.NODE_ENV).toLowerCase();
+const env = Config.getEnvironment();
 
 function generateReleaseName(): string {
   const timestamp = new Date().toISOString();
@@ -54,7 +54,7 @@ if (env !== Environment.LOCAL && env !== Environment.TEST) {
       org: 'ventrata',
       project: 'octo-node',
       telemetry: false,
-      authToken: EnvUtil.getString(process.env.***REMOVED***),
+      authToken: Config.***REMOVED***,
     }),
   );
 }

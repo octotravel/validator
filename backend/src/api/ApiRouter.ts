@@ -1,5 +1,5 @@
 import { HttpNotFound } from '@octocloud/core';
-import { Router as BaseRouter, RouterType } from 'itty-router';
+import { Router as BaseRouter, Router, RouterType } from 'itty-router';
 import { inject, singleton } from 'tsyringe';
 import { Context, Next } from 'koa';
 import { RequestMapper } from './http/request/RequestMapper';
@@ -19,16 +19,22 @@ export class ApiRouter {
   ) {
     this.router = BaseRouter();
 
-    // Main
-    this.router.get('/', async (request) => await this.getDocsHandler.handleRequest(request));
+    const v1Router = Router({ base: '/v1' });
 
     // V1 (Old validator)
-    this.router.post('/validate', async (request) => await this.validateHandler.handleRequest(request));
+    v1Router.post('/validate', async (request) => await this.validateHandler.handleRequest(request));
+
+    const v2Router = Router({ base: '/v2' });
 
     // V2 (New validator)
-    this.router.post('/session', async (request) => await this.createSessionHandler.handleRequest(request));
-    this.router.put('/session/:sessionId', async (request) => await this.updateSessionHandler.handleRequest(request));
+    v2Router.get('/session/:sessionId', async (request) => await this.createSessionHandler.handleRequest(request));
+    v2Router.post('/session', async (request) => await this.createSessionHandler.handleRequest(request));
+    v2Router.put('/session/:sessionId', async (request) => await this.updateSessionHandler.handleRequest(request));
 
+    // Main
+    this.router.get('/', async (request) => await this.getDocsHandler.handleRequest(request));
+    this.router.all('/v1/*', v1Router.handle);
+    this.router.all('/v2/*', v2Router.handle);
     this.router.all('*', () => {
       throw new HttpNotFound({
         error: 'BAD_REQUEST',
