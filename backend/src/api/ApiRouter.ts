@@ -56,6 +56,7 @@ export class ApiRouter {
         status: 200,
       });
     } catch (err: unknown) {
+      console.log(err);
       if (err instanceof Error) {
         response = new Response(JSON.stringify({ error: err.message, stack: err.stack ?? '' }), {
           headers: { 'content-type': 'application/json' },
