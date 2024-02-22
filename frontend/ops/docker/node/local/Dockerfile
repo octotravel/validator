@@ -2,13 +2,13 @@ FROM node:20.9-alpine3.17
 
 RUN apk add --no-cache libc6-compat wget git ansible
 
-WORKDIR /var/www/node/
+WORKDIR /var/www/frontend/
 
 RUN apk add --no-cache git
 
 COPY . .
 
-EXPOSE $APP_PORT
+EXPOSE $PUBLIC_APP_PORT
 
 RUN npm update --global npm
 RUN npm install --global

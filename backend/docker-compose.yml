@@ -1,14 +1,19 @@
 version: '3.9'
 
+networks:
+  octo_validator_network:
+    name: octo_validator_network
+    external: true
+
 services:
-  node:
-    container_name: octo_validator_node
+  backend:
+    container_name: octo_validator_backend
     build:
       context: .
       dockerfile: ./ops/docker/node/local/Dockerfile
     volumes:
       - ./:/var/www/node:cached
-      - octo_validator_node_modules:/var/www/node/node_modules:delegated
+      - octo_validator_backend_node_modules:/var/www/node/node_modules:delegated
     ports:
       - ${APP_PORT}:${APP_PORT}
     depends_on:
@@ -16,6 +21,8 @@ services:
     restart: unless-stopped
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+    networks:
+      - octo_validator_network
 
   postgres:
     container_name: octo_validator_postgres
@@ -33,6 +40,8 @@ services:
       - PGTZ=${TZ}
     volumes:
       - ./ops/docker/postgres/common/data:/var/lib/postgresql/data:delegated
+    networks:
+      - octo_validator_network
 
   adminer:
     container_name: octo_validator_adminer
@@ -49,9 +58,11 @@ services:
       - ADMINER_PASSWORD=${DB_PASSWORD}
       - ADMINER_USERNAME=${DB_USER}
       - ADMINER_AUTOLOGIN=1
+    networks:
+      - octo_validator_network
 
 volumes:
-  octo_validator_node_modules:
+  octo_validator_backend_node_modules:
     driver: local
     driver_opts:
       type: none

@@ -1,4 +1,4 @@
-import { validatorBaseUrl } from '$lib/consts.js';
+import { PUBLIC_VALIDATOR_BASE_URL } from '$env/static/public';
 
 export async function POST({ request }) {
 	const data = await request.json();
@@ -10,7 +10,7 @@ export async function POST({ request }) {
 		}
 	};
 
-	const response = await fetch(`${validatorBaseUrl}/validate`, {
+	const response = await fetch(`${PUBLIC_VALIDATOR_BASE_URL}/validate`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

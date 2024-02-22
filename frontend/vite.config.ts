@@ -1,7 +1,7 @@
 import { purgeCss } from 'vite-plugin-tailwind-purgecss';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
-import { env } from '$env/dynamic/private'
+import 'dotenv/config';
 
 export default defineConfig({
 	resolve: { alias: { '@': '/src' } },
@@ -16,6 +16,6 @@ export default defineConfig({
 	],
 	server: {
 		host: true,
-		port: Number(env.APP_PORT)
+		port: Number(process.env.PUBLIC_APP_PORT) || 3000
 	}
 });
