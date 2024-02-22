@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  node:
+    container_name: octo_validator_frontend
+    build:
+      context: .
+      dockerfile: ./ops/docker/node/local/Dockerfile
+    volumes:
+      - ./:/var/www/node:cached
+      - octo_validator_frontend_node_modules:/var/www/node/node_modules:delegated
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    restart: unless-stopped
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+volumes:
+  octo_validator_frontend_node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/node_modules'
