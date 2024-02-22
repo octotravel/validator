@@ -3,6 +3,7 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+	resolve: { alias: { '@': '/src' } },
 	plugins: [
 		sveltekit(),
 		purgeCss({
@@ -11,5 +12,9 @@ export default defineConfig({
 				greedy: [/^hljs-/]
 			}
 		})
-	]
+	],
+	server: {
+		host: true,
+		port: Number(process.env.PORT) || 3000
+	}
 });
