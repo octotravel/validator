@@ -42,6 +42,11 @@ const schema = {
     optional: false,
     default: '',
   },
+  BACKEND_ENDPOINT_URL: {
+    type: String,
+    optional: false,
+    default: '',
+  },
   IS_SENTRY_ENABLED: {
     type: Boolean,
     optional: false,

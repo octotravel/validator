@@ -4,37 +4,23 @@ import { inject, singleton } from 'tsyringe';
 import { Context, Next } from 'koa';
 import { RequestMapper } from './http/request/RequestMapper';
 import { GetDocsHandler } from './v2/docs/GetDocsHandler';
-import { CreateSessionHandler } from './v2/session/CreateSessionHandler';
-import { UpdateSessionHandler } from './v2/session/UpdateSessionHandler';
-import { ValidateHandler } from './v1/validate/ValidateHandler';
+import { V1Router } from './v1/V1Router';
+import { V2Router } from './v2/V2Router';
 
 @singleton()
 export class ApiRouter {
   public constructor(
-    @inject(ValidateHandler) private readonly validateHandler: ValidateHandler,
+    @inject(V1Router) private readonly v1Router: V1Router,
+    @inject(V2Router) private readonly v2Router: V2Router,
     @inject(GetDocsHandler) private readonly getDocsHandler: GetDocsHandler,
-    @inject(CreateSessionHandler) private readonly createSessionHandler: CreateSessionHandler,
-    @inject(UpdateSessionHandler) private readonly updateSessionHandler: UpdateSessionHandler,
     private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
 
-    const v1Router = Router({ base: '/v1' });
-
-    // V1 (Old validator)
-    v1Router.post('/validate', async (request) => await this.validateHandler.handleRequest(request));
-
-    const v2Router = Router({ base: '/v2' });
-
-    // V2 (New validator)
-    v2Router.get('/session/:sessionId', async (request) => await this.createSessionHandler.handleRequest(request));
-    v2Router.post('/session', async (request) => await this.createSessionHandler.handleRequest(request));
-    v2Router.put('/session/:sessionId', async (request) => await this.updateSessionHandler.handleRequest(request));
-
     // Main
     this.router.get('/', async (request) => await this.getDocsHandler.handleRequest(request));
-    this.router.all('/v1/*', v1Router.handle);
-    this.router.all('/v2/*', v2Router.handle);
+    this.router.all('/v1/*', this.v1Router.router.handle);
+    this.router.all('/v2/*', this.v2Router.router.handle);
     this.router.all('*', () => {
       throw new HttpNotFound({
         error: 'BAD_REQUEST',
