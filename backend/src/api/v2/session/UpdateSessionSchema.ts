@@ -3,7 +3,7 @@ import { CapabilityId } from '@octocloud/types';
 import { $enum } from 'ts-enum-util';
 
 export interface UpdateSessionSchema {
-  id: string,
+  id: string;
   name?: string;
   capabilities?: CapabilityId[];
 }

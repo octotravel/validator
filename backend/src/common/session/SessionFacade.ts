@@ -13,4 +13,8 @@ export class SessionFacade {
   public async updateSession(updateSessionData: UpdateSessionData): Promise<Session> {
     return await this.sessionService.updateSession(updateSessionData);
   }
+
+  public async getSession(sessionId: string): Promise<Session> {
+    return await this.sessionService.getSession(sessionId);
+  }
 }

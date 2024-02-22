@@ -5,22 +5,27 @@ const schema = {
   DB_HOST: {
     type: String,
     optional: false,
+    default: '',
   },
   DB_PORT: {
     type: Number,
     optional: false,
+    default: 15432,
   },
   DB_NAME: {
     type: String,
     optional: false,
+    default: '',
   },
   DB_USER: {
     type: String,
     optional: false,
+    default: '',
   },
   DB_PASSWORD: {
     type: String,
     optional: false,
+    default: '',
   },
   APP_PORT: {
     type: Number,
@@ -32,6 +37,11 @@ const schema = {
     optional: false,
     default: Environment.LOCAL,
   },
+  BASE_URL: {
+    type: String,
+    optional: false,
+    default: '',
+  },
   IS_SENTRY_ENABLED: {
     type: Boolean,
     optional: false,
@@ -40,6 +50,12 @@ const schema = {
   SENTRY_DNS: {
     type: String,
     optional: false,
+    default: '',
+  },
+  ***REMOVED***: {
+    type: String,
+    optional: false,
+    default: '',
   },
 } as const;
 

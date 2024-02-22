@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import { object, string } from 'yup';
 
 export interface ValidationEndpoint {
   backend: {
@@ -7,12 +7,11 @@ export interface ValidationEndpoint {
   };
 }
 
-export const validationConfigSchema: yup.SchemaOf<ValidationEndpoint> = yup
-  .object()
-  .shape({
-    backend: yup.object().shape({
-      endpoint: yup.string().required(),
-      apiKey: yup.string().required(),
-    }),
-  })
-  .required();
+export const validationConfigSchema = object({
+  backend: object()
+    .shape({
+      endpoint: string().required(),
+      apiKey: string().required(),
+    })
+    .required(),
+});

@@ -12,7 +12,7 @@ export class UpdateSessionHandler {
 
   public async handleRequest(request: IRequest): Promise<Session> {
     const requestPayload = {
-      ...await BodyParser.parseBody(request),
+      ...(await BodyParser.parseBody(request)),
       id: request.params.sessionId ?? '',
     };
     const updateSessionData = (await SchemaValidator.validateSchema<UpdateSessionSchema>(

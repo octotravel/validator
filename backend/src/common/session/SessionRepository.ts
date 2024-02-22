@@ -1,4 +1,4 @@
-import { SessionData, SessionRowData } from '../../types/Session';
+import { SessionData } from '../../types/Session';
 
 export interface SessionRepository {
   create: (sessionData: SessionData) => Promise<void>;

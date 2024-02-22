@@ -41,4 +41,14 @@ export class SessionService {
     await this.sessionRepository.update(updatedSessionData);
     return updatedSessionData;
   }
+
+  public async getSession(sessionId: string): Promise<Session> {
+    const session = await this.sessionRepository.get(sessionId);
+
+    if (session === null) {
+      throw new HttpBadRequest(`Session ${sessionId} not found.`);
+    }
+
+    return session;
+  }
 }

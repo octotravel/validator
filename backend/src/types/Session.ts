@@ -37,9 +37,3 @@ export interface SessionRowData {
   created_at: Date;
   updated_at: Date;
 }
-
-export interface GetSessionRowData {
-  id: string;
-  name: string;
-  capabilities: string[];
-}

@@ -1,11 +1,11 @@
 import { ProductContext } from './ProductContext';
 import { Capability, CapabilityId, Product } from '@octocloud/types';
-import { ValidationEndpoint } from '../../../schemas/Validation';
 import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { ApiClient } from '../api/ApiClient';
 import { DateHelper } from '../../../helpers/DateHelper';
 import { addDays } from 'date-fns';
 import { v4 as uuid } from 'uuid';
+import { ValidationEndpoint } from '../../../../../../api/v1/validate/ValidationSchema';
 
 export interface ErrorResult<T> {
   data: T | null;

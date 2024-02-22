@@ -4,7 +4,7 @@ export class PostgresUtil {
   }
 
   public static convertToStringArray(postgresArray: string): string[] {
-    if (postgresArray as unknown as string === '{}' || postgresArray === '') {
+    if ((postgresArray as unknown as string) === '{}' || postgresArray === '') {
       return [];
     }
 

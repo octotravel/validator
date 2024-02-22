@@ -17,6 +17,7 @@ import { SessionFacade } from '../session/SessionFacade';
 import { SessionRepository } from '../session/SessionRepository';
 import { PostgresSessionRepository } from '../session/PostgresSessionRepository';
 import { SessionService } from '../session/SessionService';
+import { GetSessionHandler } from '../../api/v2/session/GetSessionHandler';
 
 export const validatorContainer = container.createChildContainer();
 
@@ -39,7 +40,8 @@ validatorContainer.registerSingleton<SessionRepository>('SessionRepository', Pos
 // API
 validatorContainer.registerSingleton(ApiRouter);
 validatorContainer.registerSingleton(GetDocsHandler);
-validatorContainer.registerSingleton(CreateSessionHandler);
+validatorContainer.registerSingleton(GetSessionHandler);
+validatorContainer.registerSingleton(UpdateSessionHandler);
 validatorContainer.registerSingleton(UpdateSessionHandler);
 
 // Commands
