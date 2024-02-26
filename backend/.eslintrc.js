@@ -21,6 +21,8 @@ module.exports = {
         'no-tabs': 'off',
         'accessor-pairs': 'off',
         'n/handle-callback-err': 'off',
+        'operator-linebreak': 'off',
+        '@typescript-eslint/method-signature-style': 'off',
         '@typescript-eslint/semi': 'off',
         '@typescript-eslint/comma-dangle': 'off',
         '@typescript-eslint/member-delimiter-style': 'off',
