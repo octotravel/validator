@@ -10,7 +10,7 @@ export async function POST({ request }) {
 		}
 	};
 
-	const response = await fetch(`${PUBLIC_VALIDATOR_BASE_URL}/validate`, {
+	const response = await fetch(`${PUBLIC_VALIDATOR_BASE_URL}/v1/validate`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'
