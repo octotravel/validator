@@ -6,5 +6,5 @@ export interface GetScenariosSchema {
 }
 
 export const getScenariosSchema: SchemaOf<GetScenariosSchema> = object().shape({
-  capabilities: octoCapabilitiesValidator,
+  capabilities: octoCapabilitiesValidator.required(),
 });

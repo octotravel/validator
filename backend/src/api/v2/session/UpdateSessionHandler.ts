@@ -22,9 +22,13 @@ export class UpdateSessionHandler implements RequestHandler {
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
+    const parsedBody = await BodyParser.parseBody(request);
+
     const requestPayload = {
-      ...(await BodyParser.parseBody(request)),
       id: request.params.sessionId ?? '',
+      name: parsedBody.name ?? undefined,
+      capabilities: parsedBody.capabilities ?? undefined,
+      currentScenario: parsedBody.currentScenario !== undefined ? parsedBody.currentScenario : undefined,
     };
 
     try {

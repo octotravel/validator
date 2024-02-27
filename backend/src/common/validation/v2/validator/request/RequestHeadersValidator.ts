@@ -11,7 +11,7 @@ export interface RequestHeadersSchema {
 export const requestHeadersSchema: SchemaOf<RequestHeadersSchema> = object().shape({
   Authorization: string().required(),
   'Content-Type': string().required(),
-  'Octo-Capabilities': octoCapabilitiesValidator,
+  'Octo-Capabilities': octoCapabilitiesValidator.required(),
 });
 
 export class RequestHeadersValidator implements SpecificRequestValidator<Headers> {

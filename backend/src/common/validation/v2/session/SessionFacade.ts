@@ -14,7 +14,7 @@ export class SessionFacade {
     return await this.sessionService.updateSession(updateSessionData);
   }
 
-  public async getSession(sessionId: string): Promise<Session | null> {
+  public async getSession(sessionId: string): Promise<Session> {
     return await this.sessionService.getSession(sessionId);
   }
 }

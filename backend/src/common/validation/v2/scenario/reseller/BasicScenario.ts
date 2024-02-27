@@ -4,6 +4,7 @@ import { Scenario } from '../Scenario';
 import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 import { Step } from '../../step/Step';
+import { ScenarioId } from '../../types/ScenarioId';
 
 @singleton()
 @registry([
@@ -17,12 +18,12 @@ export class BasicScenario implements Scenario {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }
 
-  public getId(): string {
-    return 'basic';
+  public getId(): ScenarioId {
+    return ScenarioId.BASIC_SCENARIO;
   }
 
   public getName(): string {
-    return 'Basic';
+    return 'Basic Scenario';
   }
 
   public getDescription(): string {

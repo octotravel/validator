@@ -9,6 +9,7 @@ import { SessionFacade } from '../../../common/validation/v2/session/SessionFaca
 import { RequestHandler } from '../../http/request/RequestHandler';
 import { ValidationError } from 'yup';
 import { SchemaValidator } from '../../util/SchemaValidator';
+import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
 
 @singleton()
 export class GetSessionHandler implements RequestHandler {
@@ -27,14 +28,14 @@ export class GetSessionHandler implements RequestHandler {
       const validatedSchema = await SchemaValidator.validateSchema<GetSessionSchema>(getSessionSchema, requestPayload);
       const session = await this.sessionFacade.getSession(validatedSchema.id);
 
-      if (session === null) {
-        return this.errorResponseFactory.createNotFoundResponse(ErrorCode.SESSION_NOT_FOUND);
-      }
-
       return this.jsonResponseFactory.create(SessionResponse.create(session));
     } catch (e: any) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
+      }
+
+      if (e instanceof SessionNotFoundError) {
+        return this.errorResponseFactory.createNotFoundResponse(ErrorCode.SESSION_NOT_FOUND);
       }
 
       return this.errorResponseFactory.createInternalServerErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, e);

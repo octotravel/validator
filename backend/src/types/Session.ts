@@ -1,11 +1,13 @@
 import { CapabilityId } from '@octocloud/types';
+import { ScenarioId } from '../common/validation/v2/types/ScenarioId';
+import { StepId } from '../common/validation/v2/types/StepId';
 
 export interface Session {
   id: string;
   name: string;
   capabilities: CapabilityId[];
-  currentScenario: string | null;
-  currentStep: string | null;
+  currentScenario: ScenarioId | null;
+  currentStep: StepId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -14,16 +16,16 @@ export interface UpdateSessionData {
   id: string;
   name?: string;
   capabilities?: CapabilityId[];
-  currentScenario?: string | null;
-  currentStep?: string | null;
+  currentScenario?: ScenarioId | null;
+  currentStep?: StepId | null;
 }
 
 export interface SessionData {
   id: string;
   name: string;
   capabilities: CapabilityId[];
-  currentScenario: string | null;
-  currentStep: string | null;
+  currentScenario: ScenarioId | null;
+  currentStep: StepId | null;
   createdAt: Date;
   updatedAt: Date;
 }

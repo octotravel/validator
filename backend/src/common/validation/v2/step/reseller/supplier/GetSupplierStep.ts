@@ -1,10 +1,11 @@
-import { Question } from '../question/Question';
-import { Validator } from '../validator/request/Validator';
-import { Step } from './Step';
+import { Question } from '../../../question/Question';
+import { StepId } from '../../../types/StepId';
+import { Validator } from '../../../validator/Validator';
+import { Step } from '../../Step';
 
 export class GetSupplierStep implements Step {
-  public getId(): string {
-    return 'get-supplier';
+  public getId(): StepId {
+    return StepId.GET_SUPPLIER;
   }
 
   public getName(): string {
@@ -15,7 +16,7 @@ export class GetSupplierStep implements Step {
     return 'https://docs.octo.travel/octo-core/suppliers';
   }
 
-  public getValidators(): Array<Validator<void>> {
+  public getValidators(): Validator[] {
     return [];
   }
 
