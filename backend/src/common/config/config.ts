@@ -57,7 +57,7 @@ const schema = {
     optional: false,
     default: '',
   },
-  ***REMOVED***: {
+  SENTRY_AUTH_TOKEN: {
     type: String,
     optional: false,
     default: '',
