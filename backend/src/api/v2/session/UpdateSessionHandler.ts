@@ -26,12 +26,13 @@ export class UpdateSessionHandler implements RequestHandler {
       ...(await BodyParser.parseBody(request)),
       id: request.params.sessionId ?? '',
     };
+
     try {
-      const updateSessionData = (await SchemaValidator.validateSchema<UpdateSessionSchema>(
+      const validatedSchema = await SchemaValidator.validateSchema<UpdateSessionSchema>(
         updateSessionSchema,
         requestPayload,
-      )) as SessionData;
-
+      );
+      const updateSessionData = validatedSchema as SessionData;
       const session = await this.sessionFacade.updateSession(updateSessionData);
 
       return this.jsonResponseFactory.create(SessionResponse.create(session));

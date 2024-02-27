@@ -9,6 +9,7 @@ import { ValidationError } from 'yup';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 import { ErrorCode } from '../../../http/error/ErrorCode';
 import { RequestHandler } from '../../../http/request/RequestHandler';
+import { SchemaValidator } from '../../../util/SchemaValidator';
 
 @singleton()
 export class GetScenariosHandler implements RequestHandler {
@@ -24,13 +25,14 @@ export class GetScenariosHandler implements RequestHandler {
     };
 
     try {
-      const validatedSchema = getScenariosSchema.validateSync(requestPayload, {
-        abortEarly: false,
-        strict: true,
-      }) as GetScenariosSchema;
+      const validatedSchema = await SchemaValidator.validateSchema<GetScenariosSchema>(
+        getScenariosSchema,
+        requestPayload,
+      );
       const scenarios = await this.scenarioFacade.getAllResellerScenariosByCapabilities(
         validatedSchema.capabilities.split(',') as CapabilityId[],
       );
+
       return this.jsonResponseFactory.create(scenarios.map((scenario) => ScenarioResponse.create(scenario)));
     } catch (e: any) {
       if (e instanceof ValidationError) {

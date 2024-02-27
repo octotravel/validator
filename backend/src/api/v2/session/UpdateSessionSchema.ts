@@ -10,7 +10,10 @@ export interface UpdateSessionSchema {
 
 export const updateSessionSchema = object({
   id: string().uuid().required(),
-  name: string().optional(),
+  name: string()
+    .optional()
+    .min(3)
+    .transform((value) => value || ''),
   capabilities: array()
     .of(mixed().oneOf([null, ...$enum(CapabilityId).getKeys()]))
     .optional(),

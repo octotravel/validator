@@ -1,6 +1,5 @@
 import { singleton, inject } from 'tsyringe';
 import { IRequest } from 'itty-router';
-import { SchemaValidator } from '../../util/SchemaValidator';
 import { GetSessionSchema, getSessionSchema } from './GetSessionSchema';
 import { SessionResponse } from './SessionResponse';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
@@ -8,6 +7,8 @@ import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
 import { ErrorCode } from '../../http/error/ErrorCode';
 import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
 import { RequestHandler } from '../../http/request/RequestHandler';
+import { ValidationError } from 'yup';
+import { SchemaValidator } from '../../util/SchemaValidator';
 
 @singleton()
 export class GetSessionHandler implements RequestHandler {
@@ -21,13 +22,22 @@ export class GetSessionHandler implements RequestHandler {
     const requestPayload = {
       id: request.params.sessionId ?? '',
     };
-    const validatedSchema = await SchemaValidator.validateSchema<GetSessionSchema>(getSessionSchema, requestPayload);
-    const session = await this.sessionFacade.getSession(validatedSchema.id);
 
-    if (session === null) {
-      return this.errorResponseFactory.createNotFoundResponse(ErrorCode.SESSION_NOT_FOUND);
+    try {
+      const validatedSchema = await SchemaValidator.validateSchema<GetSessionSchema>(getSessionSchema, requestPayload);
+      const session = await this.sessionFacade.getSession(validatedSchema.id);
+
+      if (session === null) {
+        return this.errorResponseFactory.createNotFoundResponse(ErrorCode.SESSION_NOT_FOUND);
+      }
+
+      return this.jsonResponseFactory.create(SessionResponse.create(session));
+    } catch (e: any) {
+      if (e instanceof ValidationError) {
+        return this.errorResponseFactory.createBadRequestResponse(e.message, e);
+      }
+
+      return this.errorResponseFactory.createInternalServerErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, e);
     }
-
-    return this.jsonResponseFactory.create(SessionResponse.create(session));
   }
 }
