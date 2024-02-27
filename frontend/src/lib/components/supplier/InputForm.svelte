@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { supplierValidate } from '$lib/services/SupplierValidate';
-	import { supplierFlowResultStore } from '$lib/stores';
+	import { supplierValidate } from '$lib/services/supplier/Validate';
 	import {
 		supplierFormEndpointStore,
 		supplierFormApiKeyStore
@@ -17,13 +16,9 @@
 			apiKey: $supplierFormApiKeyStore
 		});
 	};
-
-	supplierFlowResultStore.subscribe((value) => {
-		console.log(value);
-	});
 </script>
 
-<div class="card mt-20 w-full">
+<div class="card mt-10 w-full text-slate-700">
 	<header class="card-header">
 		<h3 class="h3">OCTO Validation Tool - Supplier</h3>
 	</header>

@@ -24,6 +24,7 @@
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "10.4.17",
+		"dotenv": "16.4.5",
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
@@ -36,12 +37,12 @@
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"vite": "^5.0.3",
-		"vite-plugin-tailwind-purgecss": "0.2.0",
-		"dotenv": "16.4.5"
+		"vite-plugin-tailwind-purgecss": "0.2.0"
 	},
 	"type": "module",
 	"dependencies": {
 		"@floating-ui/dom": "1.6.3",
+		"@octocloud/types": "^1.5.23",
 		"@zerodevx/svelte-json-view": "^1.0.9",
 		"highlight.js": "11.9.0"
 	}

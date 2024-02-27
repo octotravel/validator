@@ -40,7 +40,7 @@ export interface SupplierFlowResult {
 	docs: string;
 }
 
-export interface SupplierValidationData {
+export interface SupplierValidationStore {
 	flows: SupplierFlowResult[];
 	isLoading: boolean;
 	error: string | null;
