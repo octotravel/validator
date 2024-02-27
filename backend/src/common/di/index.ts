@@ -12,18 +12,27 @@ import { MigrateDbCommand } from '../../console/command/MigrateDbCommand';
 import { ValidationController } from '../validation/v1/services/validation/Controller';
 import { GetDocsHandler } from '../../api/v2/docs/GetDocsHandler';
 import { UpdateSessionHandler } from '../../api/v2/session/UpdateSessionHandler';
-import { SessionFacade } from '../session/SessionFacade';
-import { SessionRepository } from '../session/SessionRepository';
-import { PostgresSessionRepository } from '../session/PostgresSessionRepository';
-import { SessionService } from '../session/SessionService';
 import { GetSessionHandler } from '../../api/v2/session/GetSessionHandler';
 import { BackendContainer } from '@octocloud/backend';
 import { Backend, BaseConfig } from '@octocloud/core';
 import config from '../config/config';
-import { SupplierFacade } from '../validator/v2/reseller/supplier/SupplierFacade';
+import { V1Router } from '../../api/v1/V1Router';
+import { V2Router } from '../../api/v2/V2Router';
+import { SessionFacade } from '../validation/v2/session/SessionFacade';
+import { SessionService } from '../validation/v2/session/SessionService';
+import { SessionRepository } from '../validation/v2/session/SessionRepository';
+import { PostgresSessionRepository } from '../validation/v2/session/PostgresSessionRepository';
+import { ScenarioFacade } from '../validation/v2/scenario/ScenarioFacade';
+import { ScenarioRepository } from '../validation/v2/scenario/ScenarioRepository';
+import { InMemoryScenarioRepository } from '../validation/v2/scenario/InMemoryScenarioRepository';
 import { GetSupplierHandler } from '../../api/v2/reseller/octo/supplier/GetSupplierHandler';
-import { V1Router } from 'src/api/v1/V1Router';
-import { V2Router } from 'src/api/v2/V2Router';
+import { GetScenariosHandler } from '../../api/v2/reseller/scenario/GetScenariosHandler';
+import { OctoRouter } from '../../api/v2/reseller/octo/OctoRouter';
+import { ResellerRouter } from '../../api/v2/reseller/ResellerRouter';
+import { BasicScenario } from '../validation/v2/scenario/reseller/BasicScenario';
+import { AuthMiddleware } from '../../api/v2/reseller/octo/AuthMiddleware';
+import { HeaderValidatorMiddleware } from '../../api/v2/reseller/octo/HeaderValidatorMiddleware';
+import { GetCapabilitiesHandler } from '../../api/v2/reseller/capabilities/GetCapabilitiesHandler';
 
 export const validatorContainer = container.createChildContainer();
 
@@ -53,6 +62,11 @@ validatorContainer.registerSingleton(SessionFacade);
 validatorContainer.registerSingleton(SessionService);
 validatorContainer.registerSingleton<SessionRepository>('SessionRepository', PostgresSessionRepository);
 
+// Scenario
+// Session
+validatorContainer.registerSingleton(ScenarioFacade);
+validatorContainer.registerSingleton<ScenarioRepository>('ScenarioRepository', InMemoryScenarioRepository);
+
 // API
 validatorContainer.registerSingleton(ApiRouter);
 validatorContainer.registerSingleton(GetDocsHandler);
@@ -72,5 +86,13 @@ validatorContainer.registerSingleton(ValidationController);
 
 // V2 validator
 validatorContainer.registerSingleton(V2Router);
+validatorContainer.registerSingleton(OctoRouter);
+validatorContainer.registerSingleton(ResellerRouter);
+validatorContainer.registerSingleton(AuthMiddleware);
+validatorContainer.registerSingleton(HeaderValidatorMiddleware);
 validatorContainer.registerSingleton(GetSupplierHandler);
-validatorContainer.registerSingleton(SupplierFacade);
+validatorContainer.registerSingleton(GetScenariosHandler);
+validatorContainer.registerSingleton(GetCapabilitiesHandler);
+
+// Reseller Scenarios
+validatorContainer.registerSingleton(BasicScenario);

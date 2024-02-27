@@ -9,8 +9,8 @@ import { validatorContainer } from './common/di/index';
 import config from './common/config/config';
 import { Environment } from '@octocloud/core';
 import { ApiRouter } from './api/ApiRouter';
-import { bodyParserMiddleware } from './api/http/middleware/BodyParserMiddleware';
-import { errorMiddleware } from './api/http/middleware/ErrorMiddleware';
+import koaBody from 'koa-body';
+import { errorMiddleware } from './api/http/error/ErrorMiddleware';
 
 const apiRouter = validatorContainer.resolve(ApiRouter);
 const exceptionLogger: ExceptionLogger = validatorContainer.resolve('ExceptionLogger');
@@ -30,7 +30,7 @@ app.on('error', (err, ctx: Context) => {
 });
 
 app.use(cors());
-app.use(bodyParserMiddleware);
+app.use(koaBody());
 app.use(errorMiddleware);
 app.use(async (context: Koa.Context, next: Koa.Next) => {
   await apiRouter.serve(context, next);

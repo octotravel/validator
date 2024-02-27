@@ -65,7 +65,7 @@ const schema = {
 } as const;
 
 export type Env = EnvType<typeof schema> & {
-  getEnvironment: () => Environment;
+  getEnvironment(): Environment;
 };
 
 const config: Env = load(schema) as Env;
