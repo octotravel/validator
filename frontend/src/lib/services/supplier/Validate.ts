@@ -1,8 +1,8 @@
 import type { SupplierValidationRequestData } from '$lib/types/SupplierFlow';
 import { supplierFlowResultStore } from '$lib/stores';
-import { getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
+import type { ToastSettings } from '@skeletonlabs/skeleton';
 
-export const supplierValidate = async (data: SupplierValidationRequestData) => {
+export const supplierValidate = async (data: SupplierValidationRequestData, toastStore: any) => {
 	supplierFlowResultStore.set({ flows: [], isLoading: true, error: null });
 
 	const response = await fetch(`/api/supplier`, {
@@ -15,10 +15,9 @@ export const supplierValidate = async (data: SupplierValidationRequestData) => {
 
 	if (!response.ok) {
 		supplierFlowResultStore.set({ flows: [], isLoading: false, error: response.statusText });
-		const toastStore = getToastStore();
 
 		const t: ToastSettings = {
-			message: `Error: ${response.statusText}`,
+			message: `There was an error validating the supplier. Please try again later.`,
 			background: 'variant-filled-error'
 		};
 

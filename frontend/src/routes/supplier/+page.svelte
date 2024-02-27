@@ -1,9 +1,9 @@
 <script lang="ts">
 	import FlowResult from '$lib/components/supplier/FlowResult.svelte';
 	import InputForm from '$lib/components/supplier/InputForm.svelte';
-	import type { PageData } from './$types';
+	import { pageTitleStore } from '$lib/stores';
 
-	export let data: PageData;
+	$pageTitleStore = 'Supplier';
 </script>
 
 <div class="container mx-auto justify-center">
