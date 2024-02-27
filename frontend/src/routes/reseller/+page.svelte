@@ -1,10 +1,12 @@
 <script lang="ts">
 	import CreateSession from '$lib/components/reseller/CreateSession.svelte';
-	import type { PageData } from './$types';
+	import SessionDetails from '$lib/components/reseller/SessionDetails.svelte';
+	import { pageTitleStore } from '$lib/stores';
 
-	export let data: PageData;
+	$pageTitleStore = 'Reseller';
 </script>
 
 <div class="container mx-auto justify-center">
 	<CreateSession />
+	<SessionDetails />
 </div>

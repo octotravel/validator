@@ -4,6 +4,9 @@
 		supplierFormEndpointStore,
 		supplierFormApiKeyStore
 	} from '$lib/stores/localStorageStores';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
 
 	const resetForm = () => {
 		supplierFormEndpointStore.set('');
@@ -14,14 +17,11 @@
 		supplierValidate({
 			endpoint: $supplierFormEndpointStore,
 			apiKey: $supplierFormApiKeyStore
-		});
+		}, toastStore);
 	};
 </script>
 
 <div class="card mt-10 w-full text-slate-700">
-	<header class="card-header">
-		<h3 class="h3">OCTO Validation Tool - Supplier</h3>
-	</header>
 	<section class="p-4">
 		<div class="flex gap-4">
 			<div class="w-96">

@@ -43,6 +43,7 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.6.3",
 		"@octocloud/types": "^1.5.23",
+		"@tabler/icons-svelte": "^2.47.0",
 		"@zerodevx/svelte-json-view": "^1.0.9",
 		"highlight.js": "11.9.0"
 	}
