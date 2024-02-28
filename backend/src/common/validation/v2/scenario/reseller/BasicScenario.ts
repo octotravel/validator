@@ -1,5 +1,5 @@
 import { CapabilityId } from '@octocloud/types';
-import { registry, singleton } from 'tsyringe';
+import { inject, registry, singleton } from 'tsyringe';
 import { Scenario } from '../Scenario';
 import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
@@ -14,7 +14,10 @@ import { ScenarioId } from '../../types/ScenarioId';
 export class BasicScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 
-  public constructor() {
+  public constructor(
+    @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
+    @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
+  ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }
 
@@ -31,11 +34,11 @@ export class BasicScenario implements Scenario {
   }
 
   public getRequiredCapabilities(): CapabilityId[] {
-    return [];
+    return [CapabilityId.Pricing];
   }
 
   public getOptionalCapabilities(): CapabilityId[] {
-    return [CapabilityId.Pricing];
+    return [CapabilityId.Cart];
   }
 
   public getCapabilities(): CapabilityId[] {
@@ -43,6 +46,6 @@ export class BasicScenario implements Scenario {
   }
 
   public getSteps(): Step[] {
-    return [new GetSupplierStep(), new GetProductsStep()];
+    return [this.getSupplierStep, this.getProductsStep];
   }
 }

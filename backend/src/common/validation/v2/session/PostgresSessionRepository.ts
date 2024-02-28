@@ -8,6 +8,8 @@ import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
 import { PostgresUtil } from '../../../util/PostgresUtil';
 import { SessionData, SessionRowData } from '../../../../types/Session';
 import { Database } from '../../../database/Database';
+import { ScenarioId } from '../types/ScenarioId';
+import { StepId } from '../types/StepId';
 
 @singleton()
 export class PostgresSessionRepository implements SessionRepository {
@@ -24,9 +26,9 @@ export class PostgresSessionRepository implements SessionRepository {
     const sessionData: SessionData = {
       id: sessionRowData.id,
       name: sessionRowData.name,
-      capabilities: PostgresUtil.convertToStringArray(JSON.stringify(sessionRowData.capabilities)) as CapabilityId[],
-      currentScenario: sessionRowData.current_scenario,
-      currentStep: sessionRowData.current_step,
+      capabilities: JSON.parse(JSON.stringify(sessionRowData.capabilities)) as CapabilityId[],
+      currentScenario: sessionRowData.current_scenario as ScenarioId,
+      currentStep: sessionRowData.current_step as StepId,
       createdAt: sessionRowData.created_at,
       updatedAt: sessionRowData.updated_at,
     };
@@ -58,7 +60,7 @@ export class PostgresSessionRepository implements SessionRepository {
     const sessionRowData: SessionRowData = {
       id: sessionData.id,
       name: sessionData.name,
-      capabilities: PostgresUtil.convertToPostgresArray(sessionData.capabilities),
+      capabilities: JSON.stringify(sessionData.capabilities),
       current_scenario: sessionData.currentScenario,
       current_step: sessionData.currentStep,
       created_at: sessionData.createdAt,
@@ -90,7 +92,7 @@ export class PostgresSessionRepository implements SessionRepository {
     const sessionRowData: SessionRowData = {
       id: sessionData.id,
       name: sessionData.name,
-      capabilities: PostgresUtil.convertToPostgresArray(sessionData.capabilities),
+      capabilities: JSON.stringify(sessionData.capabilities),
       current_scenario: sessionData.currentScenario,
       current_step: sessionData.currentStep,
       created_at: sessionData.createdAt,

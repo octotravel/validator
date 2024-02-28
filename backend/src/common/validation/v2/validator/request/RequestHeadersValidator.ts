@@ -1,6 +1,9 @@
 import { SchemaOf, ValidationError, object, string } from 'yup';
 import { ValidationResult } from '../../ValidationResult';
 import { octoCapabilitiesValidator } from '../../yup/RequiredHeaders';
+import { Validator } from '../Validator';
+import { ValidationFailure } from '../../ValidationFailure';
+import { getProductPathParamsSchema } from '@octocloud/types';
 
 export interface RequestHeadersSchema {
   Authorization: string;
@@ -14,7 +17,7 @@ export const requestHeadersSchema: SchemaOf<RequestHeadersSchema> = object().sha
   'Octo-Capabilities': octoCapabilitiesValidator.required(),
 });
 
-export class RequestHeadersValidator implements SpecificRequestValidator<Headers> {
+export class RequestHeadersValidator implements Validator {
   public getDocs(): string {
     return 'https://docs.octo.travel/getting-started/headers';
   }
@@ -26,15 +29,18 @@ export class RequestHeadersValidator implements SpecificRequestValidator<Headers
       'Octo-Capabilities': headers.get('Octo-Capabilities') ?? undefined,
     };
 
+    const validationResult = new ValidationResult(headers);
+
     try {
       requestHeadersSchema.validateSync(parsedHeaders, { abortEarly: false, strict: true });
     } catch (e: any) {
       if (e instanceof ValidationError) {
+        console.log(e.inner);
+        const validationFailure = new ValidationFailure(e.path ?? '', e.message, e.value);
+        validationResult.addError(validationFailure);
       }
-
-      throw e;
     }
 
-    return new ValidationResult();
+    return validationResult;
   }
 }

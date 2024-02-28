@@ -3,11 +3,7 @@ import { string } from 'yup';
 import { $enum } from 'ts-enum-util';
 
 export const octoCapabilitiesValidator = string().test((capabilities, ctx) => {
-  if (capabilities === undefined) {
-    return ctx.createError({ message: `${ctx.path} is required.` });
-  }
-
-  if (capabilities === '') {
+  if (capabilities === '' || capabilities === undefined) {
     return true;
   }
 

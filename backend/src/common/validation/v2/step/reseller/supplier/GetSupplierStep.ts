@@ -1,8 +1,10 @@
+import { singleton } from 'tsyringe';
 import { Question } from '../../../question/Question';
 import { StepId } from '../../../types/StepId';
 import { Validator } from '../../../validator/Validator';
 import { Step } from '../../Step';
 
+@singleton()
 export class GetSupplierStep implements Step {
   public getId(): StepId {
     return StepId.GET_SUPPLIER;

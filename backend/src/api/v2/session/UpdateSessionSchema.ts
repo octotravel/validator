@@ -19,7 +19,7 @@ export const updateSessionSchema = object({
     .min(3)
     .transform((value) => value || ''),
   capabilities: array()
-    .of(mixed().oneOf([null, ...$enum(CapabilityId).getKeys()]))
+    .of(mixed().oneOf([null, ...$enum(CapabilityId).getValues()]))
     .optional(),
   currentScenario: mixed()
     .oneOf([null, ...$enum(ScenarioId).getValues()])

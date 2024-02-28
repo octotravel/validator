@@ -1,11 +1,13 @@
 import { Step } from '../../Step';
-import { Validator } from '../../../validation/v2/validator/Validator';
-import { Question } from '../../../validation/v2/question/Question';
 import { StepId } from '../../../types/StepId';
+import { singleton } from 'tsyringe';
+import { Question } from '../../../question/Question';
+import { Validator } from '../../../validator/Validator';
 
+@singleton()
 export class GetProductsStep implements Step {
   public getId(): StepId {
-    return 'get-products';
+    return StepId.GET_PRODUCTS;
   }
 
   public getName(): string {

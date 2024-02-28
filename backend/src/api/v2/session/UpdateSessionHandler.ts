@@ -12,6 +12,7 @@ import { SessionNotFoundError } from '../../../common/validation/v2/session/erro
 import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
 import { ValidationError } from 'yup';
 import { RequestHandler } from '../../http/request/RequestHandler';
+import { SessionMissingRequiredScenarioCapabilities } from '../../../common/validation/v2/session/error/SessionMissingRequiredScenarioCapabilities';
 
 @singleton()
 export class UpdateSessionHandler implements RequestHandler {
@@ -43,13 +44,13 @@ export class UpdateSessionHandler implements RequestHandler {
     } catch (e: any) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
-      }
-
-      if (e instanceof SessionNotFoundError) {
+      } else if (e instanceof SessionNotFoundError) {
         return this.errorResponseFactory.createNotFoundResponse(ErrorCode.SESSION_NOT_FOUND, e);
+      } else if (e instanceof SessionMissingRequiredScenarioCapabilities) {
+        return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       }
 
-      return this.errorResponseFactory.createInternalServerErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, e);
+      throw e;
     }
   }
 }

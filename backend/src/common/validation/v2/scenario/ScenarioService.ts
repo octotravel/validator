@@ -61,6 +61,7 @@ export class ScenarioService {
         scenario.getCapabilities().length === 0 ||
         scenario.getCapabilities().some((capability) => capabilities.includes(capability))
       ) {
+        console.log('yas');
         scenarioWithCapability.push(scenario);
       }
     }

@@ -16,7 +16,7 @@ export class OctoRouter {
     this.router = Router({ base: '/v2/reseller/octo' });
 
     this.router.all('*', async (request) => {
-      await this.headerValidatorMiddleware.invoke(request);
+      return await this.headerValidatorMiddleware.invoke(request);
     });
     this.router.all('*', async (request) => {
       await this.authMiddleware.invoke(request);

@@ -25,4 +25,12 @@ export class ValidationResult {
   public addWarning(warning: ValidationFailure): void {
     this.warnings.push(warning);
   }
+
+  public hasErrors(): boolean {
+    return this.errors.length > 0;
+  }
+
+  public isValid(): boolean {
+    return !this.hasErrors();
+  }
 }

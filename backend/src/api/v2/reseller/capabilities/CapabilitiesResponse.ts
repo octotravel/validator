@@ -1,5 +1,7 @@
-import { CapabilityResponse } from './CapabilityResponse';
+export type CapabilitiesResponse = CapabilityResponse[];
 
-export class CapabilitiesResponse {
-  public constructor(public readonly items: CapabilityResponse[]) {}
+export interface CapabilityResponse {
+  name: string;
+  id: string;
+  description: string;
 }

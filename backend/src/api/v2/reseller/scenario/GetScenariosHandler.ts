@@ -3,13 +3,14 @@ import { GetScenariosSchema, getScenariosSchema } from './GetScenariosSchema';
 import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
 import { IRequest } from 'itty-router';
-import { ScenarioResponse } from './ScenarioResponse';
+import { ScenarioResponseFactory } from './ScenarioResponseFactory';
 import { CapabilityId } from '@octocloud/types';
 import { ValidationError } from 'yup';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 import { ErrorCode } from '../../../http/error/ErrorCode';
 import { RequestHandler } from '../../../http/request/RequestHandler';
 import { SchemaValidator } from '../../../util/SchemaValidator';
+import { CapabilitiesParser } from '../../../../common/util/CapabilitiesParser';
 
 @singleton()
 export class GetScenariosHandler implements RequestHandler {
@@ -21,7 +22,7 @@ export class GetScenariosHandler implements RequestHandler {
 
   public async handleRequest(request: IRequest): Promise<Response> {
     const requestPayload = {
-      capabilities: request.headers.get('Octo-Capabilities') ?? '',
+      'Octo-Capabilities': request.headers.get('Octo-Capabilities') ?? '',
     };
 
     try {
@@ -30,10 +31,10 @@ export class GetScenariosHandler implements RequestHandler {
         requestPayload,
       );
       const scenarios = await this.scenarioFacade.getAllResellerScenariosByCapabilities(
-        validatedSchema.capabilities.split(',') as CapabilityId[],
+        CapabilitiesParser.parseCapabilities(validatedSchema['Octo-Capabilities']),
       );
 
-      return this.jsonResponseFactory.create(scenarios.map((scenario) => ScenarioResponse.create(scenario)));
+      return this.jsonResponseFactory.create(scenarios.map((scenario) => ScenarioResponseFactory.create(scenario)));
     } catch (e: any) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);

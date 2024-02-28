@@ -41,6 +41,10 @@ export class ErrorResponseFactory {
     return this.createErrorResponse(this.S500_INTERNAL_SERVER_ERROR, errorCode, error);
   }
 
+  public createValidationErrorResponse(data: any, error: Error | null = null): Response {
+    return this.createErrorResponse(this.S400_BAD_REQUEST, data, error);
+  }
+
   public createErrorResponse(httpStatus: number, message: string, error: Error | null = null): Response {
     const env = config.getEnvironment();
     const isDebug = env === Environment.LOCAL || env === Environment.TEST;

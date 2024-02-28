@@ -22,6 +22,7 @@ module.exports = {
         'accessor-pairs': 'off',
         'n/handle-callback-err': 'off',
         'operator-linebreak': 'off',
+        'object-shorthand': 'off',
         '@typescript-eslint/method-signature-style': 'off',
         '@typescript-eslint/semi': 'off',
         '@typescript-eslint/comma-dangle': 'off',

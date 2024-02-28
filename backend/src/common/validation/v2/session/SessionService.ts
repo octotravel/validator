@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SessionNotFoundError } from './error/SessionNotFoundError';
 import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
+import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
 
 @singleton()
 export class SessionService {
@@ -35,25 +36,36 @@ export class SessionService {
       throw new SessionNotFoundError(updateSessionData.id);
     }
 
+    const capabilities = updateSessionData.capabilities ?? session.capabilities;
     let currentStep = null;
 
-    if (
-      updateSessionData.currentStep === null &&
-      updateSessionData.currentScenario &&
-      updateSessionData.currentScenario !== session.currentScenario
-    ) {
+    if (updateSessionData.currentScenario && updateSessionData.currentScenario !== session.currentScenario) {
       const scenario = await this.scenarioService.getScenarioById(updateSessionData.currentScenario);
-      const steps = scenario.getSteps();
+      const scenarioRequiredCapabilities = scenario.getRequiredCapabilities();
 
-      if (steps.length > 0) {
-        currentStep = steps[0].getId();
+      if (scenario.getRequiredCapabilities().length !== 0) {
+        for (const scenarioRequiredCapability of scenarioRequiredCapabilities) {
+          if (capabilities.includes(scenarioRequiredCapability)) {
+            continue;
+          }
+
+          throw new SessionMissingRequiredScenarioCapabilities(session.id, scenarioRequiredCapabilities);
+        }
+      }
+
+      if (updateSessionData.currentStep === null) {
+        const steps = scenario.getSteps();
+
+        if (steps.length > 0) {
+          currentStep = steps[0].getId();
+        }
       }
     }
 
     const updatedSessionData: SessionData = {
       ...session,
       name: updateSessionData.name ?? session.name,
-      capabilities: updateSessionData.capabilities ?? session.capabilities,
+      capabilities: capabilities,
       currentScenario:
         updateSessionData.currentScenario !== undefined ? updateSessionData.currentScenario : session.currentScenario,
       currentStep: currentStep ?? session.currentStep,
