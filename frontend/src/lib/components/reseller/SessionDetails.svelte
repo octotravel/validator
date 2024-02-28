@@ -21,7 +21,7 @@ import { resellerSessionStore } from '$lib/stores';
 					<tbody>
                         <tr>
 							<td class="font-bold">
-                                <span class="badge variant-soft-primary">
+                                <span class="badge variant-ghost-primary">
                                     ID
                                 </span>
 
@@ -30,7 +30,7 @@ import { resellerSessionStore } from '$lib/stores';
 						</tr>
                         <tr>
 							<td class="font-bold">
-                                <span class="badge variant-soft-primary">
+                                <span class="badge variant-ghost-primary">
                                 Name
                                 </span>
 
@@ -39,7 +39,7 @@ import { resellerSessionStore } from '$lib/stores';
 						</tr>
 						<tr>
 							<td class="font-bold">
-                                <span class="badge variant-soft-primary">
+                                <span class="badge variant-ghost-primary">
                                 URL
                                 </span>
 
@@ -48,7 +48,7 @@ import { resellerSessionStore } from '$lib/stores';
 						</tr>
                         <tr>
 							<td class="font-bold">
-                                <span class="badge variant-soft-primary">
+                                <span class="badge variant-ghost-primary">
                                 Capabiltilies
                                 </span>
 
@@ -57,7 +57,7 @@ import { resellerSessionStore } from '$lib/stores';
 						</tr>
                         <tr>
 							<td class="font-bold">
-                                <span class="badge variant-soft-primary">
+                                <span class="badge variant-ghost-primary">
                                 Current scenario
                                 </span>
 
@@ -70,7 +70,7 @@ import { resellerSessionStore } from '$lib/stores';
 						</tr>
                         <tr>
 							<td class="font-bold">
-                                <span class="badge variant-soft-primary">
+                                <span class="badge variant-ghost-primary">
                                 Current step
                                 </span>
 
@@ -86,9 +86,9 @@ import { resellerSessionStore } from '$lib/stores';
 			</div>
 		</section>
 		<footer class="card-footer text-end">
-			<button class="btn variant-soft" on:click={copyUrl}>Copy URL<span class="ms-1"><IconCopy /></span></button>
-            <a href="{$resellerSessionStore.session.url}" target="_blank">
-			<button class="btn variant-soft-secondary"
+			<button class="btn variant-ghost" on:click={copyUrl}>Copy URL<span class="ms-1"><IconCopy /></span></button>
+            <a href="reseller/session/{$resellerSessionStore.session.id}">
+			<button class="btn variant-ghost-secondary"
 				>Setup<span class="ms-1"><IconArrowNarrowRight /></span></button
 			>
         </a>

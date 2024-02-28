@@ -3,7 +3,7 @@ import { CapabilityId } from '@octocloud/types';
 export interface Session {
 	id: string;
 	name: string;
-	capabilities: CapabilityId[];
+	capabilities: CapabilityId[] | null;
 	currentScenario: string | null;
 	currentStep: string | null;
 	createdAt: Date;

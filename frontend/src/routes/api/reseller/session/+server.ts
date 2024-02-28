@@ -24,3 +24,17 @@ export async function GET({ request }) {
 
 	return response;
 }
+
+export async function PUT({ request }) {
+	const body = await request.json();
+	const id = body.id;
+	const response = await fetch(`${PUBLIC_VALIDATOR_BASE_URL}/v2/session/${id}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(body)
+	});
+
+	return response;
+}
