@@ -8,15 +8,15 @@ import { ScenarioId } from '../types/ScenarioId';
 export class ScenarioService {
   public constructor(@inject('ScenarioRepository') private readonly scenarioRepository: ScenarioRepository) {}
 
-  public async getAllResellerScenariosByCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
-    return await this.getAllScenariosByCapabilities(
+  public async getAllResellerScenariosAvailableForCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
+    return await this.getAllScenariosAvailableForCapabilities(
       await this.scenarioRepository.getAllResellerScenarios(),
       capabilities,
     );
   }
 
-  public async getAllSupplierScenariosByCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
-    return await this.getAllScenariosByCapabilities(
+  public async getAllSupplierAvailableForCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
+    return await this.getAllScenariosAvailableForCapabilities(
       await this.scenarioRepository.getAllSupplierScenarios(),
       capabilities,
     );
@@ -48,24 +48,29 @@ export class ScenarioService {
     return scenarioWithId;
   }
 
-  private async getAllScenariosByCapabilities(
+  private async getAllScenariosAvailableForCapabilities(
     scenarios: Scenario[],
     capabilities: CapabilityId[],
   ): Promise<Scenario[]> {
-    const scenarioWithCapability: Scenario[] = [];
-
-    for (const scenario of scenarios) {
-      if (
-        capabilities.length === 0 ||
-        scenario.getRequiredCapabilities().length === 0 ||
-        scenario.getCapabilities().length === 0 ||
-        scenario.getCapabilities().some((capability) => capabilities.includes(capability))
-      ) {
-        console.log('yas');
-        scenarioWithCapability.push(scenario);
-      }
+    if (capabilities.length === 0) {
+      return scenarios;
     }
 
-    return scenarioWithCapability;
+    const availableScenarios: Scenario[] = [];
+
+    for (const scenario of scenarios) {
+      const scenarioRequiredCapabilities = scenario.getRequiredCapabilities();
+
+      if (
+        scenarioRequiredCapabilities.length !== 0 &&
+        !scenarioRequiredCapabilities.every((requiredCapability) => capabilities.includes(requiredCapability))
+      ) {
+        continue;
+      }
+
+      availableScenarios.push(scenario);
+    }
+
+    return availableScenarios;
   }
 }

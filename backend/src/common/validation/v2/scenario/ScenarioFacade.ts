@@ -7,11 +7,11 @@ import { ScenarioService } from './ScenarioService';
 export class ScenarioFacade {
   public constructor(@inject(ScenarioService) private readonly scenarioService: ScenarioService) {}
 
-  public async getAllResellerScenariosByCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
-    return await this.scenarioService.getAllResellerScenariosByCapabilities(capabilities);
+  public async getAllResellerScenariosAvailableForCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
+    return await this.scenarioService.getAllResellerScenariosAvailableForCapabilities(capabilities);
   }
 
-  public async getAllSupplierScenariosByCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
-    return await this.scenarioService.getAllSupplierScenariosByCapabilities(capabilities);
+  public async getAllSupplierScenariosAvailableForCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
+    return await this.scenarioService.getAllSupplierAvailableForCapabilities(capabilities);
   }
 }

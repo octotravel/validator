@@ -4,7 +4,6 @@ import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
 import { IRequest } from 'itty-router';
 import { ScenarioResponseFactory } from './ScenarioResponseFactory';
-import { CapabilityId } from '@octocloud/types';
 import { ValidationError } from 'yup';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 import { ErrorCode } from '../../../http/error/ErrorCode';
@@ -30,7 +29,7 @@ export class GetScenariosHandler implements RequestHandler {
         getScenariosSchema,
         requestPayload,
       );
-      const scenarios = await this.scenarioFacade.getAllResellerScenariosByCapabilities(
+      const scenarios = await this.scenarioFacade.getAllResellerScenariosAvailableForCapabilities(
         CapabilitiesParser.parseCapabilities(validatedSchema['Octo-Capabilities']),
       );
 
