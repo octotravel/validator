@@ -3,5 +3,5 @@
 	import InputForm from '$lib/components/supplier/InputForm.svelte';
 </script>
 
-	<InputForm />
-	<FlowResult />
+<InputForm />
+<FlowResult />

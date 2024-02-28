@@ -20,10 +20,10 @@ export default {
 			themes: {
 				preset: [
 					{
-						name: 'skeleton',
+						name: 'skeleton'
 					},
 					{
-						name: 'wintry',
+						name: 'wintry'
 					},
 					{
 						name: 'gold-nouveau',

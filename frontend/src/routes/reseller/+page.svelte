@@ -3,5 +3,5 @@
 	import SessionDetails from '$lib/components/reseller/SessionDetails.svelte';
 </script>
 
-	<CreateSession />
-	<SessionDetails />
+<CreateSession />
+<SessionDetails />

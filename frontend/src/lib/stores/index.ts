@@ -21,4 +21,4 @@ export const capabilitiesStore = writable<CapabilitiesStore>({
 	capabilities: [],
 	isLoading: false,
 	error: null
-	});
+});

@@ -30,19 +30,17 @@
 	import { LightSwitch } from '@skeletonlabs/skeleton';
 	import { modeCurrent } from '@skeletonlabs/skeleton';
 
-	import  logo_light from '$lib/assets/images/logo_light.png';
+	import logo_light from '$lib/assets/images/logo_light.png';
 	import logo from '$lib/assets/images/logo.png';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 </script>
 
-<Toast position='tr' />
+<Toast position="tr" />
 
 <svelte:head>
-	<title>
-		OCTO Validation Tool
-	</title>
+	<title>OCTO Validation Tool</title>
 </svelte:head>
 
 <AppShell>
