@@ -56,7 +56,7 @@ export abstract class ResellerService {
 		}
 
 		const session = await response.json();
-		console.log(session);
+
 		resellerSessionStore.set({ session, isLoading: false, error: null });
 	};
 

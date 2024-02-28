@@ -14,7 +14,6 @@
 	});
 
 	const updateSession = () => {
-		console.log(`update`);
 		if (!$resellerSessionStore.session) {
 			return;
 		}

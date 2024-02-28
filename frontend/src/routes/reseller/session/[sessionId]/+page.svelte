@@ -12,9 +12,3 @@
 {:else}
 	not setup
 {/if}
-
-<div class="card mt-10 w-full">
-	<section class="p-4">
-		{JSON.stringify($resellerSessionStore.session)}
-	</section>
-</div>
