@@ -18,7 +18,7 @@ export class SessionService {
     const sessionData: SessionData = {
       id: sessionId,
       name: sessionId,
-      capabilities: [],
+      capabilities: null,
       currentScenario: null,
       currentStep: null,
       createdAt: new Date(),
@@ -45,7 +45,7 @@ export class SessionService {
 
       if (scenario.getRequiredCapabilities().length !== 0) {
         for (const scenarioRequiredCapability of scenarioRequiredCapabilities) {
-          if (capabilities.includes(scenarioRequiredCapability)) {
+          if (capabilities?.includes(scenarioRequiredCapability)) {
             continue;
           }
 

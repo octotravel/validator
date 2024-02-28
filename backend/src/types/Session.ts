@@ -5,7 +5,7 @@ import { StepId } from '../common/validation/v2/types/StepId';
 export interface Session {
   id: string;
   name: string;
-  capabilities: CapabilityId[];
+  capabilities: CapabilityId[] | null;
   currentScenario: ScenarioId | null;
   currentStep: StepId | null;
   createdAt: Date;
@@ -15,7 +15,7 @@ export interface Session {
 export interface UpdateSessionData {
   id: string;
   name?: string;
-  capabilities?: CapabilityId[];
+  capabilities?: CapabilityId[] | null;
   currentScenario?: ScenarioId | null;
   currentStep?: StepId | null;
 }
@@ -23,7 +23,7 @@ export interface UpdateSessionData {
 export interface SessionData {
   id: string;
   name: string;
-  capabilities: CapabilityId[];
+  capabilities: CapabilityId[] | null;
   currentScenario: ScenarioId | null;
   currentStep: StepId | null;
   createdAt: Date;
@@ -33,7 +33,7 @@ export interface SessionData {
 export interface SessionRowData {
   id: string;
   name: string;
-  capabilities: string;
+  capabilities: string | null;
   current_scenario: string | null;
   current_step: string | null;
   created_at: Date;

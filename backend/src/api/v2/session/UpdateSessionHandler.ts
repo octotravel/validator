@@ -28,7 +28,7 @@ export class UpdateSessionHandler implements RequestHandler {
     const requestPayload = {
       id: request.params.sessionId ?? '',
       name: parsedBody.name ?? undefined,
-      capabilities: parsedBody.capabilities ?? undefined,
+      capabilities: parsedBody.capabilities !== undefined ? parsedBody.capabilities : undefined,
       currentScenario: parsedBody.currentScenario !== undefined ? parsedBody.currentScenario : undefined,
     };
 
