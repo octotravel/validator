@@ -5,8 +5,8 @@
 	$pageTitleStore = 'Validation Tool';
 </script>
 
-<div class="container h-screen mx-auto flex justify-center mt-20">
-	<div class="space-y-5 text-center">
+<div class="container mx-auto flex justify-center mt-10">
+	<div class="card p-10 w-full space-y-5 text-center">
 		<h1 class="h1">I am ...</h1>
 		<button
 			type="button"

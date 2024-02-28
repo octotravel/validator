@@ -21,7 +21,7 @@
 	};
 </script>
 
-<div class="card mt-10 w-full text-slate-700">
+<div class="card mt-10 w-full">
 	<section class="p-4">
 		<div class="flex gap-4">
 			<div class="w-96">

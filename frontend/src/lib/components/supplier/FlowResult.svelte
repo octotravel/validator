@@ -6,7 +6,7 @@
 </script>
 
 {#if $supplierFlowResultStore.flows.length > 0 || $supplierFlowResultStore.isLoading}
-	<div class="card mt-5 p-4 flex grid grid-cols-1 text-slate-700">
+	<div class="card mt-5 p-4 flex grid grid-cols-1">
 		{#if $supplierFlowResultStore.isLoading}
 			<div class="flex justify-center">
 				<ProgressRadial

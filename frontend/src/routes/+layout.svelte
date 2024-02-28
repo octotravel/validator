@@ -28,6 +28,8 @@
 
 	import { pageTitleStore } from '$lib/stores';
 
+	import { LightSwitch } from '@skeletonlabs/skeleton';
+
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 </script>
@@ -42,10 +44,12 @@
 					<img src="src/lib/assets/images/logo.png" class="h-10 m-2" alt="" />
 				</a>
 			</svelte:fragment>
-			<h3 class="h3 text-slate-600">
+			<h3 class="h3">
 				{$pageTitleStore}
 			</h3>
-			<svelte:fragment slot="trail"></svelte:fragment>
+			<svelte:fragment slot="trail">
+				<LightSwitch />
+			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 	<slot />

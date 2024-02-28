@@ -65,7 +65,7 @@ import { resellerSessionStore } from '$lib/stores';
                             {#if $resellerSessionStore.session.currentScenario}
 							    <td class="text-center">{$resellerSessionStore.session.currentScenario}</td>
                             {:else}
-                                <td class="text-center text-slate-400">-</td>
+                                <td class="text-center text-slate-500">-</td>
                             {/if}
 						</tr>
                         <tr>
@@ -78,7 +78,7 @@ import { resellerSessionStore } from '$lib/stores';
                             {#if $resellerSessionStore.session.currentStep}
 							    <td class="text-center">{$resellerSessionStore.session.currentStep}</td>
                             {:else}
-                                <td class="text-center text-slate-400">-</td>
+                                <td class="text-center text-slate-500">-</td>
                             {/if}
 						</tr>
 					</tbody>
