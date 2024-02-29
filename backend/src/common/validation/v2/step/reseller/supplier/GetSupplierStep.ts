@@ -1,6 +1,6 @@
 import { singleton } from 'tsyringe';
 import { Question } from '../../../question/Question';
-import { StepId } from '../../../types/StepId';
+import { StepId } from '../../StepId';
 import { Validator } from '../../../validator/Validator';
 import { Step } from '../../Step';
 

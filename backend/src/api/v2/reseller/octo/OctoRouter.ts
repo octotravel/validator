@@ -3,6 +3,7 @@ import { inject, singleton } from 'tsyringe';
 import { GetSupplierHandler } from './supplier/GetSupplierHandler';
 import { AuthMiddleware } from './AuthMiddleware';
 import { HeaderValidatorMiddleware } from './HeaderValidatorMiddleware';
+import { GetProductsHandler } from './product/GetProductsHandler';
 
 @singleton()
 export class OctoRouter {
@@ -12,6 +13,7 @@ export class OctoRouter {
     @inject(AuthMiddleware) private readonly authMiddleware: AuthMiddleware,
     @inject(HeaderValidatorMiddleware) private readonly headerValidatorMiddleware: HeaderValidatorMiddleware,
     @inject(GetSupplierHandler) private readonly getSupplierHandler: GetSupplierHandler,
+    @inject(GetProductsHandler) private readonly getProductsHandler: GetProductsHandler,
   ) {
     this.router = Router({ base: '/v2/reseller/octo' });
 
@@ -23,5 +25,6 @@ export class OctoRouter {
     });
 
     this.router.get('/supplier', async (request) => await this.getSupplierHandler.handleRequest(request));
+    this.router.get('/products', async (request) => await this.getProductsHandler.handleRequest(request));
   }
 }

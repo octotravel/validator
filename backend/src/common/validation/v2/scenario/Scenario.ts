@@ -1,5 +1,6 @@
 import { CapabilityId } from '@octocloud/types';
 import { Step } from '../step/Step';
+import { DoublyLinkedList } from 'linked-list-typed';
 
 export interface Scenario {
   getId(): string;
@@ -8,5 +9,5 @@ export interface Scenario {
   getRequiredCapabilities(): CapabilityId[];
   getOptionalCapabilities(): CapabilityId[];
   getCapabilities(): CapabilityId[];
-  getSteps(): Step[];
+  getSteps(): DoublyLinkedList<Step>;
 }

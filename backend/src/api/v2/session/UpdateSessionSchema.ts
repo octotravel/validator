@@ -2,7 +2,7 @@ import { array, mixed, object, string } from 'yup';
 import { CapabilityId } from '@octocloud/types';
 import { $enum } from 'ts-enum-util';
 import { ScenarioId } from '../../../common/validation/v2/types/ScenarioId';
-import { StepId } from '../../../common/validation/v2/types/StepId';
+import { StepId } from '../../../common/validation/v2/step/StepId';
 
 export interface UpdateSessionSchema {
   id: string;

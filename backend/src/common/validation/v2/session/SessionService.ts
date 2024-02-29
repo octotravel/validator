@@ -37,7 +37,6 @@ export class SessionService {
     }
 
     const capabilities = updateSessionData.capabilities ?? session.capabilities;
-    let currentStep = null;
 
     if (updateSessionData.currentScenario && updateSessionData.currentScenario !== session.currentScenario) {
       const scenario = await this.scenarioService.getScenarioById(updateSessionData.currentScenario);
@@ -52,14 +51,6 @@ export class SessionService {
           throw new SessionMissingRequiredScenarioCapabilities(session.id, scenarioRequiredCapabilities);
         }
       }
-
-      if (updateSessionData.currentStep === null) {
-        const steps = scenario.getSteps();
-
-        if (steps.length > 0) {
-          currentStep = steps[0].getId();
-        }
-      }
     }
 
     const updatedSessionData: SessionData = {
@@ -68,7 +59,7 @@ export class SessionService {
       capabilities: capabilities,
       currentScenario:
         updateSessionData.currentScenario !== undefined ? updateSessionData.currentScenario : session.currentScenario,
-      currentStep: currentStep ?? session.currentStep,
+      currentStep: updateSessionData.currentStep ?? session.currentStep,
     };
 
     await this.sessionRepository.update(updatedSessionData);

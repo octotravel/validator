@@ -41,6 +41,7 @@
     "koa-body": "6.0.1",
     "koa-pino-logger": "4.0.0",
     "koa-socket-2": "^2.0.0",
+    "linked-list-typed": "^1.52.0",
     "pg": "8.11.3",
     "pg-pool": "3.6.1",
     "pino": "8.16.1",

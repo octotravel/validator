@@ -1,6 +1,6 @@
 import { Question } from '../question/Question';
 import { Validator } from '../validator/Validator';
-import { StepId } from '../types/StepId';
+import { StepId } from './StepId';
 
 export interface Step {
   getId(): StepId;

@@ -5,6 +5,8 @@ import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 import { Step } from '../../step/Step';
 import { ScenarioId } from '../../types/ScenarioId';
+import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
+import { DoublyLinkedList } from 'linked-list-typed';
 
 @singleton()
 @registry([
@@ -45,7 +47,7 @@ export class BasicScenario implements Scenario {
     return this.capabilities;
   }
 
-  public getSteps(): Step[] {
-    return [this.getSupplierStep, this.getProductsStep];
+  public getSteps(): DoublyLinkedList<Step> {
+    return StepLinkedListFactory.create([this.getSupplierStep, this.getProductsStep]);
   }
 }

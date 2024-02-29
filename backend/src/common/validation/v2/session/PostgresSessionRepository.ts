@@ -9,7 +9,7 @@ import { PostgresUtil } from '../../../util/PostgresUtil';
 import { SessionData, SessionRowData } from '../../../../types/Session';
 import { Database } from '../../../database/Database';
 import { ScenarioId } from '../types/ScenarioId';
-import { StepId } from '../types/StepId';
+import { StepId } from '../step/StepId';
 
 @singleton()
 export class PostgresSessionRepository implements SessionRepository {
