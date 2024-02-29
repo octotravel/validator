@@ -6,8 +6,8 @@ export class CapabilityResponseFactory {
   public static create(capabilities: CapabilityId[]): CapabilitiesResponse {
     return capabilities.map((capability) => {
       return {
-        id: $enum(CapabilityId).getKeyOrThrow(capability.toString()),
-        name: capability,
+        id: capability,
+        name: $enum(CapabilityId).getKeyOrThrow(capability.toString()),
         description: '',
       };
     });
