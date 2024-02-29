@@ -14,10 +14,13 @@
 	};
 
 	const validate = () => {
-		supplierValidate({
-			endpoint: $supplierFormEndpointStore,
-			apiKey: $supplierFormApiKeyStore
-		}, toastStore);
+		supplierValidate(
+			{
+				endpoint: $supplierFormEndpointStore,
+				apiKey: $supplierFormApiKeyStore
+			},
+			toastStore
+		);
 	};
 </script>
 

@@ -22,26 +22,37 @@
 	hljs.registerLanguage('typescript', typescript);
 	storeHighlightJs.set(hljs);
 
-	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 
 	import { pageTitleStore } from '$lib/stores';
 
 	import { LightSwitch } from '@skeletonlabs/skeleton';
+	import { modeCurrent } from '@skeletonlabs/skeleton';
+
+	import logo_light from '$lib/assets/images/logo_light.png';
+	import logo from '$lib/assets/images/logo.png';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 </script>
 
-<Toast position='tr' />
+<Toast position="tr" />
+
+<svelte:head>
+	<title>OCTO Validation Tool</title>
+</svelte:head>
 
 <AppShell>
 	<svelte:fragment slot="header">
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 			<svelte:fragment slot="lead">
 				<a href="/">
-					<img src="src/lib/assets/images/logo.png" class="h-10 m-2" alt="" />
+					{#if $modeCurrent}
+						<img src={logo} class="h-10 m-2" alt="" />
+					{:else}
+						<img src={logo_light} class="h-10 m-2" alt="" />
+					{/if}
 				</a>
 			</svelte:fragment>
 			<h3 class="h3">
@@ -52,5 +63,7 @@
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
-	<slot />
+	<div class="container mx-auto justify-center">
+		<slot />
+	</div>
 </AppShell>
