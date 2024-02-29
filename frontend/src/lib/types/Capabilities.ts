@@ -7,7 +7,7 @@ export interface Capability {
 }
 
 export interface CapabilitiesStore {
-	capabilities: string[];
+	capabilities: Capability[];
 	isLoading: boolean;
 	error: string | null;
 }

@@ -41,7 +41,7 @@
 							<td class="font-bold">
 								<span class="badge variant-ghost-primary"> Capabiltilies </span>
 							</td>
-							<td class="text-center anchor">{$resellerSessionStore.session.capabilities}</td>
+							<td class="text-center">{$resellerSessionStore.session.capabilities?.join(', ')}</td>
 						</tr>
 						<tr>
 							<td class="font-bold">

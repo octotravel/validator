@@ -54,7 +54,7 @@
 									{#each $capabilitiesStore.capabilities.slice(0, 9) as capability}
 										<ListBoxItem
 											bind:group={selectedCapabilities}
-											name={capability.id}
+											name={capability.name}
 											value={capability}
 											active="variant-ghost-secondary"
 										>
@@ -65,7 +65,7 @@
 													<IconSquare />
 												{/if}
 											</svelte:fragment>
-											{capability.id}
+											{capability.name}
 											<svelte:fragment slot="trail">
 												<p></p>
 											</svelte:fragment>
@@ -87,7 +87,7 @@
 													<IconSquare />
 												{/if}
 											</svelte:fragment>
-											{capability.id}
+											{capability.name}
 											<svelte:fragment slot="trail">
 												<p></p>
 											</svelte:fragment>
@@ -109,7 +109,7 @@
 													<IconSquare />
 												{/if}
 											</svelte:fragment>
-											{capability.id}
+											{capability.name}
 											<svelte:fragment slot="trail">
 												<p></p>
 											</svelte:fragment>
