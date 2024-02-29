@@ -1,10 +1,10 @@
 import { inject, singleton } from 'tsyringe';
-import { Backend, RequestContext } from '@octocloud/core';
+import { Backend } from '@octocloud/core';
 import { Supplier } from '@octocloud/types';
 import { SessionService } from '../../session/SessionService';
 import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { SessionStepGuard } from '../../session/SessionStepGuard';
-import { RequestContextUtil } from '../../../../util/RequestContextUtil';
+import { BackendParamsUtil } from '../../../../util/BackendParamsUtil';
 import { StepValidator } from '../../validator/StepValidator';
 import { ScenarioService } from '../../scenario/ScenarioService';
 
@@ -34,8 +34,6 @@ export class SupplierFacade {
       // todo: send validation result via socket
     }
 
-    return await this.backend.getSupplier({
-      ctx: RequestContextUtil.create(),
-    });
+    return await this.backend.getSupplier(BackendParamsUtil.create());
   }
 }

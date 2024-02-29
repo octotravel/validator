@@ -3,7 +3,7 @@ import { Backend } from '@octocloud/core';
 import { Product } from '@octocloud/types';
 import { SessionService } from '../../session/SessionService';
 import { SessionStepGuard } from '../../session/SessionStepGuard';
-import { RequestContextUtil } from '../../../../util/RequestContextUtil';
+import { BackendParamsUtil } from '../../../../util/BackendParamsUtil';
 import { StepValidator } from '../../validator/StepValidator';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 
@@ -29,11 +29,6 @@ export class ProductFacade {
     const validationResult = await this.stepValidator.validate(this.getProductsStep, {});
     // send validation result via socket
 
-    return await this.backend.getProducts(
-      {},
-      {
-        ctx: RequestContextUtil.create(),
-      },
-    );
+    return await this.backend.getProducts({}, BackendParamsUtil.create());
   }
 }

@@ -1,7 +1,7 @@
-import { RequestContext } from '@octocloud/core';
+import { BackendParams, RequestContext } from '@octocloud/core';
 
-export class RequestContextUtil {
-  public static create(): RequestContext {
+export class BackendParamsUtil {
+  public static create(): BackendParams {
     const requestContext = new RequestContext({
       request: new Request('https://octo.ventrata.com', {
         headers: {
@@ -19,6 +19,8 @@ export class RequestContextUtil {
       name: 'name',
     });
 
-    return requestContext;
+    return {
+      ctx: requestContext,
+    };
   }
 }

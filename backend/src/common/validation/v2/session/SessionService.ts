@@ -37,6 +37,11 @@ export class SessionService {
     }
 
     const capabilities = updateSessionData.capabilities ?? session.capabilities;
+    let currentStep = updateSessionData.currentStep ?? session.currentStep;
+
+    if (updateSessionData.currentScenario === null) {
+      currentStep = null;
+    }
 
     if (updateSessionData.currentScenario && updateSessionData.currentScenario !== session.currentScenario) {
       const scenario = await this.scenarioService.getScenarioById(updateSessionData.currentScenario);
@@ -59,7 +64,7 @@ export class SessionService {
       capabilities: capabilities,
       currentScenario:
         updateSessionData.currentScenario !== undefined ? updateSessionData.currentScenario : session.currentScenario,
-      currentStep: updateSessionData.currentStep ?? session.currentStep,
+      currentStep: currentStep,
     };
 
     await this.sessionRepository.update(updatedSessionData);
