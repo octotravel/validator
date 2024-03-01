@@ -1,8 +1,8 @@
 import { CapabilityId } from '@octocloud/types';
 
-export type ScenariosResponse = ScenarioResponse[];
+export type GetScenariosResponse = GetScenariosScenarioResponse[];
 
-export interface ScenarioResponse {
+export interface GetScenariosScenarioResponse {
   id: string;
   name: string;
   description: string;

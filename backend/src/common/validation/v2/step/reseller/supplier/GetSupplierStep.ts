@@ -14,6 +14,10 @@ export class GetSupplierStep implements Step {
     return 'Get Supplier';
   }
 
+  public getDescription(): string {
+    return '';
+  }
+
   public getDocsUrl(): string {
     return 'https://docs.octo.travel/octo-core/suppliers';
   }

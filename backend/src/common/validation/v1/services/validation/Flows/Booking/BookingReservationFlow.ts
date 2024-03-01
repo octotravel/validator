@@ -44,7 +44,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
   private readonly reserveSoldOutProduct = async (context: Context): Promise<Scenario> => {
     const bookableProduct = context.productConfig.soldOutProduct;
 
-    const result = await this.booker.createReservation(bookableProduct, context, {
+    const result = await this.booker.createReservation(bookableProduct!, context, {
       soldOutAvailability: true,
     });
 

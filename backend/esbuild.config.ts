@@ -34,7 +34,7 @@ const commonConfig = {
 };
 
 const mainConfig: any = {
-  entryPoints: ['src/server.ts', 'src/worker.ts', 'src/console.ts', 'src/workerJob.ts'],
+  entryPoints: ['src/server.ts', 'src/console.ts'],
   outdir: 'dist',
   ...commonConfig,
 };

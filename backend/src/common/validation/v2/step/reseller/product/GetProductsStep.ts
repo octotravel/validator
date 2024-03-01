@@ -14,6 +14,10 @@ export class GetProductsStep implements Step {
     return 'Get Products';
   }
 
+  public getDescription(): string {
+    return '';
+  }
+
   public getDocsUrl(): string {
     return 'https://docs.octo.travel/octo-api-core/products';
   }

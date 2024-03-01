@@ -5,7 +5,6 @@ import { SessionRepository } from './SessionRepository';
 import { CapabilityId } from '@octocloud/types';
 import { CannotUpdateSessionError } from './error/CannotUpdateSessionError';
 import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
-import { PostgresUtil } from '../../../util/PostgresUtil';
 import { SessionData, SessionRowData } from '../../../../types/Session';
 import { Database } from '../../../database/Database';
 import { ScenarioId } from '../types/ScenarioId';

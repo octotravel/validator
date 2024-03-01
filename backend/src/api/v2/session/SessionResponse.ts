@@ -8,7 +8,7 @@ export class SessionResponse {
   public constructor(
     public readonly id: string,
     public readonly name: string,
-    public readonly capabilities: CapabilityId[],
+    public readonly capabilities: CapabilityId[] | null,
     public readonly currentScenario: string | null,
     public readonly currentStep: string | null,
   ) {

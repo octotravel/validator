@@ -45,7 +45,7 @@ export class UnitItemValidator implements ModelValidator {
         shouldWarn,
       }),
       StringValidator.validate(`${this.path}.unitId`, unitItem?.unitId, { shouldWarn }),
-      ...this.unitValidator.validate(unitItem?.unit, pricingPer),
+      ...this.unitValidator.validate(unitItem?.unit!, pricingPer),
       EnumValidator.validate(`${this.path}.status`, unitItem?.status, Object.values(BookingStatus), { shouldWarn }),
       NullValidator.validate(`${this.path}.utcRedeemedAt`, unitItem?.utcRedeemedAt),
       ...this.contactValidator.validate(unitItem?.contact),

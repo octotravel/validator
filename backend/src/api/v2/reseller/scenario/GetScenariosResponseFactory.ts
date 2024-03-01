@@ -1,8 +1,8 @@
 import { Scenario } from '../../../../common/validation/v2/scenario/Scenario';
-import { ScenarioResponse } from './ScenariosResponse';
+import { GetScenariosScenarioResponse } from './GetScenariosResponse';
 
-export class ScenarioResponseFactory {
-  public static create(scenario: Scenario): ScenarioResponse {
+export class GetScenariosResponseFactory {
+  public static create(scenario: Scenario): GetScenariosScenarioResponse {
     return {
       id: scenario.getId(),
       name: scenario.getName(),

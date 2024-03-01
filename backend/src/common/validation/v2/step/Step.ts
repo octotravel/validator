@@ -5,6 +5,7 @@ import { StepId } from './StepId';
 export interface Step {
   getId(): StepId;
   getName(): string;
+  getDescription(): string;
   getDocsUrl(): string;
   getValidators(): Validator[];
   getQuestions(): Question[];

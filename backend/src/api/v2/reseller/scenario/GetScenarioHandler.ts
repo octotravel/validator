@@ -1,18 +1,17 @@
 import { inject, singleton } from 'tsyringe';
-import { GetScenariosSchema, getScenariosSchema } from './GetScenariosSchema';
 import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
 import { IRequest } from 'itty-router';
-import { GetScenariosResponseFactory } from './GetScenariosResponseFactory';
 import { ValidationError } from 'yup';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 import { ErrorCode } from '../../../http/error/ErrorCode';
 import { RequestHandler } from '../../../http/request/RequestHandler';
 import { SchemaValidator } from '../../../util/SchemaValidator';
-import { CapabilitiesParser } from '../../../../common/util/CapabilitiesParser';
+import { GetScenarioSchema, getScenarioSchema } from './GetScenarioSchema';
+import { GetScenarioResponseFactory } from './GetScenarioResponseFactory';
 
 @singleton()
-export class GetScenariosHandler implements RequestHandler {
+export class GetScenarioHandler implements RequestHandler {
   public constructor(
     @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
     @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
@@ -21,19 +20,17 @@ export class GetScenariosHandler implements RequestHandler {
 
   public async handleRequest(request: IRequest): Promise<Response> {
     const requestPayload = {
-      'Octo-Capabilities': request.headers.get('Octo-Capabilities') ?? '',
+      scenarioId: request.params.scenarioId ?? '',
     };
 
     try {
-      const validatedSchema = await SchemaValidator.validateSchema<GetScenariosSchema>(
-        getScenariosSchema,
+      const validatedSchema = await SchemaValidator.validateSchema<GetScenarioSchema>(
+        getScenarioSchema,
         requestPayload,
       );
-      const scenarios = await this.scenarioFacade.getAllResellerScenariosAvailableForCapabilities(
-        CapabilitiesParser.parseCapabilities(validatedSchema['Octo-Capabilities']),
-      );
+      const scenario = await this.scenarioFacade.getScenarioById(validatedSchema.scenarioId);
 
-      return this.jsonResponseFactory.create(scenarios.map((scenario) => GetScenariosResponseFactory.create(scenario)));
+      return this.jsonResponseFactory.create(GetScenarioResponseFactory.create(scenario));
     } catch (e: any) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
