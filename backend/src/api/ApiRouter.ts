@@ -24,12 +24,15 @@ export class ApiRouter {
     this.router.all('/v1/*', this.v1Router.router.handle);
     this.router.all('/v2/*', this.v2Router.router.handle);
     this.router.all('*', () => {
-      errorResponseFactory.createNotFoundResponse(ErrorCode.EMPTY);
+      return errorResponseFactory.createNotFoundResponse('Not found');
     });
   }
 
   public serve = async (ctx: Context, next: Next): Promise<void> => {
     const request = RequestMapper.mapRequest(ctx);
+
+    console.log(`${request.method} ${request.url}`);
+
     const response = await this.router.handle(request);
 
     if (response.status === 204) {
