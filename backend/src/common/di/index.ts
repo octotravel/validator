@@ -33,6 +33,8 @@ import { BasicScenario } from '../validation/v2/scenario/reseller/BasicScenario'
 import { AuthMiddleware } from '../../api/v2/reseller/octo/AuthMiddleware';
 import { HeaderValidatorMiddleware } from '../../api/v2/reseller/octo/HeaderValidatorMiddleware';
 import { GetCapabilitiesHandler } from '../../api/v2/reseller/capabilities/GetCapabilitiesHandler';
+import { SocketIo } from '../socketio/SocketIo';
+import { WebSocket } from '../socketio/WebSocket';
 
 export const validatorContainer = container.createChildContainer();
 
@@ -52,6 +54,9 @@ validatorContainer.registerInstance(backendToken, backend);
 // Database
 validatorContainer.registerSingleton(Database);
 validatorContainer.registerSingleton(Migrator);
+
+// WebSocket
+validatorContainer.registerSingleton<WebSocket>('WebSocket', SocketIo);
 
 // Logger
 validatorContainer.registerSingleton(ConsoleLoggerFactory);

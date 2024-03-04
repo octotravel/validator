@@ -12,6 +12,8 @@ import { validatorContainer } from './common/di';
 import config from './common/config/config';
 import { Database } from './common/database/Database';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
+import { SocketIo, WebSocket } from './common/socketio/SocketIo';
+import { InjectionToken } from 'tsyringe';
 
 const database: Database = validatorContainer.resolve(Database);
 const consoleLoggerFactory: LoggerFactory = validatorContainer.resolve(ConsoleLoggerFactory);
@@ -31,11 +33,10 @@ const httpServer = createServer(app.callback());
 const options: any = {
   /* ... */
 };
-const io: socketio.Server = new socketio.Server(httpServer, options);
 
-io.on('connection', (socket: socketio.Socket) => {
-  /* ... */
-});
+const socketIoServer: socketio.Server = new socketio.Server(httpServer, options);
+const socketIoServerToken: InjectionToken<WebSocket> = 'SocketIoServer';
+validatorContainer.registerInstance(socketIoServerToken, socketIoServer);
 
 const server = httpServer.listen(port, () => {
   consoleLogger.log(`Running app on port ${port} on "${env}" env.`);

@@ -2,10 +2,12 @@ import { IRequest } from 'itty-router';
 import { inject, singleton } from 'tsyringe';
 import { RequestHeadersValidator } from '../../../../common/validation/v2/validator/request/RequestHeadersValidator';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
+import { WebSocket } from '../../../../common/socketio/WebSocket';
 
 @singleton()
 export class HeaderValidatorMiddleware {
   public constructor(
+    @inject('WebSocket') private readonly webSocket: WebSocket,
     @inject(RequestHeadersValidator) private readonly requestHeadersValidator: RequestHeadersValidator,
     @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
   ) {}
@@ -15,6 +17,13 @@ export class HeaderValidatorMiddleware {
 
     if (validationResult.isValid()) {
       return null;
+    }
+
+    // sync to websocket
+    try {
+      this.webSocket.emit('test', 'msg');
+    } catch (e: any) {
+      console.log(e);
     }
 
     return this.errorResponseFactory.createValidationErrorResponse(validationResult);
