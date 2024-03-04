@@ -35,7 +35,6 @@ export class RequestHeadersValidator implements Validator {
       requestHeadersSchema.validateSync(parsedHeaders, { abortEarly: false, strict: true });
     } catch (e: any) {
       if (e instanceof ValidationError) {
-        console.log(e.inner);
         const validationFailure = new ValidationFailure(e.path ?? '', e.message, e.value);
         validationResult.addError(validationFailure);
       }

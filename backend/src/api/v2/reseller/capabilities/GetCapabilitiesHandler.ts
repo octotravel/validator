@@ -12,6 +12,11 @@ export class GetCapabilitiesHandler implements RequestHandler {
 
   public async handleRequest(request: IRequest): Promise<Response> {
     const capabilities = $enum(CapabilityId).getValues();
-    return this.jsonResponseFactory.create(CapabilityResponseFactory.create(capabilities));
+    return this.jsonResponseFactory.create(
+      CapabilityResponseFactory.create(
+        'https://docs.octo.travel/getting-started/endpoints-and-capabilities#capabilities',
+        capabilities,
+      ),
+    );
   }
 }

@@ -14,19 +14,27 @@ export class SessionStepGuard {
       throw new SessionScenarioNotSetError();
     }
 
+    const currentStepId = currentStep.getId();
     const currentSessionStepId = session.currentStep;
     const scenario = await this.scenarioService.getResellerScenarioById(session.currentScenario);
     const scenarioSteps = scenario.getSteps();
-    const firstScenarioStepId = scenarioSteps.getNodeAt(0)?.value.getId();
+    const scenarioFirstStepId = scenarioSteps.getNodeAt(0)!.value.getId();
     const previousScenarioStepId = scenarioSteps.getNode(currentStep)?.prev?.value.getId();
 
+    if (currentSessionStepId === null && scenarioFirstStepId !== currentStepId) {
+      SessionScenarioStepNotAllowedError.createForInvalidFirstStep(
+        scenario.getId(),
+        scenarioFirstStepId,
+        currentStepId,
+      );
+    }
+
     if (
-      (currentSessionStepId === null && firstScenarioStepId !== currentStep.getId()) ||
-      (currentSessionStepId !== null &&
-        currentSessionStepId !== previousScenarioStepId &&
-        currentSessionStepId !== currentStep.getId())
+      currentSessionStepId !== null &&
+      currentSessionStepId !== previousScenarioStepId &&
+      currentSessionStepId !== currentStep.getId()
     ) {
-      throw new SessionScenarioStepNotAllowedError(session.id, currentStep.getId());
+      throw SessionScenarioStepNotAllowedError.createForInvalidStep(scenario.getId(), currentStep.getId());
     }
   }
 }

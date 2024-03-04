@@ -5,13 +5,13 @@ import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 
 @singleton()
-export class GetProductsStep implements Step {
+export class GetProductStep implements Step {
   public getId(): StepId {
-    return StepId.GET_PRODUCTS;
+    return StepId.GET_PRODUCT;
   }
 
   public getName(): string {
-    return 'Get Products';
+    return 'Get Product';
   }
 
   public getDescription(): string {

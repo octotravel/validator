@@ -30,9 +30,6 @@ export class ApiRouter {
 
   public serve = async (ctx: Context, next: Next): Promise<void> => {
     const request = RequestMapper.mapRequest(ctx);
-
-    console.log(`${request.method} ${request.url}`);
-
     const response = await this.router.handle(request);
 
     if (response.status === 204) {

@@ -14,3 +14,6 @@ down: ## Brings Docker stack down
 
 console:
 	docker exec -it octo_validator_backend sh -c "npm run console $(filter-out $@,$(MAKECMDGOALS))"
+
+fix-staged: ## Runs all auto fixes
+	docker exec octo_validator_backend sh -c "npm run fix:staged"
