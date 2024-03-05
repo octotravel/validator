@@ -10,6 +10,4 @@ COPY . .
 
 EXPOSE $APP_PORT
 
-RUN npm update --global npm
-
 CMD ["sh", "-c", "npm install --no-lockfile --prefer-offline && npm run dev"]
