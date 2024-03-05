@@ -19,10 +19,15 @@ export class SessionStepGuard {
     const scenario = await this.scenarioService.getResellerScenarioById(session.currentScenario);
     const scenarioSteps = scenario.getSteps();
     const scenarioFirstStepId = scenarioSteps.getNodeAt(0)!.value.getId();
-    const previousScenarioStepId = scenarioSteps.getNode(currentStep)?.prev?.value.getId();
+    const currentStepInScenario = scenarioSteps.getNode(currentStep) ?? null;
+    const previousScenarioStepId = currentStepInScenario?.prev?.value.getId();
+
+    if (currentStepInScenario === null) {
+      throw SessionScenarioStepNotAllowedError.createForNonExistingStep(scenario.getId(), currentStep.getId());
+    }
 
     if (currentSessionStepId === null && scenarioFirstStepId !== currentStepId) {
-      SessionScenarioStepNotAllowedError.createForInvalidFirstStep(
+      throw SessionScenarioStepNotAllowedError.createForInvalidFirstStep(
         scenario.getId(),
         scenarioFirstStepId,
         currentStepId,

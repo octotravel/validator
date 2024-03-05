@@ -2,11 +2,10 @@ import { inject, singleton } from 'tsyringe';
 import { Backend } from '@octocloud/core';
 import { Product } from '@octocloud/types';
 import { SessionService } from '../../session/SessionService';
-import { SessionStepGuard } from '../../session/SessionStepGuard';
 import { BackendParamsUtil } from '../../../../util/BackendParamsUtil';
-import { StepValidator } from '../../validator/StepValidator';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { SessionStepProcessor } from '../../session/SessionStepProcessor';
 
 @singleton()
 export class ProductFacade {
@@ -15,36 +14,19 @@ export class ProductFacade {
     @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
     @inject(GetProductStep) private readonly getProductStep: GetProductStep,
     @inject(SessionService) private readonly sessionService: SessionService,
-    @inject(SessionStepGuard) private readonly sessionStepGuard: SessionStepGuard,
-    @inject(StepValidator) private readonly stepValidator: StepValidator,
+    @inject(SessionStepProcessor) private readonly sessionStepProcessor: SessionStepProcessor,
   ) {}
 
   public async getProducts(sessionId: string): Promise<Product[]> {
     const session = await this.sessionService.getSession(sessionId);
-
-    await this.sessionStepGuard.check(session, this.getProductsStep);
-    await this.sessionService.updateSession({
-      id: sessionId,
-      currentStep: this.getProductsStep.getId(),
-    });
-
-    const validationResult = await this.stepValidator.validate(this.getProductsStep, {});
-    // send validation result via socket
+    await this.sessionStepProcessor.process(session, this.getProductsStep);
 
     return await this.backend.getProducts({}, BackendParamsUtil.create());
   }
 
   public async getProduct(productId: string, sessionId: string): Promise<Product> {
     const session = await this.sessionService.getSession(sessionId);
-
-    await this.sessionStepGuard.check(session, this.getProductStep);
-    await this.sessionService.updateSession({
-      id: sessionId,
-      currentStep: this.getProductStep.getId(),
-    });
-
-    const validationResult = await this.stepValidator.validate(this.getProductStep, {});
-    // send validation result via socket
+    await this.sessionStepProcessor.process(session, this.getProductStep);
 
     return await this.backend.getProduct({ id: productId }, BackendParamsUtil.create());
   }

@@ -25,6 +25,14 @@ export class SessionScenarioStepNotAllowedError extends RuntimeError {
     );
   }
 
+  public static createForNonExistingStep(scenarioId: ScenarioId, stepId: StepId): SessionScenarioStepNotAllowedError {
+    return new this(
+      `The specified step "${stepId}" does not exist within the current session and scenario "${scenarioId}".`,
+      scenarioId,
+      stepId,
+    );
+  }
+
   public static createForInvalidStep(scenarioId: ScenarioId, stepId: StepId): SessionScenarioStepNotAllowedError {
     return new this(
       `The specified step "${stepId}" is not allowed within the current scenario "${scenarioId}" and session.`,

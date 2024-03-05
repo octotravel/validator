@@ -15,7 +15,7 @@ export class GetProductStep implements Step {
   }
 
   public getDescription(): string {
-    return '';
+    return 'Fetch the product for the given id.';
   }
 
   public getDocsUrl(): string {

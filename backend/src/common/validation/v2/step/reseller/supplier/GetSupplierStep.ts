@@ -15,7 +15,7 @@ export class GetSupplierStep implements Step {
   }
 
   public getDescription(): string {
-    return '';
+    return 'Returns the supplier and associated contact details.';
   }
 
   public getDocsUrl(): string {

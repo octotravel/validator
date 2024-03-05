@@ -7,6 +7,8 @@ import { Step } from '../../step/Step';
 import { ScenarioId } from '../../types/ScenarioId';
 import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { DoublyLinkedList } from 'linked-list-typed';
+import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
 
 @singleton()
 @registry([
@@ -19,6 +21,8 @@ export class BasicScenario implements Scenario {
   public constructor(
     @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
     @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
+    @inject(GetProductStep) private readonly getProductStep: GetProductStep,
+    @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }
@@ -48,6 +52,11 @@ export class BasicScenario implements Scenario {
   }
 
   public getSteps(): DoublyLinkedList<Step> {
-    return StepLinkedListFactory.create([this.getSupplierStep, this.getProductsStep]);
+    return StepLinkedListFactory.create([
+      this.getSupplierStep,
+      this.getProductsStep,
+      this.getProductStep,
+      this.availabilityCalendarStep,
+    ]);
   }
 }

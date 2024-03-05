@@ -1,24 +1,27 @@
 import { inject, singleton } from 'tsyringe';
 import { Backend } from '@octocloud/core';
-import { Supplier } from '@octocloud/types';
+import { AvailabilityCalendar } from '@octocloud/types';
 import { SessionService } from '../../session/SessionService';
-import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { BackendParamsUtil } from '../../../../util/BackendParamsUtil';
 import { SessionStepProcessor } from '../../session/SessionStepProcessor';
+import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
 
 @singleton()
-export class SupplierFacade {
+export class AvailabilityFacade {
   public constructor(
     @inject('Backend') private readonly backend: Backend,
-    @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
+    @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
     @inject(SessionService) private readonly sessionService: SessionService,
     @inject(SessionStepProcessor) private readonly sessionStepProcessor: SessionStepProcessor,
   ) {}
 
-  public async getSupplier(sessionId: string): Promise<Supplier> {
+  public async getAvailabilityCalendar(
+    availabilityCalendarData: any,
+    sessionId: string,
+  ): Promise<AvailabilityCalendar[]> {
     const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.getSupplierStep);
+    await this.sessionStepProcessor.process(session, this.availabilityCalendarStep);
 
-    return await this.backend.getSupplier(BackendParamsUtil.create());
+    return await this.backend.getAvailabilityCalendar(availabilityCalendarData, BackendParamsUtil.create());
   }
 }

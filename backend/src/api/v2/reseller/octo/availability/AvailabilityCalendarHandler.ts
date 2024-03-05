@@ -6,32 +6,25 @@ import { SessionNotFoundError } from '../../../../../common/validation/v2/sessio
 import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
 import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { ProductFacade } from '../../../../../common/validation/v2/reseller/product/ProductFacade';
-import { SchemaValidator } from '../../../../util/SchemaValidator';
-import { GetProductPathParamsSchema, getProductPathParamsSchema } from '@octocloud/types';
+import { AvailabilityFacade } from '../../../../../common/validation/v2/reseller/availability/AvailabilityFacade';
+import { BodyParser } from '../../../../util/BodyParser';
 
 @singleton()
-export class GetProductHandler implements RequestHandler {
+export class AvailabilityCalendarHandler implements RequestHandler {
   public constructor(
     @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
     @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(ProductFacade) private readonly productFacade: ProductFacade,
+    @inject(AvailabilityFacade) private readonly availabilityFacade: AvailabilityFacade,
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
     const sessionId = request.sessionId;
-    const requestPayload = {
-      id: request.params.productId ?? '',
-    };
+    const parsedBody = await BodyParser.parseBody(request);
 
     try {
-      const validatedSchema = await SchemaValidator.validateSchema<GetProductPathParamsSchema>(
-        getProductPathParamsSchema,
-        requestPayload,
-      );
-      const product = await this.productFacade.getProduct(validatedSchema.id, sessionId);
+      const availabilityCalendar = await this.availabilityFacade.getAvailabilityCalendar(parsedBody, sessionId);
 
-      return this.jsonResponseFactory.create(product);
+      return this.jsonResponseFactory.create(availabilityCalendar);
     } catch (e: any) {
       if (e instanceof SessionNotFoundError) {
         return this.errorResponseFactory.createNotFoundResponse(e.message, e);
