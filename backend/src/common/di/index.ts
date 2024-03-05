@@ -35,6 +35,7 @@ import { HeaderValidatorMiddleware } from '../../api/v2/reseller/octo/HeaderVali
 import { GetCapabilitiesHandler } from '../../api/v2/reseller/capabilities/GetCapabilitiesHandler';
 import { SocketIo } from '../socketio/SocketIo';
 import { WebSocket } from '../socketio/WebSocket';
+import { AvailabilityCalendarHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCalendarHandler';
 
 export const validatorContainer = container.createChildContainer();
 
@@ -98,6 +99,7 @@ validatorContainer.registerSingleton(HeaderValidatorMiddleware);
 validatorContainer.registerSingleton(GetSupplierHandler);
 validatorContainer.registerSingleton(GetScenariosHandler);
 validatorContainer.registerSingleton(GetCapabilitiesHandler);
+validatorContainer.registerSingleton(AvailabilityCalendarHandler);
 
 // Reseller Scenarios
 validatorContainer.registerSingleton(BasicScenario);

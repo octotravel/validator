@@ -42,7 +42,7 @@ export class ErrorResponseFactory {
   }
 
   public createValidationErrorResponse(data: any, error: Error | null = null): Response {
-    return this.createErrorResponse(this.S400_BAD_REQUEST, data, error);
+    return this.createErrorResponse(this.S422_UNPROCESSABLE_ENTITY, data, error);
   }
 
   public createErrorResponse(httpStatus: number, message: string, error: Error | null = null): Response {

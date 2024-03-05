@@ -6,8 +6,9 @@ import { SessionNotFoundError } from '../../../../../common/validation/v2/sessio
 import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
 import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { AvailabilityFacade } from '../../../../../common/validation/v2/reseller/availability/AvailabilityFacade';
+import { AvailabilityFacade } from '../../../../../common/validation/v2/facade/availability/AvailabilityFacade';
 import { BodyParser } from '../../../../util/BodyParser';
+import { ValidationError } from '../../../../../common/validation/v2/validator/error/ValidationError';
 
 @singleton()
 export class AvailabilityCalendarHandler implements RequestHandler {
@@ -32,6 +33,8 @@ export class AvailabilityCalendarHandler implements RequestHandler {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       } else if (e instanceof SessionScenarioStepNotAllowedError) {
         return this.errorResponseFactory.createForbiddenResponse(e.message, e);
+      } else if (e instanceof ValidationError) {
+        return this.errorResponseFactory.createValidationErrorResponse(e.validationResult, e);
       }
 
       throw e;

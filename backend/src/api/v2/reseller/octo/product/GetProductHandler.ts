@@ -6,7 +6,7 @@ import { SessionNotFoundError } from '../../../../../common/validation/v2/sessio
 import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
 import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { ProductFacade } from '../../../../../common/validation/v2/reseller/product/ProductFacade';
+import { ProductFacade } from '../../../../../common/validation/v2/facade/product/ProductFacade';
 import { SchemaValidator } from '../../../../util/SchemaValidator';
 import { GetProductPathParamsSchema, getProductPathParamsSchema } from '@octocloud/types';
 

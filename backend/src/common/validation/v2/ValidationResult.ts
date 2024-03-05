@@ -14,6 +14,10 @@ export class ValidationResult {
     return this.errors;
   }
 
+  public addErrors(errors: ValidationFailure[]): void {
+    this.errors.push(...errors);
+  }
+
   public addError(error: ValidationFailure): void {
     this.errors.push(error);
   }
@@ -22,12 +26,20 @@ export class ValidationResult {
     return this.warnings;
   }
 
+  public addWarnings(warnings: ValidationFailure[]): void {
+    this.warnings.push(...warnings);
+  }
+
   public addWarning(warning: ValidationFailure): void {
     this.warnings.push(warning);
   }
 
   public hasErrors(): boolean {
     return this.errors.length > 0;
+  }
+
+  public hasWarnings(): boolean {
+    return this.warnings.length > 0;
   }
 
   public isValid(): boolean {
