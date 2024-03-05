@@ -1,5 +1,5 @@
 import { RuntimeError } from '@octocloud/core';
-import { ScenarioId } from '../../types/ScenarioId';
+import { ScenarioId } from '../../scenario/ScenarioId';
 import { StepId } from '../../step/StepId';
 
 export class SessionScenarioStepNotAllowedError extends RuntimeError {

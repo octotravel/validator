@@ -2,7 +2,7 @@ import { CapabilityId } from '@octocloud/types';
 import { Scenario } from './Scenario';
 import { ScenarioRepository } from './ScenarioRepository';
 import { inject, singleton } from 'tsyringe';
-import { ScenarioId } from '../types/ScenarioId';
+import { ScenarioId } from './ScenarioId';
 
 @singleton()
 export class ScenarioService {

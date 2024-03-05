@@ -4,7 +4,7 @@ import { Scenario } from '../Scenario';
 import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 import { Step } from '../../step/Step';
-import { ScenarioId } from '../../types/ScenarioId';
+import { ScenarioId } from '../ScenarioId';
 import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { DoublyLinkedList } from 'linked-list-typed';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';

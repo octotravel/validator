@@ -7,7 +7,7 @@ import { CannotUpdateSessionError } from './error/CannotUpdateSessionError';
 import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
 import { SessionData, SessionRowData } from '../../../../types/Session';
 import { Database } from '../../../database/Database';
-import { ScenarioId } from '../types/ScenarioId';
+import { ScenarioId } from '../scenario/ScenarioId';
 import { StepId } from '../step/StepId';
 
 @singleton()

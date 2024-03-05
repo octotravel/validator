@@ -1,5 +1,5 @@
 import { mixed, object } from 'yup';
-import { ScenarioId } from '../../../../common/validation/v2/types/ScenarioId';
+import { ScenarioId } from '../../../../common/validation/v2/scenario/ScenarioId';
 import { $enum } from 'ts-enum-util';
 
 export interface GetScenarioSchema {

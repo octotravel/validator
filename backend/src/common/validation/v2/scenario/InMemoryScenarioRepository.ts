@@ -1,7 +1,7 @@
 import { injectAll, singleton } from 'tsyringe';
 import { Scenario } from './Scenario';
 import { ScenarioRepository } from './ScenarioRepository';
-import { ScenarioId } from '../types/ScenarioId';
+import { ScenarioId } from './ScenarioId';
 
 @singleton()
 export class InMemoryScenarioRepository implements ScenarioRepository {
