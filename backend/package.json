@@ -20,8 +20,7 @@
     "format:check": "prettier . '!./ops' --check",
     "format:package": "prettier-package-json --write",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
-    "prepare": "cd .. && husky install backend/.husky"
+    "lint:fix": "eslint . --ext .ts --fix"
   },
   "types": "./dist/app.d.ts",
   "dependencies": {
