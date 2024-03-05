@@ -1,6 +1,6 @@
 FROM node:20.9-alpine3.17
 
-RUN apk add --no-cache libc6-compat ansible make
+RUN apk add --no-cache libc6-compat wget git ansible make build-base
 
 WORKDIR /var/www/backend/
 
