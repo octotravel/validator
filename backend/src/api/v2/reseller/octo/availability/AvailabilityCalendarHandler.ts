@@ -9,6 +9,7 @@ import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/
 import { AvailabilityFacade } from '../../../../../common/validation/v2/facade/availability/AvailabilityFacade';
 import { BodyParser } from '../../../../util/BodyParser';
 import { ValidationError } from '../../../../../common/validation/v2/validator/error/ValidationError';
+import { HttpError } from '@octocloud/core';
 
 @singleton()
 export class AvailabilityCalendarHandler implements RequestHandler {
@@ -35,6 +36,8 @@ export class AvailabilityCalendarHandler implements RequestHandler {
         return this.errorResponseFactory.createForbiddenResponse(e.message, e);
       } else if (e instanceof ValidationError) {
         return this.errorResponseFactory.createValidationErrorResponse(e.validationResult, e);
+      } else if (e instanceof HttpError) {
+        return this.errorResponseFactory.createErrorResponse(e.validationResult, e);
       }
 
       throw e;

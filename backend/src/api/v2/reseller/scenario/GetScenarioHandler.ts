@@ -4,7 +4,6 @@ import { ScenarioFacade } from '../../../../common/validation/v2/scenario/Scenar
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
-import { ErrorCode } from '../../../http/error/ErrorCode';
 import { RequestHandler } from '../../../http/request/RequestHandler';
 import { SchemaValidator } from '../../../util/SchemaValidator';
 import { GetScenarioSchema, getScenarioSchema } from './GetScenarioSchema';
@@ -36,7 +35,7 @@ export class GetScenarioHandler implements RequestHandler {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       }
 
-      return this.errorResponseFactory.createInternalServerErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, e);
+      throw e;
     }
   }
 }

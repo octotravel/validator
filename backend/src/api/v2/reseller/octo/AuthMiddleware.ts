@@ -1,7 +1,6 @@
 import { IRequest } from 'itty-router';
 import { inject, singleton } from 'tsyringe';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
-import { ErrorCode } from '../../../http/error/ErrorCode';
 
 @singleton()
 export class AuthMiddleware {
@@ -12,7 +11,9 @@ export class AuthMiddleware {
     const [authType, sessionId] = authHeader.split(' ');
 
     if (authType !== 'Bearer' || !sessionId) {
-      return this.errorResponseFactory.createUnauthorizedResponse(ErrorCode.INVALID_AUTH_HEADER);
+      return this.errorResponseFactory.createUnauthorizedResponse(
+        "You didn't send the API Key in the Authorization header to an endpoint that requires authentication.",
+      );
     }
 
     request.sessionId = sessionId;

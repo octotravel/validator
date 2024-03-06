@@ -7,7 +7,6 @@ import { UpdateSessionSchema, updateSessionSchema } from './UpdateSessionSchema'
 import { SessionResponse } from './SessionResponse';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
-import { ErrorCode } from '../../http/error/ErrorCode';
 import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
 import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
 import { ValidationError } from 'yup';
@@ -45,7 +44,7 @@ export class UpdateSessionHandler implements RequestHandler {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       } else if (e instanceof SessionNotFoundError) {
-        return this.errorResponseFactory.createNotFoundResponse(ErrorCode.SESSION_NOT_FOUND, e);
+        return this.errorResponseFactory.createNotFoundResponse(e.message, e);
       } else if (e instanceof SessionMissingRequiredScenarioCapabilities) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       }

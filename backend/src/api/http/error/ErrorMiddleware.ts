@@ -2,6 +2,8 @@ import Koa from 'koa';
 import { LoggerFactory } from '../../../common/logger/LoggerFactory';
 import { ConsoleLoggerFactory } from '../../../common/logger/ConsoleLoggerFactory';
 import { validatorContainer } from '../../../common/di/index';
+import config from '../../../common/config/config';
+import { Environment, HttpError } from '@octocloud/core';
 
 const consoleLoggerFactory: LoggerFactory = validatorContainer.resolve(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create();
@@ -9,15 +11,33 @@ const consoleLogger = consoleLoggerFactory.create();
 export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Promise<void> {
   try {
     await next();
-  } catch (err: any) {
-    await consoleLogger.error(err);
+  } catch (error: any) {
+    const env = config.getEnvironment();
+    const isDebug = env === Environment.LOCAL || env === Environment.TEST;
 
-    context.status = 500;
-    context.body = {
-      message: err.message ?? 'There was an un-recoverable error, please try again',
-      stack: err.stack ?? '',
-    };
+    await consoleLogger.error(error);
 
-    context.app.emit('error', err, context);
+    let body: any = {};
+
+    if (error instanceof HttpError) {
+      context.status = error.status;
+      body = {
+        ...error.body,
+      };
+    } else {
+      context.status = 500;
+      context.body = {
+        error: 'INTERNAL_SERVER_ERROR',
+        errorMessage: `There was an un-recoverable error, please try again (${error.message}).`,
+      };
+    }
+
+    body.data = {};
+    body.stack = isDebug ? error.stack ?? '' : undefined;
+    context.body = body;
+
+    if (context.status === 500) {
+      context.app.emit('error', error, context);
+    }
   }
 }

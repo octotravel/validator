@@ -4,7 +4,6 @@ import { GetSessionSchema, getSessionSchema } from './GetSessionSchema';
 import { SessionResponse } from './SessionResponse';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
-import { ErrorCode } from '../../http/error/ErrorCode';
 import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
 import { RequestHandler } from '../../http/request/RequestHandler';
 import { ValidationError } from 'yup';
@@ -35,10 +34,10 @@ export class GetSessionHandler implements RequestHandler {
       }
 
       if (e instanceof SessionNotFoundError) {
-        return this.errorResponseFactory.createNotFoundResponse(ErrorCode.SESSION_NOT_FOUND);
+        return this.errorResponseFactory.createNotFoundResponse(e.message, e);
       }
 
-      return this.errorResponseFactory.createInternalServerErrorResponse(ErrorCode.INTERNAL_SERVER_ERROR, e);
+      throw e;
     }
   }
 }
