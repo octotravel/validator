@@ -20,7 +20,7 @@ export class AvailabilityFacade {
     sessionId: string,
   ): Promise<AvailabilityCalendar[]> {
     const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.availabilityCalendarStep);
+    await this.sessionStepProcessor.process(session, this.availabilityCalendarStep, availabilityCalendarData);
 
     return await this.backend.getAvailabilityCalendar(availabilityCalendarData, BackendParamsUtil.create());
   }

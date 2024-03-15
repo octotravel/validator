@@ -12,7 +12,6 @@ import { validatorContainer } from './common/di';
 import config from './common/config/config';
 import { Database } from './common/database/Database';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
-import { SocketIo, WebSocket } from './common/socketio/SocketIo';
 import { InjectionToken } from 'tsyringe';
 
 const database: Database = validatorContainer.resolve(Database);

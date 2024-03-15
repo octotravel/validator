@@ -1,6 +1,6 @@
 import { singleton, inject } from 'tsyringe';
 import { IRequest } from 'itty-router';
-import { SupplierFacade } from '../../../../../common/validation/v2/reseller/supplier/SupplierFacade';
+import { SupplierFacade } from '../../../../../common/validation/v2/facade/supplier/SupplierFacade';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
 import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';

@@ -6,7 +6,6 @@ import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 import { V1Router } from './v1/V1Router';
 import { V2Router } from './v2/V2Router';
 import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
-import { ErrorCode } from './http/error/ErrorCode';
 
 @singleton()
 export class ApiRouter {
