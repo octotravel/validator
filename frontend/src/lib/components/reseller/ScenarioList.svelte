@@ -3,10 +3,13 @@
 	import { scenariosStore } from '$lib/stores';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { IconArrowRight, IconSquare } from '@tabler/icons-svelte';
+	import { onMount } from 'svelte';
 
 	const toastStore = getToastStore();
 
-	ScenariosService.getScenarios(toastStore);
+	onMount(() => {
+		ScenariosService.getScenarios(toastStore);
+	});
 </script>
 
 {#if $scenariosStore.scenarios !== null}

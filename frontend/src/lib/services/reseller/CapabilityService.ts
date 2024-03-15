@@ -16,7 +16,7 @@ export abstract class CapabilityService {
 			return null;
 		}
 
-		const capabilities = await response.json();
+		const capabilities = (await response.json()).capabilities;
 
 		capabilitiesStore.set({ capabilities, isLoading: false, error: null });
 	};
