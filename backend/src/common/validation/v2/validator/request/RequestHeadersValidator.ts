@@ -2,8 +2,7 @@ import { SchemaOf, ValidationError, object, string } from 'yup';
 import { ValidationResult } from '../../ValidationResult';
 import { octoCapabilitiesValidator } from '../../yup/RequiredHeaders';
 import { Validator } from '../Validator';
-import { ValidationFailure } from '../../ValidationFailure';
-import { getProductPathParamsSchema } from '@octocloud/types';
+import { ValidationFailureFactory } from '../../ValidationFailureFactory';
 
 export interface RequestHeadersSchema {
   Authorization: string;
@@ -29,14 +28,21 @@ export class RequestHeadersValidator implements Validator {
       'Octo-Capabilities': headers.get('Octo-Capabilities') ?? undefined,
     };
 
-    const validationResult = new ValidationResult(headers);
+    const validationResult = new ValidationResult(parsedHeaders);
 
     try {
       requestHeadersSchema.validateSync(parsedHeaders, { abortEarly: false, strict: true });
-    } catch (e: any) {
-      if (e instanceof ValidationError) {
-        const validationFailure = new ValidationFailure(e.path ?? '', e.message, e.value);
-        validationResult.addError(validationFailure);
+    } catch (error: any) {
+      if (error instanceof ValidationError) {
+        const validationFailures = ValidationFailureFactory.createMultipleFromYupValidationError(error);
+
+        for (const validationFailure of validationFailures) {
+          if (validationFailure.isError()) {
+            validationResult.addError(validationFailure);
+          } else if (validationFailure.isWarning()) {
+            validationResult.addWarning(validationFailure);
+          }
+        }
       }
     }
 

@@ -4,8 +4,7 @@ import { SessionStepGuard } from './SessionStepGuard';
 import { StepValidator } from '../step/StepValidator';
 import { Step } from '../step/Step';
 import { Session } from '../../../../types/Session';
-import { ValidationResult } from '../ValidationResult';
-import { ValidationError } from '../validator/error/ValidationError';
+import { WebSocket } from '../../../socketio/WebSocket';
 
 @singleton()
 export class SessionStepProcessor {
@@ -13,6 +12,7 @@ export class SessionStepProcessor {
     @inject(SessionService) private readonly sessionService: SessionService,
     @inject(SessionStepGuard) private readonly sessionStepGuard: SessionStepGuard,
     @inject(StepValidator) private readonly stepValidator: StepValidator,
+    @inject('WebSocket') private readonly webSocket: WebSocket,
   ) {}
 
   public async process(session: Session, step: Step, requestData: any = null): Promise<void> {
@@ -24,11 +24,8 @@ export class SessionStepProcessor {
 
     const validationResult = await this.stepValidator.validate(step, requestData);
 
-    console.log(validationResult);
-
     if (!validationResult.isValid()) {
-      // send to websocket
-      throw new ValidationError(validationResult);
+      await this.webSocket.sendValidationResult(session.id, validationResult);
     }
   }
 }

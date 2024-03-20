@@ -6,34 +6,44 @@ import { Environment } from '@octocloud/core';
 import { app } from './app';
 import { LoggerFactory } from './common/logger/LoggerFactory';
 import { createServer } from 'http';
-import * as Sentry from '@sentry/node';
 import * as socketio from 'socket.io';
 import { validatorContainer } from './common/di';
 import config from './common/config/config';
 import { Database } from './common/database/Database';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
 import { InjectionToken } from 'tsyringe';
+import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './common/socketio/SocketIo';
+import { SentryUtil } from './common/util/SentryUtil';
 
 const database: Database = validatorContainer.resolve(Database);
 const consoleLoggerFactory: LoggerFactory = validatorContainer.resolve(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('server');
 const env = config.getEnvironment();
+const port = config.APP_PORT;
 
-Sentry.init({
-  dsn: config.SENTRY_DNS,
-  debug: false,
-  enabled: config.IS_SENTRY_ENABLED,
-  environment: env,
-  ignoreErrors: [],
+SentryUtil.initSentry();
+
+const httpServer = createServer(app.callback());
+const options: any = {};
+const socketIoServer: socketio.Server = new socketio.Server<
+  ClientToServerEvents,
+  ServerToClientEvents,
+  InterServerEvents,
+  SocketData
+>(httpServer, options);
+socketIoServer.on('connection', (socket: socketio.Socket) => {
+  socket.on('session', (sessionId: string) => {
+    consoleLogger.log(`Client connected to session with id "${sessionId}".`);
+    socket.data.sessionId = sessionId;
+    socket.join(sessionId);
+  });
 });
 
-const port = config.APP_PORT;
-const httpServer = createServer(app.callback());
-const options: any = {
-  /* ... */
-};
+socketIoServer.on('disconnect', (socket: socketio.Socket) => {
+  consoleLogger.log(`Client disconnected to session with id "${socket.data.sessionId}".`);
+  socket.leave(socket.data.sessionId);
+});
 
-const socketIoServer: socketio.Server = new socketio.Server(httpServer, options);
 const socketIoServerToken: InjectionToken<WebSocket> = 'SocketIoServer';
 validatorContainer.registerInstance(socketIoServerToken, socketIoServer);
 
@@ -45,6 +55,7 @@ async function shutdownCallback(): Promise<void> {
   await new Promise<void>((resolve) => {
     setTimeout(async () => {
       await database.endPool();
+      await SentryUtil.endSentry();
       resolve();
     }, 30000);
   });

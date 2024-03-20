@@ -1,3 +1,5 @@
+import { ValidationResult } from '../validation/v2/ValidationResult';
+
 export interface WebSocket {
-  emit(sessionId: string, data: any): Promise<void>;
+  sendValidationResult(sessionId: string, validationResult: ValidationResult): Promise<void>;
 }

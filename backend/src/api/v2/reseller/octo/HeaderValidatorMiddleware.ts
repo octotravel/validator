@@ -15,17 +15,16 @@ export class HeaderValidatorMiddleware {
   public async invoke(request: IRequest): Promise<Response | null> {
     const validationResult = await this.requestHeadersValidator.validate(request.headers);
 
-    if (validationResult.isValid()) {
-      return null;
+    if (!validationResult.isValid()) {
+      const sessionId = request.headers.get('Authorization');
+
+      if (sessionId !== null) {
+        this.webSocket.sendValidationResult(sessionId, validationResult);
+      }
+
+      return this.errorResponseFactory.createValidationErrorResponse(validationResult);
     }
 
-    // sync to websocket
-    try {
-      this.webSocket.emit('test', 'msg');
-    } catch (e: any) {
-      console.log(e);
-    }
-
-    return this.errorResponseFactory.createValidationErrorResponse(validationResult);
+    return null;
   }
 }

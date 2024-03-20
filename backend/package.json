@@ -54,6 +54,7 @@
     "reflect-metadata": "0.1.13",
     "short-uuid": "4.2.2",
     "socket.io": "4.7.4",
+    "socket.io-client": "^4.7.5",
     "swc": "1.0.11",
     "ts-dotenv": "^0.9.1",
     "ts-enum-util": "4.0.2",

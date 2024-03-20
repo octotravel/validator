@@ -6,7 +6,7 @@ import { ExceptionLogger } from './common/logger/ExceptionLogger';
 import { validatorContainer } from './common/di';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
 import { Database } from './common/database/Database';
-import { endSentry, initSentry } from './common/util/SentryInit';
+import { SentryUtil } from './common/util/SentryUtil';
 
 const database: Database = validatorContainer.resolve(Database);
 const exceptionLogger: ExceptionLogger = validatorContainer.resolve('ExceptionLogger');
@@ -15,7 +15,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
 
 (async () => {
   try {
-    initSentry();
+    SentryUtil.initSentry();
 
     const commandName = process.argv[2] ?? null;
     const availableCommands: Command[] = validatorContainer.resolveAll('Command');
@@ -47,13 +47,13 @@ const consoleLogger = consoleLoggerFactory.create('console');
     }
 
     await database.endPool();
-    await endSentry();
+    await SentryUtil.endSentry();
     process.exit(0);
   } catch (err: any) {
     await consoleLogger.error(err);
     await exceptionLogger.error(err);
     await database.endPool();
-    await endSentry();
+    await SentryUtil.endSentry();
     process.exit(1);
   }
 })();
