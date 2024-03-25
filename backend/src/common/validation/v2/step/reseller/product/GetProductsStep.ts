@@ -18,6 +18,10 @@ export class GetProductsStep implements Step {
     return 'Fetch the list of products available to you.';
   }
 
+  public getEndpointUrl(): string {
+    return '/products';
+  }
+
   public getDocsUrl(): string {
     return 'https://docs.octo.travel/octo-api-core/products#get-products';
   }

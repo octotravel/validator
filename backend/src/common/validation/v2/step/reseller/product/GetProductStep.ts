@@ -18,6 +18,10 @@ export class GetProductStep implements Step {
     return 'Fetch the product for the given id.';
   }
 
+  public getEndpointUrl(): string {
+    return '/products/{id}';
+  }
+
   public getDocsUrl(): string {
     return 'https://docs.octo.travel/octo-api-core/products#get-product';
   }

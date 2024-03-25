@@ -19,6 +19,10 @@ export class AvailabilityCalendarStep implements Step {
     return "Availability Calendar endpoint is designed to be highly optimized and returns a single object per day. It's designed to be queried for large date ranges and the result is used to populate an availability calendar.";
   }
 
+  public getEndpointUrl(): string {
+    return '/availability/calendar';
+  }
+
   public getDocsUrl(): string {
     return 'https://docs.octo.travel/octo-api-core/availability#availability-calendar';
   }

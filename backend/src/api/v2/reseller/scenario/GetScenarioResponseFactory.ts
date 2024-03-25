@@ -9,6 +9,7 @@ export class GetScenarioResponseFactory {
         id: step.getId(),
         name: step.getName(),
         description: step.getDescription(),
+        endpointUrl: step.getEndpointUrl(),
         docsUrl: step.getDocsUrl(),
       });
     }

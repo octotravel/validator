@@ -15,5 +15,6 @@ export interface GetScenarioStepResponse {
   id: StepId;
   name: string;
   description: string;
+  endpointUrl: string;
   docsUrl: string;
 }

@@ -20,12 +20,32 @@ export interface SocketData {
   sessionId: string;
 }
 
+export interface WebSocketValidationResult {
+  isValid: boolean;
+  data: Record<string, any>;
+  errors: WebSocketValidationResultItem[];
+  warnings: WebSocketValidationResultItem[];
+}
+
+export interface WebSocketValidationResultItem {
+  message: string;
+  path: string;
+  data: any;
+}
+
 @singleton()
 export class SocketIo implements WebSocket {
   private socketIoServer: socketio.Server | null = null;
 
-  public async sendValidationResult(sessionId: string, validationResult: any): Promise<void> {
-    this.getSocketIoServer().to(sessionId).emit('validationResult', sessionId, validationResult);
+  public async sendValidationResult(sessionId: string, validationResult: ValidationResult): Promise<void> {
+    const websocketValidationResult = {
+      isValid: validationResult.isValid(),
+      data: validationResult.getData(),
+      errors: validationResult.getErrors(),
+      warnings: validationResult.getWarnings(),
+    };
+
+    this.getSocketIoServer().to(sessionId).emit('validationResult', sessionId, websocketValidationResult);
   }
 
   private getSocketIoServer(): socketio.Server {

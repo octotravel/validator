@@ -18,6 +18,10 @@ export class GetSupplierStep implements Step {
     return 'Returns the supplier and associated contact details.';
   }
 
+  public getEndpointUrl(): string {
+    return '/suppliers';
+  }
+
   public getDocsUrl(): string {
     return 'https://docs.octo.travel/octo-core/suppliers';
   }

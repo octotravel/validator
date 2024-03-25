@@ -15,7 +15,7 @@ export class ValidationResult {
   }
 
   public addErrors(errors: ValidationFailure[]): void {
-    this.errors.push(...errors);
+    errors.forEach((error) => this.errors.push(error));
   }
 
   public addError(error: ValidationFailure): void {
@@ -27,7 +27,7 @@ export class ValidationResult {
   }
 
   public addWarnings(warnings: ValidationFailure[]): void {
-    this.warnings.push(...warnings);
+    warnings.forEach((warning) => this.warnings.push(warning));
   }
 
   public addWarning(warning: ValidationFailure): void {

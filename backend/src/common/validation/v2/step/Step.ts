@@ -6,6 +6,7 @@ export interface Step {
   getId(): StepId;
   getName(): string;
   getDescription(): string;
+  getEndpointUrl(): string;
   getDocsUrl(): string;
   getValidators(): Validator[];
   getQuestions(): Question[];
