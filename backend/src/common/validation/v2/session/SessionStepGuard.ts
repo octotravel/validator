@@ -37,23 +37,23 @@ export class SessionStepGuard {
         );
       }
 
-      throw SessionScenarioStepNotAllowedError.createForNonExistingStep(scenarioId, targetStepId);
-    }
+      // throw SessionScenarioStepNotAllowedError.createForNonExistingStep(scenarioId, targetStepId);
+    } else {
+      const currentStep = scenarioSteps.find((step) => step.getId() === currentStepId);
 
-    const currentStep = scenarioSteps.find((step) => step.getId() === currentStepId);
+      if (currentStep === undefined) {
+        throw new SessionIsInInvalidState(session.id, session.currentScenario, currentStepId);
+      }
 
-    if (currentStep === undefined) {
-      throw new SessionIsInInvalidState(session.id, session.currentScenario, currentStepId);
-    }
+      const currentStepIndexInScenario = scenarioSteps.indexOf(currentStep);
 
-    const currentStepIndexInScenario = scenarioSteps.indexOf(currentStep);
-
-    if (
-      targetStepIndexInScenario !== currentStepIndexInScenario &&
-      targetStepIndexInScenario !== currentStepIndexInScenario + 1 &&
-      targetStepIndexInScenario >= currentStepIndexInScenario
-    ) {
-      throw SessionScenarioStepNotAllowedError.createForInvalidStep(scenario.getId(), targetStepId);
+      if (
+        targetStepIndexInScenario !== currentStepIndexInScenario &&
+        targetStepIndexInScenario !== currentStepIndexInScenario + 1 &&
+        targetStepIndexInScenario >= currentStepIndexInScenario
+      ) {
+        throw SessionScenarioStepNotAllowedError.createForInvalidStep(scenario.getId(), targetStepId);
+      }
     }
   }
 }
