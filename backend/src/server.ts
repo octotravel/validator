@@ -24,7 +24,7 @@ const port = config.APP_PORT;
 SentryUtil.initSentry();
 
 const httpServer = createServer(app.callback());
-const options: any = {};
+const options: Partial<socketio.ServerOptions> = { cors: { origin: '*' } }
 const socketIoServer: socketio.Server = new socketio.Server<
   ClientToServerEvents,
   ServerToClientEvents,
