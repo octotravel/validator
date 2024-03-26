@@ -23,9 +23,6 @@ export class SessionStepProcessor {
     });
 
     const validationResult = await this.stepValidator.validate(step, requestData);
-
-    if (!validationResult.isValid()) {
-      await this.webSocket.sendValidationResult(session.id, validationResult);
-    }
+    this.webSocket.sendValidationResult(session.id, validationResult);
   }
 }
