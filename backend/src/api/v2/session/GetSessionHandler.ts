@@ -27,7 +27,7 @@ export class GetSessionHandler implements RequestHandler {
       const validatedSchema = await SchemaValidator.validateSchema<GetSessionSchema>(getSessionSchema, requestPayload);
       const session = await this.sessionFacade.getSession(validatedSchema.id);
 
-      return this.jsonResponseFactory.create(SessionResponse.create(session));
+      return this.jsonResponseFactory.create(SessionResponse.createWithProgress(session));
     } catch (e: any) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);

@@ -35,9 +35,11 @@ export class AvailabilityCalendarHandler implements RequestHandler {
       } else if (e instanceof SessionScenarioStepNotAllowedError) {
         return this.errorResponseFactory.createForbiddenResponse(e.message, e);
       } else if (e instanceof ValidationError) {
+        // TODO fix
         return this.errorResponseFactory.createValidationErrorResponse(e.validationResult, e);
       } else if (e instanceof HttpError) {
-        return this.errorResponseFactory.createErrorResponse(e.validationResult, e);
+        // TODO fix
+        // return this.errorResponseFactory.createErrorResponse(e.status, e.validationResult, e);
       }
 
       throw e;
