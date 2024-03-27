@@ -17,12 +17,15 @@ export class SessionStepProcessor {
 
   public async process(session: Session, step: Step, requestData: any = null): Promise<void> {
     await this.sessionStepGuard.check(session, step);
-    await this.sessionService.updateSession({
-      id: session.id,
-      currentStep: step.getId(),
-    });
 
     const validationResult = await this.stepValidator.validate(step, requestData);
     this.webSocket.sendValidationResult(session.id, validationResult);
+
+    if (validationResult.isValid()) {
+      await this.sessionService.updateSession({
+        id: session.id,
+        currentStep: step.getId(),
+      });
+    }
   }
 }
