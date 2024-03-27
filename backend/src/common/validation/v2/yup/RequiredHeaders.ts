@@ -23,7 +23,9 @@ export const octoCapabilitiesValidator = string().test((capabilities, ctx) => {
     if (!availableCapabilities.includes(parsedCapability)) {
       return ctx.createError({
         type: 'typeError',
-        message: `Octo-Capabilities contains invalid value, all values must be one of the following: ${$enum(CapabilityId)
+        message: `Octo-Capabilities contains invalid value, all values must be one of the following: ${$enum(
+          CapabilityId,
+        )
           .getValues()
           .join(', ')}`,
       });
