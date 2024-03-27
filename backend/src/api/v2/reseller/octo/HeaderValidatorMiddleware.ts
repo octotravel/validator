@@ -15,7 +15,8 @@ export class HeaderValidatorMiddleware {
   public async invoke(request: IRequest): Promise<Response | null> {
     const validationResult = await this.requestHeadersValidator.validate(request.headers);
 
-    const sessionId = request.headers.get('Authorization');
+    const authHeader = request.headers.get('Authorization') ?? '';
+    const [authType, sessionId] = authHeader.split(' ');
 
     if (sessionId !== null) {
       this.webSocket.sendValidationResult(sessionId, validationResult);

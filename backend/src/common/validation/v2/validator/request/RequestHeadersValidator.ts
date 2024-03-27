@@ -17,10 +17,6 @@ export const requestHeadersSchema: SchemaOf<RequestHeadersSchema> = object().sha
 });
 
 export class RequestHeadersValidator implements Validator {
-  public getDocs(): string {
-    return 'https://docs.octo.travel/getting-started/headers';
-  }
-
   public async validate(headers: Headers): Promise<ValidationResult> {
     const parsedHeaders: Record<string, string | undefined> = {
       Authorization: headers.get('Authorization') ?? undefined,
