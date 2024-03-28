@@ -17,7 +17,7 @@ export const requestHeadersSchema: SchemaOf<RequestHeadersSchema> = object().sha
 });
 
 export class RequestHeadersValidator implements Validator {
-  public async validate(headers: Headers): Promise<ValidationResult> {
+  public async validate(data: unknown, headers: Headers): Promise<ValidationResult> {
     const parsedHeaders: Record<string, string | undefined> = {
       Authorization: headers.get('Authorization') ?? undefined,
       'Content-Type': headers.get('Content-Type') ?? undefined,

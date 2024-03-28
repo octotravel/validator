@@ -15,9 +15,9 @@ export class SupplierFacade {
     @inject(SessionStepProcessor) private readonly sessionStepProcessor: SessionStepProcessor,
   ) {}
 
-  public async getSupplier(sessionId: string): Promise<Supplier> {
+  public async getSupplier(sessionId: string, requestHeaders: Headers): Promise<Supplier> {
     const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.getSupplierStep);
+    await this.sessionStepProcessor.process(session, this.getSupplierStep, null, requestHeaders);
 
     return await this.backend.getSupplier(BackendParamsUtil.create());
   }

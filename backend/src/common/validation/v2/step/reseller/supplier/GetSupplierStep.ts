@@ -3,6 +3,7 @@ import { Question } from '../../../question/Question';
 import { StepId } from '../../StepId';
 import { Validator } from '../../../validator/Validator';
 import { Step } from '../../Step';
+import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 
 @singleton()
 export class GetSupplierStep implements Step {
@@ -27,7 +28,7 @@ export class GetSupplierStep implements Step {
   }
 
   public getValidators(): Validator[] {
-    return [];
+    return [new RequestHeadersValidator()];
   }
 
   public getQuestions(): Question[] {

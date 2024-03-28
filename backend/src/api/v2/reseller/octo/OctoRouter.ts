@@ -2,7 +2,6 @@ import { Router } from 'itty-router';
 import { inject, singleton } from 'tsyringe';
 import { GetSupplierHandler } from './supplier/GetSupplierHandler';
 import { AuthMiddleware } from './AuthMiddleware';
-import { HeaderValidatorMiddleware } from './HeaderValidatorMiddleware';
 import { GetProductsHandler } from './product/GetProductsHandler';
 import { GetProductHandler } from './product/GetProductHandler';
 import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
@@ -13,7 +12,6 @@ export class OctoRouter {
 
   public constructor(
     @inject(AuthMiddleware) private readonly authMiddleware: AuthMiddleware,
-    @inject(HeaderValidatorMiddleware) private readonly headerValidatorMiddleware: HeaderValidatorMiddleware,
     @inject(GetSupplierHandler) private readonly getSupplierHandler: GetSupplierHandler,
     @inject(GetProductsHandler) private readonly getProductsHandler: GetProductsHandler,
     @inject(GetProductHandler) private readonly getProductHandler: GetProductsHandler,
@@ -22,9 +20,6 @@ export class OctoRouter {
     // TODO separate this router into sub routers
     this.router = Router({ base: '/v2/reseller/octo' });
 
-    this.router.all('*', async (request) => {
-      return await this.headerValidatorMiddleware.invoke(request);
-    });
     this.router.all('*', async (request) => {
       await this.authMiddleware.invoke(request);
     });

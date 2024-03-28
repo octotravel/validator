@@ -3,13 +3,13 @@ import { Step } from './Step';
 import { Validator } from '../validator/Validator';
 
 export class StepValidator implements Validator {
-  public async validate(step: Step, data: unknown): Promise<ValidationResult> {
+  public async validate(step: Step, data: unknown, headers: Headers): Promise<ValidationResult> {
     const validationResult = new ValidationResult(data);
     const validators = step.getValidators();
     const validationPromises: Array<Promise<ValidationResult>> = [];
 
     for (const validator of validators) {
-      validationPromises.push(validator.validate(data));
+      validationPromises.push(validator.validate(data, headers));
     }
 
     const innerValidationResults = await Promise.all(validationPromises);

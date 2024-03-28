@@ -29,7 +29,8 @@ export class GetProductHandler implements RequestHandler {
         getProductPathParamsSchema,
         requestPayload,
       );
-      const product = await this.productFacade.getProduct(validatedSchema.id, sessionId);
+      const headers = request.headers;
+      const product = await this.productFacade.getProduct(validatedSchema.id, sessionId, headers);
 
       return this.jsonResponseFactory.create(product);
     } catch (e: any) {

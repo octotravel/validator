@@ -15,11 +15,11 @@ export class SessionStepProcessor {
     @inject('WebSocket') private readonly webSocket: WebSocket,
   ) {}
 
-  public async process(session: Session, step: Step, requestData: any = null): Promise<void> {
+  public async process(session: Session, step: Step, requestData: any = null, requestHeaders: Headers): Promise<void> {
     await this.sessionStepGuard.check(session, step);
 
-    const validationResult = await this.stepValidator.validate(step, requestData);
-    this.webSocket.sendValidationResult(session.id, validationResult);
+    const validationResult = await this.stepValidator.validate(step, requestData, requestHeaders);
+    this.webSocket.sendValidationResult(session, step, validationResult);
 
     if (validationResult.isValid()) {
       await this.sessionService.updateSession({

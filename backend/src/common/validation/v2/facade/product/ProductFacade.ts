@@ -17,16 +17,16 @@ export class ProductFacade {
     @inject(SessionStepProcessor) private readonly sessionStepProcessor: SessionStepProcessor,
   ) {}
 
-  public async getProducts(sessionId: string): Promise<Product[]> {
+  public async getProducts(sessionId: string, requestHeaders: Headers): Promise<Product[]> {
     const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.getProductsStep);
+    await this.sessionStepProcessor.process(session, this.getProductsStep, null, requestHeaders);
 
     return await this.backend.getProducts({}, BackendParamsUtil.create());
   }
 
-  public async getProduct(productId: string, sessionId: string): Promise<Product> {
+  public async getProduct(productId: string, sessionId: string, requestHeaders: Headers): Promise<Product> {
     const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.getProductStep);
+    await this.sessionStepProcessor.process(session, this.getProductStep, null, requestHeaders);
 
     return await this.backend.getProduct({ id: productId }, BackendParamsUtil.create());
   }

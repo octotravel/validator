@@ -18,9 +18,15 @@ export class AvailabilityFacade {
   public async getAvailabilityCalendar(
     availabilityCalendarData: any,
     sessionId: string,
+    requestHeaders: Headers,
   ): Promise<AvailabilityCalendar[]> {
     const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.availabilityCalendarStep, availabilityCalendarData);
+    await this.sessionStepProcessor.process(
+      session,
+      this.availabilityCalendarStep,
+      availabilityCalendarData,
+      requestHeaders,
+    );
 
     return await this.backend.getAvailabilityCalendar(availabilityCalendarData, BackendParamsUtil.create());
   }

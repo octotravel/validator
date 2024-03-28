@@ -4,6 +4,7 @@ import { singleton } from 'tsyringe';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { AvailabilityCalendarValidator } from '../../../validator/reseller/availability/AvailabilityCalendarValidator';
+import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 
 @singleton()
 export class AvailabilityCalendarStep implements Step {
@@ -28,7 +29,7 @@ export class AvailabilityCalendarStep implements Step {
   }
 
   public getValidators(): Validator[] {
-    return [new AvailabilityCalendarValidator()];
+    return [new RequestHeadersValidator(), new AvailabilityCalendarValidator()];
   }
 
   public getQuestions(): Question[] {
