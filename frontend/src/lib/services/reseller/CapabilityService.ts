@@ -1,8 +1,8 @@
-import { capabilitiesStore } from '$lib/stores';
+import { resellerCapabilitiesStore } from '$lib/stores';
 
 export abstract class CapabilityService {
 	public static getCapabilities = async () => {
-		capabilitiesStore.set({ capabilities: [], isLoading: true, error: null });
+		resellerCapabilitiesStore.set({ capabilities: [], isLoading: true, error: null });
 
 		const response = await fetch(`/api/reseller/capabilities`, {
 			method: 'GET',
@@ -12,12 +12,16 @@ export abstract class CapabilityService {
 		});
 
 		if (!response.ok) {
-			capabilitiesStore.set({ capabilities: [], isLoading: false, error: response.statusText });
+			resellerCapabilitiesStore.set({
+				capabilities: [],
+				isLoading: false,
+				error: response.statusText
+			});
 			return null;
 		}
 
 		const capabilities = (await response.json()).capabilities;
 
-		capabilitiesStore.set({ capabilities, isLoading: false, error: null });
+		resellerCapabilitiesStore.set({ capabilities, isLoading: false, error: null });
 	};
 }

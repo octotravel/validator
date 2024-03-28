@@ -1,4 +1,5 @@
 import { CapabilityId } from '@octocloud/types';
+import type { Scenario } from './Scenarios';
 
 export interface Session {
 	id: string;
@@ -6,8 +7,7 @@ export interface Session {
 	capabilities: CapabilityId[] | null;
 	currentScenario: string | null;
 	currentStep: string | null;
-	createdAt: Date;
-	updatedAt: Date;
+	scenariosProgress: ScenarioProgress[];
 	url: string;
 }
 
@@ -19,28 +19,36 @@ export interface UpdateSessionData {
 	currentStep?: string | null;
 }
 
-export interface SessionData {
-	id: string;
-	name: string;
-	capabilities: CapabilityId[];
-	currentScenario: string | null;
-	currentStep: string | null;
-	createdAt: Date;
-	updatedAt: Date;
-}
-
-export interface SessionRowData {
-	id: string;
-	name: string;
-	capabilities: string;
-	current_scenario: string | null;
-	current_step: string | null;
-	created_at: Date;
-	updated_at: Date;
-}
-
 export interface SessionStore {
 	session: Session | null;
 	isLoading: boolean;
 	error: string | null;
 }
+
+export interface ScenarioProgress {
+	id: string;
+	name: string;
+	description: string;
+	requiredCapabilities: CapabilityId[];
+	optionalCapabilities: CapabilityId[];
+	steps: ScenarioProgressStep[];
+  }
+  
+  export interface ScenarioProgressStep {
+	id: string;
+	name: string;
+	description: string;
+	endpointUrl: string;
+	docsUrl: string;
+	status: ScenarioProgressStepStatus;
+  }
+  
+  export enum ScenarioProgressStepStatus {
+	COMPLETED = 'completed',
+	PENDING = 'pending',
+  }
+
+  export interface ScenarioStore {
+	scenario: ScenarioProgress | null;
+	isLoading: boolean;
+  }

@@ -1,7 +1,7 @@
 import type { CapabilitiesStore } from '$lib/types/Capabilities';
-import type { ScenariosStore } from '$lib/types/Scenarios';
-import type { SessionStore } from '$lib/types/Session';
+import type { ScenarioProgress, ScenarioStore, SessionStore } from '$lib/types/Session';
 import type { SupplierValidationStore } from '$lib/types/SupplierFlow';
+import type { ValidationResultStore } from '$lib/types/Validation';
 import { writable } from 'svelte/store';
 
 export const pageTitleStore = writable<string>('');
@@ -18,14 +18,19 @@ export const resellerSessionStore = writable<SessionStore>({
 	error: null
 });
 
-export const capabilitiesStore = writable<CapabilitiesStore>({
+export const resellerCapabilitiesStore = writable<CapabilitiesStore>({
 	capabilities: [],
 	isLoading: false,
 	error: null
 });
 
-export const scenariosStore = writable<ScenariosStore>({
-	scenarios: null,
-	isLoading: false,
-	error: null
+export const resellerScenarioSelectedStore = writable<ScenarioStore>({
+	scenario: null,
+	isLoading: false
 });
+
+export const resellerScenarioValidationResultStore = writable<ValidationResultStore>({
+	results: []
+});
+
+export const resellerScenariosListLoadingStore = writable<boolean>(false);

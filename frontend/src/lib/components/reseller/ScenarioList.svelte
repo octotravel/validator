@@ -1,8 +1,14 @@
 <script lang="ts">
-	import { ScenariosService } from '$lib/services/reseller/ScenariosService';
-	import { scenariosStore } from '$lib/stores';
+	import { ScenariosService } from '$lib/services/reseller/ScenarioService';
+	import { SessionService } from '$lib/services/reseller/SessionService';
+	import {
+		resellerScenarioSelectedStore,
+		resellerScenariosListLoadingStore,
+		resellerSessionStore
+	} from '$lib/stores';
+	import type { ScenarioProgress } from '$lib/types/Session';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { IconArrowRight, IconSquare } from '@tabler/icons-svelte';
+	import { IconSquare } from '@tabler/icons-svelte';
 	import { onMount } from 'svelte';
 
 	const toastStore = getToastStore();
@@ -10,22 +16,40 @@
 	onMount(() => {
 		ScenariosService.getScenarios(toastStore);
 	});
+
+	const selectScenario = (scenario: ScenarioProgress) => {
+		ScenariosService.getScenario(scenario.id, toastStore);
+
+		if ($resellerSessionStore.session) {
+			$resellerSessionStore.session.currentScenario = scenario.id;
+			SessionService.updateSession(toastStore);
+		}
+	};
 </script>
 
-{#if $scenariosStore.scenarios !== null}
-	<div class="card w-full mt-10 p-4 text-center">
-		{#each $scenariosStore.scenarios as scenario}
-			<button class="btn variant-soft-surface w-96">
-				<div class="grid grid-cols-3">
-					<span class="justify-self-start">
-						<IconSquare />
-					</span>
+<div class="btn-group-vertical variant-soft w-full">
+	{#if $resellerSessionStore.session && $resellerScenariosListLoadingStore === false}
+		{#each $resellerSessionStore.session.scenariosProgress as scenario}
+			<button
+				on:click={() => selectScenario(scenario)}
+				class={scenario.id === $resellerScenarioSelectedStore?.scenario?.id ? 'variant-soft-secondary' : ''}
+			>
+				<span>
+					<IconSquare />
+				</span>
+				<span>
 					{scenario.name}
-					<span class="justify-self-end">
-						<IconArrowRight />
-					</span>
-				</div>
+				</span>
 			</button>
 		{/each}
-	</div>
-{/if}
+	{:else}
+		<section class="card w-full">
+			<div class="space-y-1">
+				<div class="placeholder h-10 text-stone-500 text-center">Loading...</div>
+				<div class="placeholder h-10" />
+				<div class="placeholder h-10" />
+				<div class="placeholder h-10" />
+			</div>
+		</section>
+	{/if}
+</div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ResellerService } from '$lib/services/reseller/SessionService';
+	import { SessionService } from '$lib/services/reseller/SessionService';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	let sessionID = '';
@@ -14,7 +14,7 @@
 			<div class="w-full text-end my-auto">
 				<button
 					class="btn variant-ghost-success"
-					on:click={() => ResellerService.createSession(toastStore)}>Create Session</button
+					on:click={() => SessionService.createSession(toastStore)}>Create Session</button
 				>
 			</div>
 			<span class="divider-vertical h-20 mx-20" />
@@ -23,7 +23,7 @@
 					<input type="text" placeholder="Search session by ID..." bind:value={sessionID} />
 					<button
 						class="variant-soft-primary"
-						on:click={() => ResellerService.findSession(sessionID, toastStore)}>Search</button
+						on:click={() => SessionService.findSession(sessionID, toastStore)}>Search</button
 					>
 				</div>
 			</div>

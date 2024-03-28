@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { ListBox, ListBoxItem, Step, Stepper, getToastStore } from '@skeletonlabs/skeleton';
-	import { capabilitiesStore, resellerSessionStore } from '$lib/stores';
+	import { resellerCapabilitiesStore, resellerSessionStore } from '$lib/stores';
 	import { IconSquare, IconSquareCheck } from '@tabler/icons-svelte';
 	import { CapabilityService } from '$lib/services/reseller/CapabilityService';
 	import { onMount } from 'svelte';
-	import { ResellerService } from '$lib/services/reseller/SessionService';
+	import { SessionService } from '$lib/services/reseller/SessionService';
 	import type { Capability } from '$lib/types/Capabilities';
 
 	const toastStore = getToastStore();
@@ -20,7 +20,7 @@
 		$resellerSessionStore.session.capabilities = selectedCapabilities.map(
 			(capability) => capability.id
 		);
-		ResellerService.updateSession(toastStore);
+		SessionService.updateSession(toastStore);
 	};
 
 	let selectedCapabilities: Capability[] = [];
@@ -48,10 +48,10 @@
 					Please select the capabilities you'd like to test within your implementation.
 					<!--todo: move to seperate component-->
 					<div class="w-96 mx-auto mt-5">
-						{#if $capabilitiesStore}
+						{#if $resellerCapabilitiesStore}
 							<div class="flex gap-4">
 								<ListBox multiple>
-									{#each $capabilitiesStore.capabilities.slice(0, 9) as capability}
+									{#each $resellerCapabilitiesStore.capabilities.slice(0, 9) as capability}
 										<ListBoxItem
 											bind:group={selectedCapabilities}
 											name={capability.name}
@@ -73,7 +73,7 @@
 									{/each}
 								</ListBox>
 								<ListBox multiple>
-									{#each $capabilitiesStore.capabilities.slice(10, 19) as capability}
+									{#each $resellerCapabilitiesStore.capabilities.slice(10, 19) as capability}
 										<ListBoxItem
 											bind:group={selectedCapabilities}
 											name={capability.id}
@@ -95,7 +95,7 @@
 									{/each}
 								</ListBox>
 								<ListBox multiple>
-									{#each $capabilitiesStore.capabilities.slice(20, 29) as capability}
+									{#each $resellerCapabilitiesStore.capabilities.slice(20, 29) as capability}
 										<ListBoxItem
 											bind:group={selectedCapabilities}
 											name={capability.id}

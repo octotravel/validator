@@ -7,6 +7,7 @@
 	import {
 		AppBar,
 		AppShell,
+		Modal,
 		Toast,
 		initializeStores,
 		storeHighlightJs
@@ -38,6 +39,7 @@
 </script>
 
 <Toast position="tr" />
+<Modal />
 
 <svelte:head>
 	<title>OCTO Validation Tool</title>

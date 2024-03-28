@@ -2,7 +2,7 @@ import { resellerSessionStore } from '$lib/stores';
 import type { ToastSettings } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
 
-export abstract class ResellerService {
+export abstract class SessionService {
 	public static createSession = async (toastStore: any) => {
 		resellerSessionStore.set({ session: null, isLoading: true, error: null });
 
@@ -61,11 +61,17 @@ export abstract class ResellerService {
 	};
 
 	public static updateSession = async (toastStore: any) => {
-		const body = get(resellerSessionStore).session;
+		const sessionStore = get(resellerSessionStore);
+		const body = {
+			id: sessionStore.session?.id,
+			name: sessionStore.session?.name,
+			capabilities: sessionStore.session?.capabilities,
+			currentScenario: sessionStore.session?.currentScenario,
+		};
 		const response = await fetch(`/api/reseller/session`, {
 			method: 'PUT',
 			headers: {
-				'Content-Type': 'applicati,on/json'
+				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(body)
 		});
