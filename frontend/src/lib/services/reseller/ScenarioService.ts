@@ -1,4 +1,8 @@
-import { resellerScenarioSelectedStore, resellerScenariosListLoadingStore, resellerSessionStore } from '$lib/stores';
+import {
+	resellerScenarioSelectedStore,
+	resellerScenariosListLoadingStore,
+	resellerSessionStore
+} from '$lib/stores';
 import type { Scenario, Step } from '$lib/types/Scenarios';
 import type { ScenarioProgress, ScenarioProgressStep, Session } from '$lib/types/Session';
 import type { ToastSettings } from '@skeletonlabs/skeleton';
@@ -29,12 +33,13 @@ export abstract class ScenariosService {
 		const sessionStore = get(resellerSessionStore);
 
 		const scenariosProgress: ScenarioProgress[] = scenarios.map((scenario: Scenario) => {
-			const steps = sessionStore.session?.scenariosProgress.find(sp => sp.id === scenario.id)?.steps || [];
+			const steps =
+				sessionStore.session?.scenariosProgress.find((sp) => sp.id === scenario.id)?.steps || [];
 			return {
 				...scenario,
 				steps
-			}
-		})
+			};
+		});
 
 		if (!sessionStore.session) {
 			return;
@@ -74,12 +79,14 @@ export abstract class ScenariosService {
 		const sessionStore = get(resellerSessionStore);
 
 		const steps: ScenarioProgressStep[] = scenario.steps.map((step: Step) => {
-			const progressStep = (sessionStore.session?.scenariosProgress.find(sp => sp.id === scenario.id)?.steps || []).find(s => s.id === step.id);
+			const progressStep = (
+				sessionStore.session?.scenariosProgress.find((sp) => sp.id === scenario.id)?.steps || []
+			).find((s) => s.id === step.id);
 			return {
 				...step,
-				status: progressStep?.status || 'pending',
-			}
-		})
+				status: progressStep?.status || 'pending'
+			};
+		});
 
 		if (!sessionStore.session) {
 			return;
@@ -97,7 +104,7 @@ export abstract class ScenariosService {
 		const updatedSession: Session = {
 			...sessionStore.session,
 			scenariosProgress: [
-				...sessionStore.session.scenariosProgress.filter(sp => sp.id !== scenario.id),
+				...sessionStore.session.scenariosProgress.filter((sp) => sp.id !== scenario.id),
 				newScenario
 			]
 		};

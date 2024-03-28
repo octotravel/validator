@@ -1,7 +1,5 @@
 <script lang="ts">
-	import {
-		resellerScenarioSelectedStore,
-	} from '$lib/stores';
+	import { resellerScenarioSelectedStore } from '$lib/stores';
 	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
 	import { IconFileDescription } from '@tabler/icons-svelte';
 	import ScenarioStep from './ScenarioStep.svelte';

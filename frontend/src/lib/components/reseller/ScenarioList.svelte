@@ -32,7 +32,9 @@
 		{#each $resellerSessionStore.session.scenariosProgress as scenario}
 			<button
 				on:click={() => selectScenario(scenario)}
-				class={scenario.id === $resellerScenarioSelectedStore?.scenario?.id ? 'variant-soft-secondary' : ''}
+				class={scenario.id === $resellerScenarioSelectedStore?.scenario?.id
+					? 'variant-soft-secondary'
+					: ''}
 			>
 				<span>
 					<IconSquare />

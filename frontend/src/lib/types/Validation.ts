@@ -13,7 +13,7 @@ export interface WebSocketValidationResultItem {
 	data: any;
 }
 
-export interface ResultsStore extends ValidationResult{
+export interface ResultsStore extends ValidationResult {
 	utcCreatedAt: string;
 }
 

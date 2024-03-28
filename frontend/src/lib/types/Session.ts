@@ -32,23 +32,23 @@ export interface ScenarioProgress {
 	requiredCapabilities: CapabilityId[];
 	optionalCapabilities: CapabilityId[];
 	steps: ScenarioProgressStep[];
-  }
-  
-  export interface ScenarioProgressStep {
+}
+
+export interface ScenarioProgressStep {
 	id: string;
 	name: string;
 	description: string;
 	endpointUrl: string;
 	docsUrl: string;
 	status: ScenarioProgressStepStatus;
-  }
-  
-  export enum ScenarioProgressStepStatus {
-	COMPLETED = 'completed',
-	PENDING = 'pending',
-  }
+}
 
-  export interface ScenarioStore {
+export enum ScenarioProgressStepStatus {
+	COMPLETED = 'completed',
+	PENDING = 'pending'
+}
+
+export interface ScenarioStore {
 	scenario: ScenarioProgress | null;
 	isLoading: boolean;
-  }
+}

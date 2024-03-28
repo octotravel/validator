@@ -66,7 +66,7 @@ export abstract class SessionService {
 			id: sessionStore.session?.id,
 			name: sessionStore.session?.name,
 			capabilities: sessionStore.session?.capabilities,
-			currentScenario: sessionStore.session?.currentScenario,
+			currentScenario: sessionStore.session?.currentScenario
 		};
 		const response = await fetch(`/api/reseller/session`, {
 			method: 'PUT',
