@@ -1,7 +1,0 @@
-**/node_modules
-**/dist
-.git
-.gitattributes
-.gitignore
-Makefile
-README.md
