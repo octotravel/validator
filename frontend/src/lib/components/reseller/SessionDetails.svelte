@@ -1,12 +1,19 @@
 <script lang="ts">
 	import { resellerSessionStore } from '$lib/stores';
-	import { ProgressRadial } from '@skeletonlabs/skeleton';
+	import { ProgressRadial, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
 	import { IconArrowNarrowRight, IconCopy } from '@tabler/icons-svelte';
+	import { page } from '$app/stores';
 
-	const copyUrl = () => {
-		if (!$resellerSessionStore.session) return;
-		const url = $resellerSessionStore.session.url;
-		navigator.clipboard.writeText(url);
+	const toastStore = getToastStore();
+
+	const copyToast: ToastSettings = {
+		message: 'Session URL copied to clipboard',
+		background: 'variant-filled-tertiary'
+	};
+
+	const copyToClipboard = () => {
+		toastStore.trigger(copyToast);
+		navigator.clipboard.writeText(`${$page.url}/session/${$resellerSessionStore.session?.id}`);
 	};
 </script>
 
@@ -21,31 +28,39 @@
 					<tbody>
 						<tr>
 							<td class="font-bold">
-								<span class="badge variant-ghost-primary"> ID </span>
+								<span class="badge variant-soft-primary"> ID </span>
 							</td>
 							<td class="text-center">{$resellerSessionStore.session.id}</td>
 						</tr>
 						<tr>
 							<td class="font-bold">
-								<span class="badge variant-ghost-primary"> Name </span>
+								<span class="badge variant-soft-primary"> Name </span>
 							</td>
 							<td class="text-center">{$resellerSessionStore.session.name}</td>
 						</tr>
 						<tr>
 							<td class="font-bold">
-								<span class="badge variant-ghost-primary"> URL </span>
+								<span class="badge variant-soft-primary"> URL </span>
 							</td>
-							<td class="text-center anchor">{$resellerSessionStore.session.url}</td>
+							<td class="text-center anchor"
+								>{$page.url}/session/{$resellerSessionStore.session.id}</td
+							>
 						</tr>
 						<tr>
 							<td class="font-bold">
-								<span class="badge variant-ghost-primary"> Capabiltilies </span>
+								<span class="badge variant-soft-primary"> Capabiltilies </span>
 							</td>
-							<td class="text-center">{$resellerSessionStore.session.capabilities?.join(', ')}</td>
+							<td class="text-center">
+								{#if !$resellerSessionStore.session.capabilities}
+									-
+								{:else}
+									{$resellerSessionStore.session.capabilities?.join(', ')}
+								{/if}
+							</td>
 						</tr>
 						<tr>
 							<td class="font-bold">
-								<span class="badge variant-ghost-primary"> Current scenario </span>
+								<span class="badge variant-soft-primary"> Current scenario </span>
 							</td>
 							{#if $resellerSessionStore.session.currentScenario}
 								<td class="text-center">{$resellerSessionStore.session.currentScenario}</td>
@@ -55,7 +70,7 @@
 						</tr>
 						<tr>
 							<td class="font-bold">
-								<span class="badge variant-ghost-primary"> Current step </span>
+								<span class="badge variant-soft-primary"> Current step </span>
 							</td>
 							{#if $resellerSessionStore.session.currentStep}
 								<td class="text-center">{$resellerSessionStore.session.currentStep}</td>
@@ -68,7 +83,7 @@
 			</div>
 		</section>
 		<footer class="card-footer text-end">
-			<button class="btn variant-ghost" on:click={copyUrl}
+			<button class="btn variant-ghost" on:click={copyToClipboard}
 				>Copy URL<span class="ms-1"><IconCopy /></span></button
 			>
 			<a href="reseller/session/{$resellerSessionStore.session.id}">

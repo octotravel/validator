@@ -11,10 +11,12 @@ import { get } from 'svelte/store';
 export abstract class ScenariosService {
 	public static getScenarios = async (toastStore: any) => {
 		resellerScenariosListLoadingStore.set(true);
+		const capabilities = get(resellerSessionStore).session?.capabilities;
 		const response = await fetch(`/api/reseller/scenarios`, {
 			method: 'GET',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				'Octo-capabilities': capabilities?.join(',') || ''
 			}
 		});
 
@@ -97,17 +99,21 @@ export abstract class ScenariosService {
 			steps
 		};
 
-		console.log('newScenario', newScenario);
-
 		resellerScenarioSelectedStore.set({ isLoading: false, scenario: newScenario });
 
+		const scenarioIndex = sessionStore.session.scenariosProgress.findIndex(
+			(sp) => sp.id === scenario.id
+		);
+
 		const updatedSession: Session = {
-			...sessionStore.session,
-			scenariosProgress: [
-				...sessionStore.session.scenariosProgress.filter((sp) => sp.id !== scenario.id),
-				newScenario
-			]
+			...sessionStore.session
+			// scenariosProgress: [
+			// 	...sessionStore.session.scenariosProgress.filter((sp) => sp.id !== scenario.id),
+			// 	newScenario
+			// ]
 		};
+
+		updatedSession.scenariosProgress[scenarioIndex] = newScenario;
 
 		resellerSessionStore.update((s) => ({ ...s, session: updatedSession }));
 	};

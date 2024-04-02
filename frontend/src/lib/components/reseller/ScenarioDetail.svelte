@@ -13,7 +13,7 @@
 		<section class="p-4">
 			<div class="accordion-border">
 				<Accordion>
-					<AccordionItem>
+					<AccordionItem open>
 						<svelte:fragment slot="lead"><IconFileDescription /></svelte:fragment>
 						<svelte:fragment slot="summary">Description</svelte:fragment>
 						<svelte:fragment slot="content"
@@ -24,6 +24,7 @@
 			</div>
 			<hr class="my-4" />
 			<div class="space-y-1">
+				<h3 class="h3 mb-2">Steps</h3>
 				<Accordion>
 					{#each $resellerScenarioSelectedStore.scenario.steps as step, index}
 						<ScenarioStep {step} {index} />
