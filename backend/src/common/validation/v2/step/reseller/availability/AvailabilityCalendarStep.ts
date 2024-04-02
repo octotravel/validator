@@ -20,6 +20,10 @@ export class AvailabilityCalendarStep implements Step {
     return "Availability Calendar endpoint is designed to be highly optimized and returns a single object per day. It's designed to be queried for large date ranges and the result is used to populate an availability calendar.";
   }
 
+  public getEndpointMethod(): string {
+    return 'POST';
+  }
+
   public getEndpointUrl(): string {
     return '/availability/calendar';
   }

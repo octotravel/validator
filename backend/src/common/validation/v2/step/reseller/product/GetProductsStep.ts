@@ -19,6 +19,10 @@ export class GetProductsStep implements Step {
     return 'Fetch the list of products available to you.';
   }
 
+  public getEndpointMethod(): string {
+    return 'GET';
+  }
+
   public getEndpointUrl(): string {
     return '/products';
   }

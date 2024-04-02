@@ -19,6 +19,10 @@ export class GetProductStep implements Step {
     return 'Fetch the product for the given id.';
   }
 
+  public getEndpointMethod(): string {
+    return 'GET';
+  }
+
   public getEndpointUrl(): string {
     return '/products/{id}';
   }

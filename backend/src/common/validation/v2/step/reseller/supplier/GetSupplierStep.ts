@@ -19,6 +19,10 @@ export class GetSupplierStep implements Step {
     return 'Returns the supplier and associated contact details.';
   }
 
+  public getEndpointMethod(): string {
+    return 'GET';
+  }
+
   public getEndpointUrl(): string {
     return '/suppliers';
   }
