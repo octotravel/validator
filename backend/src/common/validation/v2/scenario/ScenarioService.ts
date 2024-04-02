@@ -52,18 +52,15 @@ export class ScenarioService {
     scenarios: Scenario[],
     capabilities: CapabilityId[],
   ): Promise<Scenario[]> {
-    if (capabilities.length === 0) {
-      return scenarios;
-    }
-
     const availableScenarios: Scenario[] = [];
 
     for (const scenario of scenarios) {
       const scenarioRequiredCapabilities = scenario.getRequiredCapabilities();
 
       if (
-        scenarioRequiredCapabilities.length !== 0 &&
-        !scenarioRequiredCapabilities.every((requiredCapability) => capabilities.includes(requiredCapability))
+        (capabilities.length === 0 && scenarioRequiredCapabilities.length !== 0) ||
+        (scenarioRequiredCapabilities.length !== 0 &&
+          !scenarioRequiredCapabilities.every((requiredCapability) => capabilities.includes(requiredCapability)))
       ) {
         continue;
       }
