@@ -35,6 +35,7 @@ import { GetCapabilitiesHandler } from '../../api/v2/reseller/capabilities/GetCa
 import { SocketIo } from '../socketio/SocketIo';
 import { WebSocket } from '../socketio/WebSocket';
 import { AvailabilityCalendarHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCalendarHandler';
+import { AdvancedScenario } from '../validation/v2/scenario/reseller/AdvancedScenario';
 
 export const validatorContainer = container.createChildContainer();
 
@@ -100,4 +101,5 @@ validatorContainer.registerSingleton(GetCapabilitiesHandler);
 validatorContainer.registerSingleton(AvailabilityCalendarHandler);
 
 // Reseller Scenarios
+validatorContainer.registerSingleton(AdvancedScenario);
 validatorContainer.registerSingleton(BasicScenario);
