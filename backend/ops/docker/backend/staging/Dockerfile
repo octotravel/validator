@@ -8,7 +8,7 @@ RUN npm install --global npm node-gyp esbuild
 COPY package.json /app/
 RUN npm install --no-lockfile
 
-ARG ***REMOVED***
+ARG SENTRY_AUTH_TOKEN
 ARG NODE_ENV
 
 COPY . /app/
