@@ -35,9 +35,13 @@
 						? 'variant-ghost-secondary'
 						: ''}
 				>
-					<span>
-						{scenario.name}
-					</span>
+					{#if scenario.name}
+						<span>
+							{scenario.name}
+						</span>
+					{:else}
+						<span class="text-neutral-500"> Loading... </span>
+					{/if}
 					<!-- {#if scenario.steps.every((step) => step.status === 'completed')}
 						<span class="badge variant-success">
 							Completed

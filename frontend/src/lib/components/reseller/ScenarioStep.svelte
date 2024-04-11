@@ -159,28 +159,41 @@
 														</div>
 													</div>
 												{/if}
-												<div class="mt-2">
-													<div class="label">
-														<span class="font-semibold">Warnings</span>
-														<span class="badge variant-soft-warning">{result.warnings.length}</span>
-														<div class="border text-neutral-500 p-2">
-															{#each result.warnings as warning}
-																<li class="ms-3">{warning}</li>
-															{/each}
+												{#if result.warnings.length > 0}
+													<div class="mt-2">
+														<div class="label">
+															<span class="font-semibold">Warnings</span>
+															<span class="badge variant-soft-warning"
+																>{result.warnings.length}</span
+															>
+															<div class="border text-neutral-500 p-2">
+																{#each result.warnings as warning}
+																	<li class="ms-3">{warning}</li>
+																{/each}
+															</div>
 														</div>
 													</div>
-												</div>
-												<div class="mt-2">
-													<div class="label">
-														<span class="font-semibold">Errors</span>
-														<span class="badge variant-soft-error">{result.errors.length}</span>
-														<div class="border text-neutral-500 p-2">
-															{#each result.errors as error}
-																<li class="ms-3">{error.message}</li>
-															{/each}
+												{/if}
+												{#if result.errors.length > 0}
+													<div class="mt-2">
+														<div class="label">
+															<span class="font-semibold">Errors</span>
+															<span class="badge variant-soft-error">{result.errors.length}</span>
+															<div class="border text-neutral-500 p-2">
+																{#each result.errors as error}
+																	<li class="ms-3">{error.message}</li>
+																{/each}
+															</div>
 														</div>
 													</div>
-												</div>
+												{/if}
+												{#if result.warnings.length === 0 && result.errors.length === 0}
+													<div class="mt-2">
+														<div class="label">
+															<span class="font-semibold">No issues found</span>
+														</div>
+													</div>
+												{/if}
 											</div>
 										</svelte:fragment>
 									</AccordionItem>
