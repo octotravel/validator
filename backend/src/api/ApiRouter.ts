@@ -6,6 +6,7 @@ import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 import { V1Router } from './v1/V1Router';
 import { V2Router } from './v2/V2Router';
 import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
+import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
 
 @singleton()
 export class ApiRouter {
@@ -14,6 +15,7 @@ export class ApiRouter {
     @inject(V2Router) private readonly v2Router: V2Router,
     @inject(GetDocsHandler) private readonly getDocsHandler: GetDocsHandler,
     @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
+    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
     private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
@@ -28,8 +30,11 @@ export class ApiRouter {
   }
 
   public serve = async (ctx: Context, next: Next): Promise<void> => {
+    const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
     const request = RequestMapper.mapRequest(ctx);
+    requestScopedContext.setRequest(request);
     const response = await this.router.handle(request);
+    requestScopedContext.setResponse(response);
 
     if (response.status === 204) {
       ctx.response.body = null;
