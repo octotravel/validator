@@ -9,7 +9,8 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"test": "vitest run"
 	},
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "2.8.0",
@@ -29,6 +30,8 @@
 		"eslint": "^8.56.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.35.1",
+		"fetch-mock": "^9.11.0",
+		"msw": "^2.2.14",
 		"postcss": "8.4.35",
 		"prettier": "^3.1.1",
 		"prettier-plugin-svelte": "^3.1.2",
@@ -38,7 +41,9 @@
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"vite": "^5.0.3",
-		"vite-plugin-tailwind-purgecss": "0.2.0"
+		"vite-plugin-tailwind-purgecss": "0.2.0",
+		"vitest": "^1.5.2",
+		"vitest-mock-extended": "^1.3.1"
 	},
 	"type": "module",
 	"dependencies": {
