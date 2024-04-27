@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+if docker info > /dev/null 2>&1; then
+    if [ "$(docker inspect --format '{{json .State.Running}}' octo_validator_backend 2>/dev/null)" = "true" ]; then
+        cd backend && make fix-staged
+    else
+        cd backend && npm run fix:staged
+    fi
+else
+    cd backend && npm run fix:staged
+fi
+
+exit 1;

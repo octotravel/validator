@@ -1,7 +1,7 @@
 import { Command } from './Command';
 import { singleton, registry } from 'tsyringe';
 import { Database } from '../../common/database/Database';
-import { validatorContainer } from '../../common/di/index';
+import { container } from '../../common/di/container';
 
 @singleton()
 @registry([
@@ -14,7 +14,7 @@ export class ClearDbCommand implements Command {
   };
 
   public run = async (): Promise<void> => {
-    const database: Database = validatorContainer.resolve(Database);
+    const database: Database = container.resolve(Database);
 
     await database.dropTables();
     await database.endPool();
