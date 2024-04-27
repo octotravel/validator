@@ -1,0 +1,26 @@
+pre-commit:
+  parallel: true
+  commands:
+    backend-lint:
+      root: "backend/"
+      glob: '*.{js,ts}' # glob filter for list of files
+      run: npm run lint:fix
+    backend-format:
+      root: "backend/"
+      run: npm run format && npm run format:package
+    backend-type-check:
+      root: "backend/"
+      glob: '*.{js,ts}'
+      run: npm run typecheck
+    #gitLeaks:
+      #root: "backend/"
+      #run: npm run gitleaks
+
+pre-push:
+  parallel: true
+  commands:
+    branchName:
+      run: npx validate-branch-name
+    packages-audit:
+      tags: backend security
+      run: npm audit
