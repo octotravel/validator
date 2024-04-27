@@ -31,11 +31,11 @@
 			</div>
 			<div class="flex justify-between gap-1">
 				<div class="badge variant-soft-primary w-24">Name</div>
-				<div class="badge">{$resellerSessionStore.session.name}</div>
+				<div class="badge mx-auto">{$resellerSessionStore.session.name}</div>
 			</div>
 			<div class="flex justify-between gap-1">
 				<div class="badge variant-soft-primary max-w-24 min-w-24">Capabilities</div>
-				<div class="badge overflow-y-scroll w-full">
+				<div class="badge overflow-x-auto w-full">
 					{$resellerSessionStore.session.capabilities?.join(', ')}
 				</div>
 			</div>
