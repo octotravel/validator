@@ -1,11 +1,11 @@
 import Koa from 'koa';
 import { LoggerFactory } from '../../../common/logger/LoggerFactory';
 import { ConsoleLoggerFactory } from '../../../common/logger/ConsoleLoggerFactory';
-import { validatorContainer } from '../../../common/di/index';
+import { container } from '../../../common/di/container';
 import config from '../../../common/config/config';
 import { Environment, HttpError } from '@octocloud/core';
 
-const consoleLoggerFactory: LoggerFactory = validatorContainer.resolve(ConsoleLoggerFactory);
+const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create();
 
 export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Promise<void> {

@@ -1,5 +1,5 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
 if docker info > /dev/null 2>&1; then
     if [ "$(docker inspect --format '{{json .State.Running}}' octo_validator_backend 2>/dev/null)" = "true" ]; then
