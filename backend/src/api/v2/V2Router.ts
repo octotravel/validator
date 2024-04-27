@@ -21,6 +21,6 @@ export class V2Router {
     this.router.post('/session', async (request) => await this.createSessionHandler.handleRequest(request));
     this.router.put('/session/:sessionId', async (request) => await this.updateSessionHandler.handleRequest(request));
 
-    this.router.all('/reseller/*', this.resellerRouter.router.handle);
+    this.router.all('/reseller/*', this.resellerRouter.router.fetch);
   }
 }

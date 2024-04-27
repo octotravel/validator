@@ -1,109 +1,44 @@
+import { inject, singleton } from 'tsyringe';
 import { pg as named } from 'yesql';
-import { subDays } from 'date-fns';
-import { inject, injectable } from 'inversify';
+import { RequestLogRepository } from './RequestLogRepository';
+import { RequestLog, RequestLogRowData } from '../../types/RequestLog';
 import { Database } from '../database/Database';
+import { QueryUtil } from '../database/util/QueryUtil';
+import { CannotCreateRequestLogError } from './error/CannotCreateRequestLogError';
 
-@injectable()
-export class PostgresRequestLogRepository {
+@singleton()
+export class PostgresRequestLogRepository implements RequestLogRepository {
   public constructor(@inject(Database) private readonly database: Database) {}
 
-  /*
-  public async create(requestLogRowData: RequestLogRowData): Promise<void> {
-    const query = `
-    INSERT INTO request_log(
-      id,
-      parent_id,
-      service_id,
-      account_id,
-      connection_id,
-      created_at,
-      env,
-      action,
-      success,
-      status,
-      req_body,
-      req_method,
-      req_url,
-      req_headers,
-      res_status,
-      res_headers,
-      res_body,
-      res_duration,
-      res_error,
-      product_ids
-    ) VALUES(
-      :id,
-      :parent_id,
-      :service_id,
-      :account_id,
-      :connection_id,
-      :created_at,
-      :env,
-      :action,
-      :success,
-      :status,
-      :req_body,
-      :req_method,
-      :req_url,
-      :req_headers,
-      :res_status,
-      :res_headers,
-      :res_body,
-      :res_duration,
-      :res_error,
-      :product_ids
-    )
-    `;
+  public async create(requestLog: RequestLog): Promise<void> {
+    const requestLogRowData: RequestLogRowData = {
+      id: requestLog.id,
+      session_id: requestLog.sessionId,
+      scenario_id: requestLog.scenarioId,
+      step_id: requestLog.stepId,
+      created_at: requestLog.createdAt,
+      req_body: requestLog.reqBody,
+      req_method: requestLog.reqMethod,
+      req_url: requestLog.reqUrl,
+      req_headers: requestLog.reqHeaders,
+      res_status: requestLog.resStatus,
+      res_headers: requestLog.resHeaders,
+      res_body: requestLog.resBody,
+      res_duration: requestLog.resDuration,
+      validation_result: requestLog.validationResult,
+      is_valid: requestLog.isValid,
+    };
 
-    const updatedRequesRowData: any = requestLogRowData;
-    if (requestLogRowData.product_ids !== null) {
-      // updatedRequesRowData.product_ids = this.convertToPostgresArray(requestLogRowData.product_ids);
-    }
+    const query = `
+    INSERT INTO request_log(${QueryUtil.getColumnNames(requestLogRowData)}) VALUES(${QueryUtil.getColumnBindNames(
+      requestLogRowData,
+    )})`;
 
     await this.database
       .getConnection()
       .query(named(query)(requestLogRowData))
       .catch((e: any) => {
-        // throw CannotCreateRequestLogError.create(requestLogRowData, e);
+        throw CannotCreateRequestLogError.create(requestLogRowData, e);
       });
   }
-
-  public async get(id: string): Promise<RequestLogRowData | null> {
-    const queryResult = await this.database.getConnection().query('SELECT * FROM request_log WHERE id = $1', [id]);
-
-    if (queryResult.rowCount === 0) {
-      return null;
-    }
-
-    const requestLogRowData = queryResult.rows[0] as RequestLogRowData;
-
-    return requestLogRowData;
-  }
-
-  public async deleteOldRequests(): Promise<void> {
-    const query = `
-      DELETE FROM request_log
-        WHERE
-          (
-            (created_at < :created_at_success AND success = true)
-            OR (created_at < :created_at_error AND success = false)
-          ) AND service_id != :service
-    `;
-    const queryValues = {
-      created_at_success: subDays(new Date(), 3),
-      created_at_error: subDays(new Date(), 28),
-      service: Service.VALIDATION,
-    };
-
-    await this.database
-      .getConnection()
-      .query(named(query)(queryValues))
-      .catch((e: any) => {
-        throw CannotDeleteRequestLogError.create(new Date(), e);
-      });
-  }
-
-  private convertToPostgresArray(arr: string[]): string {
-    return `{${arr.join(',')}}`;
-  } */
 }

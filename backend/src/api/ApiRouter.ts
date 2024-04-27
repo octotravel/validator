@@ -22,8 +22,8 @@ export class ApiRouter {
 
     // Main
     this.router.get('/', async (request) => await this.getDocsHandler.handleRequest(request));
-    this.router.all('/v1/*', this.v1Router.router.handle);
-    this.router.all('/v2/*', this.v2Router.router.handle);
+    this.router.all('/v1/*', this.v1Router.router.fetch);
+    this.router.all('/v2/*', this.v2Router.router.fetch);
     this.router.all('*', () => {
       return errorResponseFactory.createNotFoundResponse('Not found');
     });
@@ -33,13 +33,21 @@ export class ApiRouter {
     const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
     const request = RequestMapper.mapRequest(ctx);
     requestScopedContext.setRequest(request);
-    const response = await this.router.handle(request);
+    const response = await this.router.fetch(request);
     requestScopedContext.setResponse(response);
 
     if (response.status === 204) {
       ctx.response.body = null;
     } else {
       ctx.response.body = await response.json();
+    }
+
+    if (!request.bodyUsed) {
+      request.text();
+    }
+
+    if (!response.bodyUsed) {
+      response.text();
     }
 
     ctx.response.status = response.status;

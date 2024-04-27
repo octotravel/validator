@@ -19,6 +19,9 @@ export class SessionStepProcessor {
 
   public async process(session: Session, step: Step, requestData: any = null, requestHeaders: Headers): Promise<void> {
     const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
+    requestScopedContext.setSessionId(session.id);
+    requestScopedContext.setScenarioId(session.currentScenario);
+    requestScopedContext.setStepId(step.getId());
     await this.sessionStepGuard.check(session, step);
 
     const validationResult = await this.stepValidator.validate(step, requestData, requestHeaders);

@@ -21,6 +21,6 @@ export class ResellerRouter {
     this.router.get('/scenarios', async (request) => await this.getScenariosHandler.handleRequest(request));
     this.router.get('/scenarios/:scenarioId', async (request) => await this.getScenarioHandler.handleRequest(request));
 
-    this.router.all('/octo/*', this.octoRouter.router.handle);
+    this.router.all('/octo/*', this.octoRouter.router.fetch);
   }
 }

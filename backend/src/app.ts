@@ -1,25 +1,22 @@
-import Koa, { Context } from 'koa';
-import cors from '@koa/cors';
 import 'dotenv/config';
 import 'reflect-metadata';
+import Koa, { Context } from 'koa';
+import cors from '@koa/cors';
 import * as Sentry from '@sentry/node';
 
 import { ExceptionLogger } from './common/logger/ExceptionLogger';
-import { validatorContainer } from './common/di/index';
+import { container } from './common/di/container';
 import config from './common/config/config';
-import { BAD_REQUEST, Environment, HttpBadRequest } from '@octocloud/core';
-import { ApiRouter } from './api/ApiRouter';
-import koaBody, { HttpMethodEnum } from 'koa-body';
 import { errorMiddleware } from './api/http/error/ErrorMiddleware';
-import { AsyncLocalStorage } from 'async_hooks';
-import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
+import { router } from './api/http/router/RouterMiddleware';
+import koaBody, { HttpMethodEnum } from 'koa-body';
+import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
 
-const apiRouter = validatorContainer.resolve(ApiRouter);
-const exceptionLogger: ExceptionLogger = validatorContainer.resolve('ExceptionLogger');
-const asyncLocalStorage = new AsyncLocalStorage<{ requestScopedContext: RequestScopedContext }>();
+const exceptionLogger: ExceptionLogger = container.resolve('ExceptionLogger');
 
-const app = new Koa();
-app.env = config.NODE_ENV as Environment;
+const app = new Koa({
+  env: config.getEnvironment(),
+});
 
 app.on('error', (err, ctx: Context) => {
   if (config.IS_SENTRY_ENABLED) {
@@ -33,7 +30,7 @@ app.on('error', (err, ctx: Context) => {
 });
 
 app.use(errorMiddleware);
-app.use(cors());
+// app.use(cors);
 app.use(
   koaBody({
     parsedMethods: [HttpMethodEnum.POST, HttpMethodEnum.PUT, HttpMethodEnum.PATCH, HttpMethodEnum.DELETE],
@@ -45,11 +42,6 @@ app.use(
     },
   }),
 );
-app.use(async (context: Koa.Context, next: Koa.Next) => {
-  const requestScopedContext = new RequestScopedContext();
-  await asyncLocalStorage.run({ requestScopedContext }, async () => {
-    await apiRouter.serve(context, next);
-  });
-});
+app.use(router);
 
-export { asyncLocalStorage, app };
+export { app };

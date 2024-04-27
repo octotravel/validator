@@ -1,7 +1,7 @@
 import { singleton } from 'tsyringe';
-import { asyncLocalStorage } from '../../app';
 import { RequestScopedContext } from './RequestScopedContext';
 import { RuntimeError } from '@octocloud/core';
+import { asyncLocalStorage } from '../di/asyncLocalStorage';
 
 @singleton()
 export class RequestScopedContextProvider {

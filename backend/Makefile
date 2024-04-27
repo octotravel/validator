@@ -12,8 +12,14 @@ up: ## Brings Docker stack up
 down: ## Brings Docker stack down
 	docker compose down --remove-orphans
 
+node-sh: ## Opens shell inside running node container
+	docker exec -it octo_validator_backend sh
+
 console:
 	docker exec -it octo_validator_backend sh -c "npm run console $(filter-out $@,$(MAKECMDGOALS))"
 
+fix: ## Runs all auto fixes
+	docker exec -it octo_validator_backend sh -c "npm run fix"
+
 fix-staged: ## Runs all auto fixes
-	docker exec octo_validator_backend sh -c "npm run fix:staged"
+	docker exec octo_validator_backend sh -c "npm run fix:staged:docker"

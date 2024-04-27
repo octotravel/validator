@@ -1,10 +1,11 @@
-import { Router } from 'itty-router';
+import { IRequest, Router, json } from 'itty-router';
 import { inject, singleton } from 'tsyringe';
 import { GetSupplierHandler } from './supplier/GetSupplierHandler';
 import { AuthMiddleware } from './AuthMiddleware';
 import { GetProductsHandler } from './product/GetProductsHandler';
 import { GetProductHandler } from './product/GetProductHandler';
 import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
+import { RequestLoggerMiddleware } from './RequestLoggerMiddleware';
 
 @singleton()
 export class OctoRouter {
@@ -12,16 +13,24 @@ export class OctoRouter {
 
   public constructor(
     @inject(AuthMiddleware) private readonly authMiddleware: AuthMiddleware,
+    @inject(RequestLoggerMiddleware) private readonly requestLoggerMiddleware: RequestLoggerMiddleware,
     @inject(GetSupplierHandler) private readonly getSupplierHandler: GetSupplierHandler,
     @inject(GetProductsHandler) private readonly getProductsHandler: GetProductsHandler,
     @inject(GetProductHandler) private readonly getProductHandler: GetProductsHandler,
     @inject(AvailabilityCalendarHandler) private readonly availabilityCalendarHandler: AvailabilityCalendarHandler,
   ) {
-    // TODO separate this router into sub routers
-    this.router = Router({ base: '/v2/reseller/octo' });
+    const auth = async (req: IRequest): Promise<void> => {
+      await this.authMiddleware.invoke(req);
+    };
 
-    this.router.all('*', async (request) => {
-      await this.authMiddleware.invoke(request);
+    const requestLogger = async (response: Response, request: IRequest): Promise<void> => {
+      await this.requestLoggerMiddleware.invoke(response, request);
+    };
+
+    this.router = Router({
+      base: '/v2/reseller/octo',
+      before: [auth],
+      finally: [requestLogger],
     });
 
     this.router.get('/supplier', async (request) => await this.getSupplierHandler.handleRequest(request));

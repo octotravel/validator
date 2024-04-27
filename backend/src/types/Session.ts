@@ -1,7 +1,6 @@
 import { CapabilityId } from '@octocloud/types';
 import { ScenarioId } from '../common/validation/v2/scenario/ScenarioId';
 import { StepId } from '../common/validation/v2/step/StepId';
-import { Scenario } from '../common/validation/v2/scenario/Scenario';
 
 export interface Session {
   id: string;

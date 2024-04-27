@@ -4,7 +4,7 @@ import { LoggerFactory } from '../../common/logger/LoggerFactory';
 import { Database } from '../../common/database/Database';
 import { Migrator } from '../../common/database/Migrator';
 import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
-import { validatorContainer } from '../../common/di/index';
+import { container } from '../../common/di/container';
 
 @singleton()
 @registry([
@@ -17,9 +17,9 @@ export class MigrateDbCommand implements Command {
   };
 
   public run = async (): Promise<void> => {
-    const database: Database = validatorContainer.resolve(Database);
-    const migrator: Migrator = validatorContainer.resolve(Migrator);
-    const consoleLoggerFactory: LoggerFactory = validatorContainer.resolve(ConsoleLoggerFactory);
+    const database: Database = container.resolve(Database);
+    const migrator: Migrator = container.resolve(Migrator);
+    const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
     const consoleLogger = consoleLoggerFactory.create(this.getSlug());
 
     await migrator.migrate(consoleLogger);

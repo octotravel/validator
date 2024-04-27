@@ -1,6 +1,6 @@
 import * as socketio from 'socket.io';
 import { inject, singleton } from 'tsyringe';
-import { validatorContainer } from '../di';
+import { container } from '../di/container';
 import { WebSocket } from './WebSocket';
 import { ValidationResult } from '../validation/v2/ValidationResult';
 import { Logger } from '@octocloud/core';
@@ -68,7 +68,7 @@ export class SocketIo implements WebSocket {
 
   private getSocketIoServer(): socketio.Server {
     if (this.socketIoServer === null) {
-      const socketIoServer: socketio.Server = validatorContainer.resolve('SocketIoServer');
+      const socketIoServer: socketio.Server = container.resolve('SocketIoServer');
 
       this.socketIoServer = socketIoServer;
     }

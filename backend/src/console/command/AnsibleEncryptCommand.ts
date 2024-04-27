@@ -5,7 +5,7 @@ import { LoggerFactory } from '../../common/logger/LoggerFactory';
 import { singleton, registry } from 'tsyringe';
 import { Command } from './Command';
 import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
-import { validatorContainer } from '../../common/di/index';
+import { container } from '../../common/di/container';
 
 @singleton()
 @registry([
@@ -18,7 +18,7 @@ export class AnsibleEncryptCommand implements Command {
   };
 
   public run = async (envFileName: string): Promise<void> => {
-    const consoleLoggerFactory: LoggerFactory = validatorContainer.resolve(ConsoleLoggerFactory);
+    const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
     const consoleLogger = consoleLoggerFactory.create();
 
     try {
