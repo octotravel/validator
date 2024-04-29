@@ -36,6 +36,14 @@ import { SocketIo } from '../socketio/SocketIo';
 import { WebSocket } from '../socketio/WebSocket';
 import { AvailabilityCalendarHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCalendarHandler';
 import { AdvancedScenario } from '../validation/v2/scenario/reseller/AdvancedScenario';
+import { SessionStepGuard } from '../validation/v2/session/SessionStepGuard';
+import { SessionStepProcessor } from '../validation/v2/session/SessionStepProcessor';
+import { SessionScenarioProgressProvider } from '../validation/v2/session/SessionScenarioProgressProvider';
+import { RequestLogRepository } from '../requestLog/RequestLogRepository';
+import { PostgresRequestLogRepository } from '../requestLog/PostgresRequestLogRepository';
+import { RequestLogService } from '../requestLog/RequestLogService';
+import { RequestScopedContext } from '../requestContext/RequestScopedContext';
+import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 
 export const container = tsyringeContainer.createChildContainer();
 
@@ -60,13 +68,23 @@ container.registerInstance(backendToken, backend);
 container.registerSingleton(Database);
 container.registerSingleton(Migrator);
 
+// Request Context
+container.registerSingleton(RequestScopedContextProvider);
+
+// Request Log
+container.registerSingleton<RequestLogRepository>('RequestLogRepository', PostgresRequestLogRepository);
+container.registerSingleton(RequestLogService);
+
 // WebSocket
 container.registerSingleton<WebSocket>('WebSocket', SocketIo);
 
 // Session
+container.registerSingleton(SessionScenarioProgressProvider);
 container.registerSingleton(SessionFacade);
-container.registerSingleton(SessionService);
 container.registerSingleton<SessionRepository>('SessionRepository', PostgresSessionRepository);
+container.registerSingleton(SessionService);
+container.registerSingleton(SessionStepGuard);
+container.registerSingleton(SessionStepProcessor);
 
 // Scenario
 // Session
