@@ -3,11 +3,13 @@ pre-commit:
   commands:
     backend-lint:
       root: "backend/"
-      glob: '*.{js,ts}' # glob filter for list of files
       run: npm run lint:fix
     backend-format:
       root: "backend/"
-      run: npm run format && npm run format:package
+      run: npm run format:staged
+    backend-package-format:
+      root: "backend/"
+      run: npm run format:package
     backend-type-check:
       root: "backend/"
       glob: '*.{js,ts}'
