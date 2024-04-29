@@ -14,7 +14,8 @@ export class V2Router {
     @inject(CreateSessionHandler) private readonly createSessionHandler: CreateSessionHandler,
     @inject(GetSessionHandler) private readonly getSessionHandler: GetSessionHandler,
     @inject(UpdateSessionHandler) private readonly updateSessionHandler: UpdateSessionHandler,
-    @inject(GetSessionValidationHistoryHandler) private readonly getSessionValidationHistoryHandler: GetSessionValidationHistoryHandler,
+    @inject(GetSessionValidationHistoryHandler)
+    private readonly getSessionValidationHistoryHandler: GetSessionValidationHistoryHandler,
     @inject(ResellerRouter) private readonly resellerRouter: ResellerRouter,
   ) {
     this.router = Router({ base: '/v2' });

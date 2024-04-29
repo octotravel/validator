@@ -45,7 +45,7 @@ export class SessionFacade {
         reqBody: JSON.parse(JSON.stringify(requestLogDetail.reqBody)),
         validationResult: JSON.parse(requestLogDetail.validationResult),
         isValid: requestLogDetail.isValid,
-      }
+      };
     });
   }
 }

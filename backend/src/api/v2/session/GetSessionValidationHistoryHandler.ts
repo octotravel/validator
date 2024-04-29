@@ -7,7 +7,10 @@ import { RequestHandler } from '../../http/request/RequestHandler';
 import { ValidationError } from 'yup';
 import { SchemaValidator } from '../../util/SchemaValidator';
 import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
-import { GetSessionValidationHistorySchema, getSessionValidationHistorySchema } from './GetSessionValidationHistorySchema';
+import {
+  GetSessionValidationHistorySchema,
+  getSessionValidationHistorySchema,
+} from './GetSessionValidationHistorySchema';
 import { GetSessionValidationHistoryResponse } from './GetSessionValidationHistoryResponse';
 
 @singleton()
@@ -29,10 +32,10 @@ export class GetSessionValidationHistoryHandler implements RequestHandler {
         getSessionValidationHistorySchema,
         requestPayload,
       );
-      const validationHistory = await this.sessionFacade.getValidationHistoryForScenario(
+      const validationHistory = (await this.sessionFacade.getValidationHistoryForScenario(
         validatedSchema.scenarioId,
         validatedSchema.sessionId,
-      ) as GetSessionValidationHistoryResponse[];
+      )) as GetSessionValidationHistoryResponse[];
 
       return this.jsonResponseFactory.create(validationHistory);
     } catch (e: any) {
