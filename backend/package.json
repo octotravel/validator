@@ -22,7 +22,6 @@
     "gitleaks": "gitleaks detect -v",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "prepare": "cd .. && lefthook install",
     "typecheck": "tsc --noEmit"
   },
   "types": "./dist/app.d.ts",
