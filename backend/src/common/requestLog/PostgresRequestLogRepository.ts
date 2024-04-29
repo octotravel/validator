@@ -1,10 +1,12 @@
 import { inject, singleton } from 'tsyringe';
 import { pg as named } from 'yesql';
-import { RequestLogProgress, RequestLogRepository } from './RequestLogRepository';
+import { RequestLogDetail, RequestLogProgress, RequestLogRepository } from './RequestLogRepository';
 import { RequestLog, RequestLogRowData } from '../../types/RequestLog';
 import { Database } from '../database/Database';
 import { QueryUtil } from '../database/util/QueryUtil';
 import { CannotCreateRequestLogError } from './error/CannotCreateRequestLogError';
+import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
+import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError';
 
 @singleton()
 export class PostgresRequestLogRepository implements RequestLogRepository {
@@ -44,20 +46,49 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
 
   public async getAllForProgress(sessionId: string): Promise<RequestLogProgress[]> {
     const query =
-      'SELECT DISTINCT ON (step_id) scenario_id, step_id, is_valid FROM request_log WHERE session_id = :sessionId ORDER BY step_id, created_at DESC';
-    const queryResult = await this.database.getConnection().query(named(query)({ sessionId }));
-    // TODO handle error
+      'SELECT DISTINCT ON (step_id) scenario_id, step_id, is_valid FROM request_log WHERE session_id = :sessionId ORDER BY created_at DESC';
+    const queryResult = await this.database
+      .getConnection()
+      .query(named(query)({ sessionId }))
+      .catch((e: any) => {
+        throw CannotSelectRequestLogError.create(query, e);
+      });
 
     if (queryResult.rowCount === 0) {
       return [];
     }
 
-    return queryResult.rows.map((requestLogProgress: any) => {
+    return queryResult.rows.map((requestLog: RequestLogRowData) => {
       return {
-        scenarioId: requestLogProgress.scenario_id,
-        stepId: requestLogProgress.step_id,
-        isValid: requestLogProgress.is_valid,
+        scenarioId: requestLog.scenario_id,
+        stepId: requestLog.step_id,
+        isValid: requestLog.is_valid,
       } as RequestLogProgress;
+    });
+  }
+
+  public async getAllForScenario(scenarioId: ScenarioId, sessionId: string): Promise<RequestLogDetail[]> {
+    const query =
+      'SELECT step_id, req_headers, req_body, validation_result, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId ORDER BY created_at DESC';
+    const queryResult = await this.database
+      .getConnection()
+      .query(named(query)({ sessionId, scenarioId }))
+      .catch((e: any) => {
+        throw CannotSelectRequestLogError.create(query, e);
+      });
+
+    if (queryResult.rowCount === 0) {
+      return [];
+    }
+
+    return queryResult.rows.map((requestLog: RequestLogRowData) => {
+      return {
+        stepId: requestLog.step_id,
+        reqHeaders: requestLog.req_headers,
+        reqBody: requestLog.req_body,
+        validationResult: requestLog.validation_result,
+        isValid: requestLog.is_valid,
+      } as RequestLogDetail;
     });
   }
 }

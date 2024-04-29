@@ -1,6 +1,7 @@
 import { CapabilityId } from '@octocloud/types';
 import { ScenarioId } from '../common/validation/v2/scenario/ScenarioId';
 import { StepId } from '../common/validation/v2/step/StepId';
+import { ValidationResult } from '../common/validation/v2/ValidationResult';
 
 export interface Session {
   id: string;
@@ -36,6 +37,14 @@ export interface SessionScenarioProgressStep {
 export enum SessionScenarioProgressStepStatus {
   COMPLETED = 'completed',
   PENDING = 'pending',
+}
+
+export interface SessionValidationHistory {
+  stepId: StepId;
+  reqHeaders: Record<string, string>;
+  reqBody: string;
+  validationResult: ValidationResult;
+  isValid: boolean;
 }
 
 export interface UpdateSessionData {

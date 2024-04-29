@@ -42,7 +42,6 @@ import { SessionScenarioProgressProvider } from '../validation/v2/session/Sessio
 import { RequestLogRepository } from '../requestLog/RequestLogRepository';
 import { PostgresRequestLogRepository } from '../requestLog/PostgresRequestLogRepository';
 import { RequestLogService } from '../requestLog/RequestLogService';
-import { RequestScopedContext } from '../requestContext/RequestScopedContext';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 
 export const container = tsyringeContainer.createChildContainer();
