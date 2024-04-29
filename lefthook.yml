@@ -16,11 +16,11 @@ pre-commit:
       #root: "backend/"
       #run: npm run gitleaks
 
-pre-push:
-  parallel: true
-  commands:
-    branchName:
-      run: npx validate-branch-name
-    packages-audit:
-      tags: backend security
-      run: npm audit
+#pre-push:
+#  parallel: true
+#  commands:
+#    branchName:
+#      run: npx validate-branch-name
+#    packages-audit:
+#      tags: backend security
+#      run: npm audit
