@@ -46,7 +46,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
 
   public async getAllForProgress(sessionId: string): Promise<RequestLogProgress[]> {
     const query =
-      'SELECT DISTINCT ON (step_id) scenario_id, step_id, is_valid FROM request_log WHERE session_id = :sessionId ORDER BY created_at DESC';
+      'SELECT DISTINCT ON (step_id) scenario_id, step_id, is_valid FROM request_log WHERE session_id = :sessionId ORDER BY step_id, created_at DESC';
     const queryResult = await this.database
       .getConnection()
       .query(named(query)({ sessionId }))
