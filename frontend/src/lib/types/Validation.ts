@@ -19,4 +19,5 @@ export interface ResultsStore extends ValidationResult {
 
 export interface ValidationResultStore {
 	results: ResultsStore[];
+	isLoading: boolean;
 }

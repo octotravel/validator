@@ -50,5 +50,12 @@ export enum ScenarioProgressStepStatus {
 
 export interface ScenarioStore {
 	scenario: ScenarioProgress | null;
+	stepsHistory: ScenarioStepsHistory[];
 	isLoading: boolean;
+	isLoadingSteps: boolean;
+}
+
+export interface ScenarioStepsHistory {
+	stepId: string;
+	status: ScenarioProgressStepStatus;
 }

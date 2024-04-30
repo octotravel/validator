@@ -26,11 +26,14 @@ export const resellerCapabilitiesStore = writable<CapabilitiesStore>({
 
 export const resellerScenarioSelectedStore = writable<ScenarioStore>({
 	scenario: null,
-	isLoading: false
+	stepsHistory: [],
+	isLoading: false,
+	isLoadingSteps: false
 });
 
 export const resellerScenarioValidationResultStore = writable<ValidationResultStore>({
-	results: []
+	results: [],
+	isLoading: false,
 });
 
 export const resellerScenariosListLoadingStore = writable<boolean>(false);

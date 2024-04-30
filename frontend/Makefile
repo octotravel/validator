@@ -11,3 +11,6 @@ up: ## Brings Docker stack up
 
 down: ## Brings Docker stack down
 	docker compose down --remove-orphans
+
+test: ## Runs all tests
+	docker exec -it octo_validator_frontend sh -c "npm run test"

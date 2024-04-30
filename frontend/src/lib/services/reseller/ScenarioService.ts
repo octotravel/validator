@@ -1,5 +1,6 @@
 import {
 	resellerScenarioSelectedStore,
+	resellerScenarioValidationResultStore,
 	resellerScenariosListLoadingStore,
 	resellerSessionStore
 } from '$lib/stores';
@@ -57,7 +58,7 @@ export abstract class ScenariosService {
 	};
 
 	public static getScenario = async (id: string, toastStore: any) => {
-		resellerScenarioSelectedStore.set({ isLoading: true, scenario: null });
+		resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: true, scenario: null }));
 
 		const response = await fetch(`/api/reseller/scenario?id=${id}`, {
 			method: 'GET',
@@ -99,7 +100,7 @@ export abstract class ScenariosService {
 			steps
 		};
 
-		resellerScenarioSelectedStore.set({ isLoading: false, scenario: newScenario });
+		resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: false, scenario: newScenario }));
 
 		const scenarioIndex = sessionStore.session.scenariosProgress.findIndex(
 			(sp) => sp.id === scenario.id
@@ -107,14 +108,45 @@ export abstract class ScenariosService {
 
 		const updatedSession: Session = {
 			...sessionStore.session
-			// scenariosProgress: [
-			// 	...sessionStore.session.scenariosProgress.filter((sp) => sp.id !== scenario.id),
-			// 	newScenario
-			// ]
 		};
 
 		updatedSession.scenariosProgress[scenarioIndex] = newScenario;
 
 		resellerSessionStore.update((s) => ({ ...s, session: updatedSession }));
+	};
+
+	public static getStepsHistory = async (sessionId: string, scenarioId: string, toastStore: any) => {
+		resellerScenarioValidationResultStore.update((s) => ({ ...s, isLoading: true }));
+
+		const response = await fetch(`/api/reseller/stepshistory?id=${sessionId}&scenario-id=${scenarioId}`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		});
+
+		if (!response.ok) {
+			const t: ToastSettings = {
+				message: `Failed to fetch scenario: ${response.statusText}`,
+				background: 'variant-filled-warning'
+			};
+			toastStore.trigger(t);
+
+			return;
+		}
+
+		const stepsHistory = await response.json();
+
+		const results = (stepsHistory.map((step: any) => {
+			return {
+				...step.validationResult,
+				isValid: step.isValid,
+				utcCreatedAt: new Date().toISOString(), // TODO FIX THIS
+				scenarioId,
+				stepId: step.stepId
+			};
+		})).reverse();
+
+		resellerScenarioValidationResultStore.update((s) => ({ ...s, results, isLoading: false }));
 	};
 }

@@ -13,7 +13,9 @@
 	});
 
 	const selectScenario = (scenario: ScenarioProgress) => {
+		const sessionId = $resellerSessionStore.session?.id ?? 'invalid';
 		ScenariosService.getScenario(scenario.id, toastStore);
+		ScenariosService.getStepsHistory(sessionId, scenario.id, toastStore);
 
 		if ($resellerSessionStore.session) {
 			$resellerSessionStore.session.currentScenario = scenario.id;
