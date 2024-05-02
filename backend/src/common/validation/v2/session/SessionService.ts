@@ -5,16 +5,18 @@ import { SessionNotFoundError } from './error/SessionNotFoundError';
 import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
-import { LogicError } from '@octocloud/core';
 import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
 import { StepId } from '../step/StepId';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
+import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 
 @singleton()
 export class SessionService {
   public constructor(
     @inject('SessionRepository') private readonly sessionRepository: SessionRepository,
     @inject(ScenarioService) private readonly scenarioService: ScenarioService,
+    @inject(SessionScenarioProgressProvider)
+    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
   ) {}
 
   public async createSession(): Promise<Session> {
@@ -76,7 +78,7 @@ export class SessionService {
     }
 
     const capabilities = updateSessionData.capabilities ?? session.capabilities;
-    let currentStep = updateSessionData.currentStep ?? session.currentStep;
+    let currentStep = session.currentStep;
 
     if (updateSessionData.currentScenario === null) {
       currentStep = null;
@@ -94,6 +96,22 @@ export class SessionService {
 
           throw new SessionMissingRequiredScenarioCapabilities(session.id, scenarioRequiredCapabilities);
         }
+      }
+
+      const requestLogScenarioProgress =
+        await this.sessionScenarioProgressProvider.getScenarioProgressFromRequestLog(session);
+      const currentScenarioProgress = requestLogScenarioProgress.find((scenarioProgress) => {
+        return scenarioProgress.id === updateSessionData.currentScenario;
+      });
+
+      if (currentScenarioProgress !== undefined) {
+        const currentScenarioProgressSteps = currentScenarioProgress.steps;
+        const latestProgressScenarioStep = currentScenarioProgressSteps.find((step) => {
+          return step.id === currentScenarioProgress.steps[currentScenarioProgress.steps.length - 1].id;
+        })!;
+        currentStep = latestProgressScenarioStep.id;
+      } else {
+        currentStep = scenario.getSteps().first!.getId();
       }
     }
 

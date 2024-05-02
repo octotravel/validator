@@ -14,16 +14,21 @@ export class SessionScenarioProgressProvider {
 
   public async getSessionScenarioProgress(session: Session): Promise<SessionScenarioProgress[]> {
     const requestLogScenarioProgress = await this.getScenarioProgressFromRequestLog(session);
+    const sessionScenarioProgress = await this.getScenarioProgressFromSession(session);
+    const scenarioProgress = requestLogScenarioProgress;
 
-    if (requestLogScenarioProgress.length > 0) {
-      return requestLogScenarioProgress;
+    const isSessionScenarioIncluded = scenarioProgress.find(
+      (scenarioProgress) => scenarioProgress.id === session.currentScenario,
+    );
+
+    if (!isSessionScenarioIncluded && sessionScenarioProgress !== null) {
+      scenarioProgress.push(sessionScenarioProgress);
     }
 
-    const sessionScenarioProgress = await this.getScenarioProgressFromSession(session);
-    return sessionScenarioProgress ? [sessionScenarioProgress] : [];
+    return scenarioProgress;
   }
 
-  private async getScenarioProgressFromSession(session: Session): Promise<SessionScenarioProgress | null> {
+  public async getScenarioProgressFromSession(session: Session): Promise<SessionScenarioProgress | null> {
     if (session.currentScenario === null) {
       return null;
     }
@@ -73,7 +78,7 @@ export class SessionScenarioProgressProvider {
     return sessionScenarioProgress;
   }
 
-  private async getScenarioProgressFromRequestLog(session: Session): Promise<SessionScenarioProgress[]> {
+  public async getScenarioProgressFromRequestLog(session: Session): Promise<SessionScenarioProgress[]> {
     const requestLogs = await this.requestLogRepository.getAllForProgress(session.id);
     let scenarioProgress = await this.convertRequestLogsToScenarioProgress(requestLogs);
     scenarioProgress = await this.orderAndCorrectScenarioProgress(scenarioProgress);
