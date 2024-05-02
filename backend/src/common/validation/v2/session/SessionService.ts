@@ -5,6 +5,10 @@ import { SessionNotFoundError } from './error/SessionNotFoundError';
 import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
+import { LogicError } from '@octocloud/core';
+import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
+import { StepId } from '../step/StepId';
+import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
 @singleton()
 export class SessionService {
@@ -27,6 +31,41 @@ export class SessionService {
 
     await this.sessionRepository.create(sessionData);
     return sessionData as Session;
+  }
+
+  public async updateSessionStep(sessionId: string, targetStepId: StepId): Promise<void> {
+    const session = await this.sessionRepository.get(sessionId);
+
+    if (session === null) {
+      throw new SessionNotFoundError(sessionId);
+    }
+
+    const currentScenarioId = session.currentScenario;
+
+    if (currentScenarioId === null) {
+      throw new SessionScenarioNotSetError();
+    }
+
+    const scenario = await this.scenarioService.getResellerScenarioById(currentScenarioId);
+    const scenarioSteps = scenario.getSteps();
+    const targetStep = scenarioSteps.find((step) => step.getId() === targetStepId) ?? null;
+
+    if (targetStep === null) {
+      throw SessionScenarioStepNotAllowedError.createForNonExistingStep(currentScenarioId, targetStepId);
+    }
+
+    const targetStepIndex = scenarioSteps.indexOf(targetStep);
+    const currentStep = scenarioSteps.find((step) => step.getId() === session.currentStep)!;
+    const currentStepIndex = scenarioSteps.indexOf(currentStep);
+
+    if (targetStepIndex <= currentStepIndex) {
+      return;
+    }
+
+    await this.sessionRepository.update({
+      ...session,
+      currentStep: targetStepId,
+    });
   }
 
   public async updateSession(updateSessionData: UpdateSessionData): Promise<Session> {
@@ -69,6 +108,10 @@ export class SessionService {
 
     await this.sessionRepository.update(updatedSessionData);
     return updatedSessionData;
+  }
+
+  private async handleScenarioUpdate(updateSessionData: UpdateSessionData): Promise<UpdateSessionData> {
+    return updateSessionData;
   }
 
   public async getSession(sessionId: string): Promise<Session> {

@@ -11,7 +11,7 @@ import {
   EnumValidator,
   EnumArrayValidator,
   RegExpArrayValidator,
-} from './../ValidatorHelpers';
+} from '../ValidatorHelpers';
 
 describe('ValidatorHelpers', () => {
   describe('StringValidator', () => {

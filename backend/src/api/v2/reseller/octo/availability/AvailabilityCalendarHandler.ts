@@ -20,16 +20,10 @@ export class AvailabilityCalendarHandler implements RequestHandler {
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
-    const sessionId = request.sessionId;
     const parsedBody = await BodyParser.parseBody(request);
-    const headers = request.headers;
 
     try {
-      const availabilityCalendar = await this.availabilityFacade.getAvailabilityCalendar(
-        parsedBody,
-        sessionId,
-        headers,
-      );
+      const availabilityCalendar = await this.availabilityFacade.getAvailabilityCalendar(parsedBody);
 
       return this.jsonResponseFactory.create(availabilityCalendar);
     } catch (e: any) {

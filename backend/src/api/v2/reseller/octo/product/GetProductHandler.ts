@@ -19,7 +19,6 @@ export class GetProductHandler implements RequestHandler {
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
-    const sessionId = request.sessionId;
     const requestPayload = {
       id: request.params.productId ?? '',
     };
@@ -29,8 +28,7 @@ export class GetProductHandler implements RequestHandler {
         getProductPathParamsSchema,
         requestPayload,
       );
-      const headers = request.headers;
-      const product = await this.productFacade.getProduct(validatedSchema.id, sessionId, headers);
+      const product = await this.productFacade.getProduct(validatedSchema.id);
 
       return this.jsonResponseFactory.create(product);
     } catch (e: any) {

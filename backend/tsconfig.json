@@ -27,6 +27,5 @@
     "vitestSetup.ts",
     "vitestGlobalSetup.ts",
     "vitestGlobalTeardown.ts"
-  ],
-  "exclude": ["node_modules", ".pnpm-store"]
+  ]
 }

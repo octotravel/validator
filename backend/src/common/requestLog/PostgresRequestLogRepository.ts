@@ -69,7 +69,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
 
   public async getAllForScenario(scenarioId: ScenarioId, sessionId: string): Promise<RequestLogDetail[]> {
     const query =
-      'SELECT step_id, req_headers, req_body, validation_result, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId ORDER BY created_at DESC';
+      'SELECT step_id, created_at, req_headers, req_body, validation_result, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId ORDER BY created_at DESC';
     const queryResult = await this.database
       .getConnection()
       .query(named(query)({ sessionId, scenarioId }))
@@ -84,6 +84,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     return queryResult.rows.map((requestLog: RequestLogRowData) => {
       return {
         stepId: requestLog.step_id,
+        createdAt: requestLog.created_at,
         reqHeaders: requestLog.req_headers,
         reqBody: requestLog.req_body,
         validationResult: requestLog.validation_result,

@@ -17,6 +17,11 @@ const schema = {
     optional: false,
     default: '',
   },
+  DB_TEST_NAME: {
+    type: String,
+    optional: true,
+    default: '',
+  },
   DB_USER: {
     type: String,
     optional: false,

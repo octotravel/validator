@@ -22,8 +22,11 @@ export class Database {
 
   private readonly clientConfig: ClientConfig = {
     user: config.DB_USER,
-    host: (config.NODE_ENV as Environment) === Environment.LOCAL && !isDocker() ? 'localhost' : config.DB_HOST,
-    database: config.DB_NAME,
+    host:
+      (config.getEnvironment() === Environment.LOCAL || config.getEnvironment() === Environment.TEST) && !isDocker()
+        ? 'localhost'
+        : config.DB_HOST,
+    database: config.getEnvironment() === Environment.TEST ? config.DB_TEST_NAME : config.DB_NAME,
     password: config.DB_PASSWORD,
     port: config.DB_PORT,
     keepAlive: false,

@@ -17,11 +17,8 @@ export class GetProductsHandler implements RequestHandler {
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
-    const sessionId = request.sessionId;
-    const headers = request.headers;
-
     try {
-      const products = await this.productFacade.getProducts(sessionId, headers);
+      const products = await this.productFacade.getProducts();
 
       return this.jsonResponseFactory.create(products);
     } catch (e: any) {

@@ -9,9 +9,10 @@ export class RequestLogFactory {
 
     return {
       id: requestScopedContext.getRequestId(),
-      sessionId: requestScopedContext.getSessionId(),
-      scenarioId: requestScopedContext.getScenarioId(),
-      stepId: requestScopedContext.getStepId(),
+      sessionId: requestScopedContext.getSession().id,
+      // TODO correctly check
+      scenarioId: requestScopedContext.getSession().currentScenario!,
+      stepId: requestScopedContext.getSession().currentStep!,
       createdAt: new Date(),
       reqBody: await RequestLogFactory.parseBody(request),
       reqMethod: request.method,

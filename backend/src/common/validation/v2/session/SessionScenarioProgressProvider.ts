@@ -1,7 +1,9 @@
 import { inject, singleton } from 'tsyringe';
 import { Session, SessionScenarioProgress, SessionScenarioProgressStepStatus } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
-import { RequestLogRepository } from '../../../requestLog/RequestLogRepository';
+import { RequestLogProgress, RequestLogRepository } from '../../../requestLog/RequestLogRepository';
+import { ScenarioId } from '../scenario/ScenarioId';
+import { $enum } from 'ts-enum-util';
 
 @singleton()
 export class SessionScenarioProgressProvider {
@@ -11,22 +13,20 @@ export class SessionScenarioProgressProvider {
   ) {}
 
   public async getSessionScenarioProgress(session: Session): Promise<SessionScenarioProgress[]> {
-    const requestLogScenarioProgress = await this.getScenarioProgressFromRequestLog(session.id);
-    let scenarioProgress = requestLogScenarioProgress;
+    const requestLogScenarioProgress = await this.getScenarioProgressFromRequestLog(session);
 
-    if (requestLogScenarioProgress.length === 0) {
-      scenarioProgress = await this.getScenarioProgressFromSession(session);
+    if (requestLogScenarioProgress.length > 0) {
+      return requestLogScenarioProgress;
     }
 
-    return scenarioProgress;
+    const sessionScenarioProgress = await this.getScenarioProgressFromSession(session);
+    return sessionScenarioProgress ? [sessionScenarioProgress] : [];
   }
 
-  private async getScenarioProgressFromSession(session: Session): Promise<SessionScenarioProgress[]> {
+  private async getScenarioProgressFromSession(session: Session): Promise<SessionScenarioProgress | null> {
     if (session.currentScenario === null) {
-      return [];
+      return null;
     }
-
-    const sessionScenariosProgress: SessionScenarioProgress[] = [];
 
     const sessionScenarioProgress: SessionScenarioProgress = {
       id: session.currentScenario,
@@ -70,17 +70,24 @@ export class SessionScenarioProgressProvider {
       }
     }
 
-    sessionScenariosProgress.push(sessionScenarioProgress);
-
-    return sessionScenariosProgress;
+    return sessionScenarioProgress;
   }
 
-  private async getScenarioProgressFromRequestLog(sessionId: string): Promise<SessionScenarioProgress[]> {
-    const requestLogs = await this.requestLogRepository.getAllForProgress(sessionId);
+  private async getScenarioProgressFromRequestLog(session: Session): Promise<SessionScenarioProgress[]> {
+    const requestLogs = await this.requestLogRepository.getAllForProgress(session.id);
+    let scenarioProgress = await this.convertRequestLogsToScenarioProgress(requestLogs);
+    scenarioProgress = await this.orderAndCorrectScenarioProgress(scenarioProgress);
+
+    return scenarioProgress;
+  }
+
+  private async convertRequestLogsToScenarioProgress(
+    requestLogProgress: RequestLogProgress[],
+  ): Promise<SessionScenarioProgress[]> {
     const scenariosProgress: Record<string, SessionScenarioProgress> = {};
 
-    for (const requestLog of requestLogs) {
-      const { scenarioId, stepId, isValid } = requestLog;
+    for (const requestLogProgressItem of requestLogProgress) {
+      const { scenarioId, stepId, isValid } = requestLogProgressItem;
       if (!scenariosProgress[scenarioId]) {
         scenariosProgress[scenarioId] = { id: scenarioId, steps: [] };
       }
@@ -91,5 +98,38 @@ export class SessionScenarioProgressProvider {
     }
 
     return Object.values(scenariosProgress);
+  }
+
+  private async orderAndCorrectScenarioProgress(
+    scenarioProgress: SessionScenarioProgress[],
+  ): Promise<SessionScenarioProgress[]> {
+    const scenarioIds = $enum(ScenarioId);
+    scenarioProgress.sort((firstScenario, secondScenario) => {
+      return scenarioIds.indexOfValue(firstScenario.id) - scenarioIds.indexOfValue(secondScenario.id);
+    });
+
+    for (const scenarioProgressItem of scenarioProgress) {
+      const scenario = await this.scenarioService.getResellerScenarioById(scenarioProgressItem.id);
+      const scenarioSteps = scenario.getSteps();
+      const scenarioStepsIds = scenarioSteps.map((step) => step.getId());
+      scenarioProgressItem.steps.sort((firstStep, secondStep) => {
+        return scenarioStepsIds.indexOf(firstStep.id) - scenarioStepsIds.indexOf(secondStep.id);
+      });
+
+      const latestScenarioStep = scenarioSteps.find((step) => {
+        return step.getId() === scenarioProgressItem.steps[scenarioProgressItem.steps.length - 1].id;
+      });
+      const latestScenarioStepNode = scenarioSteps.getNode(latestScenarioStep);
+      const nextScenarioStepNode = latestScenarioStepNode?.next;
+
+      if (nextScenarioStepNode !== undefined) {
+        scenarioProgressItem.steps.push({
+          id: nextScenarioStepNode.value.getId(),
+          status: SessionScenarioProgressStepStatus.PENDING,
+        });
+      }
+    }
+
+    return scenarioProgress;
   }
 }

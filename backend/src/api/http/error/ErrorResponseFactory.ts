@@ -35,6 +35,10 @@ export class ErrorResponseFactory {
     return this.createErrorResponse(this.S404_NOT_FOUND, this.NOT_FOUND, errorMessage, error);
   }
 
+  public createInternalServerErrorResponse(errorMessage: string, error: Error | null = null): Response {
+    return this.createErrorResponse(this.S404_NOT_FOUND, this.NOT_FOUND, errorMessage, error);
+  }
+
   public createValidationErrorResponse(data: any, error: Error | null = null): Response {
     return this.createErrorResponse(
       this.S422_UNPROCESSABLE_ENTITY,

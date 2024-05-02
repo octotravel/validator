@@ -1,7 +1,6 @@
 import { inject, singleton } from 'tsyringe';
 import { Backend } from '@octocloud/core';
 import { Product } from '@octocloud/types';
-import { SessionService } from '../../session/SessionService';
 import { BackendParamsUtil } from '../../../../util/BackendParamsUtil';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';
@@ -13,21 +12,16 @@ export class ProductFacade {
     @inject('Backend') private readonly backend: Backend,
     @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
     @inject(GetProductStep) private readonly getProductStep: GetProductStep,
-    @inject(SessionService) private readonly sessionService: SessionService,
     @inject(SessionStepProcessor) private readonly sessionStepProcessor: SessionStepProcessor,
   ) {}
 
-  public async getProducts(sessionId: string, requestHeaders: Headers): Promise<Product[]> {
-    const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.getProductsStep, null, requestHeaders);
-
+  public async getProducts(): Promise<Product[]> {
+    await this.sessionStepProcessor.process(this.getProductsStep, null);
     return await this.backend.getProducts({}, BackendParamsUtil.create());
   }
 
-  public async getProduct(productId: string, sessionId: string, requestHeaders: Headers): Promise<Product> {
-    const session = await this.sessionService.getSession(sessionId);
-    await this.sessionStepProcessor.process(session, this.getProductStep, null, requestHeaders);
-
+  public async getProduct(productId: string): Promise<Product> {
+    await this.sessionStepProcessor.process(this.getProductStep, null);
     return await this.backend.getProduct({ id: productId }, BackendParamsUtil.create());
   }
 }

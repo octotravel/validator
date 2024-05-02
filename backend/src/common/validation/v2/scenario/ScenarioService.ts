@@ -22,7 +22,7 @@ export class ScenarioService {
     );
   }
 
-  public async getResellerScenarioById(scenarioId: string): Promise<Scenario> {
+  public async getResellerScenarioById(scenarioId: ScenarioId): Promise<Scenario> {
     const resellerScenarios = await this.scenarioRepository.getAllResellerScenarios();
 
     const resellerScenarioWithId = resellerScenarios.find((scenario) => scenario.getId() === scenarioId) ?? null;

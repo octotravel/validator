@@ -52,7 +52,7 @@ if (env !== Environment.LOCAL && env !== Environment.TEST) {
         assets: './dist/**',
       },
       org: 'ventrata',
-      project: 'octo-node',
+      project: 'octo-validator',
       telemetry: false,
       authToken: config.SENTRY_AUTH_TOKEN,
     }),

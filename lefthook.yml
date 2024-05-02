@@ -12,17 +12,15 @@ pre-commit:
       run: npm run format:package
     backend-type-check:
       root: "backend/"
-      glob: '*.{js,ts}'
       run: npm run typecheck
     #gitLeaks:
       #root: "backend/"
       #run: npm run gitleaks
 
-#pre-push:
-#  parallel: true
-#  commands:
-#    branchName:
-#      run: npx validate-branch-name
-#    packages-audit:
-#      tags: backend security
-#      run: npm audit
+pre-push:
+  parallel: true
+  commands:
+    backend-packages-audit:
+      root: "backend/"
+      tags: backend security
+      run: npm audit

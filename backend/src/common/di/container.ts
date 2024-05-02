@@ -43,14 +43,15 @@ import { RequestLogRepository } from '../requestLog/RequestLogRepository';
 import { PostgresRequestLogRepository } from '../requestLog/PostgresRequestLogRepository';
 import { RequestLogService } from '../requestLog/RequestLogService';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
+import { LoggerFactory } from '../logger/LoggerFactory';
 
 export const container = tsyringeContainer.createChildContainer();
 
 // Logger
-container.registerSingleton(ConsoleLoggerFactory);
+container.registerSingleton<LoggerFactory>('ConsoleLoggerFactory', ConsoleLoggerFactory);
 container.registerSingleton<ExceptionLogger>('ExceptionLogger', SentryExceptionLogger);
 
-const consoleLoggerFactory = container.resolve(ConsoleLoggerFactory);
+const consoleLoggerFactory: ConsoleLoggerFactory = container.resolve('ConsoleLoggerFactory');
 const consoleLogger = consoleLoggerFactory.create();
 
 const baseConfig = new BaseConfig({

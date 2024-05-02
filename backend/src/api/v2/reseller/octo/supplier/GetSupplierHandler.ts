@@ -17,11 +17,8 @@ export class GetSupplierHandler implements RequestHandler {
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
-    const sessionId = request.sessionId;
-    const headers = request.headers;
-
     try {
-      const supplier = await this.supplierFacade.getSupplier(sessionId, headers);
+      const supplier = await this.supplierFacade.getSupplier();
 
       return this.jsonResponseFactory.create(supplier);
     } catch (e: any) {

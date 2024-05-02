@@ -41,6 +41,7 @@ export class SessionFacade {
     return requestLogDetails.map((requestLogDetail) => {
       return {
         stepId: requestLogDetail.stepId,
+        createdAt: requestLogDetail.createdAt,
         reqHeaders: JSON.parse(requestLogDetail.reqHeaders) as Record<string, string>,
         reqBody: JSON.parse(JSON.stringify(requestLogDetail.reqBody)),
         validationResult: JSON.parse(requestLogDetail.validationResult),
