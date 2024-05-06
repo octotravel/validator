@@ -41,10 +41,9 @@ export class SessionScenarioProgressProvider {
     const scenario = await this.scenarioService.getResellerScenarioById(session.currentScenario);
     const scenarioSteps = scenario.getSteps();
     const step = scenarioSteps.find((step) => step.getId() === session.currentStep);
+    const scenarioFirstStep = scenarioSteps.getNodeAt(0)!.value;
 
-    if (step === undefined) {
-      const scenarioFirstStep = scenarioSteps.getNodeAt(0)!.value;
-
+    if (step === undefined || scenarioFirstStep.getId() === session.currentStep) {
       sessionScenarioProgress.steps.push({
         id: scenarioFirstStep.getId(),
         status: SessionScenarioProgressStepStatus.PENDING,
@@ -56,10 +55,9 @@ export class SessionScenarioProgressProvider {
       while (scenarioStepNode !== undefined) {
         const scenarioStep = scenarioStepNode.value;
         const scenarioStepId = scenarioStep.getId();
-
         sessionScenarioProgress.steps.unshift({
           id: scenarioStepId,
-          status: SessionScenarioProgressStepStatus.COMPLETED,
+          status: SessionScenarioProgressStepStatus.COMPLETED
         });
 
         scenarioStepNode = scenarioStepNode.prev;
