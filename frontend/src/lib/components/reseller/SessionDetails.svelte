@@ -18,7 +18,7 @@
 </script>
 
 {#if $resellerSessionStore.session && !$resellerSessionStore.isLoading}
-	<div class="card mt-5">
+	<div class="card">
 		<header class="card-header text-center">
 			<h1>Session details</h1>
 		</header>

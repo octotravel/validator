@@ -1,36 +1,28 @@
-import { beforeEach, it, expect, beforeAll, afterEach, afterAll } from 'vitest';
+import { it, expect, vi, describe } from 'vitest';
 import { resellerCapabilitiesStore } from '../../../stores';
 import { get } from 'svelte/store';
 import { CapabilityService } from '../CapabilityService';
 
-import { HttpResponse, http } from 'msw';
-import { setupServer } from 'msw/node';
+describe('CapabilityService', () => {
+  it('should handle successful fetch', async () => {
+    const mockCapabilities = ['capability1', 'capability2'];
 
-const server = setupServer(
-    http.get('/api/reseller/capabilities', () => {
-        return HttpResponse.json({ capabilities: ['capability1', 'capability2'] });
-    }
-));
+    global.fetch = vi.fn().mockReturnValueOnce(new Response(JSON.stringify({capabilities: mockCapabilities}), { status: 200 }));
 
-beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
-afterAll(() => server.close())
+    await CapabilityService.getCapabilities();
 
-it('should handle successful fetch', async () => {
-  const mockCapabilities = ['capability1', 'capability2'];
+    expect(get(resellerCapabilitiesStore).capabilities).toEqual(mockCapabilities);
+    expect(get(resellerCapabilitiesStore).isLoading).toBe(false);
+    expect(get(resellerCapabilitiesStore).error).toBe(null);
+  });
 
-  await CapabilityService.getCapabilities();
+  it('should handle failed fetch', async () => {
+    global.fetch = vi.fn().mockReturnValueOnce(new Response(null, { status: 500, statusText: 'Internal Server Error'}));
 
-  expect(get(resellerCapabilitiesStore).capabilities).toEqual(mockCapabilities);
-  expect(get(resellerCapabilitiesStore).isLoading).toBe(false);
-  expect(get(resellerCapabilitiesStore).error).toBe(null);
+    await CapabilityService.getCapabilities();
+
+      expect(get(resellerCapabilitiesStore).capabilities).toEqual([]);
+      expect(get(resellerCapabilitiesStore).isLoading).toBe(false);
+      expect(get(resellerCapabilitiesStore).error).toBe('Internal Server Error');
+  });
 });
-
-// it('should handle failed fetch', async () => {
-
-//     await CapabilityService.getCapabilities();
-
-//     expect(get(resellerCapabilitiesStore).capabilities).toEqual([]);
-//     expect(get(resellerCapabilitiesStore).isLoading).toBe(false);
-//     expect(get(resellerCapabilitiesStore).error).not.toBe(null);
-// });

@@ -33,7 +33,7 @@ export const resellerScenarioSelectedStore = writable<ScenarioStore>({
 
 export const resellerScenarioValidationResultStore = writable<ValidationResultStore>({
 	results: [],
-	isLoading: false,
+	isLoading: false
 });
 
 export const resellerScenariosListLoadingStore = writable<boolean>(false);

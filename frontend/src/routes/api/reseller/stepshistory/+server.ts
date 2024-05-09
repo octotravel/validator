@@ -5,12 +5,15 @@ export async function GET({ request }) {
 	const id = url.searchParams.get('id');
 	const scenarioId = url.searchParams.get('scenario-id');
 
-	const response = await fetch(`${PUBLIC_VALIDATOR_BASE_URL}/v2/session/${id}/validation-history/${scenarioId}`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json'
+	const response = await fetch(
+		`${PUBLIC_VALIDATOR_BASE_URL}/v2/session/${id}/validation-history/${scenarioId}`,
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		}
-	});
+	);
 
 	return response;
 }

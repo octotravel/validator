@@ -1,5 +1,4 @@
 import { CapabilityId } from '@octocloud/types';
-import type { Scenario } from './Scenarios';
 
 export interface Session {
 	id: string;
