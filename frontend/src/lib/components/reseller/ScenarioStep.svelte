@@ -123,7 +123,7 @@
 						<span class="badge variant-soft">{results.length}</span>
 					</div>
 					<div class="accordion-border p-2 max-h-96 overflow-y-scroll">
-						{#each results.reverse() as result, index}
+						{#each results.sort((a, b) => new Date(b.utcCreatedAt).getTime() - new Date(a.utcCreatedAt).getTime()) as result, index}
 							<div class="accordion-border mb-1">
 								<Accordion>
 									<AccordionItem>

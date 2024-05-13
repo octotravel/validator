@@ -4,7 +4,7 @@
 	import SessionMiniDetails from './SessionMiniDetails.svelte';
 </script>
 
-<div class="grid grid-cols-4 mt-10 w-full gap-2">
+<div class="grid grid-cols-4 w-full gap-2">
 	<div>
 		<SessionMiniDetails />
 		<ScenarioList />

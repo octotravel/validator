@@ -45,6 +45,7 @@ export abstract class ScenariosService {
 		});
 
 		if (!sessionStore.session) {
+			resellerScenariosListLoadingStore.set(false);
 			return;
 		}
 
@@ -100,7 +101,11 @@ export abstract class ScenariosService {
 			steps
 		};
 
-		resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: false, scenario: newScenario }));
+		resellerScenarioSelectedStore.update((s) => ({
+			...s,
+			isLoading: false,
+			scenario: newScenario
+		}));
 
 		const scenarioIndex = sessionStore.session.scenariosProgress.findIndex(
 			(sp) => sp.id === scenario.id
@@ -115,15 +120,22 @@ export abstract class ScenariosService {
 		resellerSessionStore.update((s) => ({ ...s, session: updatedSession }));
 	};
 
-	public static getStepsHistory = async (sessionId: string, scenarioId: string, toastStore: any) => {
+	public static getStepsHistory = async (
+		sessionId: string,
+		scenarioId: string,
+		toastStore: any
+	) => {
 		resellerScenarioValidationResultStore.update((s) => ({ ...s, isLoading: true }));
 
-		const response = await fetch(`/api/reseller/stepshistory?id=${sessionId}&scenario-id=${scenarioId}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
+		const response = await fetch(
+			`/api/reseller/stepshistory?id=${sessionId}&scenario-id=${scenarioId}`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json'
+				}
 			}
-		});
+		);
 
 		if (!response.ok) {
 			const t: ToastSettings = {
@@ -137,15 +149,15 @@ export abstract class ScenariosService {
 
 		const stepsHistory = await response.json();
 
-		const results = (stepsHistory.map((step: any) => {
+		const results = stepsHistory.map((step: any) => {
 			return {
 				...step.validationResult,
 				isValid: step.isValid,
-				utcCreatedAt: new Date().toISOString(), // TODO FIX THIS
+				utcCreatedAt: new Date(step.createdAt).toISOString(),
 				scenarioId,
 				stepId: step.stepId
 			};
-		})).reverse();
+		});
 
 		resellerScenarioValidationResultStore.update((s) => ({ ...s, results, isLoading: false }));
 	};

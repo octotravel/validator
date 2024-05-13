@@ -4,4 +4,6 @@
 	$pageTitleStore = 'Reseller';
 </script>
 
-<slot />
+<div class="mt-5">
+	<slot />
+</div>

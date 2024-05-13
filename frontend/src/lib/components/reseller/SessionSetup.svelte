@@ -27,7 +27,7 @@
 </script>
 
 {#if $resellerSessionStore.session}
-	<div class="card mt-10 p-4 text-center">
+	<div class="card p-4 text-center">
 		<div class="mt-10">
 			<Stepper stepTerm="Session Setup" on:complete={updateSession}>
 				<Step>

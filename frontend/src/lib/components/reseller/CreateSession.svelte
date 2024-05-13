@@ -7,8 +7,8 @@
 	const toastStore = getToastStore();
 </script>
 
-<div class="card mt-10 w-full">
-	<section class="mt-5 p-4 text-center">
+<div class="card w-full">
+	<section class="p-4 text-center">
 		<p>You can create a new session or search for an existing session by ID.</p>
 		<div class="flex mt-10">
 			<div class="w-full text-end my-auto">
