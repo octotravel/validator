@@ -7,14 +7,11 @@ import { RequestHandler } from '../../http/request/RequestHandler';
 import { ValidationError } from 'yup';
 import { SchemaValidator } from '../../util/SchemaValidator';
 import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
-import {
-  GetSessionValidationHistorySchema,
-  getSessionValidationHistorySchema,
-} from './GetSessionValidationHistorySchema';
-import { GetSessionValidationHistoryResponse } from './GetSessionValidationHistoryResponse';
+import { BodyParser } from '../../util/BodyParser';
+import { SessionAnswerQuestionsSchema, sessionAnswerQuestionsSchema } from './SessionAnswerQuestionsSchema';
 
 @singleton()
-export class GetSessionValidationHistoryHandler implements RequestHandler {
+export class SessionAnswerQuestionsHandler implements RequestHandler {
   public constructor(
     @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
     @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
@@ -22,22 +19,28 @@ export class GetSessionValidationHistoryHandler implements RequestHandler {
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
+    const parsedBody = await BodyParser.parseBody(request);
+
     const requestPayload = {
+      ...parsedBody,
       sessionId: request.params.sessionId ?? '',
       scenarioId: request.params.scenarioId ?? '',
+      stepId: request.params.stepId ?? '',
     };
 
     try {
-      const validatedSchema = await SchemaValidator.validateSchema<GetSessionValidationHistorySchema>(
-        getSessionValidationHistorySchema,
+      const validatedSchema = await SchemaValidator.validateSchema<SessionAnswerQuestionsSchema>(
+        sessionAnswerQuestionsSchema,
         requestPayload,
       );
-      const validationHistory = (await this.sessionFacade.getValidationHistoryForScenario(
+      const validationResult = await this.sessionFacade.validateQuestionAnswers(
         validatedSchema.sessionId,
         validatedSchema.scenarioId,
-      )) as GetSessionValidationHistoryResponse[];
+        validatedSchema.stepId,
+        validatedSchema.answers,
+      );
 
-      return this.jsonResponseFactory.create(validationHistory);
+      return this.jsonResponseFactory.create(validationResult);
     } catch (e: any) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);

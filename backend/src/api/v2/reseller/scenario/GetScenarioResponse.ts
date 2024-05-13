@@ -1,6 +1,7 @@
 import { CapabilityId } from '@octocloud/types';
 import { ScenarioId } from '../../../../common/validation/v2/scenario/ScenarioId';
 import { StepId } from '../../../../common/validation/v2/step/StepId';
+import { Question } from '../../../../common/validation/v2/question/Question';
 
 export interface GetScenarioResponse {
   id: ScenarioId;
@@ -15,7 +16,10 @@ export interface GetScenarioStepResponse {
   id: StepId;
   name: string;
   description: string;
+  questions: GetScenarioStepQuestionResponse[];
   endpointMethod: string;
   endpointUrl: string;
   docsUrl: string;
 }
+
+export type GetScenarioStepQuestionResponse = Omit<Question, 'answer'>;

@@ -2,7 +2,7 @@ import { ValidationResult } from '../ValidationResult';
 import { Step } from './Step';
 import { Validator } from '../validator/Validator';
 
-export class StepValidator implements Validator {
+export class StepDataValidator implements Validator {
   public async validate(step: Step, data: unknown, headers: Headers): Promise<ValidationResult> {
     const validationResult = new ValidationResult(data);
     const validators = step.getValidators();

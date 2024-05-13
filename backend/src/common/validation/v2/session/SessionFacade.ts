@@ -4,6 +4,10 @@ import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionDa
 import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 import { ScenarioId } from '../scenario/ScenarioId';
 import { RequestLogRepository } from '../../../requestLog/RequestLogRepository';
+import { SessionStepQuestionAnswerProcessor } from './SessionStepQuestionAnswersProcessor';
+import { StepId } from '../step/StepId';
+import { ValidationResult } from '../ValidationResult';
+import { QuestionAnswer } from '../question/Question';
 
 @singleton()
 export class SessionFacade {
@@ -11,6 +15,8 @@ export class SessionFacade {
     @inject(SessionService) private readonly sessionService: SessionService,
     @inject(SessionScenarioProgressProvider)
     private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
+    @inject(SessionStepQuestionAnswerProcessor)
+    private readonly sessionStepQuestionAnswerProcessor: SessionStepQuestionAnswerProcessor,
     @inject('RequestLogRepository') private readonly requestLogRepository: RequestLogRepository,
   ) {}
 
@@ -33,8 +39,8 @@ export class SessionFacade {
   }
 
   public async getValidationHistoryForScenario(
-    scenarioId: ScenarioId,
     sessionId: string,
+    scenarioId: ScenarioId,
   ): Promise<SessionValidationHistory[]> {
     const requestLogDetails = await this.requestLogRepository.getAllForScenario(scenarioId, sessionId);
 
@@ -48,5 +54,14 @@ export class SessionFacade {
         isValid: requestLogDetail.isValid,
       };
     });
+  }
+
+  public async validateQuestionAnswers(
+    sessionId: string,
+    scenarioId: ScenarioId,
+    stepId: StepId,
+    answers: QuestionAnswer[],
+  ): Promise<ValidationResult> {
+    return await this.sessionStepQuestionAnswerProcessor.process(sessionId, scenarioId, stepId, answers);
   }
 }

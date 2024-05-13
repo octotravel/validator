@@ -5,6 +5,7 @@ import { UpdateSessionHandler } from './session/UpdateSessionHandler';
 import { GetSessionHandler } from './session/GetSessionHandler';
 import { ResellerRouter } from './reseller/ResellerRouter';
 import { GetSessionValidationHistoryHandler } from './session/GetSessionValidationHistoryHandler';
+import { SessionAnswerQuestionsHandler } from './session/SessionAnswerQuestitonsHandler';
 
 @singleton()
 export class V2Router {
@@ -16,6 +17,8 @@ export class V2Router {
     @inject(UpdateSessionHandler) private readonly updateSessionHandler: UpdateSessionHandler,
     @inject(GetSessionValidationHistoryHandler)
     private readonly getSessionValidationHistoryHandler: GetSessionValidationHistoryHandler,
+    @inject(SessionAnswerQuestionsHandler)
+    private readonly sessionAnswerQuestionsHandler: SessionAnswerQuestionsHandler,
     @inject(ResellerRouter) private readonly resellerRouter: ResellerRouter,
   ) {
     this.router = Router({ base: '/v2' });
@@ -26,6 +29,10 @@ export class V2Router {
     this.router.get(
       '/session/:sessionId/validation-history/:scenarioId',
       async (request) => await this.getSessionValidationHistoryHandler.handleRequest(request),
+    );
+    this.router.post(
+      '/session/:sessionId/validate-question-answers/:scenarioId/:stepId',
+      async (request) => await this.sessionAnswerQuestionsHandler.handleRequest(request),
     );
 
     this.router.all('/reseller/*', this.resellerRouter.router.fetch);

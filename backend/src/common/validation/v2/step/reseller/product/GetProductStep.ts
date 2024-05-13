@@ -1,7 +1,7 @@
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
 import { singleton } from 'tsyringe';
-import { Question } from '../../../question/Question';
+import { Question, QuestionInputType } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 
@@ -36,6 +36,28 @@ export class GetProductStep implements Step {
   }
 
   public getQuestions(): Question[] {
-    return [];
+    return [
+      {
+        id: 'what_is_god',
+        label: 'What is god?',
+        description: 'Yes or no?',
+        input: {
+          type: QuestionInputType.OPTION,
+          options: [
+            {
+              label: 'Yes',
+              value: 'yes',
+            },
+            {
+              label: 'No',
+              value: 'no',
+            },
+          ],
+        },
+        answer: async () => {
+          return 'yes';
+        },
+      },
+    ];
   }
 }

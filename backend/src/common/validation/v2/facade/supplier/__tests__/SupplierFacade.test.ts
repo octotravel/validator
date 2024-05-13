@@ -3,7 +3,7 @@ import { Backend } from '@octocloud/core';
 import { DeepMockProxy, MockProxy, mock, mockDeep } from 'vitest-mock-extended';
 import { GetSupplierStep } from '../../../step/reseller/supplier/GetSupplierStep';
 import { RequestScopedContextProvider } from '../../../../../requestContext/RequestScopedContextProvider';
-import { SessionStepProcessor } from '../../../session/SessionStepProcessor';
+import { SessionStepValidationProcessor } from '../../../session/SessionStepValidationProcessor';
 import { SessionStepGuard } from '../../../session/SessionStepGuard';
 import { SessionService } from '../../../session/SessionService';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -19,7 +19,7 @@ describe('SupplierFacade', () => {
   let requestScopedContextProvider: DeepMockProxy<RequestScopedContextProvider>;
   let requestScopedContext: RequestScopedContext;
   let sessionStepGuard: DeepMockProxy<SessionStepGuard>;
-  let sessionStepProcessor: DeepMockProxy<SessionStepProcessor>;
+  let sessionStepValidationProcessor: DeepMockProxy<SessionStepValidationProcessor>;
   let sessionService: DeepMockProxy<SessionService>;
 
   let supplierFacade: SupplierFacade;
@@ -34,7 +34,7 @@ describe('SupplierFacade', () => {
     requestScopedContext.setScenario(mockDeep<Scenario>());
     requestScopedContext.setStep(mockDeep<Step>());
     sessionStepGuard = mockDeep<SessionStepGuard>();
-    sessionStepProcessor = mockDeep<SessionStepProcessor>();
+    sessionStepValidationProcessor = mockDeep<SessionStepValidationProcessor>();
     sessionService = mockDeep<SessionService>();
 
     supplierFacade = new SupplierFacade(
@@ -42,7 +42,7 @@ describe('SupplierFacade', () => {
         getSupplierStep,
         requestScopedContextProvider,
         sessionStepGuard,
-        sessionStepProcessor,
+        sessionStepValidationProcessor,
         sessionService
     );
   });

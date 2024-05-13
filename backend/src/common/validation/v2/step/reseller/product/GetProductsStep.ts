@@ -1,7 +1,7 @@
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
 import { singleton } from 'tsyringe';
-import { Question } from '../../../question/Question';
+import { Question, QuestionInputType } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 

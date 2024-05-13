@@ -37,7 +37,7 @@ import { WebSocket } from '../socketio/WebSocket';
 import { AvailabilityCalendarHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCalendarHandler';
 import { AdvancedScenario } from '../validation/v2/scenario/reseller/AdvancedScenario';
 import { SessionStepGuard } from '../validation/v2/session/SessionStepGuard';
-import { SessionStepProcessor } from '../validation/v2/session/SessionStepProcessor';
+import { SessionStepValidationProcessor } from '../validation/v2/session/SessionStepValidationProcessor';
 import { SessionScenarioProgressProvider } from '../validation/v2/session/SessionScenarioProgressProvider';
 import { RequestLogRepository } from '../requestLog/RequestLogRepository';
 import { PostgresRequestLogRepository } from '../requestLog/PostgresRequestLogRepository';
@@ -84,7 +84,7 @@ container.registerSingleton(SessionFacade);
 container.registerSingleton<SessionRepository>('SessionRepository', PostgresSessionRepository);
 container.registerSingleton(SessionService);
 container.registerSingleton(SessionStepGuard);
-container.registerSingleton(SessionStepProcessor);
+container.registerSingleton(SessionStepValidationProcessor);
 
 // Scenario
 // Session

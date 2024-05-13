@@ -7,7 +7,7 @@
   "module": "./dist/app.mjs",
   "scripts": {
     "build": "npx tsc",
-    "check": "npm run build:dry && npm run format:check && npm run lint",
+    "check": "npm run typecheck && npm run format:check && npm run lint",
     "console": "tsx src/console.ts",
     "dev": "tsx --watch --no-warnings ./src/server.ts",
     "dev:with-worker": "concurrently 'tsx watch ./src/app.ts' 'tsx watch ./src/worker.ts'",

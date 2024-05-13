@@ -1,14 +1,18 @@
 import { Scenario } from '../../../../common/validation/v2/scenario/Scenario';
-import { GetScenarioResponse } from './GetScenarioResponse';
+import { GetScenarioResponse, GetScenarioStepResponse } from './GetScenarioResponse';
 
 export class GetScenarioResponseFactory {
   public static create(scenario: Scenario): GetScenarioResponse {
-    const steps = [];
+    const steps: GetScenarioStepResponse[] = [];
     for (const step of scenario.getSteps()) {
       steps.push({
         id: step.getId(),
         name: step.getName(),
         description: step.getDescription(),
+        questions: step.getQuestions().map((question) => {
+          const { answer, ...questitonWithoutAnswer } = question;
+          return questitonWithoutAnswer;
+        }),
         endpointMethod: step.getEndpointMethod(),
         endpointUrl: step.getEndpointUrl(),
         docsUrl: step.getDocsUrl(),

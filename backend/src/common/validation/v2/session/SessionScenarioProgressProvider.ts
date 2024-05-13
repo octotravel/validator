@@ -46,7 +46,7 @@ export class SessionScenarioProgressProvider {
     if (step === undefined || scenarioFirstStep.getId() === session.currentStep) {
       sessionScenarioProgress.steps.push({
         id: scenarioFirstStep.getId(),
-        status: SessionScenarioProgressStepStatus.PENDING,
+        status: SessionScenarioProgressStepStatus.PENDING_VALIDATION,
       });
     } else {
       let scenarioStepNode = scenarioSteps.getNode(step);
@@ -57,7 +57,7 @@ export class SessionScenarioProgressProvider {
         const scenarioStepId = scenarioStep.getId();
         sessionScenarioProgress.steps.unshift({
           id: scenarioStepId,
-          status: SessionScenarioProgressStepStatus.COMPLETED
+          status: SessionScenarioProgressStepStatus.COMPLETED,
         });
 
         scenarioStepNode = scenarioStepNode.prev;
@@ -68,7 +68,7 @@ export class SessionScenarioProgressProvider {
 
         sessionScenarioProgress.steps.push({
           id: scenarioStep.getId(),
-          status: SessionScenarioProgressStepStatus.PENDING,
+          status: SessionScenarioProgressStepStatus.PENDING_VALIDATION,
         });
       }
     }
@@ -91,12 +91,16 @@ export class SessionScenarioProgressProvider {
 
     for (const requestLogProgressItem of requestLogProgress) {
       const { scenarioId, stepId, isValid } = requestLogProgressItem;
+
       if (!scenariosProgress[scenarioId]) {
         scenariosProgress[scenarioId] = { id: scenarioId, steps: [] };
       }
+
       scenariosProgress[scenarioId].steps.push({
         id: stepId,
-        status: isValid ? SessionScenarioProgressStepStatus.COMPLETED : SessionScenarioProgressStepStatus.PENDING,
+        status: isValid
+          ? SessionScenarioProgressStepStatus.COMPLETED
+          : SessionScenarioProgressStepStatus.PENDING_VALIDATION,
       });
     }
 
@@ -122,14 +126,19 @@ export class SessionScenarioProgressProvider {
       const latestScenarioStep = scenarioSteps.find((step) => {
         return step.getId() === scenarioProgressItem.steps[scenarioProgressItem.steps.length - 1].id;
       });
-      const latestScenarioStepNode = scenarioSteps.getNode(latestScenarioStep);
+      const latestScenarioStepNode = scenarioSteps.getNode(latestScenarioStep)!;
       const nextScenarioStepNode = latestScenarioStepNode?.next;
 
       if (nextScenarioStepNode !== undefined) {
         scenarioProgressItem.steps.push({
           id: nextScenarioStepNode.value.getId(),
-          status: SessionScenarioProgressStepStatus.PENDING,
+          status: SessionScenarioProgressStepStatus.PENDING_VALIDATION,
         });
+      } else {
+        const hasQuestions = latestScenarioStepNode.value.getQuestions().length > 0;
+        scenarioProgressItem.steps[scenarioProgressItem.steps.length - 1].status = hasQuestions
+          ? SessionScenarioProgressStepStatus.PENDING_QUESTIONS
+          : SessionScenarioProgressStepStatus.COMPLETED;
       }
     }
 

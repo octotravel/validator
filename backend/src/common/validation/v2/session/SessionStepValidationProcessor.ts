@@ -1,17 +1,17 @@
 import { inject, singleton } from 'tsyringe';
 import { SessionService } from './SessionService';
 import { SessionStepGuard } from './SessionStepGuard';
-import { StepValidator } from '../step/StepValidator';
+import { StepDataValidator } from '../step/StepDataValidator';
 import { Step } from '../step/Step';
 import { WebSocket } from '../../../socketio/WebSocket';
 import { RequestScopedContextProvider } from '../../../requestContext/RequestScopedContextProvider';
 
 @singleton()
-export class SessionStepProcessor {
+export class SessionStepValidationProcessor {
   public constructor(
     @inject(SessionService) private readonly sessionService: SessionService,
     @inject(SessionStepGuard) private readonly sessionStepGuard: SessionStepGuard,
-    @inject(StepValidator) private readonly stepValidator: StepValidator,
+    @inject(StepDataValidator) private readonly stepDataValidator: StepDataValidator,
     @inject('WebSocket') private readonly webSocket: WebSocket,
     @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
   ) {}
@@ -21,7 +21,7 @@ export class SessionStepProcessor {
     const session = requestScopedContext.getSession();
     await this.sessionStepGuard.check(session, step);
 
-    const validationResult = await this.stepValidator.validate(
+    const validationResult = await this.stepDataValidator.validate(
       step,
       requestData,
       requestScopedContext.getRequest().headers,
@@ -29,7 +29,7 @@ export class SessionStepProcessor {
     requestScopedContext.setValidationResult(validationResult);
     this.webSocket.sendValidationResult(session, step, validationResult);
 
-    if (validationResult.isValid()) {
+    if (validationResult.isValid() && step.getQuestions().length === 0) {
       await this.sessionService.updateSessionStep(session.id, step.getId());
     }
   }
