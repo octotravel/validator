@@ -10,9 +10,8 @@ export class RequestLogFactory {
     return {
       id: requestScopedContext.getRequestId(),
       sessionId: requestScopedContext.getSession().id,
-      // TODO correctly check
       scenarioId: requestScopedContext.getSession().currentScenario!,
-      stepId: requestScopedContext.getSession().currentStep!,
+      stepId: requestScopedContext.getStep().getId(),
       createdAt: new Date(),
       reqBody: await RequestLogFactory.parseBody(request),
       reqMethod: request.method,
@@ -24,6 +23,7 @@ export class RequestLogFactory {
       resDuration: 0,
       validationResult: JSON.stringify(validationResult),
       isValid: validationResult.isValid(),
+      hasCorrectlyAnsweredQuestions: requestScopedContext.getStep().getQuestions().length === 0,
     };
   }
 

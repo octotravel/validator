@@ -2,7 +2,7 @@ import { inject, singleton } from 'tsyringe';
 import { SessionRepository } from './SessionRepository';
 import { v4 as uuidv4 } from 'uuid';
 import { SessionNotFoundError } from './error/SessionNotFoundError';
-import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
+import { Session, SessionData, SessionScenarioProgressStepStatus, UpdateSessionData } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
 import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
@@ -104,14 +104,15 @@ export class SessionService {
         return scenarioProgress.id === updateSessionData.currentScenario;
       });
 
-      if (currentScenarioProgress !== undefined) {
-        const currentScenarioProgressSteps = currentScenarioProgress.steps;
-        const latestProgressScenarioStep = currentScenarioProgressSteps.find((step) => {
-          return step.id === currentScenarioProgress.steps[currentScenarioProgress.steps.length - 1].id;
-        })!;
-        currentStep = latestProgressScenarioStep.id;
+      const lastCompletedStepInScenarioProgress =
+        currentScenarioProgress?.steps
+          .reverse()
+          .find((step) => step.status === SessionScenarioProgressStepStatus.COMPLETED) ?? null;
+
+      if (lastCompletedStepInScenarioProgress !== null) {
+        currentStep = lastCompletedStepInScenarioProgress.id;
       } else {
-        currentStep = scenario.getSteps().first!.getId();
+        currentStep = null;
       }
     }
 

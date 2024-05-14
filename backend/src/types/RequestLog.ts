@@ -17,6 +17,7 @@ export interface RequestLog {
   resDuration: number;
   validationResult: string;
   isValid: boolean;
+  hasCorrectlyAnsweredQuestions: boolean;
 }
 
 export interface RequestLogRowData {
@@ -35,4 +36,5 @@ export interface RequestLogRowData {
   res_duration: number;
   validation_result: string;
   is_valid: boolean;
+  has_correctly_answered_questions: boolean;
 }

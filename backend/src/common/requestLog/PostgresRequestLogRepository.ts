@@ -1,12 +1,18 @@
 import { inject, singleton } from 'tsyringe';
 import { pg as named } from 'yesql';
-import { RequestLogDetail, RequestLogProgress, RequestLogRepository } from './RequestLogRepository';
+import {
+  RequestLogDetail,
+  RequestLogLatestDetail,
+  RequestLogProgress,
+  RequestLogRepository,
+} from './RequestLogRepository';
 import { RequestLog, RequestLogRowData } from '../../types/RequestLog';
 import { Database } from '../database/Database';
 import { QueryUtil } from '../database/util/QueryUtil';
 import { CannotCreateRequestLogError } from './error/CannotCreateRequestLogError';
 import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
 import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError';
+import { CannotUpdateRequestLogError } from './error/CannotUpdateRequestLogError';
 
 @singleton()
 export class PostgresRequestLogRepository implements RequestLogRepository {
@@ -29,6 +35,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       res_duration: requestLog.resDuration,
       validation_result: requestLog.validationResult,
       is_valid: requestLog.isValid,
+      has_correctly_answered_questions: requestLog.hasCorrectlyAnsweredQuestions,
     };
 
     const query = `
@@ -44,9 +51,26 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       });
   }
 
+  public async markCorrectlyAnsweredQuestions(requestLogId: string): Promise<void> {
+    const query = `
+      UPDATE request_log
+      SET
+        has_correctly_answered_questions = true
+      WHERE 
+        id = :id
+    `;
+
+    await this.database
+      .getConnection()
+      .query(named(query)({ id: requestLogId }))
+      .catch((e: any) => {
+        throw CannotUpdateRequestLogError.create(requestLogId, [], e);
+      });
+  }
+
   public async getAllForProgress(sessionId: string): Promise<RequestLogProgress[]> {
     const query =
-      'SELECT DISTINCT ON (scenario_id, step_id) scenario_id, step_id, is_valid FROM request_log WHERE session_id = :sessionId ORDER BY scenario_id, step_id, created_at DESC';
+      'SELECT DISTINCT ON (scenario_id, step_id) scenario_id, step_id, is_valid, has_correctly_answered_questions FROM request_log WHERE session_id = :sessionId ORDER BY scenario_id, step_id, created_at DESC';
     const queryResult = await this.database
       .getConnection()
       .query(named(query)({ sessionId }))
@@ -63,6 +87,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
         scenarioId: requestLog.scenario_id,
         stepId: requestLog.step_id,
         isValid: requestLog.is_valid,
+        hasCorrectlyAnsweredQuestions: requestLog.has_correctly_answered_questions,
       } as RequestLogProgress;
     });
   }
@@ -91,5 +116,32 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
         isValid: requestLog.is_valid,
       } as RequestLogDetail;
     });
+  }
+
+  public async getLatestForScenarioAndStep(
+    scenarioId: ScenarioId,
+    stepId: string,
+    sessionId: string,
+  ): Promise<RequestLogLatestDetail | null> {
+    const query =
+      'SELECT DISTINCT ON (scenario_id, step_id) id, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId AND step_id = :stepId ORDER BY scenario_id, step_id, created_at DESC';
+
+    const queryResult = await this.database
+      .getConnection()
+      .query(named(query)({ sessionId, stepId, scenarioId }))
+      .catch((e: any) => {
+        throw CannotSelectRequestLogError.create(query, e);
+      });
+
+    if (queryResult.rowCount === 0) {
+      return null;
+    }
+
+    const requestLogProgress = queryResult.rows[0] as RequestLogRowData;
+
+    return {
+      id: requestLogProgress.id,
+      isValid: requestLogProgress.is_valid,
+    };
   }
 }

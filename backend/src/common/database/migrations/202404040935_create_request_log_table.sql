@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS "request_log"
 	res_duration INT NULL,
 	validation_result TEXT NULL DEFAULT '',
 	is_valid BOOLEAN NOT NULL,
+	has_correctly_answered_questions BOOLEAN NOT NULL,
 	CONSTRAINT fk_session_id FOREIGN KEY (session_id) REFERENCES "session" (id),
 	CONSTRAINT pk_request_log PRIMARY KEY (id)
 );

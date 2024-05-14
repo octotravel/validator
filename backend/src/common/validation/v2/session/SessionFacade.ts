@@ -8,6 +8,8 @@ import { SessionStepQuestionAnswerProcessor } from './SessionStepQuestionAnswers
 import { StepId } from '../step/StepId';
 import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
+import { RequestLogService } from '../../../requestLog/RequestLogService';
+import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
 @singleton()
 export class SessionFacade {
@@ -62,6 +64,28 @@ export class SessionFacade {
     stepId: StepId,
     answers: QuestionAnswer[],
   ): Promise<ValidationResult> {
-    return await this.sessionStepQuestionAnswerProcessor.process(sessionId, scenarioId, stepId, answers);
+    const latestRequestLogDetail = await this.requestLogRepository.getLatestForScenarioAndStep(
+      scenarioId,
+      stepId,
+      sessionId,
+    );
+
+    if (latestRequestLogDetail === null || !latestRequestLogDetail.isValid) {
+      // TODO maybe diff error?
+      throw SessionScenarioStepNotAllowedError.createForInvalidStep(scenarioId, stepId);
+    }
+
+    const validationResult = await this.sessionStepQuestionAnswerProcessor.process(
+      sessionId,
+      scenarioId,
+      stepId,
+      answers,
+    );
+
+    if (validationResult.isValid()) {
+      await this.requestLogRepository.markCorrectlyAnsweredQuestions(latestRequestLogDetail.id);
+    }
+
+    return validationResult;
   }
 }

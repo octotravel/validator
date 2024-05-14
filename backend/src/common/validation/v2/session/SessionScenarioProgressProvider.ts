@@ -90,17 +90,25 @@ export class SessionScenarioProgressProvider {
     const scenariosProgress: Record<string, SessionScenarioProgress> = {};
 
     for (const requestLogProgressItem of requestLogProgress) {
-      const { scenarioId, stepId, isValid } = requestLogProgressItem;
+      const { scenarioId, stepId, isValid, hasCorrectlyAnsweredQuestions } = requestLogProgressItem;
 
       if (!scenariosProgress[scenarioId]) {
         scenariosProgress[scenarioId] = { id: scenarioId, steps: [] };
       }
 
+      let status: SessionScenarioProgressStepStatus;
+
+      if (isValid && hasCorrectlyAnsweredQuestions) {
+        status = SessionScenarioProgressStepStatus.COMPLETED;
+      } else if (isValid && !hasCorrectlyAnsweredQuestions) {
+        status = SessionScenarioProgressStepStatus.PENDING_QUESTIONS;
+      } else {
+        status = SessionScenarioProgressStepStatus.PENDING_VALIDATION;
+      }
+
       scenariosProgress[scenarioId].steps.push({
         id: stepId,
-        status: isValid
-          ? SessionScenarioProgressStepStatus.COMPLETED
-          : SessionScenarioProgressStepStatus.PENDING_VALIDATION,
+        status: status,
       });
     }
 
@@ -122,23 +130,22 @@ export class SessionScenarioProgressProvider {
       scenarioProgressItem.steps.sort((firstStep, secondStep) => {
         return scenarioStepsIds.indexOf(firstStep.id) - scenarioStepsIds.indexOf(secondStep.id);
       });
+      const latestScenarioStepProgress = scenarioProgressItem.steps[scenarioProgressItem.steps.length - 1];
 
       const latestScenarioStep = scenarioSteps.find((step) => {
-        return step.getId() === scenarioProgressItem.steps[scenarioProgressItem.steps.length - 1].id;
+        return step.getId() === latestScenarioStepProgress.id;
       });
       const latestScenarioStepNode = scenarioSteps.getNode(latestScenarioStep)!;
       const nextScenarioStepNode = latestScenarioStepNode?.next;
 
-      if (nextScenarioStepNode !== undefined) {
+      if (
+        latestScenarioStepProgress.status !== SessionScenarioProgressStepStatus.PENDING_QUESTIONS &&
+        nextScenarioStepNode !== undefined
+      ) {
         scenarioProgressItem.steps.push({
           id: nextScenarioStepNode.value.getId(),
           status: SessionScenarioProgressStepStatus.PENDING_VALIDATION,
         });
-      } else {
-        const hasQuestions = latestScenarioStepNode.value.getQuestions().length > 0;
-        scenarioProgressItem.steps[scenarioProgressItem.steps.length - 1].status = hasQuestions
-          ? SessionScenarioProgressStepStatus.PENDING_QUESTIONS
-          : SessionScenarioProgressStepStatus.COMPLETED;
       }
     }
 

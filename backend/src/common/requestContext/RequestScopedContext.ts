@@ -2,12 +2,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { ValidationResult } from '../validation/v2/ValidationResult';
 import { RuntimeError } from '@octocloud/core';
 import { Session } from '../../types/Session';
-import { Scenario } from '../validation/v2/scenario/Scenario';
 import { Step } from '../validation/v2/step/Step';
 
 export class RequestScopedContext {
   private readonly requestId: string;
   private session: Session | null = null;
+  private step: Step | null = null;
   private request: Request | null = null;
   private response: Response | null = null;
   private validationResult: ValidationResult | null = null;
@@ -30,6 +30,18 @@ export class RequestScopedContext {
     }
 
     return this.session;
+  }
+
+  public setStep(step: Step | null): void {
+    this.step = step;
+  }
+
+  public getStep(): Step {
+    if (this.step === null) {
+      throw new RuntimeError('Step is not set');
+    }
+
+    return this.step;
   }
 
   public setRequest(request: Request): void {
