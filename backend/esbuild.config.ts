@@ -59,4 +59,8 @@ if (env !== Environment.LOCAL && env !== Environment.TEST) {
   );
 }
 
-esbuild.build(mainConfig).catch(() => process.exit(1));
+esbuild.build(mainConfig).catch((e) => {
+  // eslint-disable-next-line no-console
+  console.error(e);
+  process.exit(1);
+});

@@ -58,6 +58,42 @@ export class GetProductStep implements Step {
           return 'yes';
         },
       },
+      {
+        id: 'what_is_love',
+        label: 'What is love?',
+        description: 'Baby, dont hurt me.',
+        input: {
+          type: QuestionInputType.STRING,
+          options: [],
+        },
+        answer: async () => {
+          return 'baby dont hurt me';
+        },
+      },
+      {
+        id: 'what_is_the_meaning_of_life',
+        label: 'What is the meaning of life?',
+        description: '42.',
+        input: {
+          type: QuestionInputType.NUMBER,
+          options: [],
+        },
+        answer: async () => {
+          return 42;
+        },
+      },
+      {
+        id: 'what_is_the_answer_to_the_ultimate_question_of_life_the_universe_and_everything',
+        label: 'What is the answer to the ultimate question of life, the universe, and everything?',
+        description: 'true or false',
+        input: {
+          type: QuestionInputType.BOOLEAN,
+          options: [],
+        },
+        answer: async () => {
+          return true;
+        },
+      },
     ];
   }
 }
