@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { ListBox, ListBoxItem, Step, Stepper, getToastStore } from '@skeletonlabs/skeleton';
 	import { resellerCapabilitiesStore, resellerSessionStore } from '$lib/stores';
-	import { IconSquare, IconSquareCheck } from '@tabler/icons-svelte';
 	import { CapabilityService } from '$lib/services/reseller/CapabilityService';
 	import { onMount } from 'svelte';
 	import { SessionService } from '$lib/services/reseller/SessionService';
 	import type { Capability } from '$lib/types/Capabilities';
+	import IconSquareCheck from '$lib/icons/IconSquareCheck.svelte';
+	import IconSquare from '$lib/icons/IconSquare.svelte';
 
 	const toastStore = getToastStore();
 

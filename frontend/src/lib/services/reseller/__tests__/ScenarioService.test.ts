@@ -1,5 +1,6 @@
 import { it, expect, vi, describe, beforeEach } from 'vitest';
 import {
+	resellerScenariosListLoadingStore,
 	resellerSessionStore,
 } from '../../../stores';
 import { get } from 'svelte/store';
@@ -13,7 +14,7 @@ describe('ScenariosService', async () => {
     description: 'Description 1',
     endpointUrl: 'http://localhost:3000',
     docsUrl: 'http://localhost:3000',
-    status: ScenarioProgressStepStatus.PENDING
+    status: ScenarioProgressStepStatus.PENDING_VALIDATION
   };
 	beforeEach(() => {
 		resellerSessionStore.set({
@@ -60,5 +61,16 @@ describe('ScenariosService', async () => {
 		await ScenariosService.getScenarios({});
 
 		expect(get(resellerSessionStore).session?.scenariosProgress).toEqual(mockScenarios);
+		expect(get(resellerSessionStore).isLoading).toBe(false);
+		expect(get(resellerSessionStore).error).toBe(null);
+	});
+
+	it('should fail to fetch scenarios', async () => {
+		global.fetch = vi.fn().mockReturnValueOnce(new Response(null, { status: 500 }));
+
+		await ScenariosService.getScenarios( { trigger: () => {}} );
+
+		expect(get(resellerSessionStore).error).toBe('Failed to fetch scenarios');
+		expect(get(resellerScenariosListLoadingStore)).toBe(false);
 	});
 });

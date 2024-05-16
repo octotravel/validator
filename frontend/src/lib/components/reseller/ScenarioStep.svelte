@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { PUBLIC_VALIDATOR_BASE_URL } from '$env/static/public';
+	import IconCircleCheck from '$lib/icons/IconCircleCheck.svelte';
+	import IconCircleDashed from '$lib/icons/IconCircleDashed.svelte';
+	import IconX from '$lib/icons/IconX.svelte';
 	import {
+	resellerScenarioAnswersStore,
 		resellerScenarioSelectedStore,
 		resellerScenarioValidationResultStore,
 		resellerSessionStore
@@ -8,9 +12,10 @@
 	import { ScenarioProgressStepStatus, type ScenarioProgressStep } from '$lib/types/Session';
 	import type { ResultsStore } from '$lib/types/Validation';
 	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-	import { IconCircleCheck, IconCircleDashed, IconSearch, IconX } from '@tabler/icons-svelte';
 	import { JsonView } from '@zerodevx/svelte-json-view';
 	import { format } from 'date-fns';
+	import IconSearch from '$lib/icons/IconSearch.svelte';
+	import QuestionsList from './questions/QuestionsList.svelte';
 
 	export let step: ScenarioProgressStep;
 	export let index: number;
@@ -38,6 +43,11 @@
 	let results: ResultsStore[] = [];
 	let isStepValid = false;
 
+	const pendingStatuses = [
+		ScenarioProgressStepStatus.PENDING_VALIDATION,
+		ScenarioProgressStepStatus.PENDING_QUESTIONS
+	];
+
 	$: updateResults = () => {
 		results = $resellerScenarioValidationResultStore.results.filter(
 			(result) =>
@@ -49,7 +59,7 @@
 
 	$: isOpen = () => {
 		const pendingSteps =
-			$resellerScenarioSelectedStore.scenario?.steps.filter((step) => step.status === 'pending') ??
+			$resellerScenarioSelectedStore.scenario?.steps.filter((step) => pendingStatuses.includes(step.status)) ??
 			[];
 		if (pendingSteps?.length > 0) {
 			return pendingSteps[0].id === step.id;
@@ -59,26 +69,38 @@
 
 	$: isLocked = () => {
 		const pendingSteps =
-			$resellerScenarioSelectedStore.scenario?.steps.filter((step) => step.status === 'pending') ??
+			$resellerScenarioSelectedStore.scenario?.steps.filter((step) => pendingStatuses.includes(step.status)) ??
 			[];
 		if (pendingSteps?.length > 0) {
 			return (
 				$resellerScenarioSelectedStore.scenario?.steps.filter(
-					(step) => step.status === 'pending'
-				)[0].id !== step.id && !(step.status === 'completed')
+					(step) => pendingStatuses.includes(step.status)
+				)[0].id !== step.id && !(step.status === ScenarioProgressStepStatus.COMPLETED)
 			);
 		}
 		return false;
 	};
 
+	$: isQuestionsValid = () => {
+		const questions = $resellerSessionStore.session?.scenariosProgress.find(
+			(scenario) => scenario.id === $resellerScenarioSelectedStore.scenario?.id
+		)?.steps[index].questions;
+
+		const valid = questions?.every((question) => {
+			return question.validation.isValid
+		});
+
+		console.log(valid);
+		return valid;
+	};
+
 	$: $resellerScenarioValidationResultStore.results, updateResults();
 </script>
-
 <div class="text-start {isOpen() ? 'border border-primary-500' : 'accordion-border'}">
 	<AccordionItem open={isOpen()} disabled={isLocked()}>
 		<svelte:fragment slot="lead">
-			{#if step.status === 'completed'}
-				<IconCircleCheck class="text-success-500" />
+			{#if step.status === ScenarioProgressStepStatus.COMPLETED}
+				<IconCircleCheck />
 			{:else}
 				<IconCircleDashed />
 			{/if}
@@ -86,9 +108,11 @@
 		<svelte:fragment slot="summary">
 			{step.name}
 			{#if isLocked()}
-				<span class="badge variant-soft-surface text-neutral-500 ms-2">Locked</span>
-			{:else if step.status === 'pending'}
-				<span class="badge variant-soft-warning text-neutral-500 ms-2">Pending</span>
+			<span class="badge variant-soft-surface text-neutral-500 ms-2">Locked</span>
+			{:else if step.status === ScenarioProgressStepStatus.PENDING_VALIDATION}
+			<span class="badge variant-soft-warning text-neutral-500 ms-2">Pending validation</span>
+			{:else if step.status === ScenarioProgressStepStatus.PENDING_QUESTIONS}
+			<span class="badge variant-soft-tertiary text-neutral-500 ms-2">Pending questions</span>
 			{/if}
 		</svelte:fragment>
 
@@ -127,8 +151,8 @@
 							<div class="accordion-border mb-1">
 								<Accordion>
 									<AccordionItem>
-										<svelte:fragment slot="iconClosed"><IconX size={18} /></svelte:fragment>
-										<svelte:fragment slot="iconOpen"><IconSearch size={18} /></svelte:fragment>
+										<svelte:fragment slot="iconClosed"><IconX size={'18'} /></svelte:fragment>
+										<svelte:fragment slot="iconOpen"><IconSearch size={'18'} /></svelte:fragment>
 										<svelte:fragment slot="lead">
 											{#if result.errors.length > 0}
 												<span class="badge variant-soft-error">Errors</span>
@@ -202,9 +226,36 @@
 						{/each}
 					</div>
 				</div>
+				{#if step.questions.length > 0}
+					{#if isStepValid}
+						<div class="col-span-4">
+							<div class="my-auto py-1">
+								<span class="font-semibold">Questions</span>
+								<span class="badge variant-soft">{step.questions.length}</span>
+							</div>
+							<div class="grid grid-cols-1">
+								<QuestionsList questions={step.questions} />
+							</div>
+							<div>
+								<button class="btn variant-ghost-tertiary" disabled={!isStepValid}>Validate answers</button>
+							</div>
+						</div>
+					{:else}
+					<div class="col-span-4">
+						<div class="my-auto py-1">
+							<span class="font-semibold">Questions</span>
+							<span class="badge variant-soft">{step.questions.length}</span>
+						</div>
+						<div>
+							Send valid request first
+						</div>
+
+					</div>
+					{/if}
+				{/if}
 				<div class="col-span-3"></div>
 				<div>
-					{#if isStepValid && step.status === 'pending'}
+					{#if isStepValid && pendingStatuses.includes(step.status) && isQuestionsValid()}
 						<button class="btn variant-ghost-success w-full" on:click={() => nextStep()}
 							>Next step</button
 						>

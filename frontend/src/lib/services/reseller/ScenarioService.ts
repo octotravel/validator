@@ -1,11 +1,12 @@
 import {
+	resellerScenarioAnswersStore,
 	resellerScenarioSelectedStore,
 	resellerScenarioValidationResultStore,
 	resellerScenariosListLoadingStore,
 	resellerSessionStore
 } from '$lib/stores';
 import type { Scenario, Step } from '$lib/types/Scenarios';
-import type { ScenarioProgress, ScenarioProgressStep, Session } from '$lib/types/Session';
+import { ScenarioProgressStepStatus, type ScenarioProgress, type ScenarioProgressStep, type Session } from '$lib/types/Session';
 import type { ToastSettings } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
 
@@ -22,12 +23,15 @@ export abstract class ScenariosService {
 		});
 
 		if (!response.ok) {
+			const error = `Failed to fetch scenarios`;
 			const t: ToastSettings = {
-				message: `Failed to fetch scenarios: ${response.statusText}`,
+				message: error,
 				background: 'variant-filled-warning'
 			};
 			toastStore.trigger(t);
 
+			resellerSessionStore.update((s) => ({ ...s, error }));
+			resellerScenariosListLoadingStore.set(false);
 			return;
 		}
 
@@ -60,6 +64,7 @@ export abstract class ScenariosService {
 
 	public static getScenario = async (id: string, toastStore: any) => {
 		resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: true, scenario: null }));
+		resellerScenarioAnswersStore.update(() => []);
 
 		const response = await fetch(`/api/reseller/scenario?id=${id}`, {
 			method: 'GET',
@@ -69,10 +74,13 @@ export abstract class ScenariosService {
 		});
 
 		if (!response.ok) {
+			const error = `Failed to fetch scenario`;
 			const t: ToastSettings = {
-				message: `Failed to fetch scenario: ${response.statusText}`,
+				message: error,
 				background: 'variant-filled-warning'
 			};
+
+			resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: false, error }));
 			toastStore.trigger(t);
 
 			return;
@@ -88,7 +96,17 @@ export abstract class ScenariosService {
 			).find((s) => s.id === step.id);
 			return {
 				...step,
-				status: progressStep?.status || 'pending'
+				status: progressStep?.status || ScenarioProgressStepStatus.PENDING_VALIDATION,
+				questions: step.questions.map((q) => {
+					return {
+						...q,
+						validation: {
+							isValid: false,
+							data: [],
+							errors: []
+						}
+					};
+				})
 			};
 		});
 
@@ -160,5 +178,42 @@ export abstract class ScenariosService {
 		});
 
 		resellerScenarioValidationResultStore.update((s) => ({ ...s, results, isLoading: false }));
+	};
+
+	public static postValidateQuestions = async (
+		sessionId: string,
+		scenarioId: string,
+		stepId: string,
+		toastStore: any
+	) => {
+
+		const body = {
+			test: 'test'
+		}
+
+		const response = await fetch(
+			`/api/reseller/questions?id=${sessionId}&scenario-id=${scenarioId}&step-id=${stepId}`,
+			{
+				method: 'POST',
+				body: JSON.stringify(body),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			}
+		);
+
+		if (!response.ok) {
+			const t: ToastSettings = {
+				message: `Failed to validate questions: ${response.statusText}`,
+				background: 'variant-filled-warning'
+			};
+			toastStore.trigger(t);
+
+			return;
+		}
+
+		const questionsValidation = await response.json();
+		
+
 	};
 }

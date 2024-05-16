@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { resellerScenarioSelectedStore } from '$lib/stores';
 	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
-	import { IconFileDescription } from '@tabler/icons-svelte';
 	import ScenarioStep from './ScenarioStep.svelte';
+	import IconFileDescription from '$lib/icons/IconFileDescription.svelte';
 </script>
 
 {#if $resellerScenarioSelectedStore.scenario}
