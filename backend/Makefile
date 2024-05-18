@@ -23,3 +23,9 @@ fix: ## Runs all auto fixes
 
 fix-staged: ## Runs all auto fixes
 	docker exec octo_validator_backend sh -c "npm run fix:staged:docker"
+
+test: ## Runs all tests
+	docker exec -it octo_validator_backend sh -c "npm run test"
+
+test-coverage: ## Runs all tests with coverage
+	docker exec -it octo_validator_backend sh -c "npm run test:coverage"

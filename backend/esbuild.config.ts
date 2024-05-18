@@ -21,8 +21,6 @@ const plugins = [esbuildPluginPino({ transports: ['pino-pretty'] })];
 
 const commonConfig = {
   // logLevel: 'debug',
-  loader: { '.node': 'file', '.html': 'file' },
-  external: ['pg-cloudflare', '@sentry/profiling-node', '@google-cloud/profiler', 'mock-aws-s3', 'aws-sdk', 'nock'],
   platform: 'node',
   bundle: true,
   keepNames: false,
@@ -52,7 +50,7 @@ if (env !== Environment.LOCAL && env !== Environment.TEST) {
         assets: './dist/**',
       },
       org: 'ventrata',
-      project: 'octo-validator',
+      project: 'octo-validator-backend',
       telemetry: false,
       authToken: config.SENTRY_AUTH_TOKEN,
     }),
