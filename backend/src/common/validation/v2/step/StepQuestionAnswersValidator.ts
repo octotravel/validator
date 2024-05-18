@@ -25,7 +25,8 @@ export class StepQuestionAnswersValidator implements Validator {
           } else {
             const correctQuestionAnswer = await question.answer();
 
-            if (questionAnswer.value !== correctQuestionAnswer) {
+            // eslint-disable-next-line eqeqeq
+            if (questionAnswer.value != correctQuestionAnswer) {
               validationResult.addError(
                 new ValidationFailure(
                   ValidationFailureType.ERROR,

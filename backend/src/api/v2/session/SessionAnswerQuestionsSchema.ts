@@ -23,7 +23,7 @@ export const sessionAnswerQuestionsSchema = object({
     .of(
       object().shape({
         questionId: string().required(),
-        value: string().required(),
+        value: mixed().required(),
       }),
     )
     .required(),
