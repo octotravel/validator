@@ -1,4 +1,5 @@
 import { CapabilityId } from '@octocloud/types';
+import type { Question } from './Scenarios';
 
 export interface Session {
 	id: string;
@@ -37,6 +38,8 @@ export interface ScenarioProgressStep {
 	id: string;
 	name: string;
 	description: string;
+	questions: Question[];
+	endpointMethod: string;
 	endpointUrl: string;
 	docsUrl: string;
 	status: ScenarioProgressStepStatus;
@@ -44,11 +47,13 @@ export interface ScenarioProgressStep {
 
 export enum ScenarioProgressStepStatus {
 	COMPLETED = 'completed',
-	PENDING = 'pending'
+	PENDING_VALIDATION = 'pending_validatiton',
+	PENDING_QUESTIONS = 'pending_questions',
 }
 
 export interface ScenarioStore {
 	scenario: ScenarioProgress | null;
+	error: string | null;
 	stepsHistory: ScenarioStepsHistory[];
 	isLoading: boolean;
 	isLoadingSteps: boolean;

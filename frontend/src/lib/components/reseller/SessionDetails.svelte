@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { resellerSessionStore } from '$lib/stores';
 	import { ProgressRadial, getToastStore, type ToastSettings } from '@skeletonlabs/skeleton';
-	import { IconArrowNarrowRight, IconCopy } from '@tabler/icons-svelte';
 	import { page } from '$app/stores';
+	import IconCopy from '$lib/icons/IconCopy.svelte';
+	import IconArrowNarrowRight from '$lib/icons/IconArrowNarrowRight.svelte';
 
 	const toastStore = getToastStore();
 
@@ -84,7 +85,7 @@
 		</section>
 		<footer class="card-footer text-end">
 			<button class="btn variant-ghost" on:click={copyToClipboard}
-				>Copy URL<span class="ms-1"><IconCopy /></span></button
+				>Copy URL<span class="ms-1"><IconCopy size={'18'} /></span></button
 			>
 			<a href="reseller/session/{$resellerSessionStore.session.id}">
 				<button class="btn variant-ghost-secondary"
