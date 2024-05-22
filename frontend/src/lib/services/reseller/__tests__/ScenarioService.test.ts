@@ -1,21 +1,18 @@
 import { it, expect, vi, describe, beforeEach } from 'vitest';
-import {
-	resellerScenariosListLoadingStore,
-	resellerSessionStore,
-} from '../../../stores';
+import { resellerScenariosListLoadingStore, resellerSessionStore } from '../../../stores';
 import { get } from 'svelte/store';
 import { ScenariosService } from '../ScenarioService';
 import { ScenarioProgressStepStatus } from '$lib/types/Session';
 
 describe('ScenariosService', async () => {
-  const step = {
-    id: 'step1',
-    name: 'Step 1',
-    description: 'Description 1',
-    endpointUrl: 'http://localhost:3000',
-    docsUrl: 'http://localhost:3000',
-    status: ScenarioProgressStepStatus.PENDING_VALIDATION
-  };
+	const step = {
+		id: 'step1',
+		name: 'Step 1',
+		description: 'Description 1',
+		endpointUrl: 'http://localhost:3000',
+		docsUrl: 'http://localhost:3000',
+		status: ScenarioProgressStepStatus.PENDING_VALIDATION
+	};
 	beforeEach(() => {
 		resellerSessionStore.set({
 			session: {
@@ -25,23 +22,23 @@ describe('ScenariosService', async () => {
 				currentScenario: null,
 				currentStep: null,
 				scenariosProgress: [
-          {
-            id: 'scenario1',
-            name: 'Scenario 1',
-            description: 'Description 1',
-            requiredCapabilities: [],
-            optionalCapabilities: [],
-            steps: [step]
-          },
-          {
-            id: 'scenario2',
-            name: 'Scenario 2',
-            description: 'Description 2',
-            requiredCapabilities: [],
-            optionalCapabilities: [],
-            steps: [step]
-          }
-        ],
+					{
+						id: 'scenario1',
+						name: 'Scenario 1',
+						description: 'Description 1',
+						requiredCapabilities: [],
+						optionalCapabilities: [],
+						steps: [step]
+					},
+					{
+						id: 'scenario2',
+						name: 'Scenario 2',
+						description: 'Description 2',
+						requiredCapabilities: [],
+						optionalCapabilities: [],
+						steps: [step]
+					}
+				],
 				url: 'http://localhost:3000'
 			},
 			isLoading: false,
@@ -68,7 +65,7 @@ describe('ScenariosService', async () => {
 	it('should fail to fetch scenarios', async () => {
 		global.fetch = vi.fn().mockReturnValueOnce(new Response(null, { status: 500 }));
 
-		await ScenariosService.getScenarios( { trigger: () => {}} );
+		await ScenariosService.getScenarios({ trigger: () => {} });
 
 		expect(get(resellerSessionStore).error).toBe('Failed to fetch scenarios');
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);

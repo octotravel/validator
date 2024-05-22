@@ -1,17 +1,23 @@
 import {
 	resellerScenarioAnswersStore,
+	resellerScenarioQuestionsValidationStore,
 	resellerScenarioSelectedStore,
 	resellerScenarioValidationResultStore,
 	resellerScenariosListLoadingStore,
 	resellerSessionStore
 } from '$lib/stores';
-import type { Scenario, Step } from '$lib/types/Scenarios';
-import { ScenarioProgressStepStatus, type ScenarioProgress, type ScenarioProgressStep, type Session } from '$lib/types/Session';
-import type { ToastSettings } from '@skeletonlabs/skeleton';
+import type { QuestionValidation, Scenario, Step } from '$lib/types/Scenarios';
+import {
+	ScenarioProgressStepStatus,
+	type ScenarioProgress,
+	type ScenarioProgressStep,
+	type Session
+} from '$lib/types/Session';
+import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
 
 export abstract class ScenariosService {
-	public static getScenarios = async (toastStore: any) => {
+	public static getScenarios = async (toastStore: ToastStore) => {
 		resellerScenariosListLoadingStore.set(true);
 		const capabilities = get(resellerSessionStore).session?.capabilities;
 		const response = await fetch(`/api/reseller/scenarios`, {
@@ -62,7 +68,7 @@ export abstract class ScenariosService {
 		resellerScenariosListLoadingStore.set(false);
 	};
 
-	public static getScenario = async (id: string, toastStore: any) => {
+	public static getScenario = async (id: string, toastStore: ToastStore) => {
 		resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: true, scenario: null }));
 		resellerScenarioAnswersStore.update(() => []);
 
@@ -96,17 +102,7 @@ export abstract class ScenariosService {
 			).find((s) => s.id === step.id);
 			return {
 				...step,
-				status: progressStep?.status || ScenarioProgressStepStatus.PENDING_VALIDATION,
-				questions: step.questions.map((q) => {
-					return {
-						...q,
-						validation: {
-							isValid: false,
-							data: [],
-							errors: []
-						}
-					};
-				})
+				status: progressStep?.status || ScenarioProgressStepStatus.PENDING_VALIDATION
 			};
 		});
 
@@ -141,7 +137,7 @@ export abstract class ScenariosService {
 	public static getStepsHistory = async (
 		sessionId: string,
 		scenarioId: string,
-		toastStore: any
+		toastStore: ToastStore
 	) => {
 		resellerScenarioValidationResultStore.update((s) => ({ ...s, isLoading: true }));
 
@@ -166,7 +162,7 @@ export abstract class ScenariosService {
 		}
 
 		const stepsHistory = await response.json();
-
+		// eslint-disable-next-line
 		const results = stepsHistory.map((step: any) => {
 			return {
 				...step.validationResult,
@@ -184,12 +180,40 @@ export abstract class ScenariosService {
 		sessionId: string,
 		scenarioId: string,
 		stepId: string,
-		toastStore: any
+		toastStore: ToastStore
 	) => {
+		resellerScenarioQuestionsValidationStore.set({ isLoading: true, questions: [] });
 
-		const body = {
-			test: 'test'
+		const data = get(resellerScenarioAnswersStore)
+			.map((a) => {
+				if (a.answer === '') {
+					return;
+				}
+				return a;
+			})
+			.flatMap((a) => (a ? a : []));
+
+		if (data.length !== get(resellerScenarioAnswersStore).length) {
+			const t: ToastSettings = {
+				message: `Please fill all the questions`,
+				background: 'variant-filled-warning'
+			};
+			toastStore.trigger(t);
+
+			resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, isLoading: false }));
+
+			return;
 		}
+
+		console.log(data);
+		const body = {
+			answers: data.map((a) => {
+				return {
+					questionId: a.questionId,
+					value: a.answer
+				};
+			})
+		};
 
 		const response = await fetch(
 			`/api/reseller/questions?id=${sessionId}&scenario-id=${scenarioId}&step-id=${stepId}`,
@@ -209,11 +233,32 @@ export abstract class ScenariosService {
 			};
 			toastStore.trigger(t);
 
+			resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, isLoading: false }));
+
 			return;
 		}
 
-		const questionsValidation = await response.json();
-		
+		const questionsValidation = (await response.json()) as QuestionValidation;
 
+		const errors = questionsValidation.errors.map((e) => {
+			return e.path;
+		});
+
+		const warnings = questionsValidation.warnings.map((w) => {
+			return w.path;
+		});
+
+		const questions = questionsValidation.data.map((q) => {
+			const isError = errors.includes(q.questionId);
+			const isWarning = warnings.includes(q.questionId);
+			return {
+				questionId: q.questionId,
+				isValid: !isError && !isWarning,
+				error: questionsValidation.errors.find((e) => e.path === q.questionId)?.message || null,
+				warning: questionsValidation.warnings.find((w) => w.path === q.questionId)?.message || null
+			};
+		});
+
+		resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, isLoading: false, questions }));
 	};
 }

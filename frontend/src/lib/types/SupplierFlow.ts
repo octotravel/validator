@@ -4,6 +4,7 @@ export interface ScenarioResult {
 	validationResult: ValidationResult;
 	request: ScenarioRequest | null;
 	response: ScenarioResponse | null;
+	// eslint-disable-next-line
 	errors: any[]; // validation errors
 	description: string;
 }
@@ -17,6 +18,7 @@ export enum ValidationResult {
 export interface ScenarioRequest {
 	url: string;
 	method: string;
+	// eslint-disable-next-line
 	body: any | null;
 	headers: Record<string, string>;
 }
@@ -25,6 +27,7 @@ export interface ScenarioResponse {
 	body: string | null;
 	status: number | null;
 	error: {
+		// eslint-disable-next-line
 		body: any;
 	} | null;
 	headers: Record<string, string>;

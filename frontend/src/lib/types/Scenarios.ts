@@ -38,7 +38,6 @@ export interface Question {
 	label: string;
 	description: string;
 	input: Input;
-	validation: QuestionValidation;
 }
 
 export interface Input {
@@ -55,12 +54,42 @@ export enum QuestionInputType {
 	BOOLEAN = 'boolean',
 	STRING = 'string',
 	NUMBER = 'number',
-	OPTION = 'option',
-  }
+	OPTION = 'option'
+}
 
 export interface QuestionValidation {
+	data: QuestionData[];
+	errors: Error[];
+	warnings: Error[];
+}
+
+export interface QuestionData {
+	questionId: string;
+	value: string;
+}
+
+export interface Error {
+	type: string;
+	path: string;
+	message: string;
+	data: string;
+}
+
+export interface QuestionValidationResults {
+	isLoading: boolean;
+	questions: QuestionResult[];
+}
+
+export interface QuestionResult {
+	questionId: string;
 	isValid: boolean;
-	data: {questionId: string; value: any}[];
-	errors: {type: string; path: string; message: string; data: any}[];
-	warnings: {type: string; path: string; message: string; data: any}[];
+	error: string | null;
+	warning: string | null;
+}
+
+export enum QuestionValidationStatus {
+	CORRECT = 'correct',
+	INCORRECT = 'incorrect',
+	NOT_VALIDATED = 'not_validated',
+	LOADING = 'loading'
 }

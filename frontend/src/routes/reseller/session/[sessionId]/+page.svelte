@@ -12,6 +12,7 @@
 	onMount(() => {
 		const socket = Socketio.openSocket(data.session.id);
 
+		// eslint-disable-next-line
 		socket.on('validationResult', (validationResult: any) => {
 			$resellerScenarioValidationResultStore.results = [
 				...$resellerScenarioValidationResultStore.results,

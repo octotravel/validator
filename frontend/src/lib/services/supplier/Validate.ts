@@ -1,8 +1,11 @@
 import type { SupplierValidationRequestData } from '$lib/types/SupplierFlow';
 import { supplierFlowResultStore } from '$lib/stores';
-import type { ToastSettings } from '@skeletonlabs/skeleton';
+import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
 
-export const supplierValidate = async (data: SupplierValidationRequestData, toastStore: any) => {
+export const supplierValidate = async (
+	data: SupplierValidationRequestData,
+	toastStore: ToastStore
+) => {
 	supplierFlowResultStore.set({ flows: [], isLoading: true, error: null });
 
 	const response = await fetch(`/api/supplier`, {

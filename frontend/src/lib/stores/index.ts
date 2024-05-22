@@ -1,5 +1,6 @@
 import type { CapabilitiesStore } from '$lib/types/Capabilities';
-import type { ScenarioProgress, ScenarioStore, SessionStore } from '$lib/types/Session';
+import type { QuestionValidationResults } from '$lib/types/Scenarios';
+import type { ScenarioStore, SessionStore } from '$lib/types/Session';
 import type { SupplierValidationStore } from '$lib/types/SupplierFlow';
 import type { ValidationResultStore } from '$lib/types/Validation';
 import { writable } from 'svelte/store';
@@ -41,7 +42,13 @@ export const resellerScenariosListLoadingStore = writable<boolean>(false);
 
 interface ResellerScenarioAnswer {
 	questionId: string;
+	// eslint-disable-next-line
 	answer: any;
 }
 
 export const resellerScenarioAnswersStore = writable<ResellerScenarioAnswer[]>([]);
+
+export const resellerScenarioQuestionsValidationStore = writable<QuestionValidationResults>({
+	isLoading: false,
+	questions: []
+});

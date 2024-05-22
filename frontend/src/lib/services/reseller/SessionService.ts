@@ -1,9 +1,9 @@
 import { resellerSessionStore } from '$lib/stores';
-import type { ToastSettings } from '@skeletonlabs/skeleton';
+import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
 
 export abstract class SessionService {
-	public static createSession = async (toastStore: any) => {
+	public static createSession = async (toastStore: ToastStore) => {
 		resellerSessionStore.set({ session: null, isLoading: true, error: null });
 
 		const response = await fetch(`/api/reseller/session`, {
@@ -30,7 +30,7 @@ export abstract class SessionService {
 		resellerSessionStore.set({ session, isLoading: false, error: null });
 	};
 
-	public static findSession = async (id: string, toastStore: any) => {
+	public static findSession = async (id: string, toastStore: ToastStore) => {
 		if (!id) {
 			return;
 		}
@@ -60,7 +60,7 @@ export abstract class SessionService {
 		resellerSessionStore.set({ session, isLoading: false, error: null });
 	};
 
-	public static updateSession = async (toastStore: any) => {
+	public static updateSession = async (toastStore: ToastStore) => {
 		const sessionStore = get(resellerSessionStore);
 		const body = {
 			id: sessionStore.session?.id,

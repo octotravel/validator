@@ -1,5 +1,6 @@
 export interface ValidationResult {
 	isValid: boolean;
+	// eslint-disable-next-line
 	data: Record<string, any>;
 	errors: WebSocketValidationResultItem[];
 	warnings: WebSocketValidationResultItem[];
@@ -10,6 +11,7 @@ export interface ValidationResult {
 export interface WebSocketValidationResultItem {
 	message: string;
 	path: string;
+	// eslint-disable-next-line
 	data: any;
 }
 

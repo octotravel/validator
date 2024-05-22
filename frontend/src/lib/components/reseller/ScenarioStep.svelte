@@ -4,21 +4,24 @@
 	import IconCircleDashed from '$lib/icons/IconCircleDashed.svelte';
 	import IconX from '$lib/icons/IconX.svelte';
 	import {
-	resellerScenarioAnswersStore,
+		resellerScenarioQuestionsValidationStore,
 		resellerScenarioSelectedStore,
 		resellerScenarioValidationResultStore,
 		resellerSessionStore
 	} from '$lib/stores';
 	import { ScenarioProgressStepStatus, type ScenarioProgressStep } from '$lib/types/Session';
 	import type { ResultsStore } from '$lib/types/Validation';
-	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+	import { Accordion, AccordionItem, getToastStore } from '@skeletonlabs/skeleton';
 	import { JsonView } from '@zerodevx/svelte-json-view';
 	import { format } from 'date-fns';
 	import IconSearch from '$lib/icons/IconSearch.svelte';
 	import QuestionsList from './questions/QuestionsList.svelte';
+	import { ScenariosService } from '$lib/services/reseller/ScenarioService';
 
 	export let step: ScenarioProgressStep;
 	export let index: number;
+
+	const toastStore = getToastStore();
 
 	const nextStep = () => {
 		$resellerScenarioSelectedStore.scenario!.steps[index].status =
@@ -28,8 +31,16 @@
 			return;
 		}
 
-		$resellerSessionStore.session!.currentStep =
-			$resellerScenarioSelectedStore.scenario?.steps[index + 1].id ?? '';
+		if ($resellerScenarioSelectedStore.scenario?.steps.length === index + 1) {
+			return;
+		}
+
+		const nextStep = $resellerScenarioSelectedStore.scenario?.steps[index + 1].id;
+		if (nextStep === undefined) {
+			return;
+		}
+
+		$resellerSessionStore.session!.currentStep = nextStep;
 
 		const scenarioIndex = $resellerSessionStore.session?.scenariosProgress.findIndex(
 			(scenario) => scenario.id === $resellerScenarioSelectedStore.scenario?.id
@@ -59,8 +70,9 @@
 
 	$: isOpen = () => {
 		const pendingSteps =
-			$resellerScenarioSelectedStore.scenario?.steps.filter((step) => pendingStatuses.includes(step.status)) ??
-			[];
+			$resellerScenarioSelectedStore.scenario?.steps.filter((step) =>
+				pendingStatuses.includes(step.status)
+			) ?? [];
 		if (pendingSteps?.length > 0) {
 			return pendingSteps[0].id === step.id;
 		}
@@ -69,12 +81,13 @@
 
 	$: isLocked = () => {
 		const pendingSteps =
-			$resellerScenarioSelectedStore.scenario?.steps.filter((step) => pendingStatuses.includes(step.status)) ??
-			[];
+			$resellerScenarioSelectedStore.scenario?.steps.filter((step) =>
+				pendingStatuses.includes(step.status)
+			) ?? [];
 		if (pendingSteps?.length > 0) {
 			return (
-				$resellerScenarioSelectedStore.scenario?.steps.filter(
-					(step) => pendingStatuses.includes(step.status)
+				$resellerScenarioSelectedStore.scenario?.steps.filter((step) =>
+					pendingStatuses.includes(step.status)
 				)[0].id !== step.id && !(step.status === ScenarioProgressStepStatus.COMPLETED)
 			);
 		}
@@ -82,20 +95,33 @@
 	};
 
 	$: isQuestionsValid = () => {
-		const questions = $resellerSessionStore.session?.scenariosProgress.find(
-			(scenario) => scenario.id === $resellerScenarioSelectedStore.scenario?.id
-		)?.steps[index].questions;
+		const questions = $resellerScenarioQuestionsValidationStore.questions;
 
-		const valid = questions?.every((question) => {
-			return question.validation.isValid
-		});
+		if (step.questions.length === 0) {
+			return true;
+		}
 
-		console.log(valid);
+		if (questions.length === 0 || questions.length !== step.questions.length) {
+			return false;
+		}
+
+		const valid = questions.every((question) => question.isValid);
+
 		return valid;
+	};
+
+	const validateQuestions = () => {
+		ScenariosService.postValidateQuestions(
+			$resellerSessionStore.session?.id ?? '',
+			$resellerScenarioSelectedStore.scenario?.id ?? '',
+			step.id,
+			toastStore
+		);
 	};
 
 	$: $resellerScenarioValidationResultStore.results, updateResults();
 </script>
+
 <div class="text-start {isOpen() ? 'border border-primary-500' : 'accordion-border'}">
 	<AccordionItem open={isOpen()} disabled={isLocked()}>
 		<svelte:fragment slot="lead">
@@ -108,11 +134,11 @@
 		<svelte:fragment slot="summary">
 			{step.name}
 			{#if isLocked()}
-			<span class="badge variant-soft-surface text-neutral-500 ms-2">Locked</span>
+				<span class="badge variant-soft-surface text-neutral-500 ms-2">Locked</span>
 			{:else if step.status === ScenarioProgressStepStatus.PENDING_VALIDATION}
-			<span class="badge variant-soft-warning text-neutral-500 ms-2">Pending validation</span>
+				<span class="badge variant-soft-warning text-neutral-500 ms-2">Pending validation</span>
 			{:else if step.status === ScenarioProgressStepStatus.PENDING_QUESTIONS}
-			<span class="badge variant-soft-tertiary text-neutral-500 ms-2">Pending questions</span>
+				<span class="badge variant-soft-tertiary text-neutral-500 ms-2">Pending questions</span>
 			{/if}
 		</svelte:fragment>
 
@@ -227,7 +253,7 @@
 					</div>
 				</div>
 				{#if step.questions.length > 0}
-					{#if isStepValid}
+					{#if isStepValid && step.status !== ScenarioProgressStepStatus.COMPLETED}
 						<div class="col-span-4">
 							<div class="my-auto py-1">
 								<span class="font-semibold">Questions</span>
@@ -236,21 +262,42 @@
 							<div class="grid grid-cols-1">
 								<QuestionsList questions={step.questions} />
 							</div>
-							<div>
-								<button class="btn variant-ghost-tertiary" disabled={!isStepValid}>Validate answers</button>
+							{#if $resellerScenarioQuestionsValidationStore.isLoading}
+								loading
+							{/if}
+						</div>
+						<div class="col-span-3"></div>
+						<div>
+							{#if !isQuestionsValid()}
+								{#if $resellerScenarioQuestionsValidationStore.isLoading}
+									<button class="btn variant-ghost-tertiary w-full" disabled>Validating...</button>
+								{:else}
+									<button
+										class="btn variant-ghost-tertiary w-full"
+										disabled={!isStepValid}
+										on:click={() => validateQuestions()}>Validate answers</button
+									>
+								{/if}
+							{/if}
+						</div>
+					{:else if step.status === ScenarioProgressStepStatus.COMPLETED}
+						<div class="col-span-4">
+							<div class="my-auto py-1">
+								<span class="font-semibold">Questions</span>
+								<span class="badge variant-soft">{step.questions.length}</span>
+							</div>
+							<div class="accordion-border p-2 text-center">
+								<span class="h4"> All questions validated </span>
 							</div>
 						</div>
 					{:else}
-					<div class="col-span-4">
-						<div class="my-auto py-1">
-							<span class="font-semibold">Questions</span>
-							<span class="badge variant-soft">{step.questions.length}</span>
+						<div class="col-span-4">
+							<div class="my-auto py-1">
+								<span class="font-semibold">Questions</span>
+								<span class="badge variant-soft">{step.questions.length}</span>
+							</div>
+							<div>Send valid request first</div>
 						</div>
-						<div>
-							Send valid request first
-						</div>
-
-					</div>
 					{/if}
 				{/if}
 				<div class="col-span-3"></div>
