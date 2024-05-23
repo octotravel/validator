@@ -23,7 +23,7 @@ const env = config.getEnvironment();
 const port = config.APP_PORT;
 
 const httpServer = createServer(app.callback());
-const socketIoServer: socketio.Server = initializeSocketIoServer(httpServer);
+const socketIoServer: socketio.Server | null = initializeSocketIoServer(httpServer);
 const server = httpServer.listen(port, () => {
   consoleLogger.log(`Running app on port ${port} on "${env}" env.`);
 });

@@ -98,8 +98,7 @@ export class SessionService {
         }
       }
 
-      const requestLogScenarioProgress =
-        await this.sessionScenarioProgressProvider.getScenarioProgressFromRequestLog(session);
+      const requestLogScenarioProgress = await this.sessionScenarioProgressProvider.getSessionScenarioProgress(session);
       const currentScenarioProgress = requestLogScenarioProgress.find((scenarioProgress) => {
         return scenarioProgress.id === updateSessionData.currentScenario;
       });

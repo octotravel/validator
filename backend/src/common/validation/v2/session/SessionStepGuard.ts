@@ -6,7 +6,6 @@ import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 import { SessionIsInInvalidState } from './error/SessionIsInInvalidState';
 import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
-
 @singleton()
 export class SessionStepGuard {
   public constructor(
@@ -31,7 +30,12 @@ export class SessionStepGuard {
 
     const scenarioFirstStepId = scenarioSteps.getNodeAt(0)!.value.getId();
     const targetStepId = targetStep.getId();
-    const currentStepId = session.currentStep;
+    const sessionScenarioProgress = await this.sessionScenarioProgressProvider.getSessionScenarioProgress(session);
+    const specificSessionScenarioProgress = sessionScenarioProgress.find(
+      (scenarioProgress) => scenarioProgress.id === scenarioId,
+    )!;
+    const currentStepId =
+      specificSessionScenarioProgress.steps[specificSessionScenarioProgress.steps.length - 1]?.id ?? null;
 
     if (currentStepId === null) {
       if (targetStepIndexInScenario !== 0) {
@@ -48,12 +52,8 @@ export class SessionStepGuard {
         throw new SessionIsInInvalidState(session.id, session.currentScenario, currentStepId);
       }
 
-      const currentScenarioProgress = await this.sessionScenarioProgressProvider.getSessionScenarioProgress(session);
-      const scenarioInCurrentSessionProgress = currentScenarioProgress.find(
-        (scenarioProgress) => scenarioProgress.id === scenarioId,
-      );
       const isStepInCurrentScenarioProgress =
-        scenarioInCurrentSessionProgress?.steps.some((stepProgress) => stepProgress.id === targetStepId) ?? false;
+        specificSessionScenarioProgress?.steps.some((stepProgress) => stepProgress.id === targetStepId) ?? false;
 
       const currentStepIndexInScenario = scenarioSteps.indexOf(currentStep);
 

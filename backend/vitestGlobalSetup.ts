@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import 'dotenv/config';
 import { container } from './src/common/di/container';
 import { LoggerFactory } from './src/common/logger/LoggerFactory';
 import { Migrator } from './src/common/database/Migrator';

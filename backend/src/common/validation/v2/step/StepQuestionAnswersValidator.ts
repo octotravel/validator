@@ -19,7 +19,7 @@ export class StepQuestionAnswersValidator implements Validator {
           const validationResult = new ValidationResult([]);
 
           if (questionAnswer === undefined) {
-            validationResult.addWarning(
+            validationResult.addError(
               new ValidationFailure(ValidationFailureType.WARNING, question.id, 'Missing answer for question', ''),
             );
           } else {

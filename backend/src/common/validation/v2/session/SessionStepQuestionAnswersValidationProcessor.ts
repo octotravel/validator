@@ -10,7 +10,7 @@ import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepN
 import { QuestionAnswer } from '../question/Question';
 
 @singleton()
-export class SessionStepQuestionAnswerProcessor {
+export class SessionStepQuestionAnswersValidationProcessor {
   public constructor(
     @inject(SessionService) private readonly sessionService: SessionService,
     @inject(ScenarioService) private readonly scenarioService: ScenarioService,

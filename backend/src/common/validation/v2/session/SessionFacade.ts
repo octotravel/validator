@@ -4,11 +4,10 @@ import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionDa
 import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 import { ScenarioId } from '../scenario/ScenarioId';
 import { RequestLogRepository } from '../../../requestLog/RequestLogRepository';
-import { SessionStepQuestionAnswerProcessor } from './SessionStepQuestionAnswersProcessor';
+import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
 import { StepId } from '../step/StepId';
 import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
-import { RequestLogService } from '../../../requestLog/RequestLogService';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
 @singleton()
@@ -17,8 +16,8 @@ export class SessionFacade {
     @inject(SessionService) private readonly sessionService: SessionService,
     @inject(SessionScenarioProgressProvider)
     private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
-    @inject(SessionStepQuestionAnswerProcessor)
-    private readonly sessionStepQuestionAnswerProcessor: SessionStepQuestionAnswerProcessor,
+    @inject(SessionStepQuestionAnswersValidationProcessor)
+    private readonly sessionStepQuestionAnswersValidatitonProcessor: SessionStepQuestionAnswersValidationProcessor,
     @inject('RequestLogRepository') private readonly requestLogRepository: RequestLogRepository,
   ) {}
 
@@ -75,7 +74,7 @@ export class SessionFacade {
       throw SessionScenarioStepNotAllowedError.createForInvalidStep(scenarioId, stepId);
     }
 
-    const validationResult = await this.sessionStepQuestionAnswerProcessor.process(
+    const validationResult = await this.sessionStepQuestionAnswersValidatitonProcessor.process(
       sessionId,
       scenarioId,
       stepId,

@@ -10,24 +10,16 @@ export class SessionResponse {
     public readonly name: string,
     public readonly capabilities: CapabilityId[] | null,
     public readonly currentScenario: string | null,
-    public readonly currentStep: string | null,
     public readonly scenariosProgress: SessionScenarioProgress[] | undefined = undefined,
   ) {
     this.url = `${config.BASE_URL}/session/${id}`;
   }
 
   public static create(session: Session): SessionResponse {
-    return new this(session.id, session.name, session.capabilities, session.currentScenario, session.currentStep);
+    return new this(session.id, session.name, session.capabilities, session.currentScenario);
   }
 
   public static createWithProgress(session: SessionWithProgress): SessionResponse {
-    return new this(
-      session.id,
-      session.name,
-      session.capabilities,
-      session.currentScenario,
-      session.currentStep,
-      session.scenariosProgress,
-    );
+    return new this(session.id, session.name, session.capabilities, session.currentScenario, session.scenariosProgress);
   }
 }

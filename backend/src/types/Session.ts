@@ -8,7 +8,6 @@ export interface Session {
   name: string;
   capabilities: CapabilityId[] | null;
   currentScenario: ScenarioId | null;
-  currentStep: StepId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -18,7 +17,6 @@ export interface SessionWithProgress {
   name: string;
   capabilities: CapabilityId[] | null;
   currentScenario: ScenarioId | null;
-  currentStep: StepId | null;
   scenariosProgress: SessionScenarioProgress[];
   createdAt: Date;
   updatedAt: Date;

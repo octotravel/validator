@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { container } from './src/common/di/container';
 import { Database } from './src/common/database/Database';
 

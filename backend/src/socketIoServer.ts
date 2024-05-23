@@ -8,7 +8,7 @@ import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
 import { InjectionToken } from 'tsyringe';
 
-export function initializeSocketIoServer(httpServer: Server): socketio.Server {
+export function initializeSocketIoServer(httpServer: Server): socketio.Server | null {
   const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
   const consoleLogger = consoleLoggerFactory.create('socketIoServer');
   const options: Partial<socketio.ServerOptions> = { cors: { origin: '*' } };

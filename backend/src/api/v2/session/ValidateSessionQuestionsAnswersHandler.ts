@@ -8,10 +8,14 @@ import { ValidationError } from 'yup';
 import { SchemaValidator } from '../../util/SchemaValidator';
 import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
 import { BodyParser } from '../../util/BodyParser';
-import { SessionAnswerQuestionsSchema, sessionAnswerQuestionsSchema } from './SessionAnswerQuestionsSchema';
+import {
+  ValidateSessionQuestionAnswersSchema,
+  validateSessionQuestionAnswersSchema,
+} from './ValidateSessionQuestionAnswersSchema';
+import { ValidateSessionQuestionsAnswersResponse } from './ValidateSessionQuestionsAnswersResponse';
 
 @singleton()
-export class SessionAnswerQuestionsHandler implements RequestHandler {
+export class ValidateSessionQuestionsAnswersHandler implements RequestHandler {
   public constructor(
     @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
     @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
@@ -29,8 +33,8 @@ export class SessionAnswerQuestionsHandler implements RequestHandler {
     };
 
     try {
-      const validatedSchema = await SchemaValidator.validateSchema<SessionAnswerQuestionsSchema>(
-        sessionAnswerQuestionsSchema,
+      const validatedSchema = await SchemaValidator.validateSchema<ValidateSessionQuestionAnswersSchema>(
+        validateSessionQuestionAnswersSchema,
         requestPayload,
       );
       const validationResult = await this.sessionFacade.validateQuestionAnswers(
@@ -39,8 +43,14 @@ export class SessionAnswerQuestionsHandler implements RequestHandler {
         validatedSchema.stepId,
         validatedSchema.answers,
       );
+      const validationResponsee = {
+        data: validationResult.getData(),
+        errors: validationResult.getErrors(),
+        warnings: validationResult.getWarnings(),
+        isValid: validationResult.isValid(),
+      } as ValidateSessionQuestionsAnswersResponse;
 
-      return this.jsonResponseFactory.create(validationResult);
+      return this.jsonResponseFactory.create(validationResponsee);
     } catch (e: any) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);

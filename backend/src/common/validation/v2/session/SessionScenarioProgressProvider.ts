@@ -13,81 +13,29 @@ export class SessionScenarioProgressProvider {
   ) {}
 
   public async getSessionScenarioProgress(session: Session): Promise<SessionScenarioProgress[]> {
-    const requestLogScenarioProgress = await this.getScenarioProgressFromRequestLog(session);
-    const sessionScenarioProgress = await this.getScenarioProgressFromSession(session);
-    const scenarioProgress = requestLogScenarioProgress;
-
-    const isSessionScenarioIncluded = scenarioProgress.find(
-      (scenarioProgress) => scenarioProgress.id === session.currentScenario,
-    );
-
-    if (!isSessionScenarioIncluded && sessionScenarioProgress !== null) {
-      scenarioProgress.push(sessionScenarioProgress);
-    }
-
-    return scenarioProgress;
-  }
-
-  public async getScenarioProgressFromSession(session: Session): Promise<SessionScenarioProgress | null> {
-    if (session.currentScenario === null) {
-      return null;
-    }
-
-    const sessionScenarioProgress: SessionScenarioProgress = {
-      id: session.currentScenario,
-      steps: [],
-    };
-
-    const scenario = await this.scenarioService.getResellerScenarioById(session.currentScenario);
-    const scenarioSteps = scenario.getSteps();
-    const step = scenarioSteps.find((step) => step.getId() === session.currentStep);
-    const scenarioFirstStep = scenarioSteps.getNodeAt(0)!.value;
-
-    if (step === undefined || scenarioFirstStep.getId() === session.currentStep) {
-      sessionScenarioProgress.steps.push({
-        id: scenarioFirstStep.getId(),
-        status: SessionScenarioProgressStepStatus.PENDING_VALIDATION,
-      });
-    } else {
-      let scenarioStepNode = scenarioSteps.getNode(step);
-      const nextScenarioStepNode = scenarioStepNode?.next;
-
-      while (scenarioStepNode !== undefined) {
-        const scenarioStep = scenarioStepNode.value;
-        const scenarioStepId = scenarioStep.getId();
-        sessionScenarioProgress.steps.unshift({
-          id: scenarioStepId,
-          status: SessionScenarioProgressStepStatus.COMPLETED,
-        });
-
-        scenarioStepNode = scenarioStepNode.prev;
-      }
-
-      if (nextScenarioStepNode !== undefined) {
-        const scenarioStep = nextScenarioStepNode.value;
-
-        sessionScenarioProgress.steps.push({
-          id: scenarioStep.getId(),
-          status: SessionScenarioProgressStepStatus.PENDING_VALIDATION,
-        });
-      }
-    }
-
-    return sessionScenarioProgress;
-  }
-
-  public async getScenarioProgressFromRequestLog(session: Session): Promise<SessionScenarioProgress[]> {
     const requestLogs = await this.requestLogRepository.getAllForProgress(session.id);
-    let scenarioProgress = await this.convertRequestLogsToScenarioProgress(requestLogs);
+    let scenarioProgress = await this.convertRequestLogsToScenarioProgress(session.currentScenario, requestLogs);
     scenarioProgress = await this.orderAndCorrectScenarioProgress(scenarioProgress);
 
     return scenarioProgress;
   }
 
   private async convertRequestLogsToScenarioProgress(
+    currentScenarioId: ScenarioId | null,
     requestLogProgress: RequestLogProgress[],
   ): Promise<SessionScenarioProgress[]> {
     const scenariosProgress: Record<string, SessionScenarioProgress> = {};
+
+    if (currentScenarioId !== null && requestLogProgress.length === 0) {
+      const scenario = await this.scenarioService.getResellerScenarioById(currentScenarioId);
+      const scenarioSteps = scenario.getSteps();
+      const firstStepId = scenarioSteps.getNodeAt(0)!.value.getId();
+      scenariosProgress[currentScenarioId] = {
+        id: currentScenarioId,
+        steps: [{ id: firstStepId, status: SessionScenarioProgressStepStatus.PENDING_VALIDATION }],
+      };
+      return Object.values(scenariosProgress);
+    }
 
     for (const requestLogProgressItem of requestLogProgress) {
       const { scenarioId, stepId, isValid, hasCorrectlyAnsweredQuestions } = requestLogProgressItem;
@@ -139,6 +87,7 @@ export class SessionScenarioProgressProvider {
       const nextScenarioStepNode = latestScenarioStepNode?.next;
 
       if (
+        latestScenarioStepProgress.status !== SessionScenarioProgressStepStatus.PENDING_VALIDATION &&
         latestScenarioStepProgress.status !== SessionScenarioProgressStepStatus.PENDING_QUESTIONS &&
         nextScenarioStepNode !== undefined
       ) {

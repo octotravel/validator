@@ -12,13 +12,13 @@ export class RequestLoggerMiddleware {
   ) {}
 
   public async invoke(response: Response, request: IRequest): Promise<void> {
-    const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
-    requestScopedContext.setResponse(response);
-
     // TODO handle differently?
-    if (!response.ok) {
+    if (!response || !response.ok) {
       return;
     }
+
+    const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
+    requestScopedContext.setResponse(response);
 
     const requestLog = await RequestLogFactory.createFromContext(requestScopedContext);
     await this.requestLogService.logRequest(requestLog);

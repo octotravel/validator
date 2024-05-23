@@ -44,6 +44,7 @@ import { PostgresRequestLogRepository } from '../requestLog/PostgresRequestLogRe
 import { RequestLogService } from '../requestLog/RequestLogService';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 import { LoggerFactory } from '../logger/LoggerFactory';
+import { DummySocketIo } from '../socketio/DummySocketIo';
 
 export const container = tsyringeContainer.createChildContainer();
 
@@ -76,7 +77,11 @@ container.registerSingleton<RequestLogRepository>('RequestLogRepository', Postgr
 container.registerSingleton(RequestLogService);
 
 // WebSocket
-container.registerSingleton<WebSocket>('WebSocket', SocketIo);
+if (config.NODE_ENV === 'test') {
+  container.registerSingleton<WebSocket>('WebSocket', DummySocketIo);
+} else {
+  container.registerSingleton<WebSocket>('WebSocket', SocketIo);
+}
 
 // Session
 container.registerSingleton(SessionScenarioProgressProvider);

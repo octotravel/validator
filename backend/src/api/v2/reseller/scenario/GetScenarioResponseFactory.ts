@@ -10,8 +10,8 @@ export class GetScenarioResponseFactory {
         name: step.getName(),
         description: step.getDescription(),
         questions: step.getQuestions().map((question) => {
-          const { answer, ...questitonWithoutAnswer } = question;
-          return questitonWithoutAnswer;
+          const { answer, ...questionWithoutAnswer } = question;
+          return questionWithoutAnswer;
         }),
         endpointMethod: step.getEndpointMethod(),
         endpointUrl: step.getEndpointUrl(),

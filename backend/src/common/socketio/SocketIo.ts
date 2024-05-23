@@ -10,6 +10,7 @@ import { StepId } from '../validation/v2/step/StepId';
 import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
 import { Session } from '../../types/Session';
 import { Step } from '../validation/v2/step/Step';
+import config from '../config/config';
 
 export interface ServerToClientEvents {
   validationResult(validationResult: ValidationResult): Promise<void>;
