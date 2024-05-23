@@ -59,7 +59,6 @@ export interface SessionData {
   name: string;
   capabilities: CapabilityId[] | null;
   currentScenario: ScenarioId | null;
-  currentStep: StepId | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -69,7 +68,6 @@ export interface SessionRowData {
   name: string;
   capabilities: string | null;
   current_scenario: string | null;
-  current_step: string | null;
   created_at: Date;
   updated_at: Date;
 }

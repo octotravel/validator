@@ -30,9 +30,5 @@ export class SessionStepValidationProcessor {
     );
     requestScopedContext.setValidationResult(validationResult);
     this.webSocket.sendValidationResult(session, step, validationResult);
-
-    if (validationResult.isValid() && step.getQuestions().length === 0) {
-      await this.sessionService.updateSessionStep(session.id, step.getId());
-    }
   }
 }

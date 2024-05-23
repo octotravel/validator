@@ -35,15 +35,6 @@ export class SessionStepQuestionAnswersValidationProcessor {
     await this.sessionStepGuard.check(session, step);
     const validationResult = await this.stepQuestionAnswersValidator.validate(step, answers);
 
-    if (validationResult.isValid()) {
-      const currentStepNode = scenario.getSteps().getNode(step);
-      const nextStepNode = currentStepNode?.next ?? null;
-
-      if (nextStepNode !== null) {
-        await this.sessionService.updateSessionStep(session.id, nextStepNode.value.getId());
-      }
-    }
-
     return validationResult;
   }
 }

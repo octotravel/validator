@@ -27,7 +27,6 @@ export class PostgresSessionRepository implements SessionRepository {
       name: sessionRowData.name,
       capabilities: JSON.parse(JSON.stringify(sessionRowData.capabilities)) as CapabilityId[],
       currentScenario: sessionRowData.current_scenario as ScenarioId,
-      currentStep: sessionRowData.current_step as StepId,
       createdAt: sessionRowData.created_at,
       updatedAt: sessionRowData.updated_at,
     };
@@ -42,7 +41,6 @@ export class PostgresSessionRepository implements SessionRepository {
       name,
       capabilities,
       current_scenario,
-      current_step,
       created_at,
       updated_at
     ) VALUES(
@@ -50,7 +48,6 @@ export class PostgresSessionRepository implements SessionRepository {
       :name,
       :capabilities,
       :current_scenario,
-      :current_step,
       :created_at,
       :updated_at
     )
@@ -61,7 +58,6 @@ export class PostgresSessionRepository implements SessionRepository {
       name: sessionData.name,
       capabilities: JSON.stringify(sessionData.capabilities),
       current_scenario: sessionData.currentScenario,
-      current_step: sessionData.currentStep,
       created_at: sessionData.createdAt,
       updated_at: sessionData.updatedAt,
     };
@@ -81,7 +77,6 @@ export class PostgresSessionRepository implements SessionRepository {
       name = :name,
       capabilities = :capabilities,
       current_scenario = :current_scenario,
-      current_step = :current_step,
       created_at = :created_at,
       updated_at = :updated_at
     WHERE 
@@ -93,7 +88,6 @@ export class PostgresSessionRepository implements SessionRepository {
       name: sessionData.name,
       capabilities: JSON.stringify(sessionData.capabilities),
       current_scenario: sessionData.currentScenario,
-      current_step: sessionData.currentStep,
       created_at: sessionData.createdAt,
       updated_at: sessionData.updatedAt,
     };

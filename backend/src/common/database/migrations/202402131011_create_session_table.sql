@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS "session"
 	name VARCHAR(128) NOT NULL,
 	capabilities JSON NOT NULL,
 	current_scenario VARCHAR(128) NULL,
-	current_step VARCHAR(128) NULL,
 	created_at TIMESTAMP NOT NULL,
 	updated_at TIMESTAMP NOT NULL,
 	CONSTRAINT pk_session PRIMARY KEY (id)
