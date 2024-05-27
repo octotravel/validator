@@ -16,6 +16,15 @@ pre-commit:
     #gitLeaks:
       #root: "backend/"
       #run: npm run gitleaks
+    frontend-lint:
+      root: "frontend/"
+      run: npm run lint:fix
+    frontend-format:
+      root: "frontend/"
+      run: npm run format
+    frontend-svelte-check:
+      root: "frontend/"
+      run: npm run check:svelte
 
 pre-push:
   parallel: true
