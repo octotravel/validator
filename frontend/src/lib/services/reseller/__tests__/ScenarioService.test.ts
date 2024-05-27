@@ -13,7 +13,7 @@ describe('ScenariosService', async () => {
 		docsUrl: 'http://localhost:3000',
 		status: ScenarioProgressStepStatus.PENDING_VALIDATION,
 		questions: [],
-		endpointMethod: 'GET',
+		endpointMethod: 'GET'
 	};
 	beforeEach(() => {
 		resellerSessionStore.set({
@@ -56,6 +56,7 @@ describe('ScenariosService', async () => {
 			.fn()
 			.mockReturnValueOnce(new Response(JSON.stringify(mockScenarios), { status: 200 }));
 
+		// eslint-disable-next-line
 		await ScenariosService.getScenarios({} as any);
 
 		expect(get(resellerSessionStore).session?.scenariosProgress).toEqual(mockScenarios);
@@ -66,7 +67,8 @@ describe('ScenariosService', async () => {
 	it('should fail to fetch scenarios', async () => {
 		global.fetch = vi.fn().mockReturnValueOnce(new Response(null, { status: 500 }));
 
-		await ScenariosService.getScenarios({ trigger: () => {}} as any);
+		// eslint-disable-next-line
+		await ScenariosService.getScenarios({ trigger: () => {} } as any);
 
 		expect(get(resellerSessionStore).error).toBe('Failed to fetch scenarios');
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);
