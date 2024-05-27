@@ -11,7 +11,9 @@ describe('ScenariosService', async () => {
 		description: 'Description 1',
 		endpointUrl: 'http://localhost:3000',
 		docsUrl: 'http://localhost:3000',
-		status: ScenarioProgressStepStatus.PENDING_VALIDATION
+		status: ScenarioProgressStepStatus.PENDING_VALIDATION,
+		questions: [],
+		endpointMethod: 'GET',
 	};
 	beforeEach(() => {
 		resellerSessionStore.set({
@@ -20,7 +22,6 @@ describe('ScenariosService', async () => {
 				name: 'Session 1',
 				capabilities: [],
 				currentScenario: null,
-				currentStep: null,
 				scenariosProgress: [
 					{
 						id: 'scenario1',
@@ -55,7 +56,7 @@ describe('ScenariosService', async () => {
 			.fn()
 			.mockReturnValueOnce(new Response(JSON.stringify(mockScenarios), { status: 200 }));
 
-		await ScenariosService.getScenarios({});
+		await ScenariosService.getScenarios({} as any);
 
 		expect(get(resellerSessionStore).session?.scenariosProgress).toEqual(mockScenarios);
 		expect(get(resellerSessionStore).isLoading).toBe(false);
@@ -65,7 +66,7 @@ describe('ScenariosService', async () => {
 	it('should fail to fetch scenarios', async () => {
 		global.fetch = vi.fn().mockReturnValueOnce(new Response(null, { status: 500 }));
 
-		await ScenariosService.getScenarios({ trigger: () => {} });
+		await ScenariosService.getScenarios({ trigger: () => {}} as any);
 
 		expect(get(resellerSessionStore).error).toBe('Failed to fetch scenarios');
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);

@@ -40,8 +40,6 @@
 			return;
 		}
 
-		$resellerSessionStore.session!.currentStep = nextStep;
-
 		const scenarioIndex = $resellerSessionStore.session?.scenariosProgress.findIndex(
 			(scenario) => scenario.id === $resellerScenarioSelectedStore.scenario?.id
 		);

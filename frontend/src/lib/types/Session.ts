@@ -6,7 +6,6 @@ export interface Session {
 	name: string;
 	capabilities: CapabilityId[] | null;
 	currentScenario: string | null;
-	currentStep: string | null;
 	scenariosProgress: ScenarioProgress[];
 	url: string;
 }
@@ -16,7 +15,6 @@ export interface UpdateSessionData {
 	name?: string;
 	capabilities?: CapabilityId[];
 	currentScenario?: string | null;
-	currentStep?: string | null;
 }
 
 export interface SessionStore {

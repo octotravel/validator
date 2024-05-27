@@ -69,16 +69,6 @@
 								<td class="text-center text-slate-500">-</td>
 							{/if}
 						</tr>
-						<tr>
-							<td class="font-bold">
-								<span class="badge variant-soft-primary"> Current step </span>
-							</td>
-							{#if $resellerSessionStore.session.currentStep}
-								<td class="text-center">{$resellerSessionStore.session.currentStep}</td>
-							{:else}
-								<td class="text-center text-slate-500">-</td>
-							{/if}
-						</tr>
 					</tbody>
 				</table>
 			</div>
