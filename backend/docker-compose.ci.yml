@@ -1,0 +1,16 @@
+services:
+  postgres:
+    container_name: octo_validator_postgres
+    build:
+      context: ./ops/docker/postgres
+      dockerfile: ci/Dockerfile
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - TZ=Europe/Prague
+      - PGTZ=Europe/Prague
+    volumes:
+      - ./ops/docker/postgres/common/data:/var/lib/postgresql/data:delegated
