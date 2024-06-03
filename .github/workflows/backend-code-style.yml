@@ -165,6 +165,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Create .env file
+        shell: bash
+        run: |
+          mv .env.ci .env
+
+      - name: Setup postgres
+        run: docker compose -f docker-compose.ci.yml up -d
+
       - name: Setup node
         uses: actions/setup-node@v3
         with:
