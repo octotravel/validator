@@ -10,7 +10,7 @@ services:
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - TZ=Europe/Prague
-      - PGTZ=Europe/Prague
+      - TZ=${TZ}
+      - PGTZ=${TZ}
     volumes:
       - ./ops/docker/postgres/common/data:/var/lib/postgresql/data:delegated

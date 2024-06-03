@@ -66,6 +66,9 @@
     "yesql": "6.1.0",
     "yup": "0.32.11"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.18.0"
+  },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",
     "@octocloud/generators": "1.0.6",
