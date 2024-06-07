@@ -12,6 +12,15 @@ up: ## Brings Docker stack up
 down: ## Brings Docker stack down
 	docker compose down --remove-orphans
 
+build-ci: ## Builds ci docker stack
+	docker compose -f docker-compose.ci.yml build
+
+up-ci: ## Brings ci docker stack up
+	docker compose -f docker-compose.ci.yml up -d
+
+down-ci: ## Brings ci docker stack down
+	docker compose -f docker-compose.ci.yml down
+
 node-sh: ## Opens shell inside running node container
 	docker exec -it octo_validator_backend sh
 

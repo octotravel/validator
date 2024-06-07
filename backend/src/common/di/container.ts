@@ -14,7 +14,7 @@ import { GetDocsHandler } from '../../api/v2/docs/GetDocsHandler';
 import { UpdateSessionHandler } from '../../api/v2/session/UpdateSessionHandler';
 import { GetSessionHandler } from '../../api/v2/session/GetSessionHandler';
 import { BackendContainer } from '@octocloud/backend';
-import { Backend, BaseConfig } from '@octocloud/core';
+import { Backend, BaseConfig, Environment } from '@octocloud/core';
 import config from '../config/config';
 import { V1Router } from '../../api/v1/V1Router';
 import { V2Router } from '../../api/v2/V2Router';
@@ -77,7 +77,7 @@ container.registerSingleton<RequestLogRepository>('RequestLogRepository', Postgr
 container.registerSingleton(RequestLogService);
 
 // WebSocket
-if (config.NODE_ENV === 'test') {
+if (config.getEnvironment() === Environment.TEST) {
   container.registerSingleton<WebSocket>('WebSocket', DummySocketIo);
 } else {
   container.registerSingleton<WebSocket>('WebSocket', SocketIo);
