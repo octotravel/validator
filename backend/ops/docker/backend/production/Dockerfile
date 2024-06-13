@@ -14,4 +14,4 @@ ARG NODE_ENV
 COPY . /app/
 RUN npm run esbuild
 
-CMD ["/bin/sh", "-c", "ansible-vault decrypt .env.prod --output=.env --vault-password-file=/secrets/.ansible-password && node --max-old-space-size=6144 /app/dist/server.js"]
+CMD ["/bin/sh", "-c", "node --max-old-space-size=6144 /app/dist/server.js"]
