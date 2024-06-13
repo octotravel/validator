@@ -73,7 +73,7 @@ export type Env = EnvType<typeof schema> & {
   getEnvironment(): Environment;
 };
 
-const config: Env = load(schema) as Env;
+const config: Env = load(schema, process.env.ENV_FILE_PATH ?? '.env') as Env;
 config.getEnvironment = (): Environment => {
   return process.env.NODE_ENV as Environment;
 };

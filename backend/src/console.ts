@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import 'reflect-metadata';
 import { LoggerFactory } from './common/logger/LoggerFactory';
 import { Command } from './console/command/Command';

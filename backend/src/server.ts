@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import 'reflect-metadata';
 import gracefulShutdown from 'http-graceful-shutdown';
 import { Environment } from '@octocloud/core';

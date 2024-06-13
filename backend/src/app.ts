@@ -1,7 +1,5 @@
-import 'dotenv/config';
 import 'reflect-metadata';
 import Koa, { Context } from 'koa';
-import cors from '@koa/cors';
 import * as Sentry from '@sentry/node';
 
 import { ExceptionLogger } from './common/logger/ExceptionLogger';
