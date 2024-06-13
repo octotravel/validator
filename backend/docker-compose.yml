@@ -1,0 +1,57 @@
+services:
+  backend:
+    container_name: octo_validator_backend
+    build:
+      context: .
+      dockerfile: ./ops/docker/backend/local/Dockerfile
+    volumes:
+      - ./:/var/www/backend:cached
+      - octo_validator_backend_node_modules:/var/www/backend/node_modules:delegated
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  postgres:
+    container_name: octo_validator_postgres
+    build:
+      context: ./ops/docker/postgres
+      dockerfile: local/Dockerfile
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - PGPORT=${DB_PORT}
+      - TZ=${TZ}
+      - PGTZ=${TZ}
+    volumes:
+      - ./ops/docker/postgres/common/data:/var/lib/postgresql/data:delegated
+
+  adminer:
+    container_name: octo_validator_adminer
+    build:
+      context: ./ops/docker/adminer
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '19999:19999'
+    environment:
+      - ADMINER_DRIVER=pgsql
+      - ADMINER_SERVER=postgres:${DB_PORT}
+      - ADMINER_DB=${DB_NAME}
+      - ADMINER_PASSWORD=${DB_PASSWORD}
+      - ADMINER_USERNAME=${DB_USER}
+      - ADMINER_AUTOLOGIN=1
+
+volumes:
+  octo_validator_backend_node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: '${PWD}/node_modules'

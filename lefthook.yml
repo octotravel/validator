@@ -1,0 +1,36 @@
+pre-commit:
+  parallel: true
+  commands:
+    backend-lint:
+      root: "backend/"
+      run: npm run lint:fix
+    backend-format:
+      root: "backend/"
+      run: npm run format:staged
+    backend-package-format:
+      root: "backend/"
+      run: npm run format:package
+    backend-type-check:
+      root: "backend/"
+      run: npm run typecheck
+    #gitLeaks:
+      #root: "backend/"
+      #run: npm run gitleaks
+    frontend-lint:
+      root: "frontend/"
+      run: npm run lint:fix
+    frontend-format:
+      root: "frontend/"
+      run: npm run format
+    frontend-svelte-check:
+      root: "frontend/"
+      run: npm run check:svelte
+
+# Disabled due to bug in vitest
+#pre-push:
+#  parallel: true
+#  commands:
+#    backend-packages-audit:
+#      root: "backend/"
+#      tags: backend security
+#      run: npm audit
