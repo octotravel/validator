@@ -23,18 +23,18 @@
 
 		<div class="grid grid-cols-1 gap-4 text-center p-2">
 			<div class="flex justify-between gap-1">
-				<div class="badge variant-soft-primary w-24">Id</div>
+				<div class="badge variant-soft-primary w-28">Id</div>
 				<button
-					class="badge cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900"
+					class="badge cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900 overflow-x-auto"
 					on:click={() => copyToClipboard()}>{$resellerSessionStore.session.id}</button
 				>
 			</div>
 			<div class="flex justify-between gap-1">
-				<div class="badge variant-soft-primary w-24">Name</div>
-				<div class="badge mx-auto">{$resellerSessionStore.session.name}</div>
+				<div class="badge variant-soft-primary w-28">Name</div>
+				<div class="badge mx-auto overflow-x-auto">{$resellerSessionStore.session.name}</div>
 			</div>
 			<div class="flex justify-between gap-1">
-				<div class="badge variant-soft-primary max-w-24 min-w-24">Capabilities</div>
+				<div class="badge variant-soft-primary w-28">Capabilities</div>
 				<div class="badge overflow-x-auto w-full">
 					{$resellerSessionStore.session.capabilities?.join(', ')}
 				</div>
