@@ -158,7 +158,7 @@
 					<div class="label">
 						<span class="font-semibold">URL</span>
 						<div class="p-2 square border w-full text-neutral-500 accordion-border">
-							<span class="badge variant-soft-surface">GET</span>
+							<span class="badge variant-soft-surface">{step.endpointMethod}</span>
 							<span>
 								{PUBLIC_VALIDATOR_BASE_URL}/v2/reseller/octo{step.endpointUrl}
 							</span>
