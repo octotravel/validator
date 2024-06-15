@@ -52,3 +52,5 @@ export const resellerScenarioQuestionsValidationStore = writable<QuestionValidat
 	isLoading: false,
 	questions: []
 });
+
+export const resellerSessionSetupStepIndex = writable<number>(0);

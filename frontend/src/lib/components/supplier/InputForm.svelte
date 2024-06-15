@@ -47,7 +47,7 @@
 		</div>
 	</section>
 	<footer class="card-footer">
-		<button type="submit" class="btn variant-soft-secondary" on:click={validate}>Validate</button>
-		<button type="button" class="btn variant-soft-surface" on:click={resetForm}>Reset</button>
+		<button type="submit" class="btn variant-ghost-secondary" on:click={validate}>Validate</button>
+		<button type="button" class="btn variant-ghost-surface" on:click={resetForm}>Reset</button>
 	</footer>
 </div>
