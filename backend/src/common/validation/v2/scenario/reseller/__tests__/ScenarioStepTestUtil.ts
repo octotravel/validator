@@ -1,4 +1,5 @@
 import {
+  Availability,
   AvailabilityCalendar,
   AvailabilityCalendarBodySchema,
   Product,
@@ -20,6 +21,7 @@ export class ScenarioStepTestUtil {
   private getProductsData: Product[] | null = null;
   private getProductData: Product | null = null;
   private getAvailabilityCalendarData: AvailabilityCalendar[] | null = null;
+  private getAvailabilityData: Availability[] | null = null;
 
   public constructor(
     private readonly server: Server,
@@ -37,6 +39,8 @@ export class ScenarioStepTestUtil {
       await this.callAndCheckGetProductStep();
     } else if (stepId === StepId.AVAILABILITY_CALENDAR) {
       await this.callAndCheckGetAvailabilityCalendar();
+    } else if (stepId === StepId.AVAILABILITY_CHECK) {
+      await this.callAndCheckGetAvailability();
     } else {
       throw new LogicError('Step not implemented');
     }
@@ -107,6 +111,24 @@ export class ScenarioStepTestUtil {
     await this.checkSession(StepId.AVAILABILITY_CALENDAR, SessionScenarioProgressStepStatus.COMPLETED);
 
     this.getAvailabilityCalendarData = getAvailabilityCalendarResponse.body as AvailabilityCalendar[];
+  }
+
+  public async callAndCheckGetAvailability(): Promise<void> {
+    const availabilityCalendarPayload: AvailabilityCalendarBodySchema = {
+      productId: this.getProductData!.id,
+      optionId: this.getProductData!.options[0].id,
+      localDateStart: new Date().toISOString(),
+      localDateEnd: new Date().toISOString(),
+    };
+
+    const getAvailabilityResponse = await request(this.server)
+      .post('/v2/reseller/octo/availability')
+      .set(this.headers)
+      .send(availabilityCalendarPayload);
+    expect(getAvailabilityResponse.status).toBe(200);
+    await this.checkSession(StepId.AVAILABILITY_CHECK, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.getAvailabilityData = getAvailabilityResponse.body as Availability[];
   }
 
   private async checkSession(

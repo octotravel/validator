@@ -45,6 +45,7 @@ import { RequestLogService } from '../requestLog/RequestLogService';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 import { LoggerFactory } from '../logger/LoggerFactory';
 import { DummySocketIo } from '../socketio/DummySocketIo';
+import { AvailabilityCheckHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCheckHandler';
 
 export const container = tsyringeContainer.createChildContainer();
 
@@ -122,6 +123,7 @@ container.registerSingleton(GetSupplierHandler);
 container.registerSingleton(GetScenariosHandler);
 container.registerSingleton(GetCapabilitiesHandler);
 container.registerSingleton(AvailabilityCalendarHandler);
+container.registerSingleton(AvailabilityCheckHandler);
 
 // Reseller Scenarios
 container.registerSingleton(AdvancedScenario);

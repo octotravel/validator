@@ -9,6 +9,7 @@ import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { DoublyLinkedList } from 'linked-list-typed';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';
 import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
+import { AvailabilityCheckStep } from '../../step/reseller/availability/AvailabilityCheckStep';
 
 @singleton()
 @registry([
@@ -23,6 +24,7 @@ export class AdvancedScenario implements Scenario {
     @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
     @inject(GetProductStep) private readonly getProductStep: GetProductStep,
     @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
+    @inject(AvailabilityCheckStep) private readonly availabilityCheckStep: AvailabilityCheckStep,
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }
@@ -57,6 +59,7 @@ export class AdvancedScenario implements Scenario {
       this.getProductsStep,
       this.getProductStep,
       this.availabilityCalendarStep,
+      this.availabilityCheckStep,
     ]);
   }
 }
