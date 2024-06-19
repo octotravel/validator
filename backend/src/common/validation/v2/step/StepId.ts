@@ -5,4 +5,5 @@ export enum StepId {
   GET_PRODUCT = 'get-product',
   AVAILABILITY_CALENDAR = 'availability-calendar',
   AVAILABILITY_CHECK = 'availability-check',
+  BOOKING_RESERVATION = 'booking-reservation',
 }

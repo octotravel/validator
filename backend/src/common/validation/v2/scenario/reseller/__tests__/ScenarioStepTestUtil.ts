@@ -1,7 +1,10 @@
 import {
   Availability,
+  AvailabilityBodySchema,
   AvailabilityCalendar,
   AvailabilityCalendarBodySchema,
+  Booking,
+  CreateBookingBodySchema,
   Product,
   QuestionAnswer,
   Supplier,
@@ -22,6 +25,7 @@ export class ScenarioStepTestUtil {
   private getProductData: Product | null = null;
   private getAvailabilityCalendarData: AvailabilityCalendar[] | null = null;
   private getAvailabilityData: Availability[] | null = null;
+  private bookingReservationData: Booking | null = null;
 
   public constructor(
     private readonly server: Server,
@@ -41,6 +45,8 @@ export class ScenarioStepTestUtil {
       await this.callAndCheckGetAvailabilityCalendar();
     } else if (stepId === StepId.AVAILABILITY_CHECK) {
       await this.callAndCheckGetAvailability();
+    } else if (stepId === StepId.BOOKING_RESERVATION) {
+      await this.callAndCheckBookingReservation();
     } else {
       throw new LogicError('Step not implemented');
     }
@@ -114,7 +120,7 @@ export class ScenarioStepTestUtil {
   }
 
   public async callAndCheckGetAvailability(): Promise<void> {
-    const availabilityCalendarPayload: AvailabilityCalendarBodySchema = {
+    const availabilityCheckPayload: AvailabilityBodySchema = {
       productId: this.getProductData!.id,
       optionId: this.getProductData!.options[0].id,
       localDateStart: new Date().toISOString(),
@@ -124,11 +130,33 @@ export class ScenarioStepTestUtil {
     const getAvailabilityResponse = await request(this.server)
       .post('/v2/reseller/octo/availability')
       .set(this.headers)
-      .send(availabilityCalendarPayload);
+      .send(availabilityCheckPayload);
     expect(getAvailabilityResponse.status).toBe(200);
     await this.checkSession(StepId.AVAILABILITY_CHECK, SessionScenarioProgressStepStatus.COMPLETED);
 
     this.getAvailabilityData = getAvailabilityResponse.body as Availability[];
+  }
+
+  public async callAndCheckBookingReservation(): Promise<void> {
+    const bookingReservationPayload: CreateBookingBodySchema = {
+      productId: this.getProductData!.id,
+      optionId: this.getProductData!.options[0].id,
+      availabilityId: this.getAvailabilityData![0].id,
+      unitItems: [
+        {
+          unitId: this.getProductData!.options[0].units[0].id,
+        },
+      ],
+    };
+
+    const bookingReservationResponse = await request(this.server)
+      .post('/v2/reseller/octo/bookings')
+      .set(this.headers)
+      .send(bookingReservationPayload);
+    expect(bookingReservationResponse.status).toBe(200);
+    await this.checkSession(StepId.BOOKING_RESERVATION, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.bookingReservationData = bookingReservationResponse.body as Booking;
   }
 
   private async checkSession(

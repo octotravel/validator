@@ -7,6 +7,7 @@ import { GetProductHandler } from './product/GetProductHandler';
 import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
 import { RequestLoggerMiddleware } from './RequestLoggerMiddleware';
 import { AvailabilityCheckHandler } from './availability/AvailabilityCheckHandler';
+import { BookingReservationHandler } from './booking/BookingReservationHandler';
 
 @singleton()
 export class OctoRouter {
@@ -20,6 +21,7 @@ export class OctoRouter {
     @inject(GetProductHandler) private readonly getProductHandler: GetProductsHandler,
     @inject(AvailabilityCalendarHandler) private readonly availabilityCalendarHandler: AvailabilityCalendarHandler,
     @inject(AvailabilityCheckHandler) private readonly availabilityCheckHandler: AvailabilityCheckHandler,
+    @inject(BookingReservationHandler) private readonly bookingReservationHandler: BookingReservationHandler,
   ) {
     const auth = async (req: IRequest): Promise<void> => {
       await this.authMiddleware.invoke(req);
@@ -43,5 +45,6 @@ export class OctoRouter {
       async (request) => await this.availabilityCalendarHandler.handleRequest(request),
     );
     this.router.post('/availability', async (request) => await this.availabilityCheckHandler.handleRequest(request));
+    this.router.post('/bookings', async (request) => await this.bookingReservationHandler.handleRequest(request));
   }
 }

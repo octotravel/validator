@@ -17,7 +17,7 @@ export class AvailabilityCheckStep implements Step {
   }
 
   public getDescription(): string {
-    return "Availability Check endpoint endpoint is slightly slower as it will return an object for each individual departure time (or day). You have to perform this step to retrieve an availabilityId in order to confirm a sale, so if you just want to use this endpoint and skip the calendar endpoint then that's perfectly ok.";
+    return "Availability Check endpoint is slightly slower as it will return an object for each individual departure time (or day). You have to perform this step to retrieve an availabilityId in order to confirm a sale, so if you just want to use this endpoint and skip the calendar endpoint then that's perfectly ok.";
   }
 
   public getEndpointMethod(): string {

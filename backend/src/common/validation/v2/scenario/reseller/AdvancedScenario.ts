@@ -10,6 +10,7 @@ import { DoublyLinkedList } from 'linked-list-typed';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';
 import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
 import { AvailabilityCheckStep } from '../../step/reseller/availability/AvailabilityCheckStep';
+import { BookingReservationStep } from '../../step/reseller/booking/BookingReservatitonStep';
 
 @singleton()
 @registry([
@@ -25,6 +26,7 @@ export class AdvancedScenario implements Scenario {
     @inject(GetProductStep) private readonly getProductStep: GetProductStep,
     @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
     @inject(AvailabilityCheckStep) private readonly availabilityCheckStep: AvailabilityCheckStep,
+    @inject(BookingReservationStep) private readonly bookingReservationStep: BookingReservationStep,
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }
@@ -60,6 +62,7 @@ export class AdvancedScenario implements Scenario {
       this.getProductStep,
       this.availabilityCalendarStep,
       this.availabilityCheckStep,
+      this.bookingReservationStep,
     ]);
   }
 }
