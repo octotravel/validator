@@ -7,4 +7,5 @@ export enum StepId {
   AVAILABILITY_CHECK = 'availability-check',
   BOOKING_RESERVATION = 'booking-reservation',
   BOOKING_CONFIRMATION = 'booking-confirmation',
+  BOOKING_CANCELLATION = 'booking-cancellation',
 }

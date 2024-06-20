@@ -4,6 +4,7 @@ import {
   AvailabilityCalendar,
   AvailabilityCalendarBodySchema,
   Booking,
+  CancelBookingBodySchema,
   ConfirmBookingBodySchema,
   CreateBookingBodySchema,
   Product,
@@ -27,6 +28,7 @@ export class ScenarioStepTestUtil {
   private getAvailabilityData: Availability[] | null = null;
   private bookingReservationData: Booking | null = null;
   private bookingConfirmationData: Booking | null = null;
+  private bookingCancellationData: Booking | null = null;
 
   public constructor(
     private readonly server: Server,
@@ -50,6 +52,8 @@ export class ScenarioStepTestUtil {
       await this.callAndCheckBookingReservation();
     } else if (stepId === StepId.BOOKING_CONFIRMATION) {
       await this.callAndCheckBookingConfirmation();
+    } else if (stepId === StepId.BOOKING_CANCELLATION) {
+      await this.callAndCheckBookingCancellation();
     } else {
       throw new LogicError('Step not implemented');
     }
@@ -165,6 +169,7 @@ export class ScenarioStepTestUtil {
   public async callAndCheckBookingConfirmation(): Promise<void> {
     const bookingReservationPayload: ConfirmBookingBodySchema = {
       contact: {},
+      emailReceipt: false,
       unitItems: [
         {
           unitId: this.getProductData!.options[0].units[0].id,
@@ -180,6 +185,22 @@ export class ScenarioStepTestUtil {
     await this.checkSession(StepId.BOOKING_CONFIRMATION, SessionScenarioProgressStepStatus.COMPLETED);
 
     this.bookingConfirmationData = bookingConfirmationResponse.body as Booking;
+  }
+
+  public async callAndCheckBookingCancellation(): Promise<void> {
+    const bookingCancellationPayload: CancelBookingBodySchema = {
+      reason: 'Test!',
+      emailReceipt: false,
+    };
+
+    const bookingCancellationResponse = await request(this.server)
+      .post(`/v2/reseller/octo/bookings/${this.bookingConfirmationData!.uuid}/cancel`)
+      .set(this.headers)
+      .send(bookingCancellationPayload);
+    expect(bookingCancellationResponse.status).toBe(200);
+    await this.checkSession(StepId.BOOKING_CANCELLATION, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.bookingCancellationData = bookingCancellationResponse.body as Booking;
   }
 
   private async checkSession(

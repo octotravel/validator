@@ -48,6 +48,7 @@ import { DummySocketIo } from '../socketio/DummySocketIo';
 import { AvailabilityCheckHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCheckHandler';
 import { BookingReservationHandler } from '../../api/v2/reseller/octo/booking/BookingReservationHandler';
 import { BookingConfirmationHandler } from '../../api/v2/reseller/octo/booking/BookingConfirmationHandler';
+import { BookingCancellationHandler } from '../../api/v2/reseller/octo/booking/BookingCancellationHandler';
 
 export const container = tsyringeContainer.createChildContainer();
 
@@ -132,6 +133,7 @@ container.registerSingleton(AvailabilityCalendarHandler);
 container.registerSingleton(AvailabilityCheckHandler);
 container.registerSingleton(BookingReservationHandler);
 container.registerSingleton(BookingConfirmationHandler);
+container.registerSingleton(BookingCancellationHandler);
 
 // Reseller Scenarios
 container.registerSingleton(AdvancedScenario);
