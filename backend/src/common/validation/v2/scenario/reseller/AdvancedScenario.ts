@@ -11,6 +11,7 @@ import { GetProductStep } from '../../step/reseller/product/GetProductStep';
 import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
 import { AvailabilityCheckStep } from '../../step/reseller/availability/AvailabilityCheckStep';
 import { BookingReservationStep } from '../../step/reseller/booking/BookingReservatitonStep';
+import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
 
 @singleton()
 @registry([
@@ -27,6 +28,7 @@ export class AdvancedScenario implements Scenario {
     @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
     @inject(AvailabilityCheckStep) private readonly availabilityCheckStep: AvailabilityCheckStep,
     @inject(BookingReservationStep) private readonly bookingReservationStep: BookingReservationStep,
+    @inject(BookingConfirmationStep) private readonly bookingConfirmationStep: BookingConfirmationStep,
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }
@@ -63,6 +65,7 @@ export class AdvancedScenario implements Scenario {
       this.availabilityCalendarStep,
       this.availabilityCheckStep,
       this.bookingReservationStep,
+      this.bookingConfirmationStep,
     ]);
   }
 }

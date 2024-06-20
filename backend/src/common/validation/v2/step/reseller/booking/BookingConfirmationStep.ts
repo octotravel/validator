@@ -4,20 +4,20 @@ import { singleton } from 'tsyringe';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
-import { BookingReservationValidator } from '../../../validator/reseller/booking/BookingReservationValidator';
+import { BookingConfirmationValidator } from '../../../validator/reseller/booking/BookingConfirmationValidator';
 
 @singleton()
-export class BookingReservationStep implements Step {
+export class BookingConfirmationStep implements Step {
   public getId(): StepId {
-    return StepId.BOOKING_RESERVATION;
+    return StepId.BOOKING_CONFIRMATION;
   }
 
   public getName(): string {
-    return 'Booking Reservation';
+    return 'Booking Confirmation';
   }
 
   public getDescription(): string {
-    return 'Create a booking that reserves the availability while you collect payment and contact information from the customer. The booking will remain with status ON_HOLD until the booking is confirmed or the reservation hold expires.';
+    return "This endpoint confirms the booking so it's ready to be used.";
   }
 
   public getEndpointMethod(): string {
@@ -25,15 +25,15 @@ export class BookingReservationStep implements Step {
   }
 
   public getEndpointUrl(): string {
-    return '/bookings';
+    return '/bookings/{uuid}/confirm';
   }
 
   public getDocsUrl(): string {
-    return 'https://docs.octo.travel/octo-api-core/bookings#booking-reservation';
+    return 'https://docs.octo.travel/octo-api-core/bookings#booking-confirmation';
   }
 
   public getValidators(): Validator[] {
-    return [new RequestHeadersValidator(), new BookingReservationValidator()];
+    return [new RequestHeadersValidator(), new BookingConfirmationValidator()];
   }
 
   public getQuestions(): Question[] {

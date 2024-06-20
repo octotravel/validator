@@ -4,7 +4,7 @@ import { ValidationFailureFactory } from '../../../ValidationFailureFactory';
 import { ValidationError } from 'yup';
 import { createBookingSchema } from '@octocloud/core';
 
-export class BookingConfirmationValidator implements Validator {
+export class BookingReservationValidator implements Validator {
   public async validate(data: any): Promise<ValidationResult> {
     const validationResult = new ValidationResult(data);
 

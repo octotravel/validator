@@ -6,4 +6,5 @@ export enum StepId {
   AVAILABILITY_CALENDAR = 'availability-calendar',
   AVAILABILITY_CHECK = 'availability-check',
   BOOKING_RESERVATION = 'booking-reservation',
+  BOOKING_CONFIRMATION = 'booking-confirmation',
 }

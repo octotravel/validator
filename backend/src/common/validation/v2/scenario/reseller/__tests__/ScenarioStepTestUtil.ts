@@ -4,6 +4,7 @@ import {
   AvailabilityCalendar,
   AvailabilityCalendarBodySchema,
   Booking,
+  ConfirmBookingBodySchema,
   CreateBookingBodySchema,
   Product,
   QuestionAnswer,
@@ -15,7 +16,6 @@ import { expect } from 'vitest';
 import { SessionScenarioProgressStepStatus, SessionWithProgress } from '../../../../../../types/Session';
 import { StepId } from '../../../step/StepId';
 import { Scenario } from '../../Scenario';
-import { ValidationResult } from '../../../ValidationResult';
 import { ValidateSessionQuestionsAnswersResponse } from '../../../../../../api/v2/session/ValidateSessionQuestionsAnswersResponse';
 import { LogicError } from '@octocloud/core';
 
@@ -26,6 +26,7 @@ export class ScenarioStepTestUtil {
   private getAvailabilityCalendarData: AvailabilityCalendar[] | null = null;
   private getAvailabilityData: Availability[] | null = null;
   private bookingReservationData: Booking | null = null;
+  private bookingConfirmationData: Booking | null = null;
 
   public constructor(
     private readonly server: Server,
@@ -47,6 +48,8 @@ export class ScenarioStepTestUtil {
       await this.callAndCheckGetAvailability();
     } else if (stepId === StepId.BOOKING_RESERVATION) {
       await this.callAndCheckBookingReservation();
+    } else if (stepId === StepId.BOOKING_CONFIRMATION) {
+      await this.callAndCheckBookingConfirmation();
     } else {
       throw new LogicError('Step not implemented');
     }
@@ -157,6 +160,26 @@ export class ScenarioStepTestUtil {
     await this.checkSession(StepId.BOOKING_RESERVATION, SessionScenarioProgressStepStatus.COMPLETED);
 
     this.bookingReservationData = bookingReservationResponse.body as Booking;
+  }
+
+  public async callAndCheckBookingConfirmation(): Promise<void> {
+    const bookingReservationPayload: ConfirmBookingBodySchema = {
+      contact: {},
+      unitItems: [
+        {
+          unitId: this.getProductData!.options[0].units[0].id,
+        },
+      ],
+    };
+
+    const bookingConfirmationResponse = await request(this.server)
+      .post(`/v2/reseller/octo/bookings/${this.bookingReservationData!.uuid}/confirm`)
+      .set(this.headers)
+      .send(bookingReservationPayload);
+    expect(bookingConfirmationResponse.status).toBe(200);
+    await this.checkSession(StepId.BOOKING_CONFIRMATION, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.bookingConfirmationData = bookingConfirmationResponse.body as Booking;
   }
 
   private async checkSession(

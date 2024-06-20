@@ -47,6 +47,7 @@ import { LoggerFactory } from '../logger/LoggerFactory';
 import { DummySocketIo } from '../socketio/DummySocketIo';
 import { AvailabilityCheckHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCheckHandler';
 import { BookingReservationHandler } from '../../api/v2/reseller/octo/booking/BookingReservationHandler';
+import { BookingConfirmationHandler } from '../../api/v2/reseller/octo/booking/BookingConfirmationHandler';
 
 export const container = tsyringeContainer.createChildContainer();
 
@@ -130,6 +131,7 @@ container.registerSingleton(GetCapabilitiesHandler);
 container.registerSingleton(AvailabilityCalendarHandler);
 container.registerSingleton(AvailabilityCheckHandler);
 container.registerSingleton(BookingReservationHandler);
+container.registerSingleton(BookingConfirmationHandler);
 
 // Reseller Scenarios
 container.registerSingleton(AdvancedScenario);
