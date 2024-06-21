@@ -1,20 +1,12 @@
 <script lang="ts">
-	import {
-		resellerScenarioAnswersStore,
-		resellerScenarioQuestionsValidationStore
-	} from '$lib/stores';
+	import { resellerScenarioQuestionsValidationStore } from '$lib/stores';
 	import { QuestionValidationStatus, type Question } from '$lib/types/Scenarios';
 
 	export let question: Question;
+	// eslint-disable-next-line
+	export let handleBlur: (question: Question, answer: any) => void;
 
 	let answer: number;
-
-	const handleBlur = () => {
-		$resellerScenarioAnswersStore = [
-			...$resellerScenarioAnswersStore.filter((q) => q.questionId !== question.id),
-			{ questionId: question.id, answer }
-		];
-	};
 
 	$: status = () => {
 		const q =
@@ -38,7 +30,7 @@
 		return QuestionValidationStatus.NOT_VALIDATED;
 	};
 
-	$: answer, handleBlur();
+	$: answer, handleBlur(question, answer);
 </script>
 
 <div class="accordion-border p-4">

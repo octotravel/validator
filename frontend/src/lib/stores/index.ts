@@ -1,4 +1,4 @@
-import type { CapabilitiesStore } from '$lib/types/Capabilities';
+import type { CapabilitiesStore, Capability } from '$lib/types/Capabilities';
 import type { QuestionValidationResults } from '$lib/types/Scenarios';
 import type { ScenarioStore, SessionStore } from '$lib/types/Session';
 import type { SupplierValidationStore } from '$lib/types/SupplierFlow';
@@ -54,3 +54,5 @@ export const resellerScenarioQuestionsValidationStore = writable<QuestionValidat
 });
 
 export const resellerSessionSetupStepIndex = writable<number>(0);
+
+export const resellerSessionSetupSelectedCapabilities = writable<Capability[]>([]);
