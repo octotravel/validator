@@ -15,5 +15,11 @@ export async function GET({ request }) {
 		}
 	);
 
-	return response;
+	const parsedResponse = await response.json();
+
+	return new Response(JSON.stringify(parsedResponse), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
 }

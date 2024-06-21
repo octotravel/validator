@@ -8,5 +8,11 @@ export async function GET() {
 		}
 	});
 
-	return response;
+	const parsedResponse = await response.json();
+
+	return new Response(JSON.stringify(parsedResponse), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
 }

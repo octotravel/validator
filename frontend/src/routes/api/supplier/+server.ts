@@ -18,5 +18,11 @@ export async function POST({ request }) {
 		body: JSON.stringify(body)
 	});
 
-	return response;
+	const parsedResponse = await response.json();
+
+	return new Response(JSON.stringify(parsedResponse), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
 }

@@ -8,7 +8,13 @@ export async function POST() {
 		}
 	});
 
-	return response;
+	const parsedResponse = await response.json();
+
+	return new Response(JSON.stringify(parsedResponse), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
 }
 
 export async function GET({ request }) {
@@ -21,7 +27,13 @@ export async function GET({ request }) {
 		}
 	});
 
-	return response;
+	const parsedResponse = await response.json();
+
+	return new Response(JSON.stringify(parsedResponse), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
 }
 
 export async function PUT({ request }) {
@@ -35,5 +47,11 @@ export async function PUT({ request }) {
 		body: JSON.stringify(body)
 	});
 
-	return response;
+	const parsedResponse = await response.json();
+
+	return new Response(JSON.stringify(parsedResponse), {
+		headers: {
+			'content-type': 'application/json'
+		}
+	});
 }
