@@ -137,6 +137,8 @@
 				<span class="badge variant-soft-warning text-neutral-500 ms-2">Pending validation</span>
 			{:else if step.status === ScenarioProgressStepStatus.PENDING_QUESTIONS}
 				<span class="badge variant-soft-tertiary text-neutral-500 ms-2">Pending questions</span>
+			{:else if step.status === ScenarioProgressStepStatus.COMPLETED}
+				<span class="badge variant-soft-success text-neutral-500 ms-2">Completed</span>
 			{/if}
 		</svelte:fragment>
 

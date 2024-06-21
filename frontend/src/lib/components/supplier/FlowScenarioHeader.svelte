@@ -42,19 +42,19 @@
 {#if $supplierFlowResultStore}
 	<div class="flex gap-5">
 		<div class="flex">
-			<span class="badge variant-ghost-secondary w-10 me-1">{totalScenarios}</span>
+			<span class="badge variant-soft-secondary w-10 me-1">{totalScenarios}</span>
 			Total Scenarios
 		</div>
 		<div>
-			<span class="badge variant-ghost-success w-10 me-1">{successScenarios}</span>
+			<span class="badge variant-soft-success w-10 me-1">{successScenarios}</span>
 			Successful
 		</div>
 		<div>
-			<span class="badge variant-ghost-warning w-10 me-1">{warningScenarios}</span>
+			<span class="badge variant-soft-warning w-10 me-1">{warningScenarios}</span>
 			Warnings
 		</div>
 		<div>
-			<span class="badge variant-ghost-error w-10 me-1">{errorScenarios}</span>
+			<span class="badge variant-soft-error w-10 me-1">{errorScenarios}</span>
 			Critical Errors
 		</div>
 	</div>
