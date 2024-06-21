@@ -34,7 +34,7 @@ export interface SessionScenarioProgressStep {
 
 export enum SessionScenarioProgressStepStatus {
   COMPLETED = 'completed',
-  PENDING_VALIDATION = 'pending_validatiton',
+  PENDING_VALIDATION = 'pending_validation',
   PENDING_QUESTIONS = 'pending_questions',
 }
 

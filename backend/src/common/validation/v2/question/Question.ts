@@ -8,7 +8,7 @@ export interface Question {
 
 export interface QuestionInptut {
   type: QuestionInputType;
-  options: QuestionInputOptitons[];
+  options: QuestionInputOptions[];
 }
 
 export enum QuestionInputType {
@@ -18,7 +18,7 @@ export enum QuestionInputType {
   OPTION = 'option',
 }
 
-interface QuestionInputOptitons {
+interface QuestionInputOptions {
   label: string;
   value: string;
 }

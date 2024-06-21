@@ -1,6 +1,12 @@
 import {
+  Availability,
+  AvailabilityBodySchema,
   AvailabilityCalendar,
   AvailabilityCalendarBodySchema,
+  Booking,
+  CancelBookingBodySchema,
+  ConfirmBookingBodySchema,
+  CreateBookingBodySchema,
   Product,
   QuestionAnswer,
   Supplier,
@@ -11,7 +17,6 @@ import { expect } from 'vitest';
 import { SessionScenarioProgressStepStatus, SessionWithProgress } from '../../../../../../types/Session';
 import { StepId } from '../../../step/StepId';
 import { Scenario } from '../../Scenario';
-import { ValidationResult } from '../../../ValidationResult';
 import { ValidateSessionQuestionsAnswersResponse } from '../../../../../../api/v2/session/ValidateSessionQuestionsAnswersResponse';
 import { LogicError } from '@octocloud/core';
 
@@ -20,6 +25,10 @@ export class ScenarioStepTestUtil {
   private getProductsData: Product[] | null = null;
   private getProductData: Product | null = null;
   private getAvailabilityCalendarData: AvailabilityCalendar[] | null = null;
+  private getAvailabilityData: Availability[] | null = null;
+  private bookingReservationData: Booking | null = null;
+  private bookingConfirmationData: Booking | null = null;
+  private bookingCancellationData: Booking | null = null;
 
   public constructor(
     private readonly server: Server,
@@ -37,6 +46,14 @@ export class ScenarioStepTestUtil {
       await this.callAndCheckGetProductStep();
     } else if (stepId === StepId.AVAILABILITY_CALENDAR) {
       await this.callAndCheckGetAvailabilityCalendar();
+    } else if (stepId === StepId.AVAILABILITY_CHECK) {
+      await this.callAndCheckGetAvailability();
+    } else if (stepId === StepId.BOOKING_RESERVATION) {
+      await this.callAndCheckBookingReservation();
+    } else if (stepId === StepId.BOOKING_CONFIRMATION) {
+      await this.callAndCheckBookingConfirmation();
+    } else if (stepId === StepId.BOOKING_CANCELLATION) {
+      await this.callAndCheckBookingCancellation();
     } else {
       throw new LogicError('Step not implemented');
     }
@@ -107,6 +124,83 @@ export class ScenarioStepTestUtil {
     await this.checkSession(StepId.AVAILABILITY_CALENDAR, SessionScenarioProgressStepStatus.COMPLETED);
 
     this.getAvailabilityCalendarData = getAvailabilityCalendarResponse.body as AvailabilityCalendar[];
+  }
+
+  public async callAndCheckGetAvailability(): Promise<void> {
+    const availabilityCheckPayload: AvailabilityBodySchema = {
+      productId: this.getProductData!.id,
+      optionId: this.getProductData!.options[0].id,
+      localDateStart: new Date().toISOString(),
+      localDateEnd: new Date().toISOString(),
+    };
+
+    const getAvailabilityResponse = await request(this.server)
+      .post('/v2/reseller/octo/availability')
+      .set(this.headers)
+      .send(availabilityCheckPayload);
+    expect(getAvailabilityResponse.status).toBe(200);
+    await this.checkSession(StepId.AVAILABILITY_CHECK, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.getAvailabilityData = getAvailabilityResponse.body as Availability[];
+  }
+
+  public async callAndCheckBookingReservation(): Promise<void> {
+    const bookingReservationPayload: CreateBookingBodySchema = {
+      productId: this.getProductData!.id,
+      optionId: this.getProductData!.options[0].id,
+      availabilityId: this.getAvailabilityData![0].id,
+      unitItems: [
+        {
+          unitId: this.getProductData!.options[0].units[0].id,
+        },
+      ],
+    };
+
+    const bookingReservationResponse = await request(this.server)
+      .post('/v2/reseller/octo/bookings')
+      .set(this.headers)
+      .send(bookingReservationPayload);
+    expect(bookingReservationResponse.status).toBe(200);
+    await this.checkSession(StepId.BOOKING_RESERVATION, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.bookingReservationData = bookingReservationResponse.body as Booking;
+  }
+
+  public async callAndCheckBookingConfirmation(): Promise<void> {
+    const bookingReservationPayload: ConfirmBookingBodySchema = {
+      contact: {},
+      emailReceipt: false,
+      unitItems: [
+        {
+          unitId: this.getProductData!.options[0].units[0].id,
+        },
+      ],
+    };
+
+    const bookingConfirmationResponse = await request(this.server)
+      .post(`/v2/reseller/octo/bookings/${this.bookingReservationData!.uuid}/confirm`)
+      .set(this.headers)
+      .send(bookingReservationPayload);
+    expect(bookingConfirmationResponse.status).toBe(200);
+    await this.checkSession(StepId.BOOKING_CONFIRMATION, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.bookingConfirmationData = bookingConfirmationResponse.body as Booking;
+  }
+
+  public async callAndCheckBookingCancellation(): Promise<void> {
+    const bookingCancellationPayload: CancelBookingBodySchema = {
+      reason: 'Test!',
+      emailReceipt: false,
+    };
+
+    const bookingCancellationResponse = await request(this.server)
+      .post(`/v2/reseller/octo/bookings/${this.bookingConfirmationData!.uuid}/cancel`)
+      .set(this.headers)
+      .send(bookingCancellationPayload);
+    expect(bookingCancellationResponse.status).toBe(200);
+    await this.checkSession(StepId.BOOKING_CANCELLATION, SessionScenarioProgressStepStatus.COMPLETED);
+
+    this.bookingCancellationData = bookingCancellationResponse.body as Booking;
   }
 
   private async checkSession(

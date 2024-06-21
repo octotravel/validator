@@ -28,7 +28,7 @@ export class GetSupplierStep implements Step {
   }
 
   public getDocsUrl(): string {
-    return 'https://docs.octo.travel/octo-core/suppliers';
+    return 'https://docs.octo.travel/octo-api-core/supplier';
   }
 
   public getValidators(): Validator[] {

@@ -45,6 +45,10 @@ import { RequestLogService } from '../requestLog/RequestLogService';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 import { LoggerFactory } from '../logger/LoggerFactory';
 import { DummySocketIo } from '../socketio/DummySocketIo';
+import { AvailabilityCheckHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCheckHandler';
+import { BookingReservationHandler } from '../../api/v2/reseller/octo/booking/BookingReservationHandler';
+import { BookingConfirmationHandler } from '../../api/v2/reseller/octo/booking/BookingConfirmationHandler';
+import { BookingCancellationHandler } from '../../api/v2/reseller/octo/booking/BookingCancellationHandler';
 
 export const container = tsyringeContainer.createChildContainer();
 
@@ -114,14 +118,22 @@ container.registerSingleton(V1Router);
 container.registerSingleton(ValidationController);
 
 // V2 validator
+// Routers
 container.registerSingleton(V2Router);
 container.registerSingleton(OctoRouter);
 container.registerSingleton(ResellerRouter);
+
 container.registerSingleton(AuthMiddleware);
+
+// Handlers
 container.registerSingleton(GetSupplierHandler);
 container.registerSingleton(GetScenariosHandler);
 container.registerSingleton(GetCapabilitiesHandler);
 container.registerSingleton(AvailabilityCalendarHandler);
+container.registerSingleton(AvailabilityCheckHandler);
+container.registerSingleton(BookingReservationHandler);
+container.registerSingleton(BookingConfirmationHandler);
+container.registerSingleton(BookingCancellationHandler);
 
 // Reseller Scenarios
 container.registerSingleton(AdvancedScenario);

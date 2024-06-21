@@ -17,7 +17,7 @@ export class SessionFacade {
     @inject(SessionScenarioProgressProvider)
     private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
     @inject(SessionStepQuestionAnswersValidationProcessor)
-    private readonly sessionStepQuestionAnswersValidatitonProcessor: SessionStepQuestionAnswersValidationProcessor,
+    private readonly sessionStepQuestionAnswersValidationProcessor: SessionStepQuestionAnswersValidationProcessor,
     @inject('RequestLogRepository') private readonly requestLogRepository: RequestLogRepository,
   ) {}
 
@@ -74,7 +74,7 @@ export class SessionFacade {
       throw SessionScenarioStepNotAllowedError.createForInvalidStep(scenarioId, stepId);
     }
 
-    const validationResult = await this.sessionStepQuestionAnswersValidatitonProcessor.process(
+    const validationResult = await this.sessionStepQuestionAnswersValidationProcessor.process(
       sessionId,
       scenarioId,
       stepId,
