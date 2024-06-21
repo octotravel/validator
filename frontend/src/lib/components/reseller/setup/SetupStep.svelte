@@ -1,6 +1,10 @@
 <script lang="ts">
 	import type { SessionSetupStep } from '$lib/types/Setup';
-	import { resellerSessionSetupSelectedCapabilities, resellerSessionSetupStepIndex, resellerSessionStore } from '$lib/stores';
+	import {
+		resellerSessionSetupSelectedCapabilities,
+		resellerSessionSetupStepIndex,
+		resellerSessionStore
+	} from '$lib/stores';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { SessionService } from '$lib/services/reseller/SessionService';
 	import SetupName from './SetupName.svelte';
