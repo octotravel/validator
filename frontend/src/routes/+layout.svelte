@@ -10,7 +10,8 @@
 		Modal,
 		Toast,
 		initializeStores,
-		storeHighlightJs
+		storeHighlightJs,
+		type ModalComponent
 	} from '@skeletonlabs/skeleton';
 	import xml from 'highlight.js/lib/languages/xml'; // for HTML
 	import css from 'highlight.js/lib/languages/css';
@@ -33,13 +34,20 @@
 
 	import logo_light from '$lib/assets/images/logo_light.png';
 	import logo from '$lib/assets/images/logo.png';
+	import ResellerResultModal from '$lib/components/modals/ResellerResultModal.svelte';
+	import SupplierResultModal from '$lib/components/modals/SupplierResultModal.svelte';
 
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
+
+	const modalRegistry: Record<string, ModalComponent> = {
+		resellerResultModal: { ref: ResellerResultModal },
+		supplierResultModal: { ref: SupplierResultModal }
+	};
 </script>
 
 <Toast position="tr" />
-<Modal />
+<Modal components={modalRegistry} />
 
 <svelte:head>
 	<title>OCTO Validation Tool</title>
