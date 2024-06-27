@@ -9,7 +9,7 @@ import { AvailabilityFlow } from './Flows/Availability/AvailabilityFlow';
 import { AvailabilityCalendarFlow } from './Flows/Availability/AvailabilityCalendarFlow';
 import { ProductFlow } from './Flows/Product/ProductFlow';
 import { SupplierFlow } from './Flows/Supplier/SupplierFlow';
-import { CapabilitiesFlow } from './Flows/Capabilites/CapabilitiesFlow';
+// import { CapabilitiesFlow } from './Flows/Capabilites/CapabilitiesFlow';
 import { Flow, FlowResult } from './Flows/Flow';
 import { Context } from './context/Context';
 import { singleton } from 'tsyringe';
@@ -18,7 +18,7 @@ import { singleton } from 'tsyringe';
 export class ValidationController {
   public validate = async (context: Context): Promise<FlowResult[]> => {
     const flows: Flow[] = [
-      new CapabilitiesFlow(),
+      // new CapabilitiesFlow(),
       new SupplierFlow(),
       new ProductFlow(),
       new AvailabilityCalendarFlow(),
