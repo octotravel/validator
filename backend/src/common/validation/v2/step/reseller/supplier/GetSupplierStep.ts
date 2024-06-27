@@ -24,7 +24,7 @@ export class GetSupplierStep implements Step {
   }
 
   public getEndpointUrl(): string {
-    return '/suppliers';
+    return '/supplier';
   }
 
   public getDocsUrl(): string {
