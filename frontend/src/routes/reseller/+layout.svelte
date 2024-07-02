@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { pageTitleStore } from '$lib/stores';
 
-	$pageTitleStore = 'Reseller';
+	$pageTitleStore = 'Reseller (Beta)';
 </script>
 
 <div class="mt-5">
