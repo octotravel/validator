@@ -85,11 +85,17 @@ export class ApiClient extends Client {
   };
 
   public getBookings = async (data: GetBookingsQueryParamsSchema, context: Context): Promise<Result<Booking[]>> => {
-    // TODO fix?
-    // const params = new URLSearchParams(data);
-    // const url = `${this.url}/bookings?` + params;
-    const params = new URLSearchParams();
-    const url = `${this.url}/bookings?`;
+    const queryParams = new URLSearchParams();
+
+    Object.keys(data).forEach((key) => {
+      const value = data[key as keyof GetBookingsQueryParamsSchema];
+
+      if (value) {
+        queryParams.append(key, value);
+      }
+    });
+
+    const url = `${this.url}/bookings?${queryParams.toString()}`;
     return await this.fetch({ url, context });
   };
 
