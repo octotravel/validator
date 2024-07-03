@@ -5,6 +5,7 @@ import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { AvailabilityCalendarValidator } from '../../../validator/reseller/availability/AvailabilityCalendarValidator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
+import { AvailabilityCheckValidator } from '../../../validator/reseller/availability/AvailabilityCheckValidator';
 
 @singleton()
 export class AvailabilityCheckStep implements Step {
@@ -33,7 +34,7 @@ export class AvailabilityCheckStep implements Step {
   }
 
   public getValidators(): Validator[] {
-    return [new RequestHeadersValidator(), new AvailabilityCalendarValidator()];
+    return [new RequestHeadersValidator(), new AvailabilityCheckValidator()];
   }
 
   public getQuestions(): Question[] {

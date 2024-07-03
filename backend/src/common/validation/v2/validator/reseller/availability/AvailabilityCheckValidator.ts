@@ -4,7 +4,7 @@ import { Validator } from '../../Validator';
 import { ValidationFailureFactory } from '../../../ValidationFailureFactory';
 import { ValidationError } from 'yup';
 
-export class AvailabilityCalendarValidator implements Validator {
+export class AvailabilityCheckValidator implements Validator {
   public async validate(data: any): Promise<ValidationResult> {
     const validationResult = new ValidationResult(data);
 
