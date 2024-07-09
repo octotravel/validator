@@ -55,8 +55,6 @@ export class ProductValidator implements ModelValidator {
       StringValidator.validate(`${this.path}.locale`, product?.locale, { shouldWarn }),
       StringValidator.validate(`${this.path}.timeZone`, product?.timeZone, { shouldWarn }),
       BooleanValidator.validate(`${this.path}.allowFreesale`, product?.allowFreesale, { shouldWarn }),
-      NumberValidator.validate(`${this.path}.freesaleDurationAmount`, product?.freesaleDurationAmount, { shouldWarn }),
-      StringValidator.validate(`${this.path}.freesaleDurationUnit`, product?.freesaleDurationUnit, { shouldWarn }),
       BooleanValidator.validate(`${this.path}.instantConfirmation`, product?.instantConfirmation, { shouldWarn }),
       BooleanValidator.validate(`${this.path}.instantDelivery`, product?.instantDelivery, { shouldWarn }),
       BooleanValidator.validate(`${this.path}.availabilityRequired`, product?.availabilityRequired, { shouldWarn }),
