@@ -29,6 +29,7 @@ export class Database {
     database: config.getEnvironment() === Environment.TEST ? config.DB_TEST_NAME : config.DB_NAME,
     password: config.DB_PASSWORD,
     port: config.DB_PORT,
+    ssl: config.DB_USE_SSL ? { rejectUnauthorized: false } : false,
     keepAlive: false,
     connectionTimeoutMillis: 2000,
   };

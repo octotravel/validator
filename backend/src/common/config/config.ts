@@ -12,6 +12,11 @@ const schema = {
     optional: true,
     default: 15432,
   },
+  DB_USE_SSL: {
+    type: Boolean,
+    optional: true,
+    default: false,
+  },
   DB_NAME: {
     type: String,
     optional: true,
