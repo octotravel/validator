@@ -19,7 +19,7 @@ interface IContext {
 }
 export class Context implements IContext {
   private endpoint = '';
-  private apiKey = '';
+  private headers = {};
   private capabilities: CapabilityId[] = [];
   public _terminateValidation = false;
   public requestId: string = '';
@@ -41,7 +41,7 @@ export class Context implements IContext {
 
   public setSchema = (data: ValidationEndpoint): void => {
     this.endpoint = data.backend.endpoint;
-    this.apiKey = data.backend.apiKey;
+    this.headers = data.backend.headers;
     this.capabilities = [];
     this._terminateValidation = false;
     this.requestId = uuid();
@@ -50,7 +50,7 @@ export class Context implements IContext {
   public getApiClient = (): ApiClient => {
     return new ApiClient({
       url: this.endpoint,
-      apiKey: this.apiKey,
+      headers: this.headers,
       capabilities: this.getCapabilityIDs(),
     });
   };
