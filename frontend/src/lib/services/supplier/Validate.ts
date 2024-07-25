@@ -16,19 +16,19 @@ export const supplierValidate = async (
 		body: JSON.stringify(data)
 	});
 
-	if (!response.ok) {
-		supplierFlowResultStore.set({ flows: [], isLoading: false, error: response.statusText });
+	const flows = await response.json();
+
+	if (response.status !== 200) {
+		supplierFlowResultStore.set({ flows: [], isLoading: false, error: flows.errorMessage });
 
 		const t: ToastSettings = {
-			message: `There was an error validating the supplier. Please try again later.`,
+			message: flows.errorMessage,
 			background: 'variant-filled-error'
 		};
 
 		toastStore.trigger(t);
 		return;
 	}
-
-	const flows = await response.json();
 
 	supplierFlowResultStore.set({ flows, isLoading: false, error: null });
 };
