@@ -29,6 +29,8 @@ export class ValidateHandler {
 
       return this.jsonResponseFactory.create(flowResult);
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e);
       const err = e as Error;
 
       if (err instanceof OctoError) {
