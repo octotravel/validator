@@ -205,7 +205,6 @@ export abstract class ScenariosService {
 			return;
 		}
 
-		console.log(data);
 		const body = {
 			answers: data.map((a) => {
 				return {

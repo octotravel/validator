@@ -5,7 +5,6 @@ import { AvailabilityValidator } from '../../../validators/backendValidator/Avai
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 import { Context } from '../context/Context';
 import { ScenarioResult } from '../Scenarios/Scenario';
-
 export class AvailabilityScenarioHelper extends ScenarioHelper {
   public validateAvailability = (
     data: ScenarioHelperData<Availability[]>,
@@ -25,16 +24,26 @@ export class AvailabilityScenarioHelper extends ScenarioHelper {
       });
     }
     const availabilities = result?.data ?? [];
+    let errors = [];
 
-    const errors = availabilities.map(validator.validate).flat();
-
-    if (R.isEmpty(availabilities)) {
+    if (!Array.isArray(availabilities)) {
       errors.push(
         new ValidatorError({
           type: ErrorType.CRITICAL,
-          message: 'no availability returned',
+          message: 'availability response is not array',
         }),
       );
+    } else {
+      errors = availabilities.map(validator.validate).flat();
+
+      if (R.isEmpty(availabilities)) {
+        errors.push(
+          new ValidatorError({
+            type: ErrorType.CRITICAL,
+            message: 'no availability returned',
+          }),
+        );
+      }
     }
 
     return this.handleResult({

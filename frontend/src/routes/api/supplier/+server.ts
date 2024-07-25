@@ -5,8 +5,7 @@ export async function POST({ request }) {
 
 	const body = {
 		backend: {
-			endpoint: data.endpoint,
-			apiKey: data.apiKey
+			...data
 		}
 	};
 
@@ -20,7 +19,8 @@ export async function POST({ request }) {
 
 	const parsedResponse = await response.json();
 
-	return new Response(JSON.stringify(parsedResponse), {
+	return new Response(JSON.stringify(parsedResponse.body), {
+		status: parsedResponse.status,
 		headers: {
 			'content-type': 'application/json'
 		}

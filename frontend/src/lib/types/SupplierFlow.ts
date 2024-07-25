@@ -51,5 +51,10 @@ export interface SupplierValidationStore {
 
 export interface SupplierValidationRequestData {
 	endpoint: string;
-	apiKey: string;
+	headers: Record<string, string>;
+}
+
+export interface SupplierAdditionalHeaders {
+	key: string;
+	value: string;
 }

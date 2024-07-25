@@ -27,7 +27,7 @@ import { Result } from './types';
 
 export class ApiClient extends Client {
   private readonly url: string;
-  public constructor(data: { capabilities?: CapabilityId[]; url: string; apiKey: string }) {
+  public constructor(data: { capabilities?: CapabilityId[]; url: string; headers: Record<string, string> }) {
     super(data);
     this.url = data.url;
   }

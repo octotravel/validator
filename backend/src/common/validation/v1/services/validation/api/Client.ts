@@ -10,10 +10,17 @@ export interface FetchData {
 }
 export class Client {
   private readonly capabilities: CapabilityId[];
-  private readonly apiKey: string;
-  public constructor({ capabilities, apiKey }: { capabilities?: CapabilityId[]; url: string; apiKey: string }) {
+  private readonly headers: Record<string, string>;
+  public constructor({
+    capabilities,
+    headers,
+  }: {
+    capabilities?: CapabilityId[];
+    url: string;
+    headers: Record<string, string>;
+  }) {
     this.capabilities = capabilities ?? [];
-    this.apiKey = apiKey;
+    this.headers = headers;
   }
 
   protected fetch = async <T>(data: FetchData): Promise<Result<T>> => {
@@ -35,8 +42,8 @@ export class Client {
   private readonly createHeaders = (): Record<string, string> => {
     const headers = {
       'Octo-Capabilities': this.capabilities.join(', '),
-      Authorization: `Bearer ${this.apiKey}`,
       'content-type': 'application/json',
+      ...this.headers,
     };
 
     return headers;
