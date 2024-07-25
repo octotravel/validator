@@ -139,7 +139,7 @@ jobs:
 
       - name: Install node modules
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install --no-lockfile --prefer-offline --no-optional
+        run: npm install --no-lockfile --prefer-offline
 
       - name: Run ESLint
         run: npm run lint
@@ -173,7 +173,7 @@ jobs:
 
       - name: Install node modules
         if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install --no-lockfile --prefer-offline --no-optional
+        run: npm install --no-lockfile --prefer-offline
 
       - name: Run tests
         run: npm run test
