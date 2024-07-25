@@ -28,7 +28,6 @@
 			)
 		};
 
-		console.log(headers);
 		supplierValidate(
 			{
 				endpoint: $supplierFormEndpointStore,

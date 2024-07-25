@@ -19,8 +19,6 @@ export async function POST({ request }) {
 
 	const parsedResponse = await response.json();
 
-	console.log('parsedResponse', parsedResponse);
-
 	return new Response(JSON.stringify(parsedResponse.body), {
 		status: parsedResponse.status,
 		headers: {
