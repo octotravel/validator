@@ -8,7 +8,7 @@
 	);
 
 	const successScenarios =
-		$supplierFlowResultStore?.flows.length ?? 0 > 0
+		($supplierFlowResultStore?.flows.length ?? 0 > 0)
 			? $supplierFlowResultStore?.flows
 					?.map((item) => {
 						return item.scenarios.filter((el) => el.success === true);
@@ -17,7 +17,7 @@
 			: '';
 
 	const warningScenarios =
-		$supplierFlowResultStore?.flows.length ?? 0 > 0
+		($supplierFlowResultStore?.flows.length ?? 0 > 0)
 			? $supplierFlowResultStore?.flows
 					.map((flow) => {
 						return flow.scenarios.filter(
@@ -28,7 +28,7 @@
 			: '';
 
 	const errorScenarios =
-		$supplierFlowResultStore?.flows.length ?? 0 > 0
+		($supplierFlowResultStore?.flows.length ?? 0 > 0)
 			? $supplierFlowResultStore?.flows
 					.map((flow) => {
 						return flow.scenarios.filter(
