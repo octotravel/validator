@@ -65,10 +65,7 @@
 					</div>
 					<div class="input-group input-group-divider grid-cols-[auto_1fr_auto] col-span-6">
 						<div class="input-group-shim">Bearer</div>
-						<input
-							type="text"
-							bind:value={$supplierFormApiKeyStore}
-						/>
+						<input type="text" bind:value={$supplierFormApiKeyStore} />
 					</div>
 				</div>
 				<!-- todo-->
