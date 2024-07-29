@@ -67,7 +67,6 @@
 						<div class="input-group-shim">Bearer</div>
 						<input
 							type="text"
-							placeholder="www.example.com"
 							bind:value={$supplierFormApiKeyStore}
 						/>
 					</div>
