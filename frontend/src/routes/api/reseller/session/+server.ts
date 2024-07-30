@@ -8,6 +8,16 @@ export async function POST() {
 		}
 	});
 
+	if (response.status !== 200) {
+		const error = await response.json();
+		return new Response(JSON.stringify(error), {
+			status: response.status,
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+
 	const parsedResponse = await response.json();
 
 	return new Response(JSON.stringify(parsedResponse), {
@@ -26,6 +36,16 @@ export async function GET({ request }) {
 			'Content-Type': 'application/json'
 		}
 	});
+
+	if (response.status !== 200) {
+		const error = await response.json();
+		return new Response(JSON.stringify(error), {
+			status: response.status,
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
 
 	const parsedResponse = await response.json();
 
@@ -46,6 +66,16 @@ export async function PUT({ request }) {
 		},
 		body: JSON.stringify(body)
 	});
+
+	if (response.status !== 200) {
+		const error = await response.json();
+		return new Response(JSON.stringify(error), {
+			status: response.status,
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
 
 	const parsedResponse = await response.json();
 

@@ -8,6 +8,16 @@ export async function GET() {
 		}
 	});
 
+	if (response.status !== 200) {
+		const error = await response.json();
+		return new Response(JSON.stringify(error), {
+			status: response.status,
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+
 	const parsedResponse = await response.json();
 
 	return new Response(JSON.stringify(parsedResponse), {
