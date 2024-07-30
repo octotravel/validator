@@ -17,10 +17,19 @@ export async function POST({ request }) {
 		body: JSON.stringify(body)
 	});
 
+	if (response.status !== 200) {
+		const error = await response.json();
+		return new Response(JSON.stringify(error), {
+			status: response.status,
+			headers: {
+				'content-type': 'application/json'
+			}
+		});
+	}
+
 	const parsedResponse = await response.json();
 
-	return new Response(JSON.stringify(parsedResponse.body), {
-		status: parsedResponse.status,
+	return new Response(JSON.stringify(parsedResponse), {
 		headers: {
 			'content-type': 'application/json'
 		}
