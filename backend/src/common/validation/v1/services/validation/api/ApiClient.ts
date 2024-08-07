@@ -108,10 +108,10 @@ export class ApiClient extends Client {
     data: CancelBookingBodySchema & CancelBookingPathParamsSchema,
     context: Context,
   ): Promise<Result<Booking>> => {
-    const url = `${this.url}/bookings/${data.uuid}`;
+    const url = `${this.url}/bookings/${data.uuid}/cancel`;
     const { uuid, ...rest } = data;
     const body = JSON.stringify(rest);
-    return await this.fetch({ url, body, method: 'DELETE', context });
+    return await this.fetch({ url, body, method: 'POST', context });
   };
 
   public bookingExtend = async (
@@ -128,7 +128,7 @@ export class ApiClient extends Client {
     data: UpdateBookingBodySchema & UpdateBookingPathParamsSchema,
     context: Context,
   ): Promise<Result<Booking>> => {
-    const url = `${this.url}/bookings/${data.uuid}`;
+    const url = `${this.url}/bookings/${data.uuid}/update`;
     const { uuid, ...rest } = data;
     const body = JSON.stringify(rest);
     return await this.fetch({ url, body, method: 'PATCH', context });
