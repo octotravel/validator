@@ -126,7 +126,7 @@ export class BookingValidator implements ModelValidator {
 
   private readonly validateBookingAvailability = (booking: Booking | null): ValidatorError[] =>
     [
-      CommonValidator.validateLocalDateTime(`${this.path}.availabilityId`, booking?.availabilityId),
+      StringValidator.validate(`${this.path}.availabilityId`, booking?.availabilityId),
       StringValidator.validate(`${this.path}.availability.id`, booking?.availability?.id),
       CommonValidator.validateLocalDateTime(
         `${this.path}.availability.localDateTimeStart`,
