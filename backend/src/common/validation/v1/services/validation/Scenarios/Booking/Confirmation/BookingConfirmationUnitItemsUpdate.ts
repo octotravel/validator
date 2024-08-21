@@ -5,6 +5,7 @@ import { ScenarioHelper } from '../../../helpers/ScenarioHelper';
 import { Booker } from '../../../Booker';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Context } from '../../../context/Context';
+import { ReferenceHelper } from './../../../../../../../validation/v1/helpers/ReferenceHelper';
 
 export class BookingConfirmationUnitItemUpdateScenario implements Scenario {
   private readonly helper = new ScenarioHelper();
@@ -38,7 +39,7 @@ export class BookingConfirmationUnitItemUpdateScenario implements Scenario {
           notes: 'Test note',
         },
         // TODO: make it dynamic
-        resellerReference: 'RESELLERREF#1',
+        resellerReference: ReferenceHelper.generate(),
         unitItems,
       },
       context,
