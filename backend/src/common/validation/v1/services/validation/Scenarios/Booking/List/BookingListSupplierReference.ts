@@ -31,6 +31,7 @@ export class BookingListSupplierReferenceScenario implements Scenario {
     const resultConfirmation = await apiClient.bookingConfirmation(
       {
         uuid: resultReservation.data.uuid,
+        resellerReference: 'Test reference',
         contact: {
           fullName: 'John Doe',
         },

@@ -36,6 +36,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
       {
         uuid: resultReservation.data.uuid,
         unitItems,
+        resellerReference: 'Test reference',
         contact: {
           firstName: 'John',
           lastName: 'Doe',
