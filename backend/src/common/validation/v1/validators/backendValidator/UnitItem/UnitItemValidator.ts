@@ -12,20 +12,24 @@ export class UnitItemValidator implements ModelValidator {
   private readonly unitValidator: UnitValidator;
   private readonly ticketValidator: TicketValidator;
   private readonly contactValidator: ContactValidator;
+  private readonly isBooking: boolean;
   public constructor({
     path,
     capabilities,
     shouldNotHydrate = false,
+    isBooking = false,
   }: {
     path: string;
     capabilities: CapabilityId[];
     shouldNotHydrate?: boolean;
+    isBooking?: boolean;
   }) {
     this.path = path;
     this.capabilities = capabilities;
     this.unitValidator = new UnitValidator({ path: `${this.path}.unit`, capabilities, shouldNotHydrate });
     this.contactValidator = new ContactValidator({ path: this.path, shouldNotHydrate });
     this.ticketValidator = new TicketValidator({ path: `${this.path}.ticket` });
+    this.isBooking = isBooking;
   }
 
   public validate = (
@@ -45,7 +49,7 @@ export class UnitItemValidator implements ModelValidator {
         shouldWarn,
       }),
       StringValidator.validate(`${this.path}.unitId`, unitItem?.unitId, { shouldWarn }),
-      ...this.unitValidator.validate(unitItem?.unit!, pricingPer),
+      ...((this.isBooking && !unitItem.unit) ? [] : this.unitValidator.validate(unitItem?.unit!, pricingPer)),
       EnumValidator.validate(`${this.path}.status`, unitItem?.status, Object.values(BookingStatus), { shouldWarn }),
       NullValidator.validate(`${this.path}.utcRedeemedAt`, unitItem?.utcRedeemedAt),
       ...this.contactValidator.validate(unitItem?.contact),
