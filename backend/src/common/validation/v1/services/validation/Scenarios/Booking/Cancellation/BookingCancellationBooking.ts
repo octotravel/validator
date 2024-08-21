@@ -31,7 +31,6 @@ export class BookingCancellationBookingScenario implements Scenario {
     const resultConfirmation = await apiClient.bookingConfirmation(
       {
         uuid: resultReservation.data.uuid,
-        resellerReference: 'resellerReference',
         contact: {
           firstName: 'John',
           lastName: 'Doe',
@@ -39,6 +38,7 @@ export class BookingCancellationBookingScenario implements Scenario {
           fullName: 'John Doe',
           notes: 'Test note',
         },
+        resellerReference: 'RESELLERREF#1',
       },
       context,
     );
