@@ -72,9 +72,9 @@ export class BookingValidator implements ModelValidator {
       EnumValidator.validate(`${this.path}.status`, booking?.status, Object.values(BookingStatus)),
       ...this.bookingStateValidator.validate(booking),
       StringValidator.validate(`${this.path}.productId`, booking?.productId),
-      ...this.productValidator.validate(booking?.product),
+      ...(booking?.product ? this.productValidator.validate(booking?.product) : []),
       StringValidator.validate(`${this.path}.optionId`, booking?.optionId),
-      ...this.optionValidator.validate(booking?.option, booking?.product?.availabilityType),
+      ...(booking?.option ? this.optionValidator.validate(booking?.option, booking?.product?.availabilityType) : []),
       BooleanValidator.validate(`${this.path}.cancellable`, booking?.cancellable),
       BooleanValidator.validate(`${this.path}.freesale`, booking?.freesale),
       ...this.validateBookingAvailability(booking),
@@ -82,7 +82,7 @@ export class BookingValidator implements ModelValidator {
       StringValidator.validate(`${this.path}.notes`, booking?.notes, {
         nullable: true,
       }),
-      ...this.validateDeliveryMethods(booking),
+      ...(booking?.product ? this.validateDeliveryMethods(booking) : []),
       ...this.validateUnitItems(booking),
       ...this.validateVoucher(booking),
       ...this.validatePricingCapability(booking),
@@ -152,6 +152,7 @@ export class BookingValidator implements ModelValidator {
           path: `${this.path}.unitItems[${i}]`,
           capabilities: this.capabilities,
           shouldNotHydrate: this.shouldNotHydrate,
+          isBooking: true,
         });
         return validator.validate(unitItem, booking?.deliveryMethods, booking?.product?.pricingPer);
       })

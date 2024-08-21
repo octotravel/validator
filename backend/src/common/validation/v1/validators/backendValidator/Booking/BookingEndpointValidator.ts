@@ -63,15 +63,19 @@ export class BookingEndpointValidator {
       StringValidator.validate(`${this.path}.productId`, booking?.productId, {
         equalsTo: productId,
       }),
-      StringValidator.validate(`${this.path}.product.id`, booking?.product?.id, {
-        equalsTo: productId,
-      }),
+      booking?.product
+        ? StringValidator.validate(`${this.path}.product.id`, booking?.product?.id, {
+            equalsTo: productId,
+          })
+        : null,
       StringValidator.validate(`${this.path}.optionId`, booking?.optionId, {
         equalsTo: optionId,
       }),
-      StringValidator.validate(`${this.path}.option.id`, booking?.option?.id, {
-        equalsTo: optionId,
-      }),
+      booking?.option
+        ? StringValidator.validate(`${this.path}.option.id`, booking?.option?.id, {
+            equalsTo: optionId,
+          })
+        : null,
       StringValidator.validate(`${this.path}.availabilityId`, booking?.availabilityId, {
         equalsTo: availabilityId,
       }),

@@ -5,6 +5,7 @@ import { Booker } from '../../../Booker';
 import { ScenarioHelper } from '../../../helpers/ScenarioHelper';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Context } from '../../../context/Context';
+import { ReferenceHelper } from './../../../../../../../validation/v1/helpers/ReferenceHelper';
 
 export class BookingConfirmationScenario implements Scenario {
   private readonly helper = new ScenarioHelper();
@@ -37,7 +38,7 @@ export class BookingConfirmationScenario implements Scenario {
           fullName: 'John Doe',
           notes: 'Test note',
         },
-        resellerReference: 'RESELLERREF#1',
+        resellerReference: ReferenceHelper.generate(),
       },
       context,
     );
