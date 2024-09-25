@@ -6,6 +6,7 @@
     "backend"
   ],
   "scripts": {
+    "prepare": "cd backend && npm run prepare"
   },
   "devDependencies": {
     "lefthook": "^1.6.10"
