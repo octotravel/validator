@@ -1,8 +1,15 @@
 {
-  "name": "@octocloud/validator",
+  "name": "@octocloud/validator-backend",
   "version": "1.0.0",
   "license": "ISC",
   "author": "",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "main": "./dist/app.js",
   "module": "./dist/app.mjs",
   "scripts": {

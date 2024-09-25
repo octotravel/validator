@@ -1,4 +1,10 @@
 {
+  "private": true,
+  "name": "@octocloud/validator",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
   },
   "devDependencies": {
