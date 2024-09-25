@@ -12,6 +12,9 @@
   },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npx tsc",
     "check": "npm run typecheck && npm run format:check && npm run lint",

@@ -20,7 +20,6 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true
   },
-  "files": ["./src/index.ts"],
   "include": [
     "src/**/*",
     "esbuild.config.ts",
