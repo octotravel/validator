@@ -5,8 +5,9 @@
     "frontend",
     "backend"
   ],
-  "scripts": {
-    "prepare": "cd backend && npm run prepare"
+  "dependencies": {
+    "@octocloud/validator-backend": "*",
+    "@octocloud/validator-frontend": "*"
   },
   "devDependencies": {
     "lefthook": "^1.6.10"
