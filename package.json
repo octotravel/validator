@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "prepare": "lefthook install"
   },
   "devDependencies": {
     "lefthook": "^1.6.10"
