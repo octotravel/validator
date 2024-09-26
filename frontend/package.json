@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"name": "frontend",
+	"name": "@octocloud/validator-frontend",
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",

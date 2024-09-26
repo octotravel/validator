@@ -1,11 +1,10 @@
 {
   "private": true,
-  "name": "backend",
+  "name": "@octocloud/validator-backend",
   "version": "1.0.0",
   "license": "ISC",
-  "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --build",
     "check": "npm run typecheck && npm run format:check && npm run lint",
     "console": "tsx src/console.ts",
     "dev": "tsx --watch --no-warnings ./src/server.ts",
@@ -27,7 +26,6 @@
     "test:coverage": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts --coverage",
     "typecheck": "tsc --noEmit"
   },
-  "types": "./dist/app.d.ts",
   "dependencies": {
     "@koa/cors": "5.0.0",
     "@octocloud/backend": "1.0.12",
@@ -59,7 +57,7 @@
     "socket.io": "4.7.5",
     "socket.io-client": "4.7.5",
     "swc": "1.0.11",
-    "ts-dotenv": "^0.9.1",
+    "ts-dotenv": "0.9.1",
     "ts-enum-util": "4.0.2",
     "uuid": "9.0.0",
     "vite": "5.1.6",
@@ -67,7 +65,7 @@
     "yup": "0.32.11"
   },
   "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "^4.18.0"
+    "@rollup/rollup-linux-x64-gnu": "4.18.0"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",

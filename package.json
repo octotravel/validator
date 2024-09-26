@@ -1,12 +1,16 @@
 {
   "name": "@octocloud/validator",
-  "workspaces": [
-    "backend"
-  ],
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "prepare": "cd backend && npm run prepare"
   },
   "devDependencies": {
     "lefthook": "^1.6.10"
-  }
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
 }
