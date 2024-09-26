@@ -1,5 +1,6 @@
 {
-  "name": "@octocloud/validator-backend",
+  "private": true,
+  "name": "backend",
   "version": "1.0.0",
   "license": "ISC",
   "author": "",
@@ -30,10 +31,10 @@
     "gitleaks": "gitleaks detect -v",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
+    "prepare": "npm run build",
     "test": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts",
     "test:coverage": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts --coverage",
-    "typecheck": "tsc --noEmit",
-    "prepare": "npm run build"
+    "typecheck": "tsc --noEmit"
   },
   "types": "./dist/app.d.ts",
   "dependencies": {

@@ -1,13 +1,11 @@
 {
-  "private": true,
   "name": "@octocloud/validator",
   "workspaces": [
     "frontend",
     "backend"
   ],
-  "dependencies": {
-    "@octocloud/validator-backend": "*",
-    "@octocloud/validator-frontend": "*"
+  "scripts": {
+    "prepare": "cd backend && npm run prepare"
   },
   "devDependencies": {
     "lefthook": "^1.6.10"
