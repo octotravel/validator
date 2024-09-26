@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "license": "ISC",
   "scripts": {
-    "build": "tsc --build",
+    "build": "tsc",
     "check": "npm run typecheck && npm run format:check && npm run lint",
     "console": "tsx src/console.ts",
     "dev": "tsx --watch --no-warnings ./src/server.ts",

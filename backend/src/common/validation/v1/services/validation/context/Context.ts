@@ -11,12 +11,14 @@ export interface ErrorResult<T> {
   data: T | null;
   error: ValidatorError | null;
 }
-interface IContext {
+
+export interface IContext {
   setCapabilities: (capabilities: Capability[]) => ValidatorError[];
   getCapabilityIDs: () => CapabilityId[];
   setProducts: (products: Product[]) => ValidatorError[];
   getProduct: () => Product;
 }
+
 export class Context implements IContext {
   private endpoint = '';
   private headers = {};
