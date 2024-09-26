@@ -1,7 +1,6 @@
 {
   "name": "@octocloud/validator",
   "workspaces": [
-    "frontend",
     "backend"
   ],
   "scripts": {
