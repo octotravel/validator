@@ -3,6 +3,7 @@ import { Context } from '../context/Context';
 
 export interface Flow {
   validate: (context: Context) => Promise<FlowResult>;
+  getName: () => string;
 }
 
 export interface FlowResult {

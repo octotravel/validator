@@ -10,6 +10,14 @@ export abstract class BaseFlow {
     this.docs = docs;
   }
 
+  public getName(): string {
+    return this.name;
+  }
+
+  public getDocs(): string {
+    return this.docs;
+  }
+
   private readonly getValidationResult = (scenarios: ScenarioResult[]): ValidationResult => {
     if (scenarios.some((scenario) => scenario.validationResult === ValidationResult.FAILED)) {
       return ValidationResult.FAILED;
