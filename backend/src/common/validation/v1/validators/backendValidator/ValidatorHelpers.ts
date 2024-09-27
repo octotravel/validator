@@ -14,8 +14,8 @@ export enum ErrorType {
   CRITICAL = 'CRITICAL',
 }
 
-interface MappedError {
-  type: string;
+export interface MappedError {
+  type: ErrorType;
   message: string;
 }
 

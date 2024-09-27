@@ -1,5 +1,6 @@
 import { Availability, Product } from '@octocloud/types';
 import { Context } from '../context/Context';
+import { MappedError } from '../../../validators/backendValidator/ValidatorHelpers';
 
 export interface Scenario {
   validate: (context: Context) => Promise<ScenarioResult>;
@@ -33,7 +34,7 @@ export interface ScenarioResult {
   validationResult: ValidationResult;
   request: ScenarioRequest | null;
   response: ScenarioResponse | null;
-  errors: any[]; // validation errors
+  errors: MappedError[];
   description: string;
 }
 
