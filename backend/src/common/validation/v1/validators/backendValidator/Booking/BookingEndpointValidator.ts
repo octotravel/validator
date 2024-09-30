@@ -210,19 +210,19 @@ export class BookingEndpointValidator {
     if (schema.contact) {
       const errors = [
         StringValidator.validate(`${this.path}.contact.firstName`, booking?.contact?.firstName, {
-          equalsTo: schema?.contact?.firstName,
+          equalsTo: schema?.contact?.firstName ?? undefined,
         }),
         StringValidator.validate(`${this.path}.contact.fullName`, booking?.contact?.fullName, {
-          equalsTo: schema?.contact?.fullName,
+          equalsTo: schema?.contact?.fullName ?? undefined,
         }),
         StringValidator.validate(`${this.path}.contact.lastName`, booking?.contact?.lastName, {
-          equalsTo: schema?.contact?.lastName,
+          equalsTo: schema?.contact?.lastName ?? undefined,
         }),
         StringValidator.validate(`${this.path}.contact.emailAddress`, booking?.contact?.emailAddress, {
-          equalsTo: schema?.contact?.emailAddress,
+          equalsTo: schema?.contact?.emailAddress ?? undefined,
         }),
         StringValidator.validate(`${this.path}.contact.notes`, booking?.contact?.notes, {
-          equalsTo: schema?.contact?.notes,
+          equalsTo: schema?.contact?.notes ?? undefined,
         }),
       ];
       return errors.flatMap((v) => (v ? [v] : []));
