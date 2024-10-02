@@ -23,12 +23,16 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
     const errors: ValidatorError[] = [];
 
     const products = data.products;
-    const soldOutData = this.findSoldOutProduct(products, context);
-    if (soldOutData.error !== null) {
-      errors.push(soldOutData.error);
-    } else if (soldOutData.data !== null) {
-      context.productConfig.soldOutProduct = soldOutData.data;
+
+    if (context.productConfig.validateSoldOutProduct) {
+      const soldOutData = this.findSoldOutProduct(products, context);
+      if (soldOutData.error !== null) {
+        errors.push(soldOutData.error);
+      } else if (soldOutData.data !== null) {
+        context.productConfig.soldOutProduct = soldOutData.data;
+      }
     }
+
     const availableData = this.findAvailableProducts(products, context);
     if (availableData.error !== null) {
       errors.push(availableData.error);

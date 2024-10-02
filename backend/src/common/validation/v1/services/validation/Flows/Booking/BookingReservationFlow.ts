@@ -12,6 +12,7 @@ import { Scenario } from '../../Scenarios/Scenario';
 import { Booker } from '../../Booker';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { LogicError } from '@octocloud/core';
 
 export class BookingReservationFlow extends BaseFlow implements Flow {
   private readonly booker = new Booker();
@@ -20,16 +21,21 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {
-    const scenarios = [
-      await this.reserveAvailableProduct(context),
-      await this.reserveSoldOutProduct(context),
+    const scenarios = [await this.reserveAvailableProduct(context)];
+
+    if (context.productConfig.validateSoldOutProduct) {
+      scenarios.push(await this.reserveSoldOutProduct(context));
+    }
+
+    scenarios.push(
       await this.reserveInvalidProduct(context),
       await this.reserveInvalidOption(context),
       await this.reserveInvalidAvailabilityID(context),
       await this.reserveWithMissingUnitItems(context),
       await this.reserveWithEmptyUnitItems(context),
       await this.validateBookingInvalidUnitId(context),
-    ];
+    );
+
     return await this.validateScenarios(scenarios, context);
   };
 
@@ -43,6 +49,10 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
 
   private readonly reserveSoldOutProduct = async (context: Context): Promise<Scenario> => {
     const bookableProduct = context.productConfig.soldOutProduct;
+
+    if (context.productConfig.soldOutProduct === null) {
+      throw new LogicError('Sold out product not found');
+    }
 
     const result = await this.booker.createReservation(bookableProduct!, context, {
       soldOutAvailability: true,
