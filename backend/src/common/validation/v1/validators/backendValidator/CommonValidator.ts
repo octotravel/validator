@@ -47,7 +47,7 @@ export class CommonValidator {
     utcDate?: string | null,
     params?: CommonValidatorParams,
   ): ValidatorError | null => {
-    const regExp = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])Z$/;
+    const regExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])T([01]\d|2[0-3]):[0-5]\d:[0-5]\d(\.\d{3})?Z$/;
     if (params?.nullable) {
       if (utcDate !== null) {
         return RegExpValidator.validate(label, utcDate, regExp);
