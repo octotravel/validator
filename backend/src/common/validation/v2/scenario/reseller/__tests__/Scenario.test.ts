@@ -9,6 +9,7 @@ import { GetScenariosResponse } from '../../../../../../api/v2/reseller/scenario
 import { AdvancedScenario } from '../AdvancedScenario';
 import { ScenarioStepTestUtil } from './ScenarioStepTestUtil';
 import { ScenarioRepository } from '../../ScenarioRepository';
+
 describe('AdvancedScenario', () => {
   const server = app.listen();
   const targetScenarioId = ScenarioId.ADVANCED_SCENARIO;

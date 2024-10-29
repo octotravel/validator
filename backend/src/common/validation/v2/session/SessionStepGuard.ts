@@ -6,6 +6,7 @@ import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 import { SessionIsInInvalidState } from './error/SessionIsInInvalidState';
 import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
+
 @singleton()
 export class SessionStepGuard {
   public constructor(

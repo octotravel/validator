@@ -10,14 +10,17 @@ export class BackendParamsUtil {
       }),
     });
 
+    const accountId = 'accountId';
+
     requestContext.setConnection({
       id: 'id',
       supplierId: 'Viator',
       apiKey: 'apiKey',
       endpoint: 'https://mock.octo.travel',
-      accountId: 'accountId',
+      accountId: accountId,
       name: 'name',
     });
+    requestContext.setAccountId(accountId);
 
     return {
       ctx: requestContext,

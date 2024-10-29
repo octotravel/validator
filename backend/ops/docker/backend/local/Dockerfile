@@ -4,12 +4,13 @@ RUN apk add --no-cache libc6-compat wget git ansible make build-base
 
 WORKDIR /var/www/backend/
 
-COPY package.json .
-COPY package-lock.json .
-RUN npm install --silent --no-audit --no-lockfile --prefer-offline --legacy-peer-deps
+RUN apk add --no-cache git
 
 COPY . .
 
 EXPOSE $APP_PORT
 
-CMD ["npm", "run", "dev", "--silent"]
+RUN npm update --global npm
+RUN npm install --global concurrently node-gyp
+
+CMD ["sh", "-c", "npm install --no-lockfile --prefer-offline && npm run dev"]
