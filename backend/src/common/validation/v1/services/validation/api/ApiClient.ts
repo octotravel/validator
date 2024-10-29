@@ -128,7 +128,7 @@ export class ApiClient extends Client {
     data: UpdateBookingBodySchema & UpdateBookingPathParamsSchema,
     context: Context,
   ): Promise<Result<Booking>> => {
-    const url = `${this.url}/bookings/${data.uuid}/update`;
+    const url = `${this.url}/bookings/${data.uuid}`;
     const { uuid, ...rest } = data;
     const body = JSON.stringify(rest);
     return await this.fetch({ url, body, method: 'PATCH', context });
