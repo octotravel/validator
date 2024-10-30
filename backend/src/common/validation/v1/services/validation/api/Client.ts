@@ -1,6 +1,9 @@
 import { CapabilityId } from '@octocloud/types';
 import { Result } from './types';
 import { Context } from '../context/Context';
+import { fetchRetry, SubRequestContext } from '@octocloud/core';
+import { container } from '../../../../../di/container';
+import { RequestScopedContextProvider } from '../../../../../requestContext/RequestScopedContextProvider';
 
 export interface FetchData {
   url: string;
@@ -9,6 +12,7 @@ export interface FetchData {
   context: Context;
 }
 export class Client {
+  private readonly requestScopedContextProvider: RequestScopedContextProvider;
   private readonly capabilities: CapabilityId[];
   private readonly headers: Record<string, string>;
   public constructor({
@@ -21,6 +25,7 @@ export class Client {
   }) {
     this.capabilities = capabilities ?? [];
     this.headers = headers;
+    this.requestScopedContextProvider = container.resolve(RequestScopedContextProvider);
   }
 
   protected fetch = async <T>(data: FetchData): Promise<Result<T>> => {
@@ -35,7 +40,22 @@ export class Client {
     if (body) {
       init.body = body;
     }
-    const res = await fetch(url, init);
+
+    const ventrataRequestContext = this.requestScopedContextProvider
+      .getRequestScopedContext()
+      .getVentrataRequestContext();
+    const requestId = ventrataRequestContext.getRequestId();
+    const req = new Request(url, init);
+    const subRequestContext = new SubRequestContext({
+      request: req,
+      requestId,
+      accountId: '',
+    });
+
+    const res = await fetchRetry(req, undefined, { subRequestContext });
+    const subRequestData = subRequestContext.getRequestData();
+    ventrataRequestContext.addSubrequest(subRequestData);
+
     return await this.setResponse({ url, method, body: body ?? null, headers }, res);
   };
 
