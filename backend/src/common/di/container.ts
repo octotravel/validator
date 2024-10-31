@@ -49,6 +49,8 @@ import { AvailabilityCheckHandler } from '../../api/v2/reseller/octo/availabilit
 import { BookingReservationHandler } from '../../api/v2/reseller/octo/booking/BookingReservationHandler';
 import { BookingConfirmationHandler } from '../../api/v2/reseller/octo/booking/BookingConfirmationHandler';
 import { BookingCancellationHandler } from '../../api/v2/reseller/octo/booking/BookingCancellationHandler';
+import { RequestLogger } from '../logger/request/RequestLogger';
+import { VentrataRequestLogger } from '../logger/request/VentrataRequestLogger';
 
 export const container = tsyringeContainer.createChildContainer();
 
@@ -77,6 +79,7 @@ container.registerSingleton(Migrator);
 container.registerSingleton(RequestScopedContextProvider);
 
 // Request Log
+container.registerSingleton<RequestLogger>('RequestLogger', VentrataRequestLogger);
 container.registerSingleton<RequestLogRepository>('RequestLogRepository', PostgresRequestLogRepository);
 container.registerSingleton(RequestLogService);
 
