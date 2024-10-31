@@ -1,7 +1,6 @@
 import { inject, singleton } from 'tsyringe';
 import { Backend } from '@octocloud/core';
 import { Booking } from '@octocloud/types';
-import { BackendParamsUtil } from '../../../../util/BackendParamsUtil';
 import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
 import { BookingReservationStep } from '../../step/reseller/booking/BookingReservationStep';
 import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
