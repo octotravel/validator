@@ -1,14 +1,13 @@
-import { inject, singleton } from 'tsyringe';
 import { RequestLogService } from '../../../../common/requestLog/RequestLogService';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
 import { IRequest } from 'itty-router';
 import { RequestLogFactory } from '../../../../common/requestLog/RequestLogFactory';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class RequestLoggerMiddleware {
   public constructor(
-    @inject(RequestLogService) private readonly requestLogService: RequestLogService,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
+    private readonly requestLogService: RequestLogService = inject(RequestLogService),
+    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
   public async invoke(response: Response, request: IRequest): Promise<void> {

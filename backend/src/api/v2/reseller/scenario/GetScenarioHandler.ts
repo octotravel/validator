@@ -1,4 +1,3 @@
-import { inject, singleton } from 'tsyringe';
 import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
 import { IRequest } from 'itty-router';
@@ -8,13 +7,13 @@ import { RequestHandler } from '../../../http/request/RequestHandler';
 import { SchemaValidator } from '../../../util/SchemaValidator';
 import { GetScenarioSchema, getScenarioSchema } from './GetScenarioSchema';
 import { GetScenarioResponseFactory } from './GetScenarioResponseFactory';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class GetScenarioHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(ScenarioFacade) private readonly scenarioFacade: ScenarioFacade,
+    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
+    private readonly scenarioFacade: ScenarioFacade = inject(ScenarioFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

@@ -1,4 +1,3 @@
-import { singleton, inject } from 'tsyringe';
 import { IRequest } from 'itty-router';
 import { SessionData } from '../../../types/Session';
 import { SchemaValidator } from '../../util/SchemaValidator';
@@ -12,13 +11,13 @@ import { SessionFacade } from '../../../common/validation/v2/session/SessionFaca
 import { ValidationError } from 'yup';
 import { RequestHandler } from '../../http/request/RequestHandler';
 import { SessionMissingRequiredScenarioCapabilities } from '../../../common/validation/v2/session/error/SessionMissingRequiredScenarioCapabilities';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class UpdateSessionHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(SessionFacade) private readonly sessionFacade: SessionFacade,
+    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
+    private readonly sessionFacade: SessionFacade = inject(SessionFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

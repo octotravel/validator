@@ -4,7 +4,7 @@ import { app } from '../../../../../../app';
 import { Database } from '../../../../../database/Database';
 import { SessionResponse } from '../../../../../../api/v2/session/SessionResponse';
 import { ScenarioId } from '../../ScenarioId';
-import { container } from '../../../../../di/container';
+import { container, SCENARIO_REPOSITORY } from '../../../../../di/container';
 import { GetScenariosResponse } from '../../../../../../api/v2/reseller/scenario/GetScenariosResponse';
 import { AdvancedScenario } from '../AdvancedScenario';
 import { ScenarioStepTestUtil } from './ScenarioStepTestUtil';
@@ -13,7 +13,7 @@ import { ScenarioRepository } from '../../ScenarioRepository';
 describe('AdvancedScenario', () => {
   const server = app.listen();
   const targetScenarioId = ScenarioId.ADVANCED_SCENARIO;
-  const targetScenario = container.resolve(AdvancedScenario);
+  const targetScenario = container.get(AdvancedScenario);
   const headers: any = {
     'Content-Type': 'application/json',
   };
@@ -23,7 +23,7 @@ describe('AdvancedScenario', () => {
   let scenarioStepTestUtil: ScenarioStepTestUtil;
 
   beforeAll(async () => {
-    database = container.resolve(Database);
+    database = container.get(Database);
 
     // Fetch scenarios
     const scenariosResponse = await request(server).get('/v2/reseller/scenarios').set(headers).send();
@@ -49,7 +49,7 @@ describe('AdvancedScenario', () => {
   });
 
   describe('Should test all scenarios', async () => {
-    scenarioRepository = container.resolve('ScenarioRepository');
+    scenarioRepository = container.get(SCENARIO_REPOSITORY);
     const scenarios = await scenarioRepository.getAllResellerScenarios();
 
     for (const scenario of scenarios) {

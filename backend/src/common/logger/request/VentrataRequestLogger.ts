@@ -11,22 +11,23 @@ import {
   fetchRetry,
 } from '@octocloud/core';
 import qs from 'query-string';
-import { inject, singleton } from 'tsyringe';
+
 import pLimit from 'p-limit';
 import { RequestLogger } from './RequestLogger';
 import { LoggerFactory } from '../LoggerFactory';
 import config from '../../config/config';
 import { ExceptionLogger } from '../ExceptionLogger';
+import { inject } from '@needle-di/core';
+import { ConsoleLoggerFactory } from '../ConsoleLoggerFactory';
 
 const limit = pLimit(6);
 
-@singleton()
 export class VentrataRequestLogger implements RequestLogger {
   private readonly consoleLogger: Logger;
 
   public constructor(
-    @inject('ExceptionLogger') private readonly exceptionLogger: ExceptionLogger,
-    @inject('ConsoleLoggerFactory') consoleLoggerFactory: LoggerFactory,
+    private readonly exceptionLogger: ExceptionLogger = inject<ExceptionLogger>('ExceptionLogger'),
+    consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
   ) {
     this.consoleLogger = consoleLoggerFactory.create();
   }

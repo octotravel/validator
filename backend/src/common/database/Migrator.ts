@@ -1,17 +1,16 @@
 import { readFileSync } from 'fs';
-import { singleton, inject } from 'tsyringe';
 import { packageDirectory } from 'pkg-dir';
 import { Logger, RuntimeError } from '@octocloud/core';
 import { Database } from './Database';
 import { MigrateError } from './error/MigrateError';
 import { lstat, readdir } from 'fs/promises';
 import { join } from 'path';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class Migrator {
   private migrationDirectoryPath: string | undefined;
 
-  public constructor(@inject(Database) private readonly database: Database) {}
+  public constructor(private readonly database: Database = inject(Database)) {}
 
   private readonly createMigrationTable = async (): Promise<void> => {
     await this.database.getConnection().query(`

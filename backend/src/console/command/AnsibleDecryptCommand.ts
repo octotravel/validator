@@ -1,19 +1,14 @@
 import * as fs from 'fs';
 import { Vault } from 'ansible-vault';
 import { packageDirectory } from 'pkg-dir';
-import { singleton, registry, inject } from 'tsyringe';
 import { Command } from './Command';
 import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
 import { Logger } from '@octocloud/core';
+import { inject } from '@needle-di/core';
 
-@singleton()
-@registry([
-  { token: AnsibleDecryptCommand.name, useClass: AnsibleDecryptCommand },
-  { token: 'Command', useClass: AnsibleDecryptCommand },
-])
 export class AnsibleDecryptCommand implements Command {
   public constructor(
-    @inject(ConsoleLoggerFactory) private readonly consoleLoggerFactory: ConsoleLoggerFactory,
+    private readonly consoleLoggerFactory: ConsoleLoggerFactory = inject(ConsoleLoggerFactory),
     private readonly consoleLogger: Logger,
   ) {
     this.consoleLogger = this.consoleLoggerFactory.create();

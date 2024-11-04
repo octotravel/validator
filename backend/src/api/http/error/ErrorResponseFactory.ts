@@ -1,10 +1,9 @@
-import { inject, singleton } from 'tsyringe';
 import { ErrorResponse } from './ErrorResponse';
 import { JsonResponseFactory } from '../json/JsonResponseFactory';
 import config from '../../../common/config/config';
 import { Environment } from '@octocloud/core';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class ErrorResponseFactory {
   private readonly S400_BAD_REQUEST = 400;
   private readonly BAD_REQUEST = 'BAD_REQUEST';
@@ -17,7 +16,7 @@ export class ErrorResponseFactory {
   private readonly S422_UNPROCESSABLE_ENTITY = 422;
   private readonly UNPROCESSABLE_ENTITY = 'UNPROCESSABLE_ENTITY';
 
-  public constructor(@inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory) {}
+  public constructor(private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory)) {}
 
   public createBadRequestResponse(errorMessage: string, error: Error | null = null): Response {
     return this.createErrorResponse(this.S400_BAD_REQUEST, this.BAD_REQUEST, errorMessage, error);

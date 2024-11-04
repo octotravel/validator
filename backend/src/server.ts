@@ -15,8 +15,8 @@ import { app } from './app';
 
 SentryUtil.initSentry();
 
-const database: Database = container.resolve(Database);
-const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+const database: Database = container.get(Database);
+const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('server');
 const env = config.getEnvironment();
 const port = config.APP_PORT;

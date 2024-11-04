@@ -2,6 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [],
+  esbuild: {
+    target: 'es2022',
+  },
   test: {
     isolate: true,
     pool: 'forks',

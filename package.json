@@ -1,7 +1,12 @@
 {
+  "name": "@octocloud/validator",
   "scripts": {
   },
   "devDependencies": {
     "lefthook": "^1.6.10"
-  }
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ]
 }

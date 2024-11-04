@@ -1,19 +1,16 @@
-import { inject, singleton } from 'tsyringe';
 import { SessionRepository } from './SessionRepository';
 import { v4 as uuidv4 } from 'uuid';
 import { SessionNotFoundError } from './error/SessionNotFoundError';
 import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
-import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
+import { inject } from '@needle-di/core';
+import { SESSION_REPOSITORY } from '../../../di/container';
 
-@singleton()
 export class SessionService {
   public constructor(
-    @inject('SessionRepository') private readonly sessionRepository: SessionRepository,
-    @inject(ScenarioService) private readonly scenarioService: ScenarioService,
-    @inject(SessionScenarioProgressProvider)
-    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
+    private readonly sessionRepository: SessionRepository = inject(SESSION_REPOSITORY),
+    private readonly scenarioService: ScenarioService = inject(ScenarioService),
   ) {}
 
   public async createSession(): Promise<Session> {

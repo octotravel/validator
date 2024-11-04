@@ -1,4 +1,3 @@
-import { inject, singleton } from 'tsyringe';
 import { SessionService } from './SessionService';
 import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionData } from '../../../../types/Session';
 import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
@@ -9,16 +8,18 @@ import { StepId } from '../step/StepId';
 import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class SessionFacade {
   public constructor(
-    @inject(SessionService) private readonly sessionService: SessionService,
-    @inject(SessionScenarioProgressProvider)
-    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
-    @inject(SessionStepQuestionAnswersValidationProcessor)
-    private readonly sessionStepQuestionAnswersValidationProcessor: SessionStepQuestionAnswersValidationProcessor,
-    @inject('RequestLogRepository') private readonly requestLogRepository: RequestLogRepository,
+    private readonly sessionService: SessionService = inject(SessionService),
+    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider = inject(
+      SessionScenarioProgressProvider,
+    ),
+    private readonly sessionStepQuestionAnswersValidationProcessor: SessionStepQuestionAnswersValidationProcessor = inject(
+      SessionStepQuestionAnswersValidationProcessor,
+    ),
+    private readonly requestLogRepository: RequestLogRepository = inject<RequestLogRepository>('RequestLogRepository'),
   ) {}
 
   public async createSession(): Promise<Session> {

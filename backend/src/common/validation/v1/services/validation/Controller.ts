@@ -12,9 +12,7 @@ import { SupplierFlow } from './Flows/Supplier/SupplierFlow';
 // import { CapabilitiesFlow } from './Flows/Capabilites/CapabilitiesFlow';
 import { Flow, FlowResult } from './Flows/Flow';
 import { Context } from './context/Context';
-import { singleton } from 'tsyringe';
 
-@singleton()
 export class ValidationController {
   public validate = async (context: Context): Promise<FlowResult[]> => {
     const flows: Flow[] = [

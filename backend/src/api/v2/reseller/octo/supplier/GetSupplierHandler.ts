@@ -1,4 +1,3 @@
-import { singleton, inject } from 'tsyringe';
 import { IRequest } from 'itty-router';
 import { SupplierFacade } from '../../../../../common/validation/v2/facade/supplier/SupplierFacade';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
@@ -7,13 +6,13 @@ import { SessionNotFoundError } from '../../../../../common/validation/v2/sessio
 import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
 import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class GetSupplierHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(SupplierFacade) private readonly supplierFacade: SupplierFacade,
+    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
+    private readonly supplierFacade: SupplierFacade = inject(SupplierFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

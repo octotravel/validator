@@ -2,23 +2,17 @@ import * as fs from 'fs';
 import { Vault } from 'ansible-vault';
 import { packageDirectory } from 'pkg-dir';
 import { LoggerFactory } from '../../common/logger/LoggerFactory';
-import { singleton, registry } from 'tsyringe';
 import { Command } from './Command';
 import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
 import { container } from '../../common/di/container';
 
-@singleton()
-@registry([
-  { token: AnsibleEncryptCommand.name, useClass: AnsibleEncryptCommand },
-  { token: 'Command', useClass: AnsibleEncryptCommand },
-])
 export class AnsibleEncryptCommand implements Command {
   public getSlug = (): string => {
     return 'ansible-encrypt';
   };
 
   public run = async (envFileName: string): Promise<void> => {
-    const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+    const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
     const consoleLogger = consoleLoggerFactory.create();
 
     try {

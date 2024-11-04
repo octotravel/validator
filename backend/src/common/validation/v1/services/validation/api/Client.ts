@@ -49,7 +49,7 @@ export class Client {
       );
 
       const ventrataRequestContext = container
-        .resolve(RequestScopedContextProvider)
+        .get(RequestScopedContextProvider)
         .getRequestScopedContext()
         .getVentrataRequestContext();
       const requestId = ventrataRequestContext.getRequestId();

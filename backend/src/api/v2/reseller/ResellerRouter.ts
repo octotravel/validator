@@ -1,19 +1,19 @@
 import { Router } from 'itty-router';
-import { inject, singleton } from 'tsyringe';
+
 import { OctoRouter } from './octo/OctoRouter';
 import { GetScenariosHandler } from './scenario/GetScenariosHandler';
 import { GetCapabilitiesHandler } from './capabilities/GetCapabilitiesHandler';
 import { GetScenarioHandler } from './scenario/GetScenarioHandler';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class ResellerRouter {
   public readonly router;
 
   public constructor(
-    @inject(OctoRouter) private readonly octoRouter: OctoRouter,
-    @inject(GetCapabilitiesHandler) private readonly getCapabilitiesHandler: GetCapabilitiesHandler,
-    @inject(GetScenariosHandler) private readonly getScenariosHandler: GetScenariosHandler,
-    @inject(GetScenarioHandler) private readonly getScenarioHandler: GetScenarioHandler,
+    private readonly octoRouter: OctoRouter = inject(OctoRouter),
+    private readonly getCapabilitiesHandler: GetCapabilitiesHandler = inject(GetCapabilitiesHandler),
+    private readonly getScenariosHandler: GetScenariosHandler = inject(GetScenariosHandler),
+    private readonly getScenarioHandler: GetScenarioHandler = inject(GetScenarioHandler),
   ) {
     this.router = Router({ base: '/v2/reseller' });
 

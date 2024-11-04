@@ -1,4 +1,3 @@
-import { inject, singleton } from 'tsyringe';
 import { SessionService } from './SessionService';
 import { SessionStepGuard } from './SessionStepGuard';
 import { StepQuestionAnswersValidator } from '../step/StepQuestionAnswersValidator';
@@ -8,14 +7,14 @@ import { ValidationResult } from '../ValidationResult';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 import { QuestionAnswer } from '../question/Question';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class SessionStepQuestionAnswersValidationProcessor {
   public constructor(
-    @inject(SessionService) private readonly sessionService: SessionService,
-    @inject(ScenarioService) private readonly scenarioService: ScenarioService,
-    @inject(SessionStepGuard) private readonly sessionStepGuard: SessionStepGuard,
-    @inject(StepQuestionAnswersValidator) private readonly stepQuestionAnswersValidator: StepQuestionAnswersValidator,
+    private readonly sessionService: SessionService = inject(SessionService),
+    private readonly scenarioService: ScenarioService = inject(ScenarioService),
+    private readonly sessionStepGuard: SessionStepGuard = inject(SessionStepGuard),
+    private readonly stepQuestionAnswersValidator: StepQuestionAnswersValidator = inject(StepQuestionAnswersValidator),
   ) {}
 
   public async process(

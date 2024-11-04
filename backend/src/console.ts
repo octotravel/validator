@@ -9,9 +9,9 @@ import { SentryUtil } from './common/util/SentryUtil';
 import { asyncLocalStorage } from './common/di/asyncLocalStorage';
 import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
 
-const database: Database = container.resolve(Database);
-const exceptionLogger: ExceptionLogger = container.resolve('ExceptionLogger');
-const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+const database: Database = container.get(Database);
+const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
+const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('console');
 
 (async () => {
@@ -19,7 +19,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
     SentryUtil.initSentry();
 
     const commandName = process.argv[2] ?? null;
-    const availableCommands: Command[] = container.resolveAll('Command');
+    const availableCommands: Command[] = container.get('Command', { multi: true });
 
     if (commandName === null) {
       let infoMessage = '\n\n\x1b[33mUsage:\x1b[0m\n';
@@ -41,8 +41,8 @@ const consoleLogger = consoleLoggerFactory.create('console');
         continue;
       }
 
-      const command: Command = container.resolve(availableCommand.constructor.name);
-      const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+      const command: Command = container.get(availableCommand.constructor.name);
+      const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
       const consoleLogger = consoleLoggerFactory.create(commandName);
       const requestScopedContext = new RequestScopedContext();
       await asyncLocalStorage.run({ requestScopedContext }, async () => {

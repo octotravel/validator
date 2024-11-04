@@ -1,5 +1,5 @@
 import { Router as BaseRouter, RouterType } from 'itty-router';
-import { inject, singleton } from 'tsyringe';
+
 import { Context, Next } from 'koa';
 import { RequestMapper } from './http/request/RequestMapper';
 import { GetDocsHandler } from './v2/docs/GetDocsHandler';
@@ -9,16 +9,16 @@ import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
 import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
 import { RequestContext } from '@octocloud/core';
 import { RequestLogger } from '../common/logger/request/RequestLogger';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class ApiRouter {
   public constructor(
-    @inject(V1Router) private readonly v1Router: V1Router,
-    @inject(V2Router) private readonly v2Router: V2Router,
-    @inject(GetDocsHandler) private readonly getDocsHandler: GetDocsHandler,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
-    @inject('RequestLogger') private readonly requestLogger: RequestLogger,
+    private readonly v1Router: V1Router = inject(V1Router),
+    private readonly v2Router: V2Router = inject(V2Router),
+    private readonly getDocsHandler: GetDocsHandler = inject(GetDocsHandler),
+    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
+    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
+    private readonly requestLogger: RequestLogger = inject<RequestLogger>('RequestLogger'),
     private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
@@ -57,7 +57,7 @@ export class ApiRouter {
     const ventrataRequestData = ventrataRequestContext.getRequestData();
 
     if (ventrataRequestData.areLogsEnabled()) {
-      this.requestLogger.logAll(ventrataRequestData, ventrataRequestContext);
+      // this.requestLogger.logAll(ventrataRequestData, ventrataRequestContext);
     }
 
     if (response.status === 204) {

@@ -1,5 +1,4 @@
 import { CapabilityId } from '@octocloud/types';
-import { inject, registry, singleton } from 'tsyringe';
 import { Scenario } from '../Scenario';
 import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
@@ -13,24 +12,20 @@ import { AvailabilityCheckStep } from '../../step/reseller/availability/Availabi
 import { BookingReservationStep } from '../../step/reseller/booking/BookingReservationStep';
 import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
 import { BookingCancellationStep } from '../../step/reseller/booking/BookingCancellationStep';
+import { inject } from '@needle-di/core';
 
-@singleton()
-@registry([
-  { token: AdvancedScenario.name, useClass: AdvancedScenario },
-  { token: 'ResellerScenario', useClass: AdvancedScenario },
-])
 export class AdvancedScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 
   public constructor(
-    @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
-    @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
-    @inject(GetProductStep) private readonly getProductStep: GetProductStep,
-    @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
-    @inject(AvailabilityCheckStep) private readonly availabilityCheckStep: AvailabilityCheckStep,
-    @inject(BookingReservationStep) private readonly bookingReservationStep: BookingReservationStep,
-    @inject(BookingConfirmationStep) private readonly bookingConfirmationStep: BookingConfirmationStep,
-    @inject(BookingCancellationStep) private readonly bookingCancellationStep: BookingCancellationStep,
+    private readonly getSupplierStep: GetSupplierStep = inject(GetSupplierStep),
+    private readonly getProductsStep: GetProductsStep = inject(GetProductsStep),
+    private readonly getProductStep: GetProductStep = inject(GetProductStep),
+    private readonly availabilityCalendarStep: AvailabilityCalendarStep = inject(AvailabilityCalendarStep),
+    private readonly availabilityCheckStep: AvailabilityCheckStep = inject(AvailabilityCheckStep),
+    private readonly bookingReservationStep: BookingReservationStep = inject(BookingReservationStep),
+    private readonly bookingConfirmationStep: BookingConfirmationStep = inject(BookingConfirmationStep),
+    private readonly bookingCancellationStep: BookingCancellationStep = inject(BookingCancellationStep),
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }

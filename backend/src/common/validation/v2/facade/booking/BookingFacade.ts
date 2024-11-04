@@ -1,4 +1,3 @@
-import { inject, singleton } from 'tsyringe';
 import { Backend } from '@octocloud/core';
 import { Booking } from '@octocloud/types';
 import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
@@ -6,17 +5,18 @@ import { BookingReservationStep } from '../../step/reseller/booking/BookingReser
 import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
 import { BookingCancellationStep } from '../../step/reseller/booking/BookingCancellationStep';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class BookingFacade {
   public constructor(
-    @inject('Backend') private readonly backend: Backend,
-    @inject(BookingReservationStep) private readonly bookingReservationStep: BookingReservationStep,
-    @inject(BookingConfirmationStep) private readonly bookingConfirmationStep: BookingConfirmationStep,
-    @inject(BookingCancellationStep) private readonly bookingCancellationStep: BookingCancellationStep,
-    @inject(SessionStepValidationProcessor)
-    private readonly sessionStepValidationProcessor: SessionStepValidationProcessor,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
+    private readonly backend: Backend = inject<Backend>('Backend'),
+    private readonly bookingReservationStep: BookingReservationStep = inject(BookingReservationStep),
+    private readonly bookingConfirmationStep: BookingConfirmationStep = inject(BookingConfirmationStep),
+    private readonly bookingCancellationStep: BookingCancellationStep = inject(BookingCancellationStep),
+    private readonly sessionStepValidationProcessor: SessionStepValidationProcessor = inject(
+      SessionStepValidationProcessor,
+    ),
+    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
   public async bookingReservation(bookingReservationData: any): Promise<Booking> {

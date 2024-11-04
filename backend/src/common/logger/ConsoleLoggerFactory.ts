@@ -1,4 +1,3 @@
-import { singleton } from 'tsyringe';
 import { Logger } from '@octocloud/core';
 import { LoggerFactory } from './LoggerFactory';
 import { ConsoleLogger } from './ConsoleLogger';
