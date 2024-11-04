@@ -6,7 +6,7 @@ import {
   ValidatorError,
   ModelValidator,
   BooleanValidator,
-} from './../ValidatorHelpers';
+} from '../ValidatorHelpers';
 
 export class ProductPricingValidator implements ModelValidator {
   private readonly path: string;

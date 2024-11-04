@@ -5,7 +5,7 @@ import { Booker } from '../../../Booker';
 import { ScenarioHelper } from '../../../helpers/ScenarioHelper';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Context } from '../../../context/Context';
-import { ReferenceHelper } from './../../../../../../../validation/v1/helpers/ReferenceHelper';
+import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
 
 export class BookingConfirmationScenario implements Scenario {
   private readonly helper = new ScenarioHelper();

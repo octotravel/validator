@@ -1,4 +1,4 @@
-import { Result } from './../../../services/validation/api/types';
+import { Result } from '../../../services/validation/api/types';
 import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 import { INVALID_PRODUCT_ID, STATUS_BAD_REQUEST } from '../../../models/Error';
 

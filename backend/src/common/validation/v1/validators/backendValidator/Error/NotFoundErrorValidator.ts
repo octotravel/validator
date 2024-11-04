@@ -1,4 +1,4 @@
-import { Result } from './../../../services/validation/api/types';
+import { Result } from '../../../services/validation/api/types';
 import { NOT_FOUND, STATUS_NOT_FOUND } from '../../../models/Error';
 import { ModelValidator, NumberValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 

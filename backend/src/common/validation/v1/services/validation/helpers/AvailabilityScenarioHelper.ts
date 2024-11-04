@@ -1,4 +1,4 @@
-import { ErrorType, ValidatorError } from './../../../validators/backendValidator/ValidatorHelpers';
+import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import * as R from 'ramda';
 import { Availability, Product } from '@octocloud/types';
 import { AvailabilityValidator } from '../../../validators/backendValidator/Availability/AvailabilityValidator';
