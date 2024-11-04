@@ -1,5 +1,9 @@
 export * from './common/validation/v1/services/validation/context/Context';
 
+export * from './common/validation/v1/validators/backendValidator/ValidatorHelpers';
+
+export * from './api/v1/validate/ValidationSchema';
+
 export * from './common/validation/v1/services/validation/Flows/Availability/AvailabilityCalendarFlow';
 
 export * from './common/validation/v1/services/validation/Flows/Availability/AvailabilityFlow';
