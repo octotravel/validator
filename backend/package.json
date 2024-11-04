@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "license": "ISC",
   "author": "",
-  "main": "./dist/app.js",
-  "module": "./dist/app.mjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npx tsc",
     "check": "npm run typecheck && npm run format:check && npm run lint",
@@ -23,6 +24,7 @@
     "gitleaks": "gitleaks detect -v",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
+    "prepare": "npm run build",
     "test": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts",
     "test:coverage": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts --coverage",
     "typecheck": "tsc --noEmit"
