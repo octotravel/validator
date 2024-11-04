@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "license": "ISC",
   "author": "",
+  "type": "module",
+  "exports": "./src/index.ts",
   "scripts": {
     "build": "tsc",
     "check": "npm run typecheck && npm run format:check && npm run lint",
