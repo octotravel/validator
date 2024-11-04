@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build": "tsc --build",
-    "prepare": "npm run build"
+    "prepare": "npm install --ignore-scripts && npm run build"
   },
   "dependencies": {
     "typescript": "5.6.3"
