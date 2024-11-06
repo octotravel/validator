@@ -1,4 +1,4 @@
-FROM node:22.11.0-alpine3.19
+FROM node:22.9.0-alpine3.19
 
 RUN apk add --no-cache libc6-compat wget git ansible make build-base
 
