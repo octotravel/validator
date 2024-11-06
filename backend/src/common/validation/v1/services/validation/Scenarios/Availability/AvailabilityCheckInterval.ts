@@ -3,7 +3,7 @@ import { Scenario, ScenarioResult } from '../Scenario';
 import { AvailabilityScenarioHelper } from '../../helpers/AvailabilityScenarioHelper';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
-import Prando from 'prando';
+import { PseudoRandomGenerator } from '../../../../helpers/PseudoRandomGenerator';
 
 export class AvailabilityChecIntervalScenario implements Scenario {
   private readonly product: Product;
@@ -28,7 +28,7 @@ export class AvailabilityChecIntervalScenario implements Scenario {
 
     const availabilities = result.data ?? [];
     const randomAvailability =
-      availabilities[new Prando(availabilities.length).nextInt(0, availabilities.length - 1)] ?? null;
+      availabilities[new PseudoRandomGenerator(availabilities.length).nextInt(0, availabilities.length - 1)] ?? null;
 
     if (randomAvailability === null) {
       context.terminateValidation = true;
