@@ -7,6 +7,8 @@ import { V1Router } from './v1/V1Router';
 import { V2Router } from './v2/V2Router';
 import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
 import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
+import { RequestContext } from '@octocloud/core';
+import { RequestLogger } from '../common/logger/request/RequestLogger';
 
 @singleton()
 export class ApiRouter {
@@ -16,6 +18,7 @@ export class ApiRouter {
     @inject(GetDocsHandler) private readonly getDocsHandler: GetDocsHandler,
     @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
     @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
+    @inject('RequestLogger') private readonly requestLogger: RequestLogger,
     private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
@@ -33,8 +36,29 @@ export class ApiRouter {
     const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
     const request = RequestMapper.mapRequest(ctx);
     requestScopedContext.setRequest(request);
+    const ventrataRequestContext = new RequestContext({
+      request,
+    });
+    ventrataRequestContext.setConnection({
+      id: 'id',
+      supplierId: 'Viator',
+      apiKey: 'apiKey',
+      endpoint: 'https://mock.octo.travel',
+      accountId: 'accountId',
+      name: 'name',
+    });
+    ventrataRequestContext.setAccountId('accountId');
+    requestScopedContext.setVentrataRequestContext(ventrataRequestContext);
+
     const response = await this.router.fetch(request);
     requestScopedContext.setResponse(response);
+    ventrataRequestContext.setResponse(response);
+
+    const ventrataRequestData = ventrataRequestContext.getRequestData();
+
+    if (ventrataRequestData.areLogsEnabled()) {
+      this.requestLogger.logAll(ventrataRequestData, ventrataRequestContext);
+    }
 
     if (response.status === 204) {
       ctx.response.body = null;
