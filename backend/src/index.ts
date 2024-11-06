@@ -27,3 +27,5 @@ export * from './common/validation/v1/services/validation/Flows/Capabilites/Capa
 export * from './common/validation/v1/services/validation/Flows/Product/ProductFlow';
 
 export * from './common/validation/v1/services/validation/Flows/Supplier/SupplierFlow';
+
+export * from './common/validation/v1/services/validation/Flows/Flow';
