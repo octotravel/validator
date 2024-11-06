@@ -1,6 +1,6 @@
-import { Result } from './../../../services/validation/api/types';
-import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from './../ValidatorHelpers';
-import { INVALID_UNIT_ID, STATUS_BAD_REQUEST } from './../../../models/Error';
+import { Result } from '../../../services/validation/api/types';
+import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
+import { INVALID_UNIT_ID, STATUS_BAD_REQUEST } from '../../../models/Error';
 
 export class InvalidUnitIdErrorValidator implements ModelValidator {
   public validate = (result: Result<any>): ValidatorError[] => {

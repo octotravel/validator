@@ -1,5 +1,5 @@
 import { beforeEach, describe, it, expect } from 'vitest';
-import { mock, mockReset } from 'vitest-mock-extended';
+import { mockDeep, mockReset } from 'vitest-mock-extended';
 import { Session } from '../../../../../types/Session';
 import { SessionStepGuard } from '../SessionStepGuard';
 import { ScenarioService } from '../../scenario/ScenarioService';
@@ -10,8 +10,8 @@ import { CapabilityId } from '@octocloud/types';
 import { TestStep } from './TestStep';
 
 describe('SessionStepGuard', () => {
-  const mockScenarioService = mock<ScenarioService>();
-  const mockSessionScenarioProgressProvider = mock<SessionScenarioProgressProvider>();
+  const mockScenarioService = mockDeep<ScenarioService>();
+  const mockSessionScenarioProgressProvider = mockDeep<SessionScenarioProgressProvider>();
   let session: Session;
   let sessionStepGuard: SessionStepGuard;
 

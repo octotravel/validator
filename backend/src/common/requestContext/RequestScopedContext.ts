@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { ValidationResult } from '../validation/v2/ValidationResult';
-import { RuntimeError } from '@octocloud/core';
+import { RequestContext, RuntimeError } from '@octocloud/core';
 import { Session } from '../../types/Session';
 import { Step } from '../validation/v2/step/Step';
 
@@ -11,9 +11,22 @@ export class RequestScopedContext {
   private request: Request | null = null;
   private response: Response | null = null;
   private validationResult: ValidationResult | null = null;
+  private ventrataRequestContext: RequestContext | null = null;
 
   public constructor() {
     this.requestId = uuidv4();
+  }
+
+  public getVentrataRequestContext(): RequestContext {
+    if (this.ventrataRequestContext === null) {
+      throw new RuntimeError('Octo Request Context is not set');
+    }
+
+    return this.ventrataRequestContext;
+  }
+
+  public setVentrataRequestContext(requestContext: RequestContext): void {
+    this.ventrataRequestContext = requestContext;
   }
 
   public getRequestId(): string {

@@ -1,4 +1,3 @@
-import { singleton, inject } from 'tsyringe';
 import { IRequest } from 'itty-router';
 import { GetSessionSchema, getSessionSchema } from './GetSessionSchema';
 import { SessionResponse } from './SessionResponse';
@@ -9,13 +8,13 @@ import { RequestHandler } from '../../http/request/RequestHandler';
 import { ValidationError } from 'yup';
 import { SchemaValidator } from '../../util/SchemaValidator';
 import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class GetSessionHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(SessionFacade) private readonly sessionFacade: SessionFacade,
+    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
+    private readonly sessionFacade: SessionFacade = inject(SessionFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

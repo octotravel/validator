@@ -1,17 +1,17 @@
 import { IRequest } from 'itty-router';
-import { inject, singleton } from 'tsyringe';
+
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
 import { SessionService } from '../../../../common/validation/v2/session/SessionService';
 import { SessionNotFoundError } from '../../../../common/validation/v2/session/error/SessionNotFoundError';
 import { Session } from '../../../../types/Session';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class AuthMiddleware {
   public constructor(
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
-    @inject(SessionService) private readonly sessionService: SessionService,
+    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
+    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
+    private readonly sessionService: SessionService = inject(SessionService),
   ) {}
 
   public async invoke(request: IRequest): Promise<Response | null> {

@@ -1,5 +1,5 @@
 import * as socketio from 'socket.io';
-import { inject, singleton } from 'tsyringe';
+
 import { container } from '../di/container';
 import { WebSocket } from './WebSocket';
 import { ValidationResult } from '../validation/v2/ValidationResult';
@@ -11,6 +11,7 @@ import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
 import { Session } from '../../types/Session';
 import { Step } from '../validation/v2/step/Step';
 import config from '../config/config';
+import { inject } from '@needle-di/core';
 
 export interface ServerToClientEvents {
   validationResult(validationResult: ValidationResult): Promise<void>;
@@ -43,12 +44,11 @@ export interface WebSocketValidationResultItem {
   data: any;
 }
 
-@singleton()
 export class SocketIo implements WebSocket {
   private socketIoServer: socketio.Server | null = null;
   private readonly consoleLogger: Logger;
 
-  public constructor(@inject(ConsoleLoggerFactory) consoleLoggerFactory: LoggerFactory) {
+  public constructor(consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory)) {
     this.consoleLogger = consoleLoggerFactory.create('database');
   }
 
@@ -69,7 +69,7 @@ export class SocketIo implements WebSocket {
 
   private getSocketIoServer(): socketio.Server {
     if (this.socketIoServer === null) {
-      const socketIoServer: socketio.Server = container.resolve('SocketIoServer');
+      const socketIoServer: socketio.Server = container.get('SocketIoServer');
 
       this.socketIoServer = socketIoServer;
     }

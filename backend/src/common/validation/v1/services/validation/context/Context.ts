@@ -22,6 +22,7 @@ export class Context implements IContext {
   private headers = {};
   private capabilities: CapabilityId[] = [];
   public _terminateValidation = false;
+  private _useRequestContext = true;
   public requestId: string = '';
   private readonly date = new Date();
 
@@ -61,6 +62,14 @@ export class Context implements IContext {
 
   public set terminateValidation(terminateValidation: boolean) {
     this._terminateValidation = terminateValidation;
+  }
+
+  public get useRequestContext(): boolean {
+    return this._useRequestContext;
+  }
+
+  public set useRequestContext(useRequestContext: boolean) {
+    this._useRequestContext = useRequestContext;
   }
 
   public setCapabilities = (capabilities: Capability[]): ValidatorError[] => {

@@ -1,4 +1,4 @@
-import { TicketValidator } from './../Ticket/TicketValidator';
+import { TicketValidator } from '../Ticket/TicketValidator';
 import { CapabilityId, Booking, BookingStatus, DeliveryMethod } from '@octocloud/types';
 import { BookingStateValidator } from './BookingState/BookingStateValidator';
 import { OptionValidator } from '../Option/OptionValidator';

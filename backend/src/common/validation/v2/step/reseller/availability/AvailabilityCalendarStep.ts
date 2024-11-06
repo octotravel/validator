@@ -1,12 +1,10 @@
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
-import { singleton } from 'tsyringe';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { AvailabilityCalendarValidator } from '../../../validator/reseller/availability/AvailabilityCalendarValidator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 
-@singleton()
 export class AvailabilityCalendarStep implements Step {
   public getId(): StepId {
     return StepId.AVAILABILITY_CALENDAR;

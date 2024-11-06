@@ -5,7 +5,7 @@ import { container } from '../../../common/di/container';
 import config from '../../../common/config/config';
 import { Environment, HttpError } from '@octocloud/core';
 
-const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create();
 
 export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Promise<void> {

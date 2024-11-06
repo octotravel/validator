@@ -1,4 +1,3 @@
-import { singleton, inject } from 'tsyringe';
 import { IRequest } from 'itty-router';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
@@ -10,13 +9,13 @@ import { BodyParser } from '../../../../util/BodyParser';
 import { ValidationError } from '../../../../../common/validation/v2/validator/error/ValidationError';
 import { HttpError } from '@octocloud/core';
 import { BookingFacade } from '../../../../../common/validation/v2/facade/booking/BookingFacade';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class BookingConfirmationHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(BookingFacade) private readonly bookingFacade: BookingFacade,
+    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
+    private readonly bookingFacade: BookingFacade = inject(BookingFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

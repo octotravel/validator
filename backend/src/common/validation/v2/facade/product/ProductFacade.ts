@@ -1,28 +1,35 @@
-import { inject, singleton } from 'tsyringe';
 import { Backend } from '@octocloud/core';
 import { Product } from '@octocloud/types';
-import { BackendParamsUtil } from '../../../../util/BackendParamsUtil';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';
 import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
+import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class ProductFacade {
   public constructor(
-    @inject('Backend') private readonly backend: Backend,
-    @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
-    @inject(GetProductStep) private readonly getProductStep: GetProductStep,
-    @inject(SessionStepValidationProcessor)
-    private readonly sessionStepValidationProcessor: SessionStepValidationProcessor,
+    private readonly backend: Backend = inject<Backend>('Backend'),
+    private readonly getProductsStep: GetProductsStep = inject(GetProductsStep),
+    private readonly getProductStep: GetProductStep = inject(GetProductStep),
+    private readonly sessionStepValidationProcessor: SessionStepValidationProcessor = inject(
+      SessionStepValidationProcessor,
+    ),
+    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
   public async getProducts(): Promise<Product[]> {
     await this.sessionStepValidationProcessor.process(this.getProductsStep, null);
-    return await this.backend.getProducts({}, BackendParamsUtil.create());
+    return await this.backend.getProducts(
+      {},
+      { ctx: this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext() },
+    );
   }
 
   public async getProduct(productId: string): Promise<Product> {
     await this.sessionStepValidationProcessor.process(this.getProductStep, null);
-    return await this.backend.getProduct({ id: productId }, BackendParamsUtil.create());
+    return await this.backend.getProduct(
+      { id: productId },
+      { ctx: this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext() },
+    );
   }
 }

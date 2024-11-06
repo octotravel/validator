@@ -1,4 +1,3 @@
-import { inject, singleton } from 'tsyringe';
 import { pg as named } from 'yesql';
 import {
   RequestLogDetail,
@@ -13,10 +12,10 @@ import { CannotCreateRequestLogError } from './error/CannotCreateRequestLogError
 import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
 import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError';
 import { CannotUpdateRequestLogError } from './error/CannotUpdateRequestLogError';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class PostgresRequestLogRepository implements RequestLogRepository {
-  public constructor(@inject(Database) private readonly database: Database) {}
+  public constructor(private readonly database: Database = inject(Database)) {}
 
   public async create(requestLog: RequestLog): Promise<void> {
     const requestLogRowData: RequestLogRowData = {

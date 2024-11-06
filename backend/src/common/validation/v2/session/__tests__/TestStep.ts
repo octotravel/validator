@@ -1,10 +1,8 @@
-import { singleton } from 'tsyringe';
 import { StepId } from '../../step/StepId';
 import { Validator } from '../../validator/Validator';
 import { Question } from '../../question/Question';
 import { Step } from '../../step/Step';
 
-@singleton()
 export class TestStep implements Step {
   public getId(): StepId {
     return StepId.TEST;

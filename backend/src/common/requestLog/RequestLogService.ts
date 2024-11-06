@@ -1,16 +1,14 @@
-import { inject, singleton } from 'tsyringe';
+import { inject } from '@needle-di/core';
 import { RequestLog } from '../../types/RequestLog';
-import { PostgresRequestLogRepository } from './PostgresRequestLogRepository';
 import { RequestLogRepository } from './RequestLogRepository';
 
 export interface IRequestLogService {
   logRequest(requestLog: RequestLog): Promise<void>;
 }
 
-@singleton()
 export class RequestLogService implements IRequestLogService {
   public constructor(
-    @inject('RequestLogRepository') private readonly postgresRequestLogRepository: RequestLogRepository,
+    private readonly postgresRequestLogRepository: RequestLogRepository = inject('RequestLogRepository'),
   ) {}
 
   public async logRequest(requestLog: RequestLog): Promise<void> {

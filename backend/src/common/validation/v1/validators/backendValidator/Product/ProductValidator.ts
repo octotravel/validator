@@ -7,7 +7,7 @@ import {
   EnumArrayValidator,
   ValidatorError,
   ModelValidator,
-} from './../ValidatorHelpers';
+} from '../ValidatorHelpers';
 import {
   CapabilityId,
   Product,

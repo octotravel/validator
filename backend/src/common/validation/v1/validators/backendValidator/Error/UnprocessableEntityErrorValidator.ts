@@ -1,5 +1,5 @@
-import { Result } from './../../../services/validation/api/types';
-import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from './../ValidatorHelpers';
+import { Result } from '../../../services/validation/api/types';
+import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 import { STATUS_BAD_REQUEST, UNPROCESSABLE_ENTITY } from '../../../models/Error';
 
 export class UnprocessableEntityErrorValidator implements ModelValidator {

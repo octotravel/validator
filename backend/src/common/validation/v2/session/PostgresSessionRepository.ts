@@ -1,4 +1,3 @@
-import { inject, singleton } from 'tsyringe';
 import { pg as named } from 'yesql';
 import { CannotCreateSessionError } from './error/CannotCreateSessionError';
 import { SessionRepository } from './SessionRepository';
@@ -8,11 +7,10 @@ import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
 import { SessionData, SessionRowData } from '../../../../types/Session';
 import { Database } from '../../../database/Database';
 import { ScenarioId } from '../scenario/ScenarioId';
-import { StepId } from '../step/StepId';
+import { inject } from '@needle-di/core';
 
-@singleton()
 export class PostgresSessionRepository implements SessionRepository {
-  public constructor(@inject(Database) private readonly database: Database) {}
+  public constructor(private readonly database: Database = inject(Database)) {}
 
   public async get(id: string): Promise<SessionData | null> {
     const queryResult = await this.database.getConnection().query('SELECT * FROM session WHERE id = $1', [id]);

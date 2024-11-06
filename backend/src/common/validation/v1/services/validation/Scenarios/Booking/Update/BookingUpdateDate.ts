@@ -1,4 +1,4 @@
-import { ErrorType, ValidatorError } from './../../../../../validators/backendValidator/ValidatorHelpers';
+import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Scenario, ScenarioResult } from '../../Scenario';
 import { BookingUpdateScenarioHelper } from '../../../helpers/BookingUpdateScenarioHelper';
 import descriptions from '../../../consts/descriptions';

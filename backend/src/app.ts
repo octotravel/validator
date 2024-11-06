@@ -10,7 +10,7 @@ import { router } from './api/http/router/RouterMiddleware';
 import koaBody, { HttpMethodEnum } from 'koa-body';
 import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
 
-const exceptionLogger: ExceptionLogger = container.resolve('ExceptionLogger');
+const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
 
 const app = new Koa({
   env: config.getEnvironment(),

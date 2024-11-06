@@ -1,5 +1,4 @@
 import { CapabilityId } from '@octocloud/types';
-import { inject, registry, singleton } from 'tsyringe';
 import { Scenario } from '../Scenario';
 import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
@@ -9,20 +8,16 @@ import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { DoublyLinkedList } from 'linked-list-typed';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';
 import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
+import { inject, injectAsync } from '@needle-di/core';
 
-@singleton()
-@registry([
-  { token: BasicScenario.name, useClass: BasicScenario },
-  { token: 'ResellerScenario', useClass: BasicScenario },
-])
 export class BasicScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 
   public constructor(
-    @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
-    @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
-    @inject(GetProductStep) private readonly getProductStep: GetProductStep,
-    @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
+    private readonly getSupplierStep: GetSupplierStep = inject(GetSupplierStep),
+    private readonly getProductsStep: GetProductsStep = inject(GetProductsStep),
+    private readonly getProductStep: GetProductStep = inject(GetProductStep),
+    private readonly availabilityCalendarStep: AvailabilityCalendarStep = inject(AvailabilityCalendarStep),
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }

@@ -1,5 +1,5 @@
-import { Result } from './../../../services/validation/api/types';
-import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from './../ValidatorHelpers';
+import { Result } from '../../../services/validation/api/types';
+import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 import { INVALID_AVAILABILITY_ID, STATUS_BAD_REQUEST } from '../../../models/Error';
 
 export class InvalidAvailabilityIdErrorValidator implements ModelValidator {
