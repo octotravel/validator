@@ -1,5 +1,5 @@
 {
-	"name": "@octocloud/validator-frontend",
+	"name": "frontend",
 	"version": "1.0.0",
 	"scripts": {
 		"dev": "vite dev",
