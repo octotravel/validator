@@ -4,8 +4,7 @@
   "license": "ISC",
   "author": "",
   "scripts": {
-    "build": "tsc",
-    "buildd": "tsx ./esbuild-package.config.ts",
+    "build": "npx tsc",
     "check": "npm run typecheck && npm run format:check && npm run lint",
     "console": "tsx src/console.ts",
     "dev": "tsx --watch --no-warnings ./src/server.ts",

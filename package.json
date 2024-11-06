@@ -1,9 +1,5 @@
 {
   "name": "@octocloud/validator",
-  "scripts": {
-    "build": "cd backend && npm install --ignore-scripts && npm run build",
-    "prepare": "cd backend && npm install --ignore-scripts && npm run build"
-  },
   "version": "1.0.0",
   "description": "",
   "devDependencies": {
