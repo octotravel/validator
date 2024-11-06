@@ -1,7 +1,7 @@
 {
-	"name": "@octocloud/validator-backend",
-	"version": "1.0.0",
-	"private": true,
+  "private": true,
+  "name": "@octocloud/validator-backend",
+  "version": "1.0.0",
   "license": "ISC",
   "author": "",
   "scripts": {
