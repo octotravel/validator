@@ -23,6 +23,7 @@
   "include": [
     "src/**/*",
     "esbuild.config.ts",
+    "esbuild-package.config.ts",
     "vitest.config.ts",
     "vitestSetup.ts",
     "vitestGlobalSetup.ts",

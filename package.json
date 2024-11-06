@@ -1,33 +1,12 @@
 {
   "name": "@octocloud/validator",
+  "scripts": {
+    "build": "cd backend && npm install --ignore-scripts && npm run build",
+    "prepare": "cd backend && npm install --ignore-scripts && npm run build"
+  },
   "version": "1.0.0",
   "description": "",
-  "scripts": {
-    "build": "tsc --build",
-    "prepare": "npm run build"
-  },
-  "dependencies": {
-    "typescript": "5.6.3"
-  },
   "devDependencies": {
     "lefthook": "1.8.2"
-  },
-  "workspaces": [
-    "backend"
-  ],
-  "references": [
-    { "path": "./backend" }
-  ],
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "files": [
-    "dist"
-  ]
+  }
 }
