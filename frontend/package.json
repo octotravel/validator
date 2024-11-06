@@ -1,6 +1,6 @@
 {
-	"name": "validator",
-	"version": "0.0.1",
+	"name": "@octocloud/validator-frontend",
+	"version": "1.0.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite dev",
@@ -27,7 +27,7 @@
 		"@tailwindcss/forms": "0.5.7",
 		"@tailwindcss/typography": "0.5.10",
 		"@types/eslint": "8.56.0",
-		"@types/node": "20.11.19",
+		"@types/node": "22.9.0",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
 		"@vitest/coverage-v8": "^1.6.0",
