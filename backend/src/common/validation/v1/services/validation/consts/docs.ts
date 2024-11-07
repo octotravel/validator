@@ -1,17 +1,17 @@
-const baseUrl = 'https://docs.octo.travel/docs/octo';
+const baseUrl = 'https://docs.octo.travel/octo-api-core';
 
-const supplier = 'https://docs.octo.travel/octo-core/suppliers';
-const products = 'https://docs.octo.travel/octo-core/products';
-const product = products;
-const availabilityCheck = 'https://docs.octo.travel/octo-core/availability';
-const availabilityCalendar = availabilityCheck;
-const bookingReservation = `${baseUrl}/813abcef90135-booking-reservation`;
-const bookingReservationExtend = `${baseUrl}/2c7924ab9128f-extend-reservation`;
-const bookingConfirmation = `${baseUrl}/def664af6bc1d-booking-confirmation`;
-const bookingCancellation = `${baseUrl}/b5becc223e888-booking-cancellation`;
-const bookingUpdate = `${baseUrl}/dae75e39ffd99-booking-update`;
-const bookingGet = `${baseUrl}/9e220ab76d815-get-booking`;
-const bookingList = `${baseUrl}/b1362f049cb6b-list-bookings`;
+const supplier = `${baseUrl}/supplier`;
+const products = `${baseUrl}/products`;
+const product = `${baseUrl}/products#get-product`;
+const availabilityCheck = `${baseUrl}/availability#availability-calendar`;
+const availabilityCalendar = `${baseUrl}/availability#availability`;
+const bookingReservation = `${baseUrl}/bookings#booking-reservation`;
+const bookingReservationExtend = `${baseUrl}/bookings#extend-reservation`;
+const bookingConfirmation = `${baseUrl}/bookings#booking-confirmation`;
+const bookingCancellation = `${baseUrl}/bookings#booking-cancellation`;
+const bookingUpdate = `${baseUrl}/bookings#booking-update`;
+const bookingGet = `${baseUrl}/bookings#get-booking`;
+const bookingList = `${baseUrl}/bookings#get-bookings`;
 
 const docs = {
   supplier,
