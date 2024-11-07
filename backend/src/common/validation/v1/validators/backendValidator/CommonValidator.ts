@@ -35,9 +35,9 @@ export class CommonValidator {
     return errors.flatMap((v) => (v ? [v] : []));
   };
 
-  public static validateLocalDate = (label: string, localDateTime: string): ValidatorError | null => {
+  public static validateLocalDate = (label: string, localDate: string): ValidatorError | null => {
     const regExp = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
-    return RegExpValidator.validate(label, localDateTime, regExp, {
+    return RegExpValidator.validate(label, localDate, regExp, {
       shouldWarn: true,
     });
   };
@@ -82,7 +82,7 @@ export class CommonValidator {
     uuid?: string | null,
     params?: CommonValidatorParams,
   ): ValidatorError | null => {
-    const regExp = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/;
+    const regExp = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/;
     if (params?.nullable) {
       if (uuid !== null) {
         return RegExpValidator.validate(label, uuid, regExp, {
