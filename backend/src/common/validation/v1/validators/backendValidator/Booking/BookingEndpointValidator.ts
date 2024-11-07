@@ -267,7 +267,7 @@ export class BookingEndpointValidator {
     if (data?.booking?.status === BookingStatus.ON_HOLD) {
       errors.push(
         StringValidator.validate(`${this.path}.status`, bookingCancelled?.status, {
-          equalsTo: BookingStatus.EXPIRED,
+          equalsTo: BookingStatus.CANCELLED,
         }),
       );
     } else if (data?.booking?.status === BookingStatus.CONFIRMED) {
