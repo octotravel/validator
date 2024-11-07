@@ -43,10 +43,10 @@ export class AvailabilityValidator implements ModelValidator {
       StringValidator.validate(`${this.path}.id`, availability?.id),
 
       StringValidator.validate(`${this.path}.localDateTimeStart`, availability?.localDateTimeStart),
-      this.validateLocalDateTime(`${this.path}.localDateTimeStart`, availability?.localDateTimeStart),
+      CommonValidator.validateLocalDateTime(`${this.path}.localDateTimeStart`, availability?.localDateTimeStart),
 
       StringValidator.validate(`${this.path}.localDateTimeEnd`, availability?.localDateTimeEnd),
-      this.validateLocalDateTime(`${this.path}.localDateTimeEnd`, availability?.localDateTimeEnd),
+      CommonValidator.validateLocalDateTime(`${this.path}.localDateTimeEnd`, availability?.localDateTimeEnd),
 
       this.validateAllDay(availability),
       BooleanValidator.validate(`${this.path}.available`, availability?.available),
@@ -62,7 +62,7 @@ export class AvailabilityValidator implements ModelValidator {
       }),
 
       StringValidator.validate(`${this.path}.utcCutoffAt`, availability?.utcCutoffAt),
-      this.validateUTCDate(`${this.path}.utcCutoffAt`, availability?.utcCutoffAt),
+      CommonValidator.validateUTCDate(`${this.path}.utcCutoffAt`, availability?.utcCutoffAt),
 
       ...CommonValidator.validateOpeningHours(this.path, availability?.openingHours ?? [], this.availabilityType),
 
@@ -95,16 +95,5 @@ export class AvailabilityValidator implements ModelValidator {
       return this.pickupValidator.validate(availability);
     }
     return [];
-  };
-
-  private readonly validateLocalDateTime = (label: string, localDateTime: string): ValidatorError | null => {
-    const regExp =
-      /^(?:[1-9]\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,9})?(?:Z|[+-][01]\d:[0-5]\d)$/;
-    return RegExpValidator.validate(label, localDateTime, regExp);
-  };
-
-  private readonly validateUTCDate = (label: string, utcDate: string): ValidatorError | null => {
-    const regExp = /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])Z$/;
-    return RegExpValidator.validate(label, utcDate, regExp);
   };
 }
