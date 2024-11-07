@@ -5,6 +5,7 @@ import { StringValidator, EnumValidator, NullValidator, ModelValidator, Validato
 import { ContactValidator } from '../Contact/ContactValidator';
 import { PricingValidator } from '../Pricing/PricingValidator';
 import { TicketValidator } from '../Ticket/TicketValidator';
+import { CommonValidator } from '../CommonValidator';
 
 export class UnitItemValidator implements ModelValidator {
   private readonly path: string;
@@ -39,7 +40,7 @@ export class UnitItemValidator implements ModelValidator {
   ): ValidatorError[] => {
     const shouldWarn = Boolean(unitItem?.uuid);
     const errors = [
-      StringValidator.validate(`${this.path}.uuid`, unitItem?.uuid),
+      CommonValidator.validateUuid(`${this.path}.uuid`, unitItem?.uuid),
       StringValidator.validate(`${this.path}.resellerReference`, unitItem?.uuid, {
         nullable: true,
         shouldWarn,
