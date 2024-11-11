@@ -23,7 +23,7 @@ export class BookingReservationFlow extends BaseFlow implements Flow {
   public validate = async (context: Context): Promise<FlowResult> => {
     const scenarios = [await this.reserveAvailableProduct(context)];
 
-    if (context.productConfig.validateSoldOutProduct) {
+    if (context.productConfig.soldOutProduct !== null) {
       scenarios.push(await this.reserveSoldOutProduct(context));
     }
 

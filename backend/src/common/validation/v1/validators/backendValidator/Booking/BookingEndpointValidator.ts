@@ -123,8 +123,33 @@ export class BookingEndpointValidator {
         );
       }
 
+      const bookingUnitIds = (booking?.unitItems ?? []).map((i) => i.uuid);
+      const uuidCounts = bookingUnitIds.reduce<Record<string, number>>((acc, uuid) => {
+        acc[uuid] = (acc[uuid] || 0) + 1;
+        return acc;
+      }, {});
+      const duplicateUUIDs = Object.keys(uuidCounts).filter((uuid) => uuidCounts[uuid] > 1);
+
+      if (duplicateUUIDs.length > 0) {
+        errors.push(
+          new ValidatorError({
+            type: ErrorType.CRITICAL,
+            message: `${label} field must contain unique uuids, these uuids are found multiple times: ${duplicateUUIDs.toString()}`,
+          }),
+        );
+      }
+
+      booking?.unitItems.forEach((unitItem) => {});
+      if (booking?.unitItems?.length !== schema?.unitItems?.length) {
+        errors.push(
+          new ValidatorError({
+            type: ErrorType.CRITICAL,
+            message: `${label} field must have ${schema?.unitItems?.length} items`,
+          }),
+        );
+      }
+
       const unitIds = schema?.unitItems.map((i) => i.unitId);
-      const bookingUnitIds = (booking?.unitItems ?? []).map((i) => i.unitId);
       const unitIdMatches = booking?.unitItems.reduce((acc, unitItem) => {
         return acc && unitIds.includes(unitItem?.unitId);
       }, true);
@@ -132,7 +157,7 @@ export class BookingEndpointValidator {
         errors.push(
           new ValidatorError({
             type: ErrorType.CRITICAL,
-            message: `${label} field must contain these unitIds: ${unitIds.toString()}, but the provded unitIds are: ${bookingUnitIds.toString()}`,
+            message: `${label} field must contain these unitIds: ${unitIds.toString()}, but the provided unitIds are: ${bookingUnitIds.toString()}`,
           }),
         );
       }
@@ -242,7 +267,7 @@ export class BookingEndpointValidator {
     if (data?.booking?.status === BookingStatus.ON_HOLD) {
       errors.push(
         StringValidator.validate(`${this.path}.status`, bookingCancelled?.status, {
-          equalsTo: BookingStatus.EXPIRED,
+          equalsTo: BookingStatus.CANCELLED,
         }),
       );
     } else if (data?.booking?.status === BookingStatus.CONFIRMED) {

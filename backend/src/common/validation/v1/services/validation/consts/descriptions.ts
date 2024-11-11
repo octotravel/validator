@@ -30,7 +30,7 @@ const bookingCancellationReservation = 'This test checks that reservation is cor
 
 const bookingConfirmation = 'This test checks that reservation is correctly confirmed';
 const bookingConfirmationUnitItemsUpdate =
-  'This test checks that unit items on bookign are updated according to request body';
+  'This test checks that unit items on booking are updated according to request body';
 
 const bookingReservationExtend = 'This test checks that reservation is extended correctly';
 

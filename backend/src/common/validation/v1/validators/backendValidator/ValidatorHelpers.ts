@@ -48,8 +48,9 @@ class BaseValidator {
         });
       }
     }
+
     return new ValidatorError({
-      type: ErrorType.WARNING,
+      type: shouldWarn ? ErrorType.WARNING : ErrorType.CRITICAL,
       message: error.errors,
     });
   };
@@ -231,6 +232,7 @@ export class RegExpValidator extends BaseValidator {
   ): ValidatorError | null => {
     try {
       let schema;
+
       if (params?.isNull) {
         schema = yup.string().label(label).nullable().defined();
       } else if (params?.nullable) {
@@ -238,6 +240,7 @@ export class RegExpValidator extends BaseValidator {
       } else {
         schema = yup.string().label(label).matches(regexp).required();
       }
+
       schema.validateSync(value, { strict: true });
       return null;
     } catch (err) {

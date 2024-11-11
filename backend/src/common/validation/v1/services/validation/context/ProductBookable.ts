@@ -1,8 +1,5 @@
 import { BookingUnitItemSchema, Option, Product, UnitType } from '@octocloud/types';
-
-const randomInteger = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
+import { PseudoRandomGenerator } from '../../../helpers/PseudoRandomGenerator';
 
 interface GetUnitItemsData {
   quantity: number;
@@ -59,7 +56,7 @@ export class ProductBookable {
   };
 
   private readonly pickRandomAvailabilityID = (array: string[]): string => {
-    return array[Math.floor(Math.random() * array.length)];
+    return array[new PseudoRandomGenerator(array.length).nextInt(0, array.length - 1)];
   };
 
   public getValidUnitItems = (data?: GetUnitItemsData): BookingUnitItemSchema[] => {
@@ -68,7 +65,11 @@ export class ProductBookable {
     const unitId = unit.id;
 
     const quantity =
-      data?.quantity ?? randomInteger(option.restrictions.minUnits || 1, option.restrictions.maxUnits ?? 5);
+      data?.quantity ??
+      new PseudoRandomGenerator(option.id).nextInt(
+        option.restrictions.minUnits || 1,
+        option.restrictions.maxUnits ?? 5,
+      );
     return Array(quantity).fill({ unitId });
   };
 
