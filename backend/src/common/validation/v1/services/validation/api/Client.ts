@@ -44,7 +44,7 @@ export class Client {
     let subRequestContext: SubRequestContext | undefined;
 
     if (data.context.useRequestContext) {
-      const ventrataRequestContext = asyncLocalStorage.getStore()!.requestScopedContext.getVentrataRequestContext();
+      ventrataRequestContext = asyncLocalStorage.getStore()!.requestScopedContext.getVentrataRequestContext();
       const requestId = ventrataRequestContext.getRequestId();
       subRequestContext = new SubRequestContext({
         request: req,
