@@ -13,7 +13,7 @@ export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
     context: Context,
   ): ScenarioResult => {
     const { result } = data;
-    const availabilities = result.data ?? [];
+    const availabilities = Array.isArray(result?.data) ? result?.data : [];
     const response = result?.response;
     if (response?.error) {
       return this.handleResult({
