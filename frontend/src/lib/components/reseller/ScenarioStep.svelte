@@ -2,7 +2,6 @@
 	import { PUBLIC_VALIDATOR_BASE_URL } from '$env/static/public';
 	import IconCircleCheck from '$lib/icons/IconCircleCheck.svelte';
 	import IconCircleDashed from '$lib/icons/IconCircleDashed.svelte';
-	import IconX from '$lib/icons/IconX.svelte';
 	import {
 		resellerScenarioQuestionsValidationStore,
 		resellerScenarioSelectedStore,
@@ -11,8 +10,12 @@
 	} from '$lib/stores';
 	import { ScenarioProgressStepStatus, type ScenarioProgressStep } from '$lib/types/Session';
 	import type { ResultsStore } from '$lib/types/Validation';
-	import { Accordion, AccordionItem, getToastStore } from '@skeletonlabs/skeleton';
-	import { JsonView } from '@zerodevx/svelte-json-view';
+	import {
+		AccordionItem,
+		getModalStore,
+		getToastStore,
+		type ModalSettings
+	} from '@skeletonlabs/skeleton';
 	import { format } from 'date-fns';
 	import IconSearch from '$lib/icons/IconSearch.svelte';
 	import QuestionsList from './questions/QuestionsList.svelte';
@@ -22,6 +25,7 @@
 	export let index: number;
 
 	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 
 	const nextStep = () => {
 		$resellerScenarioSelectedStore.scenario!.steps[index].status =
@@ -117,6 +121,17 @@
 		);
 	};
 
+	const trigerModal = (result: ResultsStore) => {
+		const modal: ModalSettings = {
+			type: 'component',
+			component: 'resellerResultModal',
+			meta: {
+				result
+			}
+		};
+		modalStore.trigger(modal);
+	};
+
 	$: $resellerScenarioValidationResultStore.results, updateResults();
 </script>
 
@@ -174,81 +189,29 @@
 					</div>
 					<div class="accordion-border p-2 max-h-96 overflow-y-scroll">
 						{#each results.sort((a, b) => new Date(b.utcCreatedAt).getTime() - new Date(a.utcCreatedAt).getTime()) as result, index}
-							<div class="accordion-border mb-1">
-								<Accordion>
-									<AccordionItem>
-										<svelte:fragment slot="iconClosed"><IconX size={'18'} /></svelte:fragment>
-										<svelte:fragment slot="iconOpen"><IconSearch size={'18'} /></svelte:fragment>
-										<svelte:fragment slot="lead">
-											{#if result.errors.length > 0}
-												<span class="badge variant-soft-error">Errors</span>
-											{:else if result.warnings.length > 0}
-												<span class="badge variant-soft-warning">Warnings</span>
-											{:else}
-												<span class="badge variant-soft-success">Valid</span>
-											{/if}
-										</svelte:fragment>
-										<svelte:fragment slot="summary">
-											<span class="badge variant-soft-secondary">
-												{format(new Date(result.utcCreatedAt), 'yyyy-MM-dd HH:mm:ss')}
-											</span>
-
-											{#if index === 0}
-												<span class="badge variant-soft-tertiary">Latest</span>
-											{/if}
-										</svelte:fragment>
-										<svelte:fragment slot="content">
-											<div>
-												{#if result.data}
-													<div class="mt-2">
-														<div class="label">
-															<span class="font-semibold">Data</span>
-															<div class="border text-neutral-500 p-2">
-																<JsonView json={result.data} />
-															</div>
-														</div>
-													</div>
-												{/if}
-												{#if result.warnings.length > 0}
-													<div class="mt-2">
-														<div class="label">
-															<span class="font-semibold">Warnings</span>
-															<span class="badge variant-soft-warning"
-																>{result.warnings.length}</span
-															>
-															<div class="border text-neutral-500 p-2">
-																{#each result.warnings as warning}
-																	<li class="ms-3">{warning}</li>
-																{/each}
-															</div>
-														</div>
-													</div>
-												{/if}
-												{#if result.errors.length > 0}
-													<div class="mt-2">
-														<div class="label">
-															<span class="font-semibold">Errors</span>
-															<span class="badge variant-soft-error">{result.errors.length}</span>
-															<div class="border text-neutral-500 p-2">
-																{#each result.errors as error}
-																	<li class="ms-3">{error.message}</li>
-																{/each}
-															</div>
-														</div>
-													</div>
-												{/if}
-												{#if result.warnings.length === 0 && result.errors.length === 0}
-													<div class="mt-2">
-														<div class="label">
-															<span class="font-semibold">No issues found</span>
-														</div>
-													</div>
-												{/if}
-											</div>
-										</svelte:fragment>
-									</AccordionItem>
-								</Accordion>
-							</div>
+							<button
+								class="accordion-border mb-1 flex p-2 btn w-full"
+								on:click={() => trigerModal(result)}
+							>
+								<div class="w-full text-start">
+									{#if result.errors.length > 0}
+										<span class="badge variant-soft-error">Errors</span>
+									{:else if result.warnings.length > 0}
+										<span class="badge variant-soft-warning">Warnings</span>
+									{:else}
+										<span class="badge variant-soft-success">Valid</span>
+									{/if}
+									<span class="badge variant-soft-secondary">
+										{format(new Date(result.utcCreatedAt), 'yyyy-MM-dd HH:mm:ss')}
+									</span>
+									{#if index === 0}
+										<span class="badge variant-soft-tertiary">Latest</span>
+									{/if}
+								</div>
+								<div class="">
+									<IconSearch size={'18'} />
+								</div>
+							</button>
 						{/each}
 					</div>
 				</div>
