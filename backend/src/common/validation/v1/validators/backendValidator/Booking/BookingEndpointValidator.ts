@@ -261,7 +261,7 @@ export class BookingEndpointValidator {
     const schema = data?.schema;
     const errors = [
       StringValidator.validate(`${this.path}.cancellation.reason`, bookingCancelled?.cancellation?.reason, {
-        equalsTo: schema?.reason,
+        equalsTo: schema?.reason ?? undefined,
       }),
     ];
     if (data?.booking?.status === BookingStatus.ON_HOLD) {

@@ -32,7 +32,7 @@
     "@koa/cors": "5.0.0",
     "@octocloud/backend": "1.0.23",
     "@octocloud/core": "1.0.62",
-    "@octocloud/types": "1.5.30",
+    "@octocloud/types": "1.5.32",
     "@sentry/node": "7.81.1",
     "@sentry/utils": "7.81.1",
     "@types/yesql": "4.1.1",
