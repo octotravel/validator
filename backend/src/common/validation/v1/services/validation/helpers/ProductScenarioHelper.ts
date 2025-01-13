@@ -16,7 +16,7 @@ export class ProductScenarioHelper extends ScenarioHelper {
         errors: [],
       });
     }
-    const products = result.data ?? [];
+    const products = Array.isArray(result?.data) ? result?.data : [];
     const errors = new Array<ValidatorError>();
     const configErrors = context.setProducts(products);
     errors.push(...configErrors);

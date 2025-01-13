@@ -3,6 +3,7 @@ import { Scenario, ScenarioResult } from '../Scenario';
 import { AvailabilityScenarioHelper } from '../../helpers/AvailabilityScenarioHelper';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
+import { PseudoRandomGenerator } from '../../../../helpers/PseudoRandomGenerator';
 
 export class AvailabilityChecIntervalScenario implements Scenario {
   private readonly product: Product;
@@ -26,7 +27,8 @@ export class AvailabilityChecIntervalScenario implements Scenario {
     );
 
     const availabilities = result.data ?? [];
-    const randomAvailability = availabilities[Math.floor(Math.random() * availabilities.length)] ?? null;
+    const randomAvailability =
+      availabilities[new PseudoRandomGenerator(availabilities.length).nextInt(0, availabilities.length - 1)] ?? null;
 
     if (randomAvailability === null) {
       context.terminateValidation = true;

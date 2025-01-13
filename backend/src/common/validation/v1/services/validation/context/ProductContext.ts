@@ -8,7 +8,6 @@ export class ProductContext {
   private _startTimeProducts: Product[] = [];
   private _products: Product[] = [];
   private _soldOutProduct: ProductBookable | null = null;
-  private _validateSoldOutProduct: boolean = true;
   private _availableProducts: ProductBookable[] = [];
   private _availability: Record<string, Availability> = {};
 
@@ -57,14 +56,6 @@ export class ProductContext {
 
   public get soldOutProduct(): ProductBookable | null {
     return this._soldOutProduct!;
-  }
-
-  public set validateSoldOutProduct(validateSoldOutProduct: boolean) {
-    this._validateSoldOutProduct = validateSoldOutProduct;
-  }
-
-  public get validateSoldOutProduct(): boolean {
-    return this._validateSoldOutProduct;
   }
 
   public set availableProducts(availableProducts: ProductBookable[]) {

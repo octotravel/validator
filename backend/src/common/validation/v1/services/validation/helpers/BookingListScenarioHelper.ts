@@ -11,7 +11,7 @@ export class BookingListScenarioHelper extends ScenarioHelper {
 
   public validateBookingList = (data: ScenarioHelperData<Booking[]>, context: Context): ScenarioResult => {
     const { result } = data;
-    const bookings = result.data ?? [];
+    const bookings = Array.isArray(result?.data) ? result?.data : [];
     const request = result?.request;
     const response = result?.response;
     const schema = request?.body as GetBookingsSchema | null;

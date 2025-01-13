@@ -24,8 +24,17 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
 
     const products = data.products;
 
-    if (context.productConfig.validateSoldOutProduct) {
-      const soldOutData = this.findSoldOutProduct(products, context);
+    const soldOutProduct =
+      products.find(({ result }) => {
+        const availabilities = result.data ?? [];
+        const availabilitiessSoldOut = availabilities.filter(
+          (availability) => availability.status === AvailabilityStatus.SOLD_OUT,
+        );
+        return R.compose(R.not, R.isEmpty)(availabilitiessSoldOut);
+      }) ?? null;
+
+    if (soldOutProduct !== null) {
+      const soldOutData = this.getSoldOutData(soldOutProduct);
       if (soldOutData.error !== null) {
         errors.push(soldOutData.error);
       } else if (soldOutData.data !== null) {
@@ -51,31 +60,13 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
     });
   };
 
-  public findSoldOutProduct = (data: ProductResults[], context: Context): ErrorResult<ProductBookable> => {
-    const result =
-      data.find(({ result }) => {
-        const availabilities = result.data ?? [];
-        const availabilitiessSoldOut = availabilities.filter(
-          (availability) => availability.status === AvailabilityStatus.SOLD_OUT,
-        );
-        return R.compose(R.not, R.isEmpty)(availabilitiessSoldOut);
-      }) ?? null;
-
-    if (result === null) {
-      context.terminateValidation = true;
-      return {
-        error: new ValidatorError({
-          type: ErrorType.CRITICAL,
-          message: 'There was not found availability with status=SOLD_OUT',
-        }),
-        data: null,
-      };
-    }
-    const availabilities = result.result.data ?? [];
+  public getSoldOutData = (soldOutProduct: ProductResults): ErrorResult<ProductBookable> => {
+    const availabilities = soldOutProduct.result.data ?? [];
     const availability = availabilities.find((a) => a.status === AvailabilityStatus.SOLD_OUT);
+
     return {
       data: new ProductBookable({
-        product: result.product,
+        product: soldOutProduct.product,
         availabilityIdSoldOut: availability?.id!,
         availabilityIdAvailable: null,
       }),

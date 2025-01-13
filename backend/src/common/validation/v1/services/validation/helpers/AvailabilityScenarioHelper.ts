@@ -23,7 +23,7 @@ export class AvailabilityScenarioHelper extends ScenarioHelper {
         errors: [],
       });
     }
-    const availabilities = result?.data ?? [];
+    const availabilities = Array.isArray(result?.data) ? result?.data : [];
     let errors = [];
 
     if (!Array.isArray(availabilities)) {

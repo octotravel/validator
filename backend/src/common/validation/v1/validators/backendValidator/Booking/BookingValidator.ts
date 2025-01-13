@@ -65,7 +65,7 @@ export class BookingValidator implements ModelValidator {
   public validate = (booking: Booking | null): ValidatorError[] => {
     return [
       StringValidator.validate(`${this.path}.id`, booking?.id),
-      StringValidator.validate(`${this.path}.uuid`, booking?.uuid),
+      CommonValidator.validateUuid(`${this.path}.uuid`, booking?.uuid),
       BooleanValidator.validate(`${this.path}.testMode`, booking?.testMode),
       StringValidator.validate(`${this.path}.resellerReference`, booking?.resellerReference, { nullable: true }),
       StringValidator.validate(`${this.path}.supplierReference`, booking?.supplierReference, { nullable: true }),
