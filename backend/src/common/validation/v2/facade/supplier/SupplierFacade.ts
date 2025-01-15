@@ -1,9 +1,9 @@
+import { inject } from '@needle-di/core';
 import { Backend } from '@octocloud/core';
 import { Supplier } from '@octocloud/types';
-import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
-import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
-import { inject } from '@needle-di/core';
+import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
+import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 
 export class SupplierFacade {
   public constructor(

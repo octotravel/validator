@@ -1,6 +1,6 @@
 import { Availability, Product } from '@octocloud/types';
-import { Context } from '../context/Context';
 import { MappedError } from '../../../validators/backendValidator/ValidatorHelpers';
+import { Context } from '../context/Context';
 
 export interface Scenario {
   validate: (context: Context) => Promise<ScenarioResult>;
@@ -9,7 +9,7 @@ export interface Scenario {
 export interface ScenarioRequest {
   url: string;
   method: string;
-  body: any | null;
+  body: unknown | null;
   headers: Record<string, string>;
 }
 
@@ -17,7 +17,7 @@ export interface ScenarioResponse {
   body: string | null;
   status: number | null;
   error: {
-    body: any;
+    body: unknown;
   } | null;
   headers: Record<string, string>;
 }

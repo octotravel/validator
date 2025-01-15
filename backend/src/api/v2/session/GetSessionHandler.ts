@@ -1,14 +1,14 @@
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
+import { ValidationError } from 'yup';
+import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
+import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
+import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
+import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
+import { RequestHandler } from '../../http/request/RequestHandler';
+import { SchemaValidator } from '../../util/SchemaValidator';
 import { GetSessionSchema, getSessionSchema } from './GetSessionSchema';
 import { SessionResponse } from './SessionResponse';
-import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
-import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
-import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
-import { RequestHandler } from '../../http/request/RequestHandler';
-import { ValidationError } from 'yup';
-import { SchemaValidator } from '../../util/SchemaValidator';
-import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
-import { inject } from '@needle-di/core';
 
 export class GetSessionHandler implements RequestHandler {
   public constructor(
@@ -27,7 +27,7 @@ export class GetSessionHandler implements RequestHandler {
       const session = await this.sessionFacade.getSession(validatedSchema.id);
 
       return this.jsonResponseFactory.create(SessionResponse.createWithProgress(session));
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       }

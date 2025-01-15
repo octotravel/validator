@@ -1,8 +1,8 @@
 import { IRequest, Router } from 'itty-router';
 
-import { ValidateHandler } from './validate/ValidateHandler';
-import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
 import { inject } from '@needle-di/core';
+import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
+import { ValidateHandler } from './validate/ValidateHandler';
 
 export class V1Router {
   public readonly router;

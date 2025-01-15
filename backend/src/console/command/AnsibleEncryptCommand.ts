@@ -1,10 +1,10 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 import { Vault } from 'ansible-vault';
 import { packageDirectory } from 'pkg-dir';
+import { container } from '../../common/di/container';
+import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
 import { LoggerFactory } from '../../common/logger/LoggerFactory';
 import { Command } from './Command';
-import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
-import { container } from '../../common/di/container';
 
 export class AnsibleEncryptCommand implements Command {
   public getSlug = (): string => {
@@ -36,7 +36,7 @@ export class AnsibleEncryptCommand implements Command {
 
       try {
         password = fs.readFileSync(`${rootDirectory}/${passwordFile}`, 'utf-8');
-      } catch (e: any) {
+      } catch (e: unknown) {
         throw new Error(`Can't read "${passwordFile}" file content.`);
       }
 
@@ -44,7 +44,7 @@ export class AnsibleEncryptCommand implements Command {
 
       try {
         decryptedEnvFileContent = fs.readFileSync(`${rootDirectory}/${envFileName}`, 'utf-8');
-      } catch (e: any) {
+      } catch (e: unknown) {
         throw new Error(`Can't read "${envFileName}" file content.`);
       }
 
@@ -53,16 +53,17 @@ export class AnsibleEncryptCommand implements Command {
 
       try {
         encryptedEnvFileContent = ansibleVault.encryptSync(decryptedEnvFileContent, '')!;
-      } catch (e: any) {
-        throw new Error(`Can't decrypt "${envFileName}" file content, following error occured: "${e.message}".`);
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : 'unknown';
+        throw new Error(`Can't encrypt "${envFileName}" file content, "${message}" error occured.`);
       }
 
       try {
         fs.writeFileSync(envFileName, encryptedEnvFileContent);
-      } catch (e: any) {
+      } catch (e: unknown) {
         throw new Error(`Can't write content to file "${envFileName}".`);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       await consoleLogger.error(err);
     }
   };

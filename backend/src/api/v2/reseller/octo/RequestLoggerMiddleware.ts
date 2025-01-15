@@ -1,8 +1,8 @@
-import { RequestLogService } from '../../../../common/requestLog/RequestLogService';
-import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
-import { IRequest } from 'itty-router';
-import { RequestLogFactory } from '../../../../common/requestLog/RequestLogFactory';
 import { inject } from '@needle-di/core';
+import { IRequest } from 'itty-router';
+import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
+import { RequestLogFactory } from '../../../../common/requestLog/RequestLogFactory';
+import { RequestLogService } from '../../../../common/requestLog/RequestLogService';
 
 export class RequestLoggerMiddleware {
   public constructor(

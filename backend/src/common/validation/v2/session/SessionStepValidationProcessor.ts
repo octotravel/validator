@@ -1,9 +1,9 @@
-import { SessionStepGuard } from './SessionStepGuard';
-import { StepDataValidator } from '../step/StepDataValidator';
-import { Step } from '../step/Step';
-import { WebSocket } from '../../../socketio/WebSocket';
-import { RequestScopedContextProvider } from '../../../requestContext/RequestScopedContextProvider';
 import { inject } from '@needle-di/core';
+import { RequestScopedContextProvider } from '../../../requestContext/RequestScopedContextProvider';
+import { WebSocket } from '../../../socketio/WebSocket';
+import { Step } from '../step/Step';
+import { StepDataValidator } from '../step/StepDataValidator';
+import { SessionStepGuard } from './SessionStepGuard';
 
 export class SessionStepValidationProcessor {
   public constructor(
@@ -13,7 +13,7 @@ export class SessionStepValidationProcessor {
     private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
-  public async process(step: Step, requestData: any = null): Promise<void> {
+  public async process(step: Step, requestData: unknown = null): Promise<void> {
     const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
     requestScopedContext.getSession();
     requestScopedContext.setStep(step);

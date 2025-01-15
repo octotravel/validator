@@ -1,7 +1,7 @@
 import { inject } from '@needle-di/core';
+import { IRequest } from 'itty-router';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../http/request/RequestHandler';
-import { IRequest } from 'itty-router';
 
 export interface GetDocsResponse {
   docs: string;

@@ -1,13 +1,13 @@
 import 'reflect-metadata';
-import { LoggerFactory } from './common/logger/LoggerFactory';
-import { Command } from './console/command/Command';
-import { ExceptionLogger } from './common/logger/ExceptionLogger';
+import { Database } from './common/database/Database';
+import { asyncLocalStorage } from './common/di/asyncLocalStorage';
 import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
-import { Database } from './common/database/Database';
-import { SentryUtil } from './common/util/SentryUtil';
-import { asyncLocalStorage } from './common/di/asyncLocalStorage';
+import { ExceptionLogger } from './common/logger/ExceptionLogger';
+import { LoggerFactory } from './common/logger/LoggerFactory';
 import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
+import { SentryUtil } from './common/util/SentryUtil';
+import { Command } from './console/command/Command';
 
 const database: Database = container.get(Database);
 const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
@@ -53,7 +53,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
     await database.endPool();
     await SentryUtil.endSentry();
     process.exit(0);
-  } catch (err: any) {
+  } catch (err: unknown) {
     await consoleLogger.error(err);
     await exceptionLogger.error(err);
     await database.endPool();

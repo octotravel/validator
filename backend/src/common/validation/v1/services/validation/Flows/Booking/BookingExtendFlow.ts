@@ -1,9 +1,9 @@
-import { Flow, FlowResult } from '../Flow';
 import { BookingReservationExtendScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtend';
 import { BookingReservationExtendInvalidUUIDScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtendInvalidUUID';
-import { BaseFlow } from '../BaseFlow';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { BaseFlow } from '../BaseFlow';
+import { Flow, FlowResult } from '../Flow';
 
 export class BookingExtendFlow extends BaseFlow implements Flow {
   public constructor() {

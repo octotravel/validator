@@ -1,15 +1,15 @@
 import { Router as BaseRouter, RouterType } from 'itty-router';
 
+import { inject } from '@needle-di/core';
+import { RequestContext } from '@octocloud/core';
 import { Context, Next } from 'koa';
+import { RequestLogger } from '../common/logger/request/RequestLogger';
+import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
+import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
 import { RequestMapper } from './http/request/RequestMapper';
-import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 import { V1Router } from './v1/V1Router';
 import { V2Router } from './v2/V2Router';
-import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
-import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
-import { RequestContext } from '@octocloud/core';
-import { RequestLogger } from '../common/logger/request/RequestLogger';
-import { inject } from '@needle-di/core';
+import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 
 export class ApiRouter {
   public constructor(

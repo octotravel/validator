@@ -1,11 +1,11 @@
 import { PricingPer, Product } from '@octocloud/types';
 import {
-  StringValidator,
-  StringArrayValidator,
-  EnumValidator,
-  ValidatorError,
-  ModelValidator,
   BooleanValidator,
+  EnumValidator,
+  ModelValidator,
+  StringArrayValidator,
+  StringValidator,
+  ValidatorError,
 } from '../ValidatorHelpers';
 
 export class ProductPricingValidator implements ModelValidator {

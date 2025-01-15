@@ -1,7 +1,7 @@
-import { Scenario, ScenarioResult } from '../Scenario';
-import { ProductScenarioHelper } from '../../helpers/ProductScenarioHelper';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
+import { ProductScenarioHelper } from '../../helpers/ProductScenarioHelper';
+import { Scenario, ScenarioResult } from '../Scenario';
 
 export class GetProductsScenario implements Scenario {
   private readonly productScenarioHelper = new ProductScenarioHelper();

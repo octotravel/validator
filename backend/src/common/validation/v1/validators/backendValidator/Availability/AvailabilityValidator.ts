@@ -1,12 +1,12 @@
 import { Availability, AvailabilityStatus, AvailabilityType, CapabilityId } from '@octocloud/types';
 import { CommonValidator } from '../CommonValidator';
 import {
-  StringValidator,
   BooleanValidator,
   EnumValidator,
+  ModelValidator,
   NumberValidator,
   RegExpValidator,
-  ModelValidator,
+  StringValidator,
   ValidatorError,
 } from '../ValidatorHelpers';
 import { AvailabilityPickupValidator } from './AvailabilityPickupValidator';

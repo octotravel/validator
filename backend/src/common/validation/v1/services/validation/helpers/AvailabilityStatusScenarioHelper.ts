@@ -1,12 +1,12 @@
-import * as R from 'ramda';
 import { Availability, AvailabilityStatus, Product } from '@octocloud/types';
-import { ScenarioHelper } from './ScenarioHelper';
-import { Result } from '../api/types';
-import { Context, ErrorResult } from '../context/Context';
+import * as R from 'ramda';
 import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import { ProductBookable } from '../context/ProductBookable';
-import descriptions from '../consts/descriptions';
 import { ScenarioResult } from '../Scenarios/Scenario';
+import { Result } from '../api/types';
+import descriptions from '../consts/descriptions';
+import { Context, ErrorResult } from '../context/Context';
+import { ProductBookable } from '../context/ProductBookable';
+import { ScenarioHelper } from './ScenarioHelper';
 
 export interface AvailabilityScenarioData {
   name: string;

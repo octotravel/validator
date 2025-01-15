@@ -1,9 +1,9 @@
 import { Booking } from '@octocloud/types';
-import { Scenario, ScenarioResult } from '../../Scenario';
 import { InvalidUnitIdErrorValidator } from '../../../../../validators/backendValidator/Error/InvalidUnitIdErrorValidator';
-import { BookingReservationScenarioHelper } from '../../../helpers/BookingReservationScenarioHelper';
 import { Result } from '../../../api/types';
 import descriptions from '../../../consts/descriptions';
+import { BookingReservationScenarioHelper } from '../../../helpers/BookingReservationScenarioHelper';
+import { Scenario, ScenarioResult } from '../../Scenario';
 
 export class BookingReservationInvalidUnitIdScenario implements Scenario {
   private readonly result: Result<Booking>;

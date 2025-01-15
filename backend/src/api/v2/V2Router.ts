@@ -1,13 +1,13 @@
 import { IRequest, Router } from 'itty-router';
 
-import { CreateSessionHandler } from './session/CreateSessionHandler';
-import { UpdateSessionHandler } from './session/UpdateSessionHandler';
-import { GetSessionHandler } from './session/GetSessionHandler';
-import { ResellerRouter } from './reseller/ResellerRouter';
-import { GetSessionValidationHistoryHandler } from './session/GetSessionValidationHistoryHandler';
-import { ValidateSessionQuestionsAnswersHandler } from './session/ValidateSessionQuestionsAnswersHandler';
-import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
 import { inject } from '@needle-di/core';
+import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
+import { ResellerRouter } from './reseller/ResellerRouter';
+import { CreateSessionHandler } from './session/CreateSessionHandler';
+import { GetSessionHandler } from './session/GetSessionHandler';
+import { GetSessionValidationHistoryHandler } from './session/GetSessionValidationHistoryHandler';
+import { UpdateSessionHandler } from './session/UpdateSessionHandler';
+import { ValidateSessionQuestionsAnswersHandler } from './session/ValidateSessionQuestionsAnswersHandler';
 
 export class V2Router {
   public readonly router;

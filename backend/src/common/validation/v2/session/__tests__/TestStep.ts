@@ -1,7 +1,7 @@
-import { StepId } from '../../step/StepId';
-import { Validator } from '../../validator/Validator';
 import { Question } from '../../question/Question';
 import { Step } from '../../step/Step';
+import { StepId } from '../../step/StepId';
+import { Validator } from '../../validator/Validator';
 
 export class TestStep implements Step {
   public getId(): StepId {

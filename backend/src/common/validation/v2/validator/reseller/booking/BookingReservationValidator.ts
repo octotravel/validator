@@ -1,16 +1,16 @@
+import { createBookingSchema } from '@octocloud/core';
+import { ValidationError } from 'yup';
+import { ValidationFailureFactory } from '../../../ValidationFailureFactory';
 import { ValidationResult } from '../../../ValidationResult';
 import { Validator } from '../../Validator';
-import { ValidationFailureFactory } from '../../../ValidationFailureFactory';
-import { ValidationError } from 'yup';
-import { createBookingSchema } from '@octocloud/core';
 
 export class BookingReservationValidator implements Validator {
-  public async validate(data: any): Promise<ValidationResult> {
+  public async validate(data: unknown): Promise<ValidationResult> {
     const validationResult = new ValidationResult(data);
 
     try {
       createBookingSchema.validateSync(data, { abortEarly: false, strict: true });
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof ValidationError) {
         const validationFailures = ValidationFailureFactory.createMultipleFromYupValidationError(error);
 

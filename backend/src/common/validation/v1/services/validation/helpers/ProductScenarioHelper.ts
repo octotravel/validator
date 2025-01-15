@@ -1,9 +1,9 @@
-import { ProductValidator } from '../../../validators/backendValidator/Product/ProductValidator';
 import { Product } from '@octocloud/types';
-import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
+import { ProductValidator } from '../../../validators/backendValidator/Product/ProductValidator';
 import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import { Context } from '../context/Context';
 import { ScenarioResult } from '../Scenarios/Scenario';
+import { Context } from '../context/Context';
+import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class ProductScenarioHelper extends ScenarioHelper {
   public validateProducts = (data: ScenarioHelperData<Product[]>, context: Context): ScenarioResult => {
@@ -21,14 +21,12 @@ export class ProductScenarioHelper extends ScenarioHelper {
     const configErrors = context.setProducts(products);
     errors.push(...configErrors);
 
-    const validatorErrors = products
-      .map((product: any, i: number) =>
-        new ProductValidator({
-          capabilities: context.getCapabilityIDs(),
-          path: `[${i}]`,
-        }).validate(product),
-      )
-      .flat(1);
+    const validatorErrors = products.flatMap((product, i: number) =>
+      new ProductValidator({
+        capabilities: context.getCapabilityIDs(),
+        path: `[${i}]`,
+      }).validate(product),
+    );
     errors.push(...validatorErrors);
 
     return this.handleResult({

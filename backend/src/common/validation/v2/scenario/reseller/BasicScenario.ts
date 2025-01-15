@@ -1,14 +1,14 @@
-import { CapabilityId } from '@octocloud/types';
-import { Scenario } from '../Scenario';
-import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
-import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
-import { Step } from '../../step/Step';
-import { ScenarioId } from '../ScenarioId';
-import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
-import { DoublyLinkedList } from 'linked-list-typed';
-import { GetProductStep } from '../../step/reseller/product/GetProductStep';
-import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
 import { inject, injectAsync } from '@needle-di/core';
+import { CapabilityId } from '@octocloud/types';
+import { DoublyLinkedList } from 'linked-list-typed';
+import { Step } from '../../step/Step';
+import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
+import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
+import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
+import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
+import { Scenario } from '../Scenario';
+import { ScenarioId } from '../ScenarioId';
 
 export class BasicScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];

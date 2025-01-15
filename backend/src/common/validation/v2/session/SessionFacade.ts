@@ -1,14 +1,14 @@
-import { SessionService } from './SessionService';
+import { inject } from '@needle-di/core';
 import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionData } from '../../../../types/Session';
-import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
-import { ScenarioId } from '../scenario/ScenarioId';
 import { RequestLogRepository } from '../../../requestLog/RequestLogRepository';
-import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
-import { StepId } from '../step/StepId';
 import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
+import { ScenarioId } from '../scenario/ScenarioId';
+import { StepId } from '../step/StepId';
+import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
+import { SessionService } from './SessionService';
+import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
-import { inject } from '@needle-di/core';
 
 export class SessionFacade {
   public constructor(

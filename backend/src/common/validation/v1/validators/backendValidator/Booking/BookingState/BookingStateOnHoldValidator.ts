@@ -1,6 +1,6 @@
 import { Booking } from '@octocloud/types';
 import { CommonValidator } from '../../CommonValidator';
-import { NullValidator, ModelValidator, ValidatorError } from '../../ValidatorHelpers';
+import { ModelValidator, NullValidator, ValidatorError } from '../../ValidatorHelpers';
 
 export class BookingStateOnHoldValidator implements ModelValidator {
   private readonly path: string;

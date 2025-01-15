@@ -1,16 +1,16 @@
-import { SupplierFacade } from '../SupplierFacade';
 import { Backend } from '@octocloud/core';
-import { DeepMockProxy, MockProxy, mock, mockDeep } from 'vitest-mock-extended';
-import { GetSupplierStep } from '../../../step/reseller/supplier/GetSupplierStep';
-import { RequestScopedContextProvider } from '../../../../../requestContext/RequestScopedContextProvider';
-import { SessionStepValidationProcessor } from '../../../session/SessionStepValidationProcessor';
-import { SessionStepGuard } from '../../../session/SessionStepGuard';
-import { SessionService } from '../../../session/SessionService';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { RequestScopedContext } from '../../../../../requestContext/RequestScopedContext';
+import { DeepMockProxy, MockProxy, mock, mockDeep } from 'vitest-mock-extended';
 import { Session } from '../../../../../../types/Session';
+import { RequestScopedContext } from '../../../../../requestContext/RequestScopedContext';
+import { RequestScopedContextProvider } from '../../../../../requestContext/RequestScopedContextProvider';
 import { Scenario } from '../../../scenario/Scenario';
+import { SessionService } from '../../../session/SessionService';
+import { SessionStepGuard } from '../../../session/SessionStepGuard';
+import { SessionStepValidationProcessor } from '../../../session/SessionStepValidationProcessor';
 import { Step } from '../../../step/Step';
+import { GetSupplierStep } from '../../../step/reseller/supplier/GetSupplierStep';
+import { SupplierFacade } from '../SupplierFacade';
 
 /*
 describe('SupplierFacade', () => {

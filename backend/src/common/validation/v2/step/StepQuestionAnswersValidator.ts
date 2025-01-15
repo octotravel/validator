@@ -1,9 +1,9 @@
-import { ValidationResult } from '../ValidationResult';
-import { Step } from './Step';
-import { Validator } from '../validator/Validator';
 import { ValidationFailure } from '../ValidationFailure';
 import { ValidationFailureType } from '../ValidationFailureType';
+import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
+import { Validator } from '../validator/Validator';
+import { Step } from './Step';
 
 export class StepQuestionAnswersValidator implements Validator {
   public async validate(step: Step, answers: QuestionAnswer[]): Promise<ValidationResult> {
@@ -25,8 +25,7 @@ export class StepQuestionAnswersValidator implements Validator {
           } else {
             const correctQuestionAnswer = await question.answer();
 
-            // eslint-disable-next-line eqeqeq
-            if (questionAnswer.value != correctQuestionAnswer) {
+            if (questionAnswer.value !== correctQuestionAnswer) {
               validationResult.addError(
                 new ValidationFailure(
                   ValidationFailureType.ERROR,

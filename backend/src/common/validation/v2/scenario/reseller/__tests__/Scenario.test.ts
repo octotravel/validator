@@ -1,20 +1,20 @@
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { GetScenariosResponse } from '../../../../../../api/v2/reseller/scenario/GetScenariosResponse';
+import { SessionResponse } from '../../../../../../api/v2/session/SessionResponse';
 import { app } from '../../../../../../app';
 import { Database } from '../../../../../database/Database';
-import { SessionResponse } from '../../../../../../api/v2/session/SessionResponse';
+import { SCENARIO_REPOSITORY, container } from '../../../../../di/container';
 import { ScenarioId } from '../../ScenarioId';
-import { container, SCENARIO_REPOSITORY } from '../../../../../di/container';
-import { GetScenariosResponse } from '../../../../../../api/v2/reseller/scenario/GetScenariosResponse';
+import { ScenarioRepository } from '../../ScenarioRepository';
 import { AdvancedScenario } from '../AdvancedScenario';
 import { ScenarioStepTestUtil } from './ScenarioStepTestUtil';
-import { ScenarioRepository } from '../../ScenarioRepository';
 
 describe('AdvancedScenario', () => {
   const server = app.listen();
   const targetScenarioId = ScenarioId.ADVANCED_SCENARIO;
   const targetScenario = container.get(AdvancedScenario);
-  const headers: any = {
+  let headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
   let database: Database;
@@ -42,8 +42,11 @@ describe('AdvancedScenario', () => {
       currentScenario: scenarioInfo.id,
     });
 
-    headers.Authorization = `Bearer ${sessionId}`;
-    headers['Octo-Capabilities'] = capabilities;
+    headers = {
+      ...headers,
+      Authorization: `Bearer ${sessionId}`,
+      'Octo-Capabilities': capabilities.join(','),
+    };
 
     scenarioStepTestUtil = new ScenarioStepTestUtil(server, headers, targetScenario, sessionId);
   });

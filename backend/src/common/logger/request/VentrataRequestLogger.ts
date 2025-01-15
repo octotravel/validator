@@ -12,13 +12,13 @@ import {
 } from '@octocloud/core';
 import qs from 'query-string';
 
-import pLimit from 'p-limit';
-import { RequestLogger } from './RequestLogger';
-import { LoggerFactory } from '../LoggerFactory';
-import config from '../../config/config';
-import { ExceptionLogger } from '../ExceptionLogger';
 import { inject } from '@needle-di/core';
+import pLimit from 'p-limit';
+import config from '../../config/config';
 import { ConsoleLoggerFactory } from '../ConsoleLoggerFactory';
+import { ExceptionLogger } from '../ExceptionLogger';
+import { LoggerFactory } from '../LoggerFactory';
+import { RequestLogger } from './RequestLogger';
 
 const limit = pLimit(6);
 

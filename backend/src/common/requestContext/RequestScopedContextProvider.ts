@@ -1,6 +1,6 @@
-import { RequestScopedContext } from './RequestScopedContext';
 import { RuntimeError } from '@octocloud/core';
 import { asyncLocalStorage } from '../di/asyncLocalStorage';
+import { RequestScopedContext } from './RequestScopedContext';
 
 export class RequestScopedContextProvider {
   public getRequestScopedContext(): RequestScopedContext {

@@ -1,11 +1,11 @@
 import { IRequest } from 'itty-router';
 
-import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
+import { inject } from '@needle-di/core';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
 import { SessionService } from '../../../../common/validation/v2/session/SessionService';
 import { SessionNotFoundError } from '../../../../common/validation/v2/session/error/SessionNotFoundError';
 import { Session } from '../../../../types/Session';
-import { inject } from '@needle-di/core';
+import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 
 export class AuthMiddleware {
   public constructor(
@@ -28,7 +28,7 @@ export class AuthMiddleware {
 
     try {
       session = await this.sessionService.getSession(sessionId);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof SessionNotFoundError) {
         return this.errorResponseFactory.createUnauthorizedResponse('API Key in the Authorization header is invalid.');
       }

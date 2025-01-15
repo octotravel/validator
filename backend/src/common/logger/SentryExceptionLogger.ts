@@ -28,12 +28,13 @@ export class SentryExceptionLogger implements ExceptionLogger {
     return await this.logLevel(LogLevel.DEBUG, data, context);
   }
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public async logLevel(level: LogLevel, data: any, context?: Context): Promise<unknown> {
     if (data instanceof HttpError || data instanceof OctoError || data instanceof InternalError) {
       return null;
     }
 
-    const sentryOctoContext: any = {};
+    const sentryOctoContext: Record<string, unknown> = {};
     const requestContext = context?.requestContext ?? undefined;
 
     if (requestContext && requestContext instanceof RequestContext) {

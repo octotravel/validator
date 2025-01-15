@@ -1,11 +1,11 @@
-import { Scenario, ScenarioResult } from '../../Scenario';
-import { BookingConfirmationScenarioHelper } from '../../../helpers/BookingConfirmationScenarioHelper';
-import descriptions from '../../../consts/descriptions';
-import { Booker } from '../../../Booker';
-import { ScenarioHelper } from '../../../helpers/ScenarioHelper';
-import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
-import { Context } from '../../../context/Context';
 import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
+import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
+import { Booker } from '../../../Booker';
+import descriptions from '../../../consts/descriptions';
+import { Context } from '../../../context/Context';
+import { BookingConfirmationScenarioHelper } from '../../../helpers/BookingConfirmationScenarioHelper';
+import { ScenarioHelper } from '../../../helpers/ScenarioHelper';
+import { Scenario, ScenarioResult } from '../../Scenario';
 
 export class BookingConfirmationScenario implements Scenario {
   private readonly helper = new ScenarioHelper();

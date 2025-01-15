@@ -1,5 +1,5 @@
-import { container } from './src/common/di/container';
 import { Database } from './src/common/database/Database';
+import { container } from './src/common/di/container';
 
 const database = container.get(Database);
 

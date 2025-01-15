@@ -1,7 +1,7 @@
-import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 import { Capability } from '@octocloud/types';
 import { CapabilityValidator } from '../../../validators/backendValidator/Capability/CapabilityValidator';
 import { ScenarioResult } from '../Scenarios/Scenario';
+import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class CapabilitiesScenarioHelper extends ScenarioHelper {
   public validateCapabilities = (data: ScenarioHelperData<Capability[]>): ScenarioResult => {
@@ -15,7 +15,7 @@ export class CapabilitiesScenarioHelper extends ScenarioHelper {
       });
     }
     const capabilities = Array.isArray(result?.data) ? result?.data : [];
-    const errors = capabilities.map(validator.validate).flat(1);
+    const errors = capabilities.flatMap(validator.validate);
     return this.handleResult({
       ...data,
       errors,

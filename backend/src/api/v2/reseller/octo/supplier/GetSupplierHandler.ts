@@ -1,12 +1,12 @@
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { SupplierFacade } from '../../../../../common/validation/v2/facade/supplier/SupplierFacade';
+import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
+import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
+import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
+import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
-import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
-import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
-import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
-import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { inject } from '@needle-di/core';
 
 export class GetSupplierHandler implements RequestHandler {
   public constructor(
@@ -20,7 +20,7 @@ export class GetSupplierHandler implements RequestHandler {
       const supplier = await this.supplierFacade.getSupplier();
 
       return this.jsonResponseFactory.create(supplier);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof SessionNotFoundError) {
         return this.errorResponseFactory.createNotFoundResponse(e.message, e);
       } else if (e instanceof SessionScenarioNotSetError) {

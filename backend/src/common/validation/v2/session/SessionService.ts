@@ -1,11 +1,11 @@
-import { SessionRepository } from './SessionRepository';
-import { v4 as uuidv4 } from 'uuid';
-import { SessionNotFoundError } from './error/SessionNotFoundError';
-import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
-import { ScenarioService } from '../scenario/ScenarioService';
-import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
 import { inject } from '@needle-di/core';
+import { v4 as uuidv4 } from 'uuid';
+import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
 import { SESSION_REPOSITORY } from '../../../di/container';
+import { ScenarioService } from '../scenario/ScenarioService';
+import { SessionRepository } from './SessionRepository';
+import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
+import { SessionNotFoundError } from './error/SessionNotFoundError';
 
 export class SessionService {
   public constructor(

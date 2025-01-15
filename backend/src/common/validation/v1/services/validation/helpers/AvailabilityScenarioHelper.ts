@@ -1,10 +1,10 @@
-import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import * as R from 'ramda';
 import { Availability, Product } from '@octocloud/types';
+import * as R from 'ramda';
 import { AvailabilityValidator } from '../../../validators/backendValidator/Availability/AvailabilityValidator';
-import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
-import { Context } from '../context/Context';
+import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { ScenarioResult } from '../Scenarios/Scenario';
+import { Context } from '../context/Context';
+import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 export class AvailabilityScenarioHelper extends ScenarioHelper {
   public validateAvailability = (
     data: ScenarioHelperData<Availability[]>,
@@ -34,7 +34,7 @@ export class AvailabilityScenarioHelper extends ScenarioHelper {
         }),
       );
     } else {
-      errors = availabilities.map(validator.validate).flat();
+      errors = availabilities.flatMap(validator.validate);
 
       if (R.isEmpty(availabilities)) {
         errors.push(

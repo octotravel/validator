@@ -1,9 +1,9 @@
-import { Step } from '../../Step';
-import { StepId } from '../../StepId';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 import { BookingCancellationValidator } from '../../../validator/reseller/booking/BookingCancellationValidator';
+import { Step } from '../../Step';
+import { StepId } from '../../StepId';
 
 export class BookingCancellationStep implements Step {
   public getId(): StepId {

@@ -1,9 +1,9 @@
-import { Command } from './Command';
-import { LoggerFactory } from '../../common/logger/LoggerFactory';
 import { Database } from '../../common/database/Database';
 import { Migrator } from '../../common/database/Migrator';
-import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
 import { container } from '../../common/di/container';
+import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
+import { LoggerFactory } from '../../common/logger/LoggerFactory';
+import { Command } from './Command';
 
 export class MigrateDbCommand implements Command {
   public getSlug = (): string => {

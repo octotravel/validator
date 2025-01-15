@@ -1,9 +1,9 @@
-import { Result } from '../../../api/types';
 import { Booking } from '@octocloud/types';
-import { Scenario, ScenarioResult } from '../../Scenario';
-import { BookingReservationScenarioHelper } from '../../../helpers/BookingReservationScenarioHelper';
+import { Result } from '../../../api/types';
 import descriptions from '../../../consts/descriptions';
 import { Context } from '../../../context/Context';
+import { BookingReservationScenarioHelper } from '../../../helpers/BookingReservationScenarioHelper';
+import { Scenario, ScenarioResult } from '../../Scenario';
 
 export class BookingReservationScenario implements Scenario {
   private readonly result: Result<Booking>;

@@ -1,9 +1,9 @@
-import { SupplierDestination, SupplierCategory, Supplier } from '@octocloud/types';
+import { Supplier, SupplierCategory, SupplierDestination } from '@octocloud/types';
 import {
-  StringValidator,
   BooleanValidator,
-  StringArrayValidator,
   ModelValidator,
+  StringArrayValidator,
+  StringValidator,
   ValidatorError,
 } from '../ValidatorHelpers';
 
@@ -22,7 +22,7 @@ export class SupplierContentValidator implements ModelValidator {
 
   private readonly validateDestination = (destinations: SupplierDestination[]): ValidatorError[] => {
     return destinations
-      .map((destination, i) => [
+      .flatMap((destination, i) => [
         StringValidator.validate(`${this.path}.destinations[${i}].id`, destination?.id),
         BooleanValidator.validate(`${this.path}.destinations[${i}].default`, destination?.default),
         StringValidator.validate(`${this.path}.destinations[${i}].name`, destination?.name),
@@ -42,13 +42,12 @@ export class SupplierContentValidator implements ModelValidator {
         }),
         ...this.validateCategories(destination?.categories),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 
   private readonly validateCategories = (categories: SupplierCategory[]): ValidatorError[] => {
     return (categories ?? [])
-      .map((category, i) => [
+      .flatMap((category, i) => [
         StringValidator.validate(`${this.path}.categories[${i}].id`, category?.id),
         BooleanValidator.validate(`${this.path}.categories[${i}].default`, category?.default),
         StringValidator.validate(`${this.path}.categories[${i}].title`, category?.title),
@@ -63,7 +62,6 @@ export class SupplierContentValidator implements ModelValidator {
         }),
         StringArrayValidator.validate(`${this.path}.categories[${i}].productIds`, category?.productIds),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 }

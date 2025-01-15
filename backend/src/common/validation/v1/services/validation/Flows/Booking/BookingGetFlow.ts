@@ -1,10 +1,10 @@
-import { Flow, FlowResult } from '../Flow';
-import { BookingGetReservationScenario } from '../../Scenarios/Booking/Get/BookingGetReservation';
 import { BookingGetBookingScenario } from '../../Scenarios/Booking/Get/BookingGetBooking';
 import { BookingGetInvalidUUIDScenario } from '../../Scenarios/Booking/Get/BookingGetInvalidUUID';
-import { BaseFlow } from '../BaseFlow';
+import { BookingGetReservationScenario } from '../../Scenarios/Booking/Get/BookingGetReservation';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { BaseFlow } from '../BaseFlow';
+import { Flow, FlowResult } from '../Flow';
 
 export class BookingGetFlow extends BaseFlow implements Flow {
   public constructor() {

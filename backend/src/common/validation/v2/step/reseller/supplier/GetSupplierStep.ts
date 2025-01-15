@@ -1,8 +1,8 @@
 import { Question } from '../../../question/Question';
-import { StepId } from '../../StepId';
 import { Validator } from '../../../validator/Validator';
-import { Step } from '../../Step';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
+import { Step } from '../../Step';
+import { StepId } from '../../StepId';
 
 export class GetSupplierStep implements Step {
   public getId(): StepId {

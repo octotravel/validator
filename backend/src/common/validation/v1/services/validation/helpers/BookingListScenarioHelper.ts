@@ -2,9 +2,9 @@ import { Booking } from '@octocloud/types';
 import { GetBookingsSchema } from '../../../schemas/Booking';
 import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
-import { ScenarioResult } from '../Scenarios/Scenario';
 
 export class BookingListScenarioHelper extends ScenarioHelper {
   private readonly bookingEndpointValidator = new BookingEndpointValidator();
@@ -27,13 +27,11 @@ export class BookingListScenarioHelper extends ScenarioHelper {
         bookings,
         schema,
       }),
-      ...bookings
-        .map(
-          new BookingValidator({
-            capabilities: context.getCapabilityIDs(),
-          }).validate,
-        )
-        .flat(),
+      ...bookings.flatMap(
+        new BookingValidator({
+          capabilities: context.getCapabilityIDs(),
+        }).validate,
+      ),
     ];
     return this.handleResult({
       ...data,

@@ -1,9 +1,9 @@
-import { Step } from '../../Step';
-import { StepId } from '../../StepId';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
-import { AvailabilityCalendarValidator } from '../../../validator/reseller/availability/AvailabilityCalendarValidator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
+import { AvailabilityCalendarValidator } from '../../../validator/reseller/availability/AvailabilityCalendarValidator';
+import { Step } from '../../Step';
+import { StepId } from '../../StepId';
 
 export class AvailabilityCalendarStep implements Step {
   public getId(): StepId {

@@ -1,12 +1,12 @@
 import { Booking } from '@octocloud/types';
-import {
-  StringValidator,
-  ModelValidator,
-  ValidatorError,
-  BooleanValidator,
-  NumberValidator,
-} from '../ValidatorHelpers';
 import { CommonValidator } from '../CommonValidator';
+import {
+  BooleanValidator,
+  ModelValidator,
+  NumberValidator,
+  StringValidator,
+  ValidatorError,
+} from '../ValidatorHelpers';
 
 export class BookingPickupValidator implements ModelValidator {
   private readonly path: string;

@@ -1,8 +1,8 @@
 import { Product } from '@octocloud/types';
-import { Scenario, ScenarioResult } from '../Scenario';
-import { AvailabilityScenarioHelper } from '../../helpers/AvailabilityScenarioHelper';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
+import { AvailabilityScenarioHelper } from '../../helpers/AvailabilityScenarioHelper';
+import { Scenario, ScenarioResult } from '../Scenario';
 
 export class AvailabilityCheckAvailabilityIdScenario implements Scenario {
   private readonly product: Product;

@@ -1,14 +1,14 @@
 import 'reflect-metadata';
-import Koa, { Context } from 'koa';
 import * as Sentry from '@sentry/node';
+import Koa, { Context } from 'koa';
 
-import { ExceptionLogger } from './common/logger/ExceptionLogger';
-import { container } from './common/di/container';
-import config from './common/config/config';
+import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
+import koaBody, { HttpMethodEnum } from 'koa-body';
 import { errorMiddleware } from './api/http/error/ErrorMiddleware';
 import { router } from './api/http/router/RouterMiddleware';
-import koaBody, { HttpMethodEnum } from 'koa-body';
-import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
+import config from './common/config/config';
+import { container } from './common/di/container';
+import { ExceptionLogger } from './common/logger/ExceptionLogger';
 
 const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
 
@@ -18,7 +18,7 @@ const app = new Koa({
 
 app.on('error', (err, ctx: Context) => {
   if (config.IS_SENTRY_ENABLED) {
-    Sentry.withScope((scope: any) => {
+    Sentry.withScope((scope: Sentry.Scope) => {
       scope.addEventProcessor((event: Sentry.Event) => {
         return Sentry.addRequestDataToEvent(event, ctx.request);
       });

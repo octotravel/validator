@@ -1,6 +1,6 @@
-import { Command } from './Command';
 import { Database } from '../../common/database/Database';
 import { container } from '../../common/di/container';
+import { Command } from './Command';
 
 export class ClearDbCommand implements Command {
   public getSlug = (): string => {

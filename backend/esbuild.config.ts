@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 import { Environment } from '@octocloud/core';
+import { sentryEsbuildPlugin } from '@sentry/esbuild-plugin';
+import dotenv from 'dotenv';
 import * as esbuild from 'esbuild';
 import esbuildPluginPino from 'esbuild-plugin-pino';
-import dotenv from 'dotenv';
-import { sentryEsbuildPlugin } from '@sentry/esbuild-plugin';
 import config from './src/common/config/config';
 
 dotenv.config();
@@ -31,6 +31,7 @@ const commonConfig = {
   plugins,
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const mainConfig: any = {
   entryPoints: ['src/server.ts', 'src/console.ts'],
   outdir: 'dist',
@@ -58,7 +59,6 @@ if (env !== Environment.LOCAL && env !== Environment.TEST) {
 }
 
 esbuild.build(mainConfig).catch((e) => {
-  // eslint-disable-next-line no-console
   console.error(e);
   process.exit(1);
 });

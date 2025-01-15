@@ -1,6 +1,6 @@
 import { Logger } from '@octocloud/core';
-import { LoggerFactory } from './LoggerFactory';
 import { ConsoleLogger } from './ConsoleLogger';
+import { LoggerFactory } from './LoggerFactory';
 
 export class ConsoleLoggerFactory implements LoggerFactory {
   public create(name?: string): Logger {

@@ -1,13 +1,13 @@
-import { pg as named } from 'yesql';
-import { CannotCreateSessionError } from './error/CannotCreateSessionError';
-import { SessionRepository } from './SessionRepository';
+import { inject } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
-import { CannotUpdateSessionError } from './error/CannotUpdateSessionError';
-import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
+import { pg as named } from 'yesql';
 import { SessionData, SessionRowData } from '../../../../types/Session';
 import { Database } from '../../../database/Database';
 import { ScenarioId } from '../scenario/ScenarioId';
-import { inject } from '@needle-di/core';
+import { SessionRepository } from './SessionRepository';
+import { CannotCreateSessionError } from './error/CannotCreateSessionError';
+import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
+import { CannotUpdateSessionError } from './error/CannotUpdateSessionError';
 
 export class PostgresSessionRepository implements SessionRepository {
   public constructor(private readonly database: Database = inject(Database)) {}
@@ -63,7 +63,7 @@ export class PostgresSessionRepository implements SessionRepository {
     await this.database
       .getConnection()
       .query(named(query)(sessionRowData))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotCreateSessionError.create(sessionRowData, e);
       });
   }
@@ -93,7 +93,7 @@ export class PostgresSessionRepository implements SessionRepository {
     await this.database
       .getConnection()
       .query(named(query)(sessionRowData))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotUpdateSessionError.create(sessionRowData, e);
       });
   }
@@ -106,7 +106,7 @@ export class PostgresSessionRepository implements SessionRepository {
     await this.database
       .getConnection()
       .query(named(query)({ id }))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotDeleteSessionError.create(id, e);
       });
   }

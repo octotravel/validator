@@ -1,11 +1,11 @@
+import { inject } from '@needle-di/core';
 import { Backend } from '@octocloud/core';
 import { Booking } from '@octocloud/types';
-import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
-import { BookingReservationStep } from '../../step/reseller/booking/BookingReservationStep';
-import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
-import { BookingCancellationStep } from '../../step/reseller/booking/BookingCancellationStep';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
-import { inject } from '@needle-di/core';
+import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
+import { BookingCancellationStep } from '../../step/reseller/booking/BookingCancellationStep';
+import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
+import { BookingReservationStep } from '../../step/reseller/booking/BookingReservationStep';
 
 export class BookingFacade {
   public constructor(
@@ -19,6 +19,7 @@ export class BookingFacade {
     private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public async bookingReservation(bookingReservationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingReservationStep, bookingReservationData);
     return await this.backend.createBooking(bookingReservationData, {
@@ -26,6 +27,7 @@ export class BookingFacade {
     });
   }
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public async bookingConfirmation(bookingConfirmationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingConfirmationStep, bookingConfirmationData);
     return await this.backend.confirmBooking(bookingConfirmationData, {
@@ -33,6 +35,7 @@ export class BookingFacade {
     });
   }
 
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public async bookingCancellation(bookingCancellationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingCancellationStep, bookingCancellationData);
     return await this.backend.cancelBooking(bookingCancellationData, {

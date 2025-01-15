@@ -1,6 +1,6 @@
+import { inject } from '@needle-di/core';
 import { Scenario } from './Scenario';
 import { ScenarioRepository } from './ScenarioRepository';
-import { inject } from '@needle-di/core';
 
 export class InMemoryScenarioRepository implements ScenarioRepository {
   private readonly scenarios: Scenario[];

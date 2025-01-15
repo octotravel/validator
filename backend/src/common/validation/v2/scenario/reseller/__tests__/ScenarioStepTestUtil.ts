@@ -1,3 +1,5 @@
+import { Server } from 'node:http';
+import { LogicError } from '@octocloud/core';
 import {
   Availability,
   AvailabilityBodySchema,
@@ -11,14 +13,12 @@ import {
   QuestionAnswer,
   Supplier,
 } from '@octocloud/types';
-import { Server } from 'http';
 import request from 'supertest';
 import { expect } from 'vitest';
+import { ValidateSessionQuestionsAnswersResponse } from '../../../../../../api/v2/session/ValidateSessionQuestionsAnswersResponse';
 import { SessionScenarioProgressStepStatus, SessionWithProgress } from '../../../../../../types/Session';
 import { StepId } from '../../../step/StepId';
 import { Scenario } from '../../Scenario';
-import { ValidateSessionQuestionsAnswersResponse } from '../../../../../../api/v2/session/ValidateSessionQuestionsAnswersResponse';
-import { LogicError } from '@octocloud/core';
 
 export class ScenarioStepTestUtil {
   private getSupplierData: Supplier[] | null = null;

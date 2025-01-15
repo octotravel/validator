@@ -1,8 +1,8 @@
-import { Scenario, ScenarioResult } from '../../Scenario';
-import { BookingExtendScenarioHelper } from '../../../helpers/BookingExtendScenarioHelper';
 import { InvalidBookingUUIDErrorValidator } from '../../../../../validators/backendValidator/Error/InvalidBookingUUIDErrorValidator';
 import descriptions from '../../../consts/descriptions';
 import { Context } from '../../../context/Context';
+import { BookingExtendScenarioHelper } from '../../../helpers/BookingExtendScenarioHelper';
+import { Scenario, ScenarioResult } from '../../Scenario';
 
 export class BookingReservationExtendInvalidUUIDScenario implements Scenario {
   private readonly bookingExtendScenarioHelper = new BookingExtendScenarioHelper();

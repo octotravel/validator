@@ -1,9 +1,9 @@
+import { inject } from '@needle-di/core';
+import { $enum } from 'ts-enum-util';
 import { Session, SessionScenarioProgress, SessionScenarioProgressStepStatus } from '../../../../types/Session';
-import { ScenarioService } from '../scenario/ScenarioService';
 import { RequestLogProgress, RequestLogRepository } from '../../../requestLog/RequestLogRepository';
 import { ScenarioId } from '../scenario/ScenarioId';
-import { $enum } from 'ts-enum-util';
-import { inject } from '@needle-di/core';
+import { ScenarioService } from '../scenario/ScenarioService';
 
 export class SessionScenarioProgressProvider {
   public constructor(

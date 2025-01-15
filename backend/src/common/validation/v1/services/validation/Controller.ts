@@ -1,16 +1,16 @@
-import { BookingListFlow } from './Flows/Booking/BookingListFlow';
-import { BookingGetFlow } from './Flows/Booking/BookingGetFlow';
+import { AvailabilityCalendarFlow } from './Flows/Availability/AvailabilityCalendarFlow';
+import { AvailabilityFlow } from './Flows/Availability/AvailabilityFlow';
 import { BookingCancellationFlow } from './Flows/Booking/BookingCancellationFlow';
-import { BookingUpdateFlow } from './Flows/Booking/BookingUpdateFlow';
 import { BookingConfirmationFlow } from './Flows/Booking/BookingConfirmationFlow';
 import { BookingExtendFlow } from './Flows/Booking/BookingExtendFlow';
+import { BookingGetFlow } from './Flows/Booking/BookingGetFlow';
+import { BookingListFlow } from './Flows/Booking/BookingListFlow';
 import { BookingReservationFlow } from './Flows/Booking/BookingReservationFlow';
-import { AvailabilityFlow } from './Flows/Availability/AvailabilityFlow';
-import { AvailabilityCalendarFlow } from './Flows/Availability/AvailabilityCalendarFlow';
-import { ProductFlow } from './Flows/Product/ProductFlow';
-import { SupplierFlow } from './Flows/Supplier/SupplierFlow';
+import { BookingUpdateFlow } from './Flows/Booking/BookingUpdateFlow';
 // import { CapabilitiesFlow } from './Flows/Capabilites/CapabilitiesFlow';
 import { Flow, FlowResult } from './Flows/Flow';
+import { ProductFlow } from './Flows/Product/ProductFlow';
+import { SupplierFlow } from './Flows/Supplier/SupplierFlow';
 import { Context } from './context/Context';
 
 export class ValidationController {

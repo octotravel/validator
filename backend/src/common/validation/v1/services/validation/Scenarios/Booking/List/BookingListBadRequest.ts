@@ -1,8 +1,8 @@
-import { Scenario, ScenarioResult } from '../../Scenario';
-import { BookingListScenarioHelper } from '../../../helpers/BookingListScenarioHelper';
 import { BadRequestErrorValidator } from '../../../../../validators/backendValidator/Error/BadRequestErrorValidator';
 import descriptions from '../../../consts/descriptions';
 import { Context } from '../../../context/Context';
+import { BookingListScenarioHelper } from '../../../helpers/BookingListScenarioHelper';
+import { Scenario, ScenarioResult } from '../../Scenario';
 
 export class BookingListBadRequestScenario implements Scenario {
   private readonly bookingListScenarioHelper = new BookingListScenarioHelper();

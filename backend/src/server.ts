@@ -1,17 +1,17 @@
 import 'reflect-metadata';
-import gracefulShutdown from 'http-graceful-shutdown';
 import { Environment } from '@octocloud/core';
+import gracefulShutdown from 'http-graceful-shutdown';
 
-import { LoggerFactory } from './common/logger/LoggerFactory';
-import { createServer } from 'http';
+import { createServer } from 'node:http';
 import * as socketio from 'socket.io';
-import { container } from './common/di/container';
+import { app } from './app';
 import config from './common/config/config';
 import { Database } from './common/database/Database';
+import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
+import { LoggerFactory } from './common/logger/LoggerFactory';
 import { SentryUtil } from './common/util/SentryUtil';
 import { initializeSocketIoServer } from './socketIoServer';
-import { app } from './app';
 
 SentryUtil.initSentry();
 

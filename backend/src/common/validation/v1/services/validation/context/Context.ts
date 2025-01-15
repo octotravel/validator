@@ -1,11 +1,11 @@
-import { ProductContext } from './ProductContext';
 import { Capability, CapabilityId, Product } from '@octocloud/types';
-import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import { ApiClient } from '../api/ApiClient';
-import { DateHelper } from '../../../helpers/DateHelper';
 import { addDays } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 import { ValidationEndpoint } from '../../../../../../api/v1/validate/ValidationSchema';
+import { DateHelper } from '../../../helpers/DateHelper';
+import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
+import { ApiClient } from '../api/ApiClient';
+import { ProductContext } from './ProductContext';
 
 export interface ErrorResult<T> {
   data: T | null;
@@ -23,10 +23,8 @@ export class Context implements IContext {
   private capabilities: CapabilityId[] = [];
   public _terminateValidation = false;
   private _useRequestContext = true;
-  public requestId: string = '';
+  public requestId = '';
   private readonly date = new Date();
-
-  public subrequests: any[] = [];
 
   public invalidProductId = 'invalidProductId';
   public invalidOptionId = 'invalidOptionId';

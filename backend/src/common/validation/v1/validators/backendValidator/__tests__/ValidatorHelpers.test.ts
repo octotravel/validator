@@ -1,16 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import {
-  StringArrayValidator,
-  NumberValidator,
-  NumberArrayValidator,
-  NullValidator,
   ArrayValidator,
+  BooleanValidator,
+  EnumArrayValidator,
+  EnumValidator,
+  NullValidator,
+  NumberArrayValidator,
+  NumberValidator,
+  RegExpArrayValidator,
+  StringArrayValidator,
   StringValidator,
   ValidatorError,
-  BooleanValidator,
-  EnumValidator,
-  EnumArrayValidator,
-  RegExpArrayValidator,
 } from '../ValidatorHelpers';
 
 describe('ValidatorHelpers', () => {

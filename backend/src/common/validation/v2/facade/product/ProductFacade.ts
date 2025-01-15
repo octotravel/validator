@@ -1,10 +1,10 @@
+import { inject } from '@needle-di/core';
 import { Backend } from '@octocloud/core';
 import { Product } from '@octocloud/types';
-import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
-import { GetProductStep } from '../../step/reseller/product/GetProductStep';
-import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
-import { inject } from '@needle-di/core';
+import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
+import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 
 export class ProductFacade {
   public constructor(

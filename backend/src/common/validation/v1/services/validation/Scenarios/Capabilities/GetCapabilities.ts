@@ -1,7 +1,7 @@
-import { Scenario, ScenarioResult } from '../Scenario';
-import { CapabilitiesScenarioHelper } from '../../helpers/CapabilitiesScenarioHelper';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
+import { CapabilitiesScenarioHelper } from '../../helpers/CapabilitiesScenarioHelper';
+import { Scenario, ScenarioResult } from '../Scenario';
 
 export class GetCapabilitiesScenario implements Scenario {
   private readonly capabilitiesScenarioHelper = new CapabilitiesScenarioHelper();

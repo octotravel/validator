@@ -1,10 +1,10 @@
 import { Router } from 'itty-router';
 
-import { OctoRouter } from './octo/OctoRouter';
-import { GetScenariosHandler } from './scenario/GetScenariosHandler';
-import { GetCapabilitiesHandler } from './capabilities/GetCapabilitiesHandler';
-import { GetScenarioHandler } from './scenario/GetScenarioHandler';
 import { inject } from '@needle-di/core';
+import { GetCapabilitiesHandler } from './capabilities/GetCapabilitiesHandler';
+import { OctoRouter } from './octo/OctoRouter';
+import { GetScenarioHandler } from './scenario/GetScenarioHandler';
+import { GetScenariosHandler } from './scenario/GetScenariosHandler';
 
 export class ResellerRouter {
   public readonly router;

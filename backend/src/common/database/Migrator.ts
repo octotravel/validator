@@ -1,11 +1,11 @@
-import { readFileSync } from 'fs';
-import { packageDirectory } from 'pkg-dir';
+import { readFileSync } from 'node:fs';
+import { lstat, readdir } from 'node:fs/promises';
+import { join } from 'node:path';
+import { inject } from '@needle-di/core';
 import { Logger, RuntimeError } from '@octocloud/core';
+import { packageDirectory } from 'pkg-dir';
 import { Database } from './Database';
 import { MigrateError } from './error/MigrateError';
-import { lstat, readdir } from 'fs/promises';
-import { join } from 'path';
-import { inject } from '@needle-di/core';
 
 export class Migrator {
   private migrationDirectoryPath: string | undefined;
@@ -96,6 +96,7 @@ export class Migrator {
   }
 
   private async getAllFilesInDirectory(directoryPath: string): Promise<string[]> {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const files: any = await Promise.all(
       (await readdir(directoryPath)).map(async (entity) => {
         const path = join(directoryPath, entity);

@@ -1,14 +1,14 @@
-import { GetScenariosSchema, getScenariosSchema } from './GetScenariosSchema';
-import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
-import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
-import { GetScenariosResponseFactory } from './GetScenariosResponseFactory';
 import { ValidationError } from 'yup';
+import { CapabilitiesParser } from '../../../../common/util/CapabilitiesParser';
+import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
+import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../http/request/RequestHandler';
 import { SchemaValidator } from '../../../util/SchemaValidator';
-import { CapabilitiesParser } from '../../../../common/util/CapabilitiesParser';
-import { inject } from '@needle-di/core';
+import { GetScenariosResponseFactory } from './GetScenariosResponseFactory';
+import { GetScenariosSchema, getScenariosSchema } from './GetScenariosSchema';
 
 export class GetScenariosHandler implements RequestHandler {
   public constructor(
@@ -32,7 +32,7 @@ export class GetScenariosHandler implements RequestHandler {
       );
 
       return this.jsonResponseFactory.create(scenarios.map((scenario) => GetScenariosResponseFactory.create(scenario)));
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       }

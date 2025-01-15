@@ -1,15 +1,15 @@
+import { inject } from '@needle-di/core';
+import { HttpError } from '@octocloud/core';
+import { IRequest } from 'itty-router';
+import { AvailabilityFacade } from '../../../../../common/validation/v2/facade/availability/AvailabilityFacade';
+import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
+import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
+import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
+import { ValidationError } from '../../../../../common/validation/v2/validator/error/ValidationError';
+import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
-import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
-import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
-import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
-import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { AvailabilityFacade } from '../../../../../common/validation/v2/facade/availability/AvailabilityFacade';
 import { BodyParser } from '../../../../util/BodyParser';
-import { ValidationError } from '../../../../../common/validation/v2/validator/error/ValidationError';
-import { HttpError } from '@octocloud/core';
-import { inject } from '@needle-di/core';
-import { IRequest } from 'itty-router';
 
 export class AvailabilityCalendarHandler implements RequestHandler {
   public constructor(
@@ -25,7 +25,7 @@ export class AvailabilityCalendarHandler implements RequestHandler {
       const availabilityCalendar = await this.availabilityFacade.getAvailabilityCalendar(parsedBody);
 
       return this.jsonResponseFactory.create(availabilityCalendar);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof SessionNotFoundError) {
         return this.errorResponseFactory.createNotFoundResponse(e.message, e);
       } else if (e instanceof SessionScenarioNotSetError) {

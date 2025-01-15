@@ -1,8 +1,9 @@
-import { Result } from '../../../services/validation/api/types';
-import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 import { INVALID_BOOKING_UUID, STATUS_BAD_REQUEST } from '../../../models/Error';
+import { Result } from '../../../services/validation/api/types';
+import { ModelValidator, NumberValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class InvalidBookingUUIDErrorValidator implements ModelValidator {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public validate = (result: Result<any>): ValidatorError[] => {
     return [
       StringValidator.validate('error', result?.data?.error, {

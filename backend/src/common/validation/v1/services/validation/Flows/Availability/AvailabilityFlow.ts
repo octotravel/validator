@@ -1,5 +1,3 @@
-import { Context } from '../../context/Context';
-import docs from '../../consts/docs';
 import { AvailabilityCheckAvailabilityIdScenario } from '../../Scenarios/Availability/AvailabilityCheckAvailabilityId';
 import { AvailabilityCheckBadRequestScenario } from '../../Scenarios/Availability/AvailabilityCheckBadRequest';
 import { AvailabilityCheckDateScenario } from '../../Scenarios/Availability/AvailabilityCheckDate';
@@ -7,6 +5,8 @@ import { AvailabilityChecIntervalScenario } from '../../Scenarios/Availability/A
 import { AvailabilityCheckInvalidOptionScenario } from '../../Scenarios/Availability/AvailabilityCheckInvalidOption';
 import { AvailabilityCheckInvalidProductScenario } from '../../Scenarios/Availability/AvailabilityCheckInvalidProduct';
 import { AvailabilityCheckStatusScenario } from '../../Scenarios/Availability/AvailabilityCheckStatus';
+import docs from '../../consts/docs';
+import { Context } from '../../context/Context';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

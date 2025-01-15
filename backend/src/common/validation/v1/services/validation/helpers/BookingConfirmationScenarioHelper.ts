@@ -1,9 +1,9 @@
 import { Booking, ConfirmBookingBodySchema } from '@octocloud/types';
 import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
-import { ScenarioResult } from '../Scenarios/Scenario';
 
 export class BookingConfirmationScenarioHelper extends ScenarioHelper {
   private readonly bookingEndpointValidator = new BookingEndpointValidator();
@@ -29,7 +29,7 @@ export class BookingConfirmationScenarioHelper extends ScenarioHelper {
       ...this.bookingEndpointValidator.validateConfirmation({
         booking,
         reservation,
-        schema: request?.body as ConfirmBookingBodySchema,
+        schema: request?.body as unknown as ConfirmBookingBodySchema,
       }),
       ...this.bookingEndpointValidator.validate({
         booking,

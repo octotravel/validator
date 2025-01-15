@@ -1,8 +1,8 @@
 import { Context, Next } from 'koa';
-import { container } from '../../../common/di/container';
-import { ApiRouter } from '../../ApiRouter';
 import { asyncLocalStorage } from '../../../common/di/asyncLocalStorage';
+import { container } from '../../../common/di/container';
 import { RequestScopedContext } from '../../../common/requestContext/RequestScopedContext';
+import { ApiRouter } from '../../ApiRouter';
 
 const apiRouter = container.get(ApiRouter);
 

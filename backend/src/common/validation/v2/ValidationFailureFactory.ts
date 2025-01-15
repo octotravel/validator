@@ -7,11 +7,11 @@ export class ValidationFailureFactory {
     const validationFailures: ValidationFailure[] = [];
 
     if (validationError.inner.length === 0) {
-      validationFailures.push(this.createOneFromYupValidationError(validationError));
+      validationFailures.push(ValidationFailureFactory.createOneFromYupValidationError(validationError));
     }
 
     for (const innerValidationError of validationError.inner) {
-      validationFailures.push(this.createOneFromYupValidationError(innerValidationError));
+      validationFailures.push(ValidationFailureFactory.createOneFromYupValidationError(innerValidationError));
     }
 
     return validationFailures;
