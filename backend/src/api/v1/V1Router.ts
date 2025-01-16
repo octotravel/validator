@@ -1,15 +1,16 @@
 import { IRequest, Router } from 'itty-router';
 
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
 import { ValidateHandler } from './validate/ValidateHandler';
 
+@injectable()
 export class V1Router {
   public readonly router;
 
   public constructor(
-    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
-    private readonly validateHandler: ValidateHandler = inject(ValidateHandler),
+    private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
+    private readonly validateHandler = inject(ValidateHandler),
   ) {
     this.router = Router({
       base: '/v1',

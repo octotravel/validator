@@ -1,4 +1,5 @@
 import * as fs from 'node:fs';
+import { injectable } from '@needle-di/core';
 import { Vault } from 'ansible-vault';
 import { packageDirectory } from 'pkg-dir';
 import { container } from '../../common/di/container';
@@ -6,6 +7,7 @@ import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
 import { LoggerFactory } from '../../common/logger/LoggerFactory';
 import { Command } from './Command';
 
+@injectable()
 export class AnsibleEncryptCommand implements Command {
   public getSlug = (): string => {
     return 'ansible-encrypt';

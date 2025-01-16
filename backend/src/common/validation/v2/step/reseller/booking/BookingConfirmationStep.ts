@@ -1,3 +1,4 @@
+import { injectable } from '@needle-di/core';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
@@ -5,6 +6,7 @@ import { BookingConfirmationValidator } from '../../../validator/reseller/bookin
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
 
+@injectable()
 export class BookingConfirmationStep implements Step {
   public getId(): StepId {
     return StepId.BOOKING_CONFIRMATION;

@@ -7,10 +7,9 @@ import koaBody, { HttpMethodEnum } from 'koa-body';
 import { errorMiddleware } from './api/http/error/ErrorMiddleware';
 import { router } from './api/http/router/RouterMiddleware';
 import config from './common/config/config';
-import { container } from './common/di/container';
-import { ExceptionLogger } from './common/logger/ExceptionLogger';
+import { EXCEPTION_LOGGER, container } from './common/di/container';
 
-const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
+const exceptionLogger = container.get(EXCEPTION_LOGGER);
 
 const app = new Koa({
   env: config.getEnvironment(),

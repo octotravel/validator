@@ -1,20 +1,22 @@
 import assert from 'node:assert';
 import postgresql, { ClientConfig, Pool, PoolClient, PoolConfig } from 'pg';
 
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { Environment, Logger } from '@octocloud/core';
 import isDocker from 'is-docker';
 import config from '../config/config';
+import { EXCEPTION_LOGGER } from '../di/container';
 import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
 import { ExceptionLogger } from '../logger/ExceptionLogger';
 import { LoggerFactory } from '../logger/LoggerFactory';
 import { PoolConnectionError } from './error/PoolConnectionError';
 
+@injectable()
 export class Database {
   private readonly consoleLogger: Logger;
 
   public constructor(
-    private readonly exceptionLogger: ExceptionLogger = inject('ExceptionLogger'),
+    private readonly exceptionLogger: ExceptionLogger = inject(EXCEPTION_LOGGER),
     consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
   ) {
     this.consoleLogger = consoleLoggerFactory.create('database');

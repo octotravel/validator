@@ -1,4 +1,4 @@
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { SupplierFacade } from '../../../../../common/validation/v2/facade/supplier/SupplierFacade';
 import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
@@ -8,11 +8,12 @@ import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactor
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
 
+@injectable()
 export class GetSupplierHandler implements RequestHandler {
   public constructor(
-    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
-    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
-    private readonly supplierFacade: SupplierFacade = inject(SupplierFacade),
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly supplierFacade = inject(SupplierFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

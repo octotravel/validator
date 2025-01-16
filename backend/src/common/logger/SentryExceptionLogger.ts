@@ -1,8 +1,10 @@
+import { injectable } from '@needle-di/core';
 import { HttpError, InternalError, LogLevel, LogicError, OctoError, RequestContext } from '@octocloud/core';
 import * as Sentry from '@sentry/node';
 import { Context } from 'koa';
 import { ExceptionLogger } from './ExceptionLogger';
 
+@injectable()
 export class SentryExceptionLogger implements ExceptionLogger {
   public async fatal(data: Error, context?: Context): Promise<unknown> {
     return await this.logLevel(LogLevel.FATAL, data, context);

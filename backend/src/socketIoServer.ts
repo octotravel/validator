@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import 'reflect-metadata';
 import { Server } from 'node:http';
 import * as socketio from 'socket.io';
 import { container } from './common/di/container';

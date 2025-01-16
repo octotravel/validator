@@ -1,4 +1,5 @@
 import { inject } from '@needle-di/core';
+import { RESELLER_SCENARIO } from '../../../di/container';
 import { Scenario } from './Scenario';
 import { ScenarioRepository } from './ScenarioRepository';
 
@@ -6,7 +7,7 @@ export class InMemoryScenarioRepository implements ScenarioRepository {
   private readonly scenarios: Scenario[];
 
   public constructor(
-    private readonly resellerScenarios: Scenario[] = inject('ResellerScenario', { multi: true }),
+    private readonly resellerScenarios: Scenario[] = inject(RESELLER_SCENARIO, { multi: true }),
     private readonly supplierScenarios: Scenario[] = [],
   ) {
     this.scenarios = resellerScenarios.concat(supplierScenarios);

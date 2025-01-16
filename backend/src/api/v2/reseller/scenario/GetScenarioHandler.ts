@@ -1,4 +1,4 @@
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
 import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
@@ -9,11 +9,12 @@ import { SchemaValidator } from '../../../util/SchemaValidator';
 import { GetScenarioResponseFactory } from './GetScenarioResponseFactory';
 import { GetScenarioSchema, getScenarioSchema } from './GetScenarioSchema';
 
+@injectable()
 export class GetScenarioHandler implements RequestHandler {
   public constructor(
-    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
-    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
-    private readonly scenarioFacade: ScenarioFacade = inject(ScenarioFacade),
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly scenarioFacade = inject(ScenarioFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

@@ -1,6 +1,6 @@
 import { IRequest, Router } from 'itty-router';
 
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
 import { ResellerRouter } from './reseller/ResellerRouter';
 import { CreateSessionHandler } from './session/CreateSessionHandler';
@@ -9,21 +9,18 @@ import { GetSessionValidationHistoryHandler } from './session/GetSessionValidati
 import { UpdateSessionHandler } from './session/UpdateSessionHandler';
 import { ValidateSessionQuestionsAnswersHandler } from './session/ValidateSessionQuestionsAnswersHandler';
 
+@injectable()
 export class V2Router {
   public readonly router;
 
   public constructor(
-    private readonly createSessionHandler: CreateSessionHandler = inject(CreateSessionHandler),
-    private readonly getSessionHandler: GetSessionHandler = inject(GetSessionHandler),
-    private readonly updateSessionHandler: UpdateSessionHandler = inject(UpdateSessionHandler),
-    private readonly getSessionValidationHistoryHandler: GetSessionValidationHistoryHandler = inject(
-      GetSessionValidationHistoryHandler,
-    ),
-    private readonly validateSessionQuestionsAnswersHandler: ValidateSessionQuestionsAnswersHandler = inject(
-      ValidateSessionQuestionsAnswersHandler,
-    ),
-    private readonly resellerRouter: ResellerRouter = inject(ResellerRouter),
-    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
+    private readonly createSessionHandler = inject(CreateSessionHandler),
+    private readonly getSessionHandler = inject(GetSessionHandler),
+    private readonly updateSessionHandler = inject(UpdateSessionHandler),
+    private readonly getSessionValidationHistoryHandler = inject(GetSessionValidationHistoryHandler),
+    private readonly validateSessionQuestionsAnswersHandler = inject(ValidateSessionQuestionsAnswersHandler),
+    private readonly resellerRouter = inject(ResellerRouter),
+    private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {
     this.router = Router({
       base: '/v2',

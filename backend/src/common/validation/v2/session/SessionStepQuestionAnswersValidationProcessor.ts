@@ -1,4 +1,4 @@
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
 import { ScenarioId } from '../scenario/ScenarioId';
@@ -9,12 +9,13 @@ import { SessionService } from './SessionService';
 import { SessionStepGuard } from './SessionStepGuard';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
+@injectable()
 export class SessionStepQuestionAnswersValidationProcessor {
   public constructor(
-    private readonly sessionService: SessionService = inject(SessionService),
-    private readonly scenarioService: ScenarioService = inject(ScenarioService),
-    private readonly sessionStepGuard: SessionStepGuard = inject(SessionStepGuard),
-    private readonly stepQuestionAnswersValidator: StepQuestionAnswersValidator = inject(StepQuestionAnswersValidator),
+    private readonly sessionService = inject(SessionService),
+    private readonly scenarioService = inject(ScenarioService),
+    private readonly sessionStepGuard = inject(SessionStepGuard),
+    private readonly stepQuestionAnswersValidator = inject(StepQuestionAnswersValidator),
   ) {}
 
   public async process(

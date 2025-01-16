@@ -15,7 +15,7 @@ import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError
 import { CannotUpdateRequestLogError } from './error/CannotUpdateRequestLogError';
 
 export class PostgresRequestLogRepository implements RequestLogRepository {
-  public constructor(private readonly database: Database = inject(Database)) {}
+  public constructor(private readonly database = inject(Database)) {}
 
   public async create(requestLog: RequestLog): Promise<void> {
     const requestLogRowData: RequestLogRowData = {

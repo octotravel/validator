@@ -1,5 +1,6 @@
 import { Environment } from '@octocloud/core';
 import { EnvType, load } from 'ts-dotenv';
+import { boolean } from 'yup';
 
 const schema = {
   DB_HOST: {
@@ -41,6 +42,16 @@ const schema = {
     type: Number,
     optional: true,
     default: 3006,
+  },
+  APP_ENABLE_LOGGER: {
+    type: Boolean,
+    optional: true,
+    default: true,
+  },
+  APP_ENABLE_FILE_LOGGER: {
+    type: Boolean,
+    optional: true,
+    default: false,
   },
   NODE_ENV: {
     type: String,

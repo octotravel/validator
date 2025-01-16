@@ -1,4 +1,4 @@
-import { inject, injectAsync } from '@needle-di/core';
+import { inject, injectAsync, injectable } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
 import { DoublyLinkedList } from 'linked-list-typed';
 import { Step } from '../../step/Step';
@@ -10,14 +10,15 @@ import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { Scenario } from '../Scenario';
 import { ScenarioId } from '../ScenarioId';
 
+@injectable()
 export class BasicScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 
   public constructor(
-    private readonly getSupplierStep: GetSupplierStep = inject(GetSupplierStep),
-    private readonly getProductsStep: GetProductsStep = inject(GetProductsStep),
-    private readonly getProductStep: GetProductStep = inject(GetProductStep),
-    private readonly availabilityCalendarStep: AvailabilityCalendarStep = inject(AvailabilityCalendarStep),
+    private readonly getSupplierStep = inject(GetSupplierStep),
+    private readonly getProductsStep = inject(GetProductsStep),
+    private readonly getProductStep = inject(GetProductStep),
+    private readonly availabilityCalendarStep = inject(AvailabilityCalendarStep),
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }

@@ -1,4 +1,4 @@
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionData } from '../../../../types/Session';
 import { RequestLogRepository } from '../../../requestLog/RequestLogRepository';
 import { ValidationResult } from '../ValidationResult';
@@ -10,16 +10,15 @@ import { SessionService } from './SessionService';
 import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
+@injectable()
 export class SessionFacade {
   public constructor(
-    private readonly sessionService: SessionService = inject(SessionService),
-    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider = inject(
-      SessionScenarioProgressProvider,
-    ),
-    private readonly sessionStepQuestionAnswersValidationProcessor: SessionStepQuestionAnswersValidationProcessor = inject(
+    private readonly sessionService = inject(SessionService),
+    private readonly sessionScenarioProgressProvider = inject(SessionScenarioProgressProvider),
+    private readonly sessionStepQuestionAnswersValidationProcessor = inject(
       SessionStepQuestionAnswersValidationProcessor,
     ),
-    private readonly requestLogRepository: RequestLogRepository = inject<RequestLogRepository>('RequestLogRepository'),
+    private readonly requestLogRepository = inject<RequestLogRepository>('RequestLogRepository'),
   ) {}
 
   public async createSession(): Promise<Session> {

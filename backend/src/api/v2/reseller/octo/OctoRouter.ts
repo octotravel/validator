@@ -1,6 +1,6 @@
 import { IRequest, Router } from 'itty-router';
 
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { AuthMiddleware } from './AuthMiddleware';
 import { RequestLoggerMiddleware } from './RequestLoggerMiddleware';
 import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
@@ -12,20 +12,21 @@ import { GetProductHandler } from './product/GetProductHandler';
 import { GetProductsHandler } from './product/GetProductsHandler';
 import { GetSupplierHandler } from './supplier/GetSupplierHandler';
 
+@injectable()
 export class OctoRouter {
   public readonly router;
 
   public constructor(
-    private readonly authMiddleware: AuthMiddleware = inject(AuthMiddleware),
-    private readonly requestLoggerMiddleware: RequestLoggerMiddleware = inject(RequestLoggerMiddleware),
-    private readonly getSupplierHandler: GetSupplierHandler = inject(GetSupplierHandler),
-    private readonly getProductsHandler: GetProductsHandler = inject(GetProductsHandler),
-    private readonly getProductHandler: GetProductHandler = inject(GetProductHandler),
-    private readonly availabilityCalendarHandler: AvailabilityCalendarHandler = inject(AvailabilityCalendarHandler),
-    private readonly availabilityCheckHandler: AvailabilityCheckHandler = inject(AvailabilityCheckHandler),
-    private readonly bookingReservationHandler: BookingReservationHandler = inject(BookingReservationHandler),
-    private readonly bookingConfirmationHandler: BookingConfirmationHandler = inject(BookingConfirmationHandler),
-    private readonly bookingCancellationHandler: BookingCancellationHandler = inject(BookingCancellationHandler),
+    private readonly authMiddleware = inject(AuthMiddleware),
+    private readonly requestLoggerMiddleware = inject(RequestLoggerMiddleware),
+    private readonly getSupplierHandler = inject(GetSupplierHandler),
+    private readonly getProductsHandler = inject(GetProductsHandler),
+    private readonly getProductHandler = inject(GetProductHandler),
+    private readonly availabilityCalendarHandler = inject(AvailabilityCalendarHandler),
+    private readonly availabilityCheckHandler = inject(AvailabilityCheckHandler),
+    private readonly bookingReservationHandler = inject(BookingReservationHandler),
+    private readonly bookingConfirmationHandler = inject(BookingConfirmationHandler),
+    private readonly bookingCancellationHandler = inject(BookingCancellationHandler),
   ) {
     const auth = async (req: IRequest): Promise<void> => {
       await this.authMiddleware.invoke(req);

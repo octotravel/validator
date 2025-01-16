@@ -1,3 +1,4 @@
+import { injectable } from '@needle-di/core';
 import { AvailabilityCalendarFlow } from './Flows/Availability/AvailabilityCalendarFlow';
 import { AvailabilityFlow } from './Flows/Availability/AvailabilityFlow';
 import { BookingCancellationFlow } from './Flows/Booking/BookingCancellationFlow';
@@ -13,6 +14,7 @@ import { ProductFlow } from './Flows/Product/ProductFlow';
 import { SupplierFlow } from './Flows/Supplier/SupplierFlow';
 import { Context } from './context/Context';
 
+@injectable()
 export class ValidationController {
   public validate = async (context: Context): Promise<FlowResult[]> => {
     const flows: Flow[] = [

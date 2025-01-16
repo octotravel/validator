@@ -1,7 +1,7 @@
 import { parentPort } from 'node:worker_threads';
 import { Environment, LogLevel, LogicError } from '@octocloud/core';
 import { format } from 'date-fns';
-import pino, { Logger as PinoLogger } from 'pino';
+import pino, { Logger as PinoLogger, TransportTargetOptions } from 'pino';
 import { packageDirectory } from 'pkg-dir';
 import config from '../config/config';
 import { BaseLogger } from './BaseLogger';
@@ -16,6 +16,10 @@ export class ConsoleLogger extends BaseLogger {
 
   // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public async logLevel(level: LogLevel, message: unknown, context: any = null): Promise<void> {
+    if (!config.APP_ENABLE_LOGGER) {
+      return;
+    }
+
     if (parentPort !== null) {
       parentPort.postMessage({ type: 'message', level, message, context });
     } else {
@@ -48,35 +52,40 @@ export class ConsoleLogger extends BaseLogger {
   private async getPineLogger(): Promise<PinoLogger> {
     if (this.pinoLogger === undefined) {
       const env = config.NODE_ENV;
-      let destination = `${await this.getLogsDirectoryPath()}/`;
+      const targets: TransportTargetOptions[] = [
+        {
+          level: 'trace',
+          target: 'pino-pretty',
+          options: {
+            colorize: env === Environment.LOCAL,
+            colorizeObjects: env === Environment.LOCAL,
+          },
+        },
+      ];
 
-      if (this.name) {
-        destination += `${this.name}/`;
+      if (config.APP_ENABLE_FILE_LOGGER) {
+        let destination = `${await this.getLogsDirectoryPath()}/`;
+
+        if (this.name) {
+          destination += `${this.name}/`;
+        }
+
+        destination += `${format(new Date(), 'yyyy-MM-dd')}.log`;
+
+        targets.push({
+          level: 'trace',
+          target: 'pino-pretty',
+          options: {
+            destination,
+            mkdir: true,
+            colorize: false,
+            colorizeObjects: false,
+          },
+        });
       }
 
-      destination += `${format(new Date(), 'yyyy-MM-dd')}.log`;
-
       const transport = pino.transport({
-        targets: [
-          {
-            level: 'trace',
-            target: 'pino-pretty',
-            options: {
-              destination,
-              mkdir: true,
-              colorize: false,
-              colorizeObjects: false,
-            },
-          },
-          {
-            level: 'trace',
-            target: 'pino-pretty',
-            options: {
-              colorize: env === Environment.LOCAL,
-              colorizeObjects: env === Environment.LOCAL,
-            },
-          },
-        ],
+        targets,
       });
 
       this.pinoLogger = pino({}, transport);

@@ -1,14 +1,15 @@
 import * as fs from 'node:fs';
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { Logger } from '@octocloud/core';
 import { Vault } from 'ansible-vault';
 import { packageDirectory } from 'pkg-dir';
 import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
 import { Command } from './Command';
 
+@injectable()
 export class AnsibleDecryptCommand implements Command {
   public constructor(
-    private readonly consoleLoggerFactory: ConsoleLoggerFactory = inject(ConsoleLoggerFactory),
+    private readonly consoleLoggerFactory = inject(ConsoleLoggerFactory),
     private readonly consoleLogger: Logger,
   ) {
     this.consoleLogger = this.consoleLoggerFactory.create();

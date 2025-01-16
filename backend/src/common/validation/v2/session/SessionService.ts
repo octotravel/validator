@@ -1,4 +1,4 @@
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { v4 as uuidv4 } from 'uuid';
 import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
 import { SESSION_REPOSITORY } from '../../../di/container';
@@ -7,10 +7,11 @@ import { SessionRepository } from './SessionRepository';
 import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
 import { SessionNotFoundError } from './error/SessionNotFoundError';
 
+@injectable()
 export class SessionService {
   public constructor(
     private readonly sessionRepository: SessionRepository = inject(SESSION_REPOSITORY),
-    private readonly scenarioService: ScenarioService = inject(ScenarioService),
+    private readonly scenarioService = inject(ScenarioService),
   ) {}
 
   public async createSession(): Promise<Session> {

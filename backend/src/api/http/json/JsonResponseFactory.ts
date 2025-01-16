@@ -1,3 +1,6 @@
+import { injectable } from '@needle-di/core';
+
+@injectable()
 export class JsonResponseFactory {
   public readonly S200_OK = 200;
   public readonly S204_NO_CONTENT = 204;

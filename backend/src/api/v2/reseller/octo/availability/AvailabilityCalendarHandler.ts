@@ -1,4 +1,4 @@
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { HttpError } from '@octocloud/core';
 import { IRequest } from 'itty-router';
 import { AvailabilityFacade } from '../../../../../common/validation/v2/facade/availability/AvailabilityFacade';
@@ -11,11 +11,12 @@ import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
 import { BodyParser } from '../../../../util/BodyParser';
 
+@injectable()
 export class AvailabilityCalendarHandler implements RequestHandler {
   public constructor(
-    private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory),
-    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
-    private readonly availabilityFacade: AvailabilityFacade = inject(AvailabilityFacade),
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly availabilityFacade = inject(AvailabilityFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

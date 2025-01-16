@@ -1,8 +1,9 @@
 import { Router as BaseRouter, RouterType } from 'itty-router';
 
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { RequestContext } from '@octocloud/core';
 import { Context, Next } from 'koa';
+import { REQUEST_LOGGER } from '../common/di/container';
 import { RequestLogger } from '../common/logger/request/RequestLogger';
 import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
 import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
@@ -11,14 +12,15 @@ import { V1Router } from './v1/V1Router';
 import { V2Router } from './v2/V2Router';
 import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 
+@injectable()
 export class ApiRouter {
   public constructor(
-    private readonly v1Router: V1Router = inject(V1Router),
-    private readonly v2Router: V2Router = inject(V2Router),
-    private readonly getDocsHandler: GetDocsHandler = inject(GetDocsHandler),
-    private readonly errorResponseFactory: ErrorResponseFactory = inject(ErrorResponseFactory),
-    private readonly requestScopedContextProvider: RequestScopedContextProvider = inject(RequestScopedContextProvider),
-    private readonly requestLogger: RequestLogger = inject<RequestLogger>('RequestLogger'),
+    private readonly v1Router = inject(V1Router),
+    private readonly v2Router = inject(V2Router),
+    private readonly getDocsHandler = inject(GetDocsHandler),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
+    private readonly requestLogger: RequestLogger = inject<RequestLogger>(REQUEST_LOGGER),
     private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
@@ -28,7 +30,7 @@ export class ApiRouter {
     this.router.all('/v1/*', this.v1Router.router.fetch);
     this.router.all('/v2/*', this.v2Router.router.fetch);
     this.router.all('*', () => {
-      return errorResponseFactory.createNotFoundResponse('Not found');
+      return this.errorResponseFactory.createNotFoundResponse('Not found');
     });
   }
 
@@ -57,7 +59,7 @@ export class ApiRouter {
     const ventrataRequestData = ventrataRequestContext.getRequestData();
 
     if (ventrataRequestData.areLogsEnabled()) {
-      // this.requestLogger.logAll(ventrataRequestData, ventrataRequestContext);
+      this.requestLogger.logAll(ventrataRequestData, ventrataRequestContext);
     }
 
     if (response.status === 204) {

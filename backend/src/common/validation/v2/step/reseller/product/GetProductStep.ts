@@ -1,9 +1,11 @@
+import { injectable } from '@needle-di/core';
 import { Question, QuestionInputType } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
 
+@injectable()
 export class GetProductStep implements Step {
   public getId(): StepId {
     return StepId.GET_PRODUCT;

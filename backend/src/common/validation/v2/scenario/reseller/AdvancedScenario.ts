@@ -1,4 +1,4 @@
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
 import { DoublyLinkedList } from 'linked-list-typed';
 import { Step } from '../../step/Step';
@@ -14,18 +14,19 @@ import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { Scenario } from '../Scenario';
 import { ScenarioId } from '../ScenarioId';
 
+@injectable()
 export class AdvancedScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 
   public constructor(
-    private readonly getSupplierStep: GetSupplierStep = inject(GetSupplierStep),
-    private readonly getProductsStep: GetProductsStep = inject(GetProductsStep),
-    private readonly getProductStep: GetProductStep = inject(GetProductStep),
-    private readonly availabilityCalendarStep: AvailabilityCalendarStep = inject(AvailabilityCalendarStep),
-    private readonly availabilityCheckStep: AvailabilityCheckStep = inject(AvailabilityCheckStep),
-    private readonly bookingReservationStep: BookingReservationStep = inject(BookingReservationStep),
-    private readonly bookingConfirmationStep: BookingConfirmationStep = inject(BookingConfirmationStep),
-    private readonly bookingCancellationStep: BookingCancellationStep = inject(BookingCancellationStep),
+    private readonly getSupplierStep = inject(GetSupplierStep),
+    private readonly getProductsStep = inject(GetProductsStep),
+    private readonly getProductStep = inject(GetProductStep),
+    private readonly availabilityCalendarStep = inject(AvailabilityCalendarStep),
+    private readonly availabilityCheckStep = inject(AvailabilityCheckStep),
+    private readonly bookingReservationStep = inject(BookingReservationStep),
+    private readonly bookingConfirmationStep = inject(BookingConfirmationStep),
+    private readonly bookingCancellationStep = inject(BookingCancellationStep),
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }

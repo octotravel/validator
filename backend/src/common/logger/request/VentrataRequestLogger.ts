@@ -12,9 +12,10 @@ import {
 } from '@octocloud/core';
 import qs from 'query-string';
 
-import { inject } from '@needle-di/core';
+import { inject, injectable } from '@needle-di/core';
 import pLimit from 'p-limit';
 import config from '../../config/config';
+import { EXCEPTION_LOGGER } from '../../di/container';
 import { ConsoleLoggerFactory } from '../ConsoleLoggerFactory';
 import { ExceptionLogger } from '../ExceptionLogger';
 import { LoggerFactory } from '../LoggerFactory';
@@ -22,11 +23,12 @@ import { RequestLogger } from './RequestLogger';
 
 const limit = pLimit(6);
 
+@injectable()
 export class VentrataRequestLogger implements RequestLogger {
   private readonly consoleLogger: Logger;
 
   public constructor(
-    private readonly exceptionLogger: ExceptionLogger = inject<ExceptionLogger>('ExceptionLogger'),
+    private readonly exceptionLogger: ExceptionLogger = inject<ExceptionLogger>(EXCEPTION_LOGGER),
     consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
   ) {
     this.consoleLogger = consoleLoggerFactory.create();
