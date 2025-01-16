@@ -48,7 +48,7 @@ container.bind({
 
 container.bind({
   provide: EXCEPTION_LOGGER,
-  useClass: SentryExceptionLogger,
+  useValue: new SentryExceptionLogger(),
 });
 
 container.bind({

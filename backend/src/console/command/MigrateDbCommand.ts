@@ -13,12 +13,12 @@ export class MigrateDbCommand implements Command {
   };
 
   public run = async (): Promise<void> => {
-    // const database = container.get(Database);
+    const database = container.get(Database);
     const migrator = container.get(Migrator);
     const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
     const consoleLogger = consoleLoggerFactory.create(this.getSlug());
 
     await migrator.migrate(consoleLogger);
-    // await database.endPool();
+    await database.endPool();
   };
 }

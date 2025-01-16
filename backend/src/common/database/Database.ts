@@ -13,13 +13,13 @@ import { PoolConnectionError } from './error/PoolConnectionError';
 
 @injectable()
 export class Database {
-  private readonly consoleLogger: Logger;
+  // private readonly consoleLogger: Logger;
 
   public constructor(
-    private readonly exceptionLogger: ExceptionLogger = inject(EXCEPTION_LOGGER),
-    consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
+    // private readonly exceptionLogger = inject(EXCEPTION_LOGGER),
+    // consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
   ) {
-    this.consoleLogger = consoleLoggerFactory.create('database');
+    // this.consoleLogger = consoleLoggerFactory.create('database');
   }
 
   private readonly clientConfig: ClientConfig = {
@@ -54,14 +54,14 @@ export class Database {
       this.pool = pool;
 
       this.pool.on('error', (err: Error, client: PoolClient) => {
-        this.consoleLogger.error(err);
-        this.exceptionLogger.error(err);
+        //this.consoleLogger.error(err);
+        //this.exceptionLogger.error(err);
       });
 
       this.pool.on('release', (err: Error, client: PoolClient) => {
         if (err) {
-          this.consoleLogger.error(err);
-          this.exceptionLogger.error(err);
+          //this.consoleLogger.error(err);
+          //this.exceptionLogger.error(err);
         }
       });
     } catch (e: unknown) {
