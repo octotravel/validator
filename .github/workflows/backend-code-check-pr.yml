@@ -1,4 +1,4 @@
-name: Code Check
+name: Backend code check
 
 on:
   pull_request:
