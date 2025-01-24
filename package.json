@@ -2,8 +2,11 @@
   "name": "@octocloud/validator",
   "version": "1.0.0",
   "description": "",
-  "scripts": {},
+  "scripts": {
+    "lefthook": "lefthook install"
+  },
   "devDependencies": {
-    "lefthook": "1.8.2"
+    "@biomejs/biome": "1.9.4",
+    "lefthook": "1.10.9"
   }
 }

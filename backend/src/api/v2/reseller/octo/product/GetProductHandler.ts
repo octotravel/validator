@@ -1,4 +1,4 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { GetProductPathParamsSchema, getProductPathParamsSchema } from '@octocloud/types';
 import { IRequest } from 'itty-router';
 import { ProductFacade } from '../../../../../common/validation/v2/facade/product/ProductFacade';
@@ -10,7 +10,6 @@ import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
 import { SchemaValidator } from '../../../../util/SchemaValidator';
 
-@injectable()
 export class GetProductHandler implements RequestHandler {
   public constructor(
     private readonly jsonResponseFactory = inject(JsonResponseFactory),

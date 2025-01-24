@@ -1,11 +1,10 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { RequestScopedContextProvider } from '../../../requestContext/RequestScopedContextProvider';
 import { WebSocket } from '../../../socketio/WebSocket';
 import { Step } from '../step/Step';
 import { StepDataValidator } from '../step/StepDataValidator';
 import { SessionStepGuard } from './SessionStepGuard';
 
-@injectable()
 export class SessionStepValidationProcessor {
   public constructor(
     private readonly sessionStepGuard = inject(SessionStepGuard),

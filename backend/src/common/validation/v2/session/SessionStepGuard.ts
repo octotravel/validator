@@ -1,4 +1,4 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { Session } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { Step } from '../step/Step';
@@ -7,7 +7,6 @@ import { SessionIsInInvalidState } from './error/SessionIsInInvalidState';
 import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
-@injectable()
 export class SessionStepGuard {
   public constructor(
     private readonly scenarioService = inject(ScenarioService),

@@ -1,4 +1,4 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
 import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
@@ -14,7 +14,6 @@ import {
 } from './ValidateSessionQuestionAnswersSchema';
 import { ValidateSessionQuestionsAnswersResponse } from './ValidateSessionQuestionsAnswersResponse';
 
-@injectable()
 export class ValidateSessionQuestionsAnswersHandler implements RequestHandler {
   public constructor(
     private readonly jsonResponseFactory = inject(JsonResponseFactory),

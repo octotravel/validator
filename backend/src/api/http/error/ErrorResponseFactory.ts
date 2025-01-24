@@ -1,10 +1,9 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { Environment } from '@octocloud/core';
 import config from '../../../common/config/config';
 import { JsonResponseFactory } from '../json/JsonResponseFactory';
 import { ErrorResponse } from './ErrorResponse';
 
-@injectable()
 export class ErrorResponseFactory {
   private readonly S400_BAD_REQUEST = 400;
   private readonly BAD_REQUEST = 'BAD_REQUEST';

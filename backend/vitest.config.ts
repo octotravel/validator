@@ -1,8 +1,9 @@
+import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   esbuild: {
-    target: 'es2022',
+    target: 'ESNext',
   },
   cacheDir: '.cache/vitest',
   test: {

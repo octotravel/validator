@@ -1,6 +1,6 @@
 import { IRequest, Router } from 'itty-router';
 
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { AuthMiddleware } from './AuthMiddleware';
 import { RequestLoggerMiddleware } from './RequestLoggerMiddleware';
 import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
@@ -12,7 +12,6 @@ import { GetProductHandler } from './product/GetProductHandler';
 import { GetProductsHandler } from './product/GetProductsHandler';
 import { GetSupplierHandler } from './supplier/GetSupplierHandler';
 
-@injectable()
 export class OctoRouter {
   public readonly router;
 

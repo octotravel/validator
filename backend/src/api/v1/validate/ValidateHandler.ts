@@ -1,4 +1,4 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { OctoError } from '@octocloud/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
@@ -9,7 +9,6 @@ import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { BodyParser } from '../../util/BodyParser';
 import { ValidationEndpoint, validationConfigSchema } from './ValidationSchema';
 
-@injectable()
 export class ValidateHandler {
   public constructor(
     private readonly jsonResponseFactory = inject(JsonResponseFactory),

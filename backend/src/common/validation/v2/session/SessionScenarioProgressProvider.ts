@@ -1,11 +1,10 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { $enum } from 'ts-enum-util';
 import { Session, SessionScenarioProgress, SessionScenarioProgressStepStatus } from '../../../../types/Session';
 import { RequestLogProgress, RequestLogRepository } from '../../../requestLog/RequestLogRepository';
 import { ScenarioId } from '../scenario/ScenarioId';
 import { ScenarioService } from '../scenario/ScenarioService';
 
-@injectable()
 export class SessionScenarioProgressProvider {
   public constructor(
     private readonly scenarioService = inject(ScenarioService),

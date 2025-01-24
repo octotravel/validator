@@ -1,4 +1,4 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { HttpError } from '@octocloud/core';
 import { IRequest } from 'itty-router';
 import { BookingFacade } from '../../../../../common/validation/v2/facade/booking/BookingFacade';
@@ -11,7 +11,6 @@ import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
 import { BodyParser } from '../../../../util/BodyParser';
 
-@injectable()
 export class BookingCancellationHandler implements RequestHandler {
   public constructor(
     private readonly jsonResponseFactory = inject(JsonResponseFactory),

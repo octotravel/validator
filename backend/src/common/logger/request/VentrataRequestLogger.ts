@@ -12,10 +12,9 @@ import {
 } from '@octocloud/core';
 import qs from 'query-string';
 
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import pLimit from 'p-limit';
 import config from '../../config/config';
-import { EXCEPTION_LOGGER } from '../../di/container';
 import { ConsoleLoggerFactory } from '../ConsoleLoggerFactory';
 import { ExceptionLogger } from '../ExceptionLogger';
 import { LoggerFactory } from '../LoggerFactory';
@@ -23,12 +22,11 @@ import { RequestLogger } from './RequestLogger';
 
 const limit = pLimit(6);
 
-@injectable()
 export class VentrataRequestLogger implements RequestLogger {
   private readonly consoleLogger: Logger;
 
   public constructor(
-    private readonly exceptionLogger: ExceptionLogger = inject<ExceptionLogger>(EXCEPTION_LOGGER),
+    // private readonly exceptionLogger: ExceptionLogger = inject<ExceptionLogger>(EXCEPTION_LOGGER),
     consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
   ) {
     this.consoleLogger = consoleLoggerFactory.create();
@@ -37,7 +35,7 @@ export class VentrataRequestLogger implements RequestLogger {
   public async logAll(requestData: RequestData, requestContext: RequestContext): Promise<void> {
     await this.logRequest(requestData, requestContext).catch((e) => {
       this.consoleLogger.error(e);
-      this.exceptionLogger.error(e, requestContext);
+      // this.exceptionLogger.error(e, requestContext);
     });
 
     const subrequestPromises: Array<Promise<void>> = [];
@@ -73,7 +71,7 @@ export class VentrataRequestLogger implements RequestLogger {
 
     await Promise.all(subrequestPromises).catch((e) => {
       this.consoleLogger.error(e);
-      this.exceptionLogger.error(e, requestContext);
+      // this.exceptionLogger.error(e, requestContext);
     });
   }
 

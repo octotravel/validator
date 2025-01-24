@@ -1,14 +1,13 @@
-import 'reflect-metadata';
 import { Database } from './common/database/Database';
 import { asyncLocalStorage } from './common/di/asyncLocalStorage';
-import { COMMAND, EXCEPTION_LOGGER, container } from './common/di/container';
+import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
 import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
 import { SentryUtil } from './common/util/SentryUtil';
 import { Command } from './console/command/Command';
 
 const database = container.get(Database);
-const exceptionLogger = container.get(EXCEPTION_LOGGER);
+// const exceptionLogger = container.get(EXCEPTION_LOGGER);
 const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('console');
 
@@ -17,7 +16,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
     SentryUtil.initSentry();
 
     const commandName = process.argv[2] ?? null;
-    const availableCommands: Command[] = container.get(COMMAND, { multi: true });
+    const availableCommands: Command[] = container.get('Command', { multi: true });
 
     if (commandName === null) {
       let infoMessage = '\n\n\x1b[33mUsage:\x1b[0m\n';
@@ -51,7 +50,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
     process.exit(0);
   } catch (err: unknown) {
     await consoleLogger.error(err);
-    await exceptionLogger.error(err);
+    // await exceptionLogger.error(err);
     await database.endPool();
     await SentryUtil.endSentry();
     process.exit(1);

@@ -1,13 +1,12 @@
 import { IRequest } from 'itty-router';
 
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
 import { SessionService } from '../../../../common/validation/v2/session/SessionService';
 import { SessionNotFoundError } from '../../../../common/validation/v2/session/error/SessionNotFoundError';
 import { Session } from '../../../../types/Session';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 
-@injectable()
 export class AuthMiddleware {
   public constructor(
     private readonly errorResponseFactory = inject(ErrorResponseFactory),

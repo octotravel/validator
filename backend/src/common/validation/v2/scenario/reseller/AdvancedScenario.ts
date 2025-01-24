@@ -1,4 +1,4 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
 import { DoublyLinkedList } from 'linked-list-typed';
 import { Step } from '../../step/Step';
@@ -14,7 +14,6 @@ import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 import { Scenario } from '../Scenario';
 import { ScenarioId } from '../ScenarioId';
 
-@injectable()
 export class AdvancedScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 

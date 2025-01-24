@@ -4,7 +4,7 @@ import { GetScenariosResponse } from '../../../../../../api/v2/reseller/scenario
 import { SessionResponse } from '../../../../../../api/v2/session/SessionResponse';
 import { app } from '../../../../../../app';
 import { Database } from '../../../../../database/Database';
-import { SCENARIO_REPOSITORY, container } from '../../../../../di/container';
+import { container } from '../../../../../di/container';
 import { ScenarioId } from '../../ScenarioId';
 import { ScenarioRepository } from '../../ScenarioRepository';
 import { AdvancedScenario } from '../AdvancedScenario';
@@ -52,7 +52,7 @@ describe('AdvancedScenario', () => {
   });
 
   describe('Should test all scenarios', async () => {
-    scenarioRepository = container.get(SCENARIO_REPOSITORY);
+    scenarioRepository = container.get('ScenarioRepository');
     const scenarios = await scenarioRepository.getAllResellerScenarios();
 
     for (const scenario of scenarios) {

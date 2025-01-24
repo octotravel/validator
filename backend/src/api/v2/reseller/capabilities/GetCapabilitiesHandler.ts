@@ -1,11 +1,10 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
 import { IRequest } from 'itty-router';
 import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../http/request/RequestHandler';
 import { CapabilityResponseFactory } from './CapabilityResponseFactory';
 
-@injectable()
 export class GetCapabilitiesHandler implements RequestHandler {
   public constructor(private readonly jsonResponseFactory = inject(JsonResponseFactory)) {}
 

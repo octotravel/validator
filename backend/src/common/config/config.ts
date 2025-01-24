@@ -1,6 +1,5 @@
 import { Environment } from '@octocloud/core';
 import { EnvType, load } from 'ts-dotenv';
-import { boolean } from 'yup';
 
 const schema = {
   DB_HOST: {
@@ -91,7 +90,7 @@ export type Env = EnvType<typeof schema> & {
 
 const config: Env = load(schema, process.env.ENV_FILE_PATH ?? '.env') as Env;
 config.getEnvironment = (): Environment => {
-  return process.env.NODE_ENV as Environment;
+  return config.NODE_ENV as Environment;
 };
 
 export default config;

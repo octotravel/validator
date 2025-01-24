@@ -10,6 +10,8 @@ nbproject
 coverage
 
 # Local files
+.cache
+.husky
 pnpm-lock.yaml
 .ansible-password
 /.env

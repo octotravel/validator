@@ -1,10 +1,9 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
 import { RequestLogFactory } from '../../../../common/requestLog/RequestLogFactory';
 import { RequestLogService } from '../../../../common/requestLog/RequestLogService';
 
-@injectable()
 export class RequestLoggerMiddleware {
   public constructor(
     private readonly requestLogService = inject(RequestLogService),

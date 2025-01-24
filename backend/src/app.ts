@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import * as Sentry from '@sentry/node';
 import Koa, { Context } from 'koa';
 
@@ -7,9 +6,10 @@ import koaBody, { HttpMethodEnum } from 'koa-body';
 import { errorMiddleware } from './api/http/error/ErrorMiddleware';
 import { router } from './api/http/router/RouterMiddleware';
 import config from './common/config/config';
-import { EXCEPTION_LOGGER, container } from './common/di/container';
+import { container } from './common/di/container';
+import { ExceptionLogger } from './common/logger/ExceptionLogger';
 
-const exceptionLogger = container.get(EXCEPTION_LOGGER);
+const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
 
 const app = new Koa({
   env: config.getEnvironment(),

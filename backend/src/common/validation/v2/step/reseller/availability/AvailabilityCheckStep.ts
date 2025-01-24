@@ -1,4 +1,3 @@
-import { injectable } from '@needle-di/core';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
@@ -6,7 +5,6 @@ import { AvailabilityCheckValidator } from '../../../validator/reseller/availabi
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
 
-@injectable()
 export class AvailabilityCheckStep implements Step {
   public getId(): StepId {
     return StepId.AVAILABILITY_CHECK;

@@ -1,12 +1,9 @@
-import { injectable } from '@needle-di/core';
-
 import { Database } from '../../common/database/Database';
 import { Migrator } from '../../common/database/Migrator';
 import { container } from '../../common/di/container';
-import { Command } from './Command';
 import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
+import { Command } from './Command';
 
-@injectable()
 export class MigrateDbCommand implements Command {
   public getSlug = (): string => {
     return 'migrate-db';

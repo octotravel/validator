@@ -1,9 +1,7 @@
-import { injectable } from '@needle-di/core';
 import { RuntimeError } from '@octocloud/core';
 import { asyncLocalStorage } from '../di/asyncLocalStorage';
 import { RequestScopedContext } from './RequestScopedContext';
 
-@injectable()
 export class RequestScopedContextProvider {
   public getRequestScopedContext(): RequestScopedContext {
     const store = asyncLocalStorage.getStore();

@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Environment } from '@octocloud/core';
 import gracefulShutdown from 'http-graceful-shutdown';
 
@@ -22,24 +21,26 @@ const env = config.getEnvironment();
 const port = config.APP_PORT;
 
 const httpServer = createServer(app.callback());
-// const socketIoServer: socketio.Server | null = initializeSocketIoServer(httpServer);
+const socketIoServer: socketio.Server | null = initializeSocketIoServer(httpServer);
 const server = httpServer.listen(port, () => {
   consoleLogger.log(`Running app on port ${port} on "${env}" env.`);
 });
 
-gracefulShutdown(server, {
-  signals: 'SIGHUP SIGINT SIGTERM',
-  development: env === Environment.LOCAL || env === Environment.TEST,
-  onShutdown: async () => {
-    await new Promise<void>((resolve) => {
-      setTimeout(async () => {
-        await database.endPool();
-        await SentryUtil.endSentry();
-        resolve();
-      }, 30000);
-    });
-  },
-  finally: () => {
-    consoleLogger.log('App gracefully shutted down.');
-  },
-});
+if (env !== Environment.LOCAL && env !== Environment.TEST) {
+  gracefulShutdown(server, {
+    signals: 'SIGHUP SIGINT SIGTERM',
+    development: false,
+    onShutdown: async () => {
+      await new Promise<void>((resolve) => {
+        setTimeout(async () => {
+          await database.endPool();
+          await SentryUtil.endSentry();
+          resolve();
+        }, 30000);
+      });
+    },
+    finally: () => {
+      consoleLogger.log('App gracefully shutted down.');
+    },
+  });
+}

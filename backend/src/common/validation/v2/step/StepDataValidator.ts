@@ -1,9 +1,7 @@
-import { injectable } from '@needle-di/core';
 import { ValidationResult } from '../ValidationResult';
 import { Validator } from '../validator/Validator';
 import { Step } from './Step';
 
-@injectable()
 export class StepDataValidator implements Validator {
   public async validate(step: Step, data: unknown, headers: Headers): Promise<ValidationResult> {
     const validationResult = new ValidationResult(data);

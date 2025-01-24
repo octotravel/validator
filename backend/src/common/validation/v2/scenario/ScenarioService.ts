@@ -2,13 +2,11 @@ import { CapabilityId } from '@octocloud/types';
 import { Scenario } from './Scenario';
 import { ScenarioRepository } from './ScenarioRepository';
 
-import { inject, injectable } from '@needle-di/core';
-import { SCENARIO_REPOSITORY } from '../../../di/container';
+import { inject } from '@needle-di/core';
 import { ScenarioId } from './ScenarioId';
 
-@injectable()
 export class ScenarioService {
-  public constructor(private readonly scenarioRepository: ScenarioRepository = inject(SCENARIO_REPOSITORY)) {}
+  public constructor(private readonly scenarioRepository: ScenarioRepository = inject('ScenarioRepository')) {}
 
   public async getAllResellerScenariosAvailableForCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
     return await this.getAllScenariosAvailableForCapabilities(

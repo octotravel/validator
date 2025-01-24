@@ -1,17 +1,15 @@
-import { inject, injectable } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { Backend } from '@octocloud/core';
 import { Booking } from '@octocloud/types';
-import { OCTO_BACKEND } from '../../../../di/container';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
 import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
 import { BookingCancellationStep } from '../../step/reseller/booking/BookingCancellationStep';
 import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
 import { BookingReservationStep } from '../../step/reseller/booking/BookingReservationStep';
 
-@injectable()
 export class BookingFacade {
   public constructor(
-    private readonly backend = inject<Backend>(OCTO_BACKEND),
+    private readonly backend = inject<Backend>('OctoBackend'),
     private readonly bookingReservationStep = inject(BookingReservationStep),
     private readonly bookingConfirmationStep = inject(BookingConfirmationStep),
     private readonly bookingCancellationStep = inject(BookingCancellationStep),

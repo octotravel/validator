@@ -1,4 +1,3 @@
-import { injectable } from '@needle-di/core';
 import { ValidationFailure } from '../ValidationFailure';
 import { ValidationFailureType } from '../ValidationFailureType';
 import { ValidationResult } from '../ValidationResult';
@@ -6,7 +5,6 @@ import { QuestionAnswer } from '../question/Question';
 import { Validator } from '../validator/Validator';
 import { Step } from './Step';
 
-@injectable()
 export class StepQuestionAnswersValidator implements Validator {
   public async validate(step: Step, answers: QuestionAnswer[]): Promise<ValidationResult> {
     const validationResult = new ValidationResult(answers);

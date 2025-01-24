@@ -3,7 +3,7 @@
     "outDir": "dist",
     "baseUrl": ".",
     "rootDir": ".",
-    "target": "ES2022",
+    "target": "ESNext",
     "module": "CommonJS",
     "strict": true,
     "esModuleInterop": true,
