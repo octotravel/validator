@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@octocloud/validator-backend",
+  "name": "@octocloud/validator",
   "version": "1.0.0",
   "license": "ISC",
   "author": "",
