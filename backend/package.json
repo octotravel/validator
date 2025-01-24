@@ -25,7 +25,7 @@
     "test": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts",
     "test:coverage": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts --coverage",
     "lefthook": "cd .. && lefthook install",
-    "audit": "audit-ci -m"
+    "audit": "audit-ci --config ./audit-ci.json"
   },
   "dependencies": {
     "@koa/cors": "5.0.0",
