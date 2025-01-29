@@ -30,9 +30,9 @@
   "dependencies": {
     "@koa/cors": "5.0.0",
     "@needle-di/core": "0.10.1",
-    "@octocloud/backend": "octotravel/octo-backend#feat/biomejs",
-    "@octocloud/core": "octotravel/octo-core#feat/biomejs",
-    "@octocloud/types": "octotravel/octo-types#feat/biomejs",
+    "@octocloud/backend": "^1.0.25",
+    "@octocloud/core": "^1.0.67",
+    "@octocloud/types": "^1.5.34",
     "@rollup/plugin-typescript": "^12.1.2",
     "@sentry/node": "7.81.1",
     "@sentry/utils": "7.81.1",
@@ -71,7 +71,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@faker-js/faker": "7.6.0",
-    "@octocloud/generators": "octotravel/octo-generator#feat/biomejs",
+    "@octocloud/generators": "^1.0.11",
     "@sentry/esbuild-plugin": "2.10.2",
     "@types/any-base": "1.1.2",
     "@types/base64-url": "2.2.0",
