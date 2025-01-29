@@ -2,12 +2,13 @@ import { Database } from './common/database/Database';
 import { asyncLocalStorage } from './common/di/asyncLocalStorage';
 import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
+import { ExceptionLogger } from './common/logger/ExceptionLogger';
 import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
 import { SentryUtil } from './common/util/SentryUtil';
 import { Command } from './console/command/Command';
 
 const database = container.get(Database);
-const exceptionLogger = container.get('ExceptionLogger');
+const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
 const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('console');
 
