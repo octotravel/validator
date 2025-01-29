@@ -7,7 +7,7 @@ import { SentryUtil } from './common/util/SentryUtil';
 import { Command } from './console/command/Command';
 
 const database = container.get(Database);
-// const exceptionLogger = container.get(EXCEPTION_LOGGER);
+const exceptionLogger = container.get('ExceptionLogger');
 const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('console');
 
@@ -50,7 +50,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
     process.exit(0);
   } catch (err: unknown) {
     await consoleLogger.error(err);
-    // await exceptionLogger.error(err);
+    await exceptionLogger.error(err);
     await database.endPool();
     await SentryUtil.endSentry();
     process.exit(1);
