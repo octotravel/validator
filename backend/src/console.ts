@@ -18,6 +18,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
 
     const commandName = process.argv[2] ?? null;
     const availableCommands: Command[] = container.get('Command', { multi: true });
+    availableCommands.sort((a, b) => a.getSlug().localeCompare(b.getSlug()));
 
     if (commandName === null) {
       let infoMessage = '\n\n\x1b[33mUsage:\x1b[0m\n';

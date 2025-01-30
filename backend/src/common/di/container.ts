@@ -192,11 +192,19 @@ container.bind({
   useClass: AnsibleDecryptCommand,
   multi: true,
 });
+container.bind({
+  provide: 'AnsibleDecryptCommand',
+  useClass: AnsibleDecryptCommand,
+});
 container.bind(AnsibleDecryptCommand);
 container.bind({
   provide: 'Command',
   useClass: AnsibleEncryptCommand,
   multi: true,
+});
+container.bind({
+  provide: 'AnsibleEncryptCommand',
+  useClass: AnsibleEncryptCommand,
 });
 container.bind(AnsibleEncryptCommand);
 container.bind({
@@ -204,11 +212,19 @@ container.bind({
   useClass: ClearDbCommand,
   multi: true,
 });
+container.bind({
+  provide: 'ClearDbCommand',
+  useClass: ClearDbCommand,
+});
 container.bind(ClearDbCommand);
 container.bind({
   provide: 'Command',
   useClass: MigrateDbCommand,
   multi: true,
+});
+container.bind({
+  provide: 'MigrateDbCommand',
+  useClass: MigrateDbCommand,
 });
 container.bind(MigrateDbCommand);
 
