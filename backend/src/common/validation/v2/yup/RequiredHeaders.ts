@@ -1,6 +1,6 @@
 import { CapabilityId } from '@octocloud/types';
-import { string } from 'yup';
 import { $enum } from 'ts-enum-util';
+import { string } from 'yup';
 
 export const octoCapabilitiesValidator = string().test((capabilities, ctx) => {
   if (capabilities === '' || capabilities === undefined) {

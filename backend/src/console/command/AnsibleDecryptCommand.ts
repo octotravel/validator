@@ -1,19 +1,14 @@
-import * as fs from 'fs';
+import * as fs from 'node:fs';
+import { inject } from '@needle-di/core';
+import { Logger } from '@octocloud/core';
 import { Vault } from 'ansible-vault';
 import { packageDirectory } from 'pkg-dir';
-import { singleton, registry, inject } from 'tsyringe';
-import { Command } from './Command';
 import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
-import { Logger } from '@octocloud/core';
+import { Command } from './Command';
 
-@singleton()
-@registry([
-  { token: AnsibleDecryptCommand.name, useClass: AnsibleDecryptCommand },
-  { token: 'Command', useClass: AnsibleDecryptCommand },
-])
 export class AnsibleDecryptCommand implements Command {
   public constructor(
-    @inject(ConsoleLoggerFactory) private readonly consoleLoggerFactory: ConsoleLoggerFactory,
+    private readonly consoleLoggerFactory = inject(ConsoleLoggerFactory),
     private readonly consoleLogger: Logger,
   ) {
     this.consoleLogger = this.consoleLoggerFactory.create();
@@ -45,7 +40,7 @@ export class AnsibleDecryptCommand implements Command {
 
       try {
         password = fs.readFileSync(`${rootDirectory}/${passwordFile}`, 'utf-8');
-      } catch (e: any) {
+      } catch (e: unknown) {
         throw new Error(`Can't read "${passwordFile}" file content.`);
       }
 
@@ -53,7 +48,7 @@ export class AnsibleDecryptCommand implements Command {
 
       try {
         encryptedEnvFileContent = fs.readFileSync(`${rootDirectory}/${envFileName}`, 'utf-8');
-      } catch (e: any) {
+      } catch (e: unknown) {
         throw new Error(`Can't read "${envFileName}" file content.`);
       }
 
@@ -62,16 +57,17 @@ export class AnsibleDecryptCommand implements Command {
 
       try {
         decryptedEnvFileContent = ansibleVault.decryptSync(encryptedEnvFileContent, undefined)!;
-      } catch (e: any) {
-        throw new Error(`Can't decrypt "${envFileName}" file content, following error occured: "${e.message}".`);
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : 'unknown';
+        throw new Error(`Can't decrypt "${envFileName}" file content, "${message}" error occured.`);
       }
 
       try {
         fs.writeFileSync(envFileName, decryptedEnvFileContent);
-      } catch (e: any) {
+      } catch (e: unknown) {
         throw new Error(`Can't write content to file "${envFileName}".`);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       await this.consoleLogger.error(err);
     }
   };

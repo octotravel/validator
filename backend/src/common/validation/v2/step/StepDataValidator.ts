@@ -1,6 +1,6 @@
 import { ValidationResult } from '../ValidationResult';
-import { Step } from './Step';
 import { Validator } from '../validator/Validator';
+import { Step } from './Step';
 
 export class StepDataValidator implements Validator {
   public async validate(step: Step, data: unknown, headers: Headers): Promise<ValidationResult> {

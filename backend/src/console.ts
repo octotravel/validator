@@ -1,17 +1,15 @@
-import 'reflect-metadata';
-import { LoggerFactory } from './common/logger/LoggerFactory';
-import { Command } from './console/command/Command';
-import { ExceptionLogger } from './common/logger/ExceptionLogger';
+import { Database } from './common/database/Database';
+import { asyncLocalStorage } from './common/di/asyncLocalStorage';
 import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
-import { Database } from './common/database/Database';
-import { SentryUtil } from './common/util/SentryUtil';
-import { asyncLocalStorage } from './common/di/asyncLocalStorage';
+import { ExceptionLogger } from './common/logger/ExceptionLogger';
 import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
+import { SentryUtil } from './common/util/SentryUtil';
+import { Command } from './console/command/Command';
 
-const database: Database = container.resolve(Database);
-const exceptionLogger: ExceptionLogger = container.resolve('ExceptionLogger');
-const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+const database = container.get(Database);
+const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
+const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('console');
 
 (async () => {
@@ -19,7 +17,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
     SentryUtil.initSentry();
 
     const commandName = process.argv[2] ?? null;
-    const availableCommands: Command[] = container.resolveAll('Command');
+    const availableCommands: Command[] = container.get('Command', { multi: true });
 
     if (commandName === null) {
       let infoMessage = '\n\n\x1b[33mUsage:\x1b[0m\n';
@@ -41,9 +39,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
         continue;
       }
 
-      const command: Command = container.resolve(availableCommand.constructor.name);
-      const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
-      const consoleLogger = consoleLoggerFactory.create(commandName);
+      const command: Command = container.get(availableCommand.constructor.name);
       const requestScopedContext = new RequestScopedContext();
       await asyncLocalStorage.run({ requestScopedContext }, async () => {
         await command.run(...process.argv.slice(3));
@@ -53,7 +49,7 @@ const consoleLogger = consoleLoggerFactory.create('console');
     await database.endPool();
     await SentryUtil.endSentry();
     process.exit(0);
-  } catch (err: any) {
+  } catch (err: unknown) {
     await consoleLogger.error(err);
     await exceptionLogger.error(err);
     await database.endPool();

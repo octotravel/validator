@@ -1,11 +1,11 @@
-import { Scenario, ScenarioResult } from '../../Scenario';
-import { BookingListScenarioHelper } from '../../../helpers/BookingListScenarioHelper';
-import descriptions from '../../../consts/descriptions';
-import { ScenarioHelper } from '../../../helpers/ScenarioHelper';
-import { Booker } from '../../../Booker';
+import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
+import { Booker } from '../../../Booker';
+import descriptions from '../../../consts/descriptions';
 import { Context } from '../../../context/Context';
-import { ReferenceHelper } from './../../../../../../../validation/v1/helpers/ReferenceHelper';
+import { BookingListScenarioHelper } from '../../../helpers/BookingListScenarioHelper';
+import { ScenarioHelper } from '../../../helpers/ScenarioHelper';
+import { Scenario, ScenarioResult } from '../../Scenario';
 
 export class BookingListSupplierReferenceScenario implements Scenario {
   private readonly helper = new ScenarioHelper();

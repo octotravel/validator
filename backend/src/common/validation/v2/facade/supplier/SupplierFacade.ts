@@ -1,18 +1,16 @@
-import { inject, singleton } from 'tsyringe';
+import { inject } from '@needle-di/core';
 import { Backend } from '@octocloud/core';
 import { Supplier } from '@octocloud/types';
-import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
-import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
+import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
+import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
 
-@singleton()
 export class SupplierFacade {
   public constructor(
-    @inject('Backend') private readonly backend: Backend,
-    @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
-    @inject(SessionStepValidationProcessor)
-    private readonly sessionStepValidationProcessor: SessionStepValidationProcessor,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
+    private readonly backend = inject<Backend>('OctoBackend'),
+    private readonly getSupplierStep = inject(GetSupplierStep),
+    private readonly sessionStepValidationProcessor = inject(SessionStepValidationProcessor),
+    private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
   public async getSupplier(): Promise<Supplier> {

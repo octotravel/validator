@@ -1,9 +1,9 @@
 import { Product } from '@octocloud/types';
-import { Scenario, ScenarioResult } from '../Scenario';
-import { AvailabilityScenarioHelper } from '../../helpers/AvailabilityScenarioHelper';
+import { PseudoRandomGenerator } from '../../../../helpers/PseudoRandomGenerator';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
-import { PseudoRandomGenerator } from '../../../../helpers/PseudoRandomGenerator';
+import { AvailabilityScenarioHelper } from '../../helpers/AvailabilityScenarioHelper';
+import { Scenario, ScenarioResult } from '../Scenario';
 
 export class AvailabilityChecIntervalScenario implements Scenario {
   private readonly product: Product;

@@ -1,10 +1,9 @@
-import { inject, singleton } from 'tsyringe';
-import { ErrorResponse } from './ErrorResponse';
-import { JsonResponseFactory } from '../json/JsonResponseFactory';
-import config from '../../../common/config/config';
+import { inject } from '@needle-di/core';
 import { Environment } from '@octocloud/core';
+import config from '../../../common/config/config';
+import { JsonResponseFactory } from '../json/JsonResponseFactory';
+import { ErrorResponse } from './ErrorResponse';
 
-@singleton()
 export class ErrorResponseFactory {
   private readonly S400_BAD_REQUEST = 400;
   private readonly BAD_REQUEST = 'BAD_REQUEST';
@@ -17,7 +16,7 @@ export class ErrorResponseFactory {
   private readonly S422_UNPROCESSABLE_ENTITY = 422;
   private readonly UNPROCESSABLE_ENTITY = 'UNPROCESSABLE_ENTITY';
 
-  public constructor(@inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory) {}
+  public constructor(private readonly jsonResponseFactory: JsonResponseFactory = inject(JsonResponseFactory)) {}
 
   public createBadRequestResponse(errorMessage: string, error: Error | null = null): Response {
     return this.createErrorResponse(this.S400_BAD_REQUEST, this.BAD_REQUEST, errorMessage, error);
@@ -39,13 +38,13 @@ export class ErrorResponseFactory {
     return this.createErrorResponse(this.S404_NOT_FOUND, this.NOT_FOUND, errorMessage, error);
   }
 
-  public createValidationErrorResponse(data: any, error: Error | null = null): Response {
+  public createValidationErrorResponse(data: unknown, error: Error | null = null): Response {
     return this.createErrorResponse(
       this.S422_UNPROCESSABLE_ENTITY,
       this.UNPROCESSABLE_ENTITY,
       'The request headers or body is not formatted correctly, you have missing required fields or any of the data types are incorrect',
-      data,
       error,
+      data,
     );
   }
 
@@ -54,7 +53,7 @@ export class ErrorResponseFactory {
     errorCode: string,
     errorMessage: string,
     error: Error | null = null,
-    errorData: any = {},
+    errorData: unknown = {},
   ): Response {
     const env = config.getEnvironment();
     const isDebug = env === Environment.LOCAL || env === Environment.TEST;
@@ -62,7 +61,7 @@ export class ErrorResponseFactory {
       errorCode,
       errorMessage,
       errorData,
-      isDebug ? error?.stack ?? '' : undefined,
+      isDebug ? (error?.stack ?? '') : undefined,
     );
 
     return this.jsonResponseFactory.create(errorResponse, httpStatus);

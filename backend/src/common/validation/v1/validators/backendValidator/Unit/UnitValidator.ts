@@ -1,12 +1,12 @@
-import { CapabilityId, Restrictions, Unit, ContactField, PricingPer } from '@octocloud/types';
+import { CapabilityId, ContactField, PricingPer, Restrictions, Unit } from '@octocloud/types';
 import {
-  StringValidator,
   BooleanValidator,
   EnumArrayValidator,
-  NumberValidator,
   ModelValidator,
-  ValidatorError,
+  NumberValidator,
   StringArrayValidator,
+  StringValidator,
+  ValidatorError,
 } from '../ValidatorHelpers';
 import { UnitPricingValidator } from './UnitPricingValidator';
 

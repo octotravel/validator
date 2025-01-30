@@ -42,6 +42,16 @@ const schema = {
     optional: true,
     default: 3006,
   },
+  APP_ENABLE_LOGGER: {
+    type: Boolean,
+    optional: true,
+    default: true,
+  },
+  APP_ENABLE_FILE_LOGGER: {
+    type: Boolean,
+    optional: true,
+    default: false,
+  },
   NODE_ENV: {
     type: String,
     optional: true,
@@ -80,7 +90,7 @@ export type Env = EnvType<typeof schema> & {
 
 const config: Env = load(schema, process.env.ENV_FILE_PATH ?? '.env') as Env;
 config.getEnvironment = (): Environment => {
-  return process.env.NODE_ENV as Environment;
+  return config.NODE_ENV as Environment;
 };
 
 export default config;

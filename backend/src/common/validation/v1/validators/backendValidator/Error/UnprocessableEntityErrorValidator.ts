@@ -1,8 +1,9 @@
-import { Result } from './../../../services/validation/api/types';
-import { NumberValidator, ModelValidator, StringValidator, ValidatorError } from './../ValidatorHelpers';
 import { STATUS_BAD_REQUEST, UNPROCESSABLE_ENTITY } from '../../../models/Error';
+import { Result } from '../../../services/validation/api/types';
+import { ModelValidator, NumberValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class UnprocessableEntityErrorValidator implements ModelValidator {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public validate = (result: Result<any>): ValidatorError[] => {
     return [
       StringValidator.validate('error', result?.data?.error, {

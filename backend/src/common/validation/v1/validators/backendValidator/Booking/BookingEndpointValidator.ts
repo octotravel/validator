@@ -1,13 +1,13 @@
-import { GetBookingsSchema } from './../../../schemas/Booking';
 import {
   Booking,
-  CreateBookingBodySchema,
   BookingStatus,
-  ExtendBookingBodySchema,
-  ConfirmBookingBodySchema,
-  UpdateBookingBodySchema,
   CancelBookingBodySchema,
+  ConfirmBookingBodySchema,
+  CreateBookingBodySchema,
+  ExtendBookingBodySchema,
+  UpdateBookingBodySchema,
 } from '@octocloud/types';
+import { GetBookingsSchema } from '../../../schemas/Booking';
 import { ArrayValidator, ErrorType, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 interface ValidateData {

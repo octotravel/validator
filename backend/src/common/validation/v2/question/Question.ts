@@ -3,7 +3,7 @@ export interface Question {
   label: string;
   description: string;
   input: QuestionInptut;
-  answer: () => Promise<any>;
+  answer: () => Promise<unknown>;
 }
 
 export interface QuestionInptut {
@@ -25,5 +25,5 @@ interface QuestionInputOptions {
 
 export interface QuestionAnswer {
   questionId: string;
-  value: any;
+  value: unknown;
 }

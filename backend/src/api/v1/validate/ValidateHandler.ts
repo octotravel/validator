@@ -1,19 +1,18 @@
-import { singleton, inject } from 'tsyringe';
-import { validationConfigSchema, ValidationEndpoint } from './ValidationSchema';
-import { ValidationController } from '../../../common/validation/v1/services/validation/Controller';
-import { Context } from '../../../common/validation/v1/services/validation/context/Context';
-import { BodyParser } from '../../util/BodyParser';
-import { IRequest } from 'itty-router';
-import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
+import { inject } from '@needle-di/core';
 import { OctoError } from '@octocloud/core';
+import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
 import { BadRequestError, InternalServerError } from '../../../common/validation/v1/models/Error';
+import { ValidationController } from '../../../common/validation/v1/services/validation/Controller';
+import { Context } from '../../../common/validation/v1/services/validation/context/Context';
+import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
+import { BodyParser } from '../../util/BodyParser';
+import { ValidationEndpoint, validationConfigSchema } from './ValidationSchema';
 
-@singleton()
 export class ValidateHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ValidationController) private readonly validatorController: ValidationController,
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly validatorController = inject(ValidationController),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
@@ -29,7 +28,6 @@ export class ValidateHandler {
 
       return this.jsonResponseFactory.create(flowResult);
     } catch (e) {
-      // eslint-disable-next-line no-console
       console.log(e);
       const err = e as Error;
 

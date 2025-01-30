@@ -1,8 +1,8 @@
-import { Scenario, ScenarioResult } from '../Scenario';
-import { AvailabilityStatusScenarioHelper } from '../../helpers/AvailabilityStatusScenarioHelper';
-import { Product, Availability } from '@octocloud/types';
-import { Context } from '../../context/Context';
+import { Availability, Product } from '@octocloud/types';
 import { Result } from '../../api/types';
+import { Context } from '../../context/Context';
+import { AvailabilityStatusScenarioHelper } from '../../helpers/AvailabilityStatusScenarioHelper';
+import { Scenario, ScenarioResult } from '../Scenario';
 
 interface FetchAvailabilityResult {
   result: Result<Availability[]>;

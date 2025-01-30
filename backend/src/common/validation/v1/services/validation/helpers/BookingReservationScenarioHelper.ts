@@ -1,9 +1,9 @@
-import { BookingEndpointValidator } from './../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { Booking, CreateBookingBodySchema } from '@octocloud/types';
+import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
-import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
-import { Context } from '../context/Context';
 import { ScenarioResult } from '../Scenarios/Scenario';
+import { Context } from '../context/Context';
+import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class BookingReservationScenarioHelper extends ScenarioHelper {
   private readonly bookingEndpointValidator = new BookingEndpointValidator();
@@ -23,14 +23,14 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
 
     const errors = [
       ...this.bookingEndpointValidator.validateReservation({
-        schema: request?.body as CreateBookingBodySchema,
+        schema: request?.body as unknown as CreateBookingBodySchema,
         reservation,
       }),
       ...this.bookingEndpointValidator.validate({
         booking: reservation,
-        productId: request?.body?.productId,
-        optionId: request?.body?.optionId,
-        availabilityId: request?.body?.availabilityId,
+        productId: request?.body?.productId as string,
+        optionId: request?.body?.optionId as string,
+        availabilityId: request?.body?.availabilityId as string,
       }),
       ...new BookingValidator({
         capabilities: context.getCapabilityIDs(),

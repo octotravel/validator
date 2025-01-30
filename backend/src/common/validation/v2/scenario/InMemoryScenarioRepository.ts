@@ -1,14 +1,12 @@
-import { injectAll, singleton } from 'tsyringe';
+import { inject } from '@needle-di/core';
 import { Scenario } from './Scenario';
 import { ScenarioRepository } from './ScenarioRepository';
-import { ScenarioId } from './ScenarioId';
 
-@singleton()
 export class InMemoryScenarioRepository implements ScenarioRepository {
   private readonly scenarios: Scenario[];
 
   public constructor(
-    @injectAll('ResellerScenario') private readonly resellerScenarios: Scenario[],
+    private readonly resellerScenarios: Scenario[] = inject('ResellerScenario', { multi: true }),
     private readonly supplierScenarios: Scenario[] = [],
   ) {
     this.scenarios = resellerScenarios.concat(supplierScenarios);

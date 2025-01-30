@@ -1,11 +1,11 @@
-import { Scenario } from './../../Scenarios/Scenario';
 import { GetProductScenario } from '../../Scenarios/Product/GetProduct';
 import { GetProductInvalidScenario } from '../../Scenarios/Product/GetProductInvalid';
 import { GetProductsScenario } from '../../Scenarios/Product/GetProducts';
-import { Flow, FlowResult } from '../Flow';
-import { BaseFlow } from '../BaseFlow';
+import { Scenario } from '../../Scenarios/Scenario';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { BaseFlow } from '../BaseFlow';
+import { Flow, FlowResult } from '../Flow';
 
 export class ProductFlow extends BaseFlow implements Flow {
   public constructor() {

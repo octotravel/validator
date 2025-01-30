@@ -1,5 +1,5 @@
+import { Availability, AvailabilityType, Product } from '@octocloud/types';
 import * as R from 'ramda';
-import { AvailabilityType, Product, Availability } from '@octocloud/types';
 import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { ProductBookable } from './ProductBookable';
 

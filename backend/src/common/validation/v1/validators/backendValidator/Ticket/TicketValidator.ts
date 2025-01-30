@@ -1,5 +1,5 @@
-import { RedemptionMethod, DeliveryFormat, Ticket } from '@octocloud/types';
-import { StringValidator, EnumValidator, NullValidator, ModelValidator, ValidatorError } from '../ValidatorHelpers';
+import { DeliveryFormat, RedemptionMethod, Ticket } from '@octocloud/types';
+import { EnumValidator, ModelValidator, NullValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class TicketValidator implements ModelValidator {
   private readonly path: string;
@@ -24,7 +24,7 @@ export class TicketValidator implements ModelValidator {
   private readonly validateDeliveryOptions = (ticket?: Ticket | null): ValidatorError[] => {
     const deliveryOptions = ticket?.deliveryOptions ?? [];
     return deliveryOptions
-      .map((deliveryOption, i) => [
+      .flatMap((deliveryOption, i) => [
         EnumValidator.validate(
           `${this.path}.deliveryOptions[${i}].deliveryFormat`,
           deliveryOption?.deliveryFormat,
@@ -32,7 +32,6 @@ export class TicketValidator implements ModelValidator {
         ),
         StringValidator.validate(`${this.path}.deliveryOptions[${i}].deliveryValue`, deliveryOption?.deliveryValue),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 }

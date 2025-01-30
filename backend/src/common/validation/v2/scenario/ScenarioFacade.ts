@@ -1,12 +1,11 @@
-import { inject, singleton } from 'tsyringe';
-import { Scenario } from './Scenario';
+import { inject } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
-import { ScenarioService } from './ScenarioService';
+import { Scenario } from './Scenario';
 import { ScenarioId } from './ScenarioId';
+import { ScenarioService } from './ScenarioService';
 
-@singleton()
 export class ScenarioFacade {
-  public constructor(@inject(ScenarioService) private readonly scenarioService: ScenarioService) {}
+  public constructor(private readonly scenarioService = inject(ScenarioService)) {}
 
   public async getAllResellerScenariosAvailableForCapabilities(capabilities: CapabilityId[]): Promise<Scenario[]> {
     return await this.scenarioService.getAllResellerScenariosAvailableForCapabilities(capabilities);

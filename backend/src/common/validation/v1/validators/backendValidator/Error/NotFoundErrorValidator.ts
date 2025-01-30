@@ -1,8 +1,9 @@
-import { Result } from './../../../services/validation/api/types';
 import { NOT_FOUND, STATUS_NOT_FOUND } from '../../../models/Error';
+import { Result } from '../../../services/validation/api/types';
 import { ModelValidator, NumberValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class NotFoundErrorValidator implements ModelValidator {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   public validate = (result: Result<any>): ValidatorError[] => {
     return [
       StringValidator.validate('error', result?.data?.error, {

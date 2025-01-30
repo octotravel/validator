@@ -1,10 +1,10 @@
-import { ScenarioResult } from './../Scenarios/Scenario';
-import * as R from 'ramda';
 import { AvailabilityCalendar, Product } from '@octocloud/types';
-import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
-import { ErrorType, ValidatorError } from './../../../validators/backendValidator/ValidatorHelpers';
+import * as R from 'ramda';
 import { AvailabilityCalendarValidator } from '../../../validators/backendValidator/AvailabilityCalendar/AvailabilityCalendarValidator';
+import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
+import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
   public validateAvailability = (
@@ -33,15 +33,13 @@ export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
       );
     }
 
-    const validationErrors = availabilities
-      .map((availability: any, i: number) =>
-        new AvailabilityCalendarValidator({
-          capabilities: context.getCapabilityIDs(),
-          path: `[${i}]`,
-          availabilityType: product.availabilityType,
-        }).validate(availability),
-      )
-      .flat();
+    const validationErrors = availabilities.flatMap((availability, i: number) =>
+      new AvailabilityCalendarValidator({
+        capabilities: context.getCapabilityIDs(),
+        path: `[${i}]`,
+        availabilityType: product.availabilityType,
+      }).validate(availability),
+    );
 
     errors.push(...validationErrors);
 

@@ -1,7 +1,7 @@
-import { Scenario, ScenarioResult } from '../Scenario';
-import { SupplierScenarioHelper } from '../../helpers/SupplierScenarioHelper';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
+import { SupplierScenarioHelper } from '../../helpers/SupplierScenarioHelper';
+import { Scenario, ScenarioResult } from '../Scenario';
 
 export class GetSupplierScenario implements Scenario {
   private readonly supplierScenarioHelper = new SupplierScenarioHelper();

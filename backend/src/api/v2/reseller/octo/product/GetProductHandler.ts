@@ -1,21 +1,20 @@
-import { singleton, inject } from 'tsyringe';
+import { inject } from '@needle-di/core';
+import { GetProductPathParamsSchema, getProductPathParamsSchema } from '@octocloud/types';
 import { IRequest } from 'itty-router';
+import { ProductFacade } from '../../../../../common/validation/v2/facade/product/ProductFacade';
+import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
+import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
+import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
+import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
-import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
-import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
-import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
-import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { ProductFacade } from '../../../../../common/validation/v2/facade/product/ProductFacade';
 import { SchemaValidator } from '../../../../util/SchemaValidator';
-import { GetProductPathParamsSchema, getProductPathParamsSchema } from '@octocloud/types';
 
-@singleton()
 export class GetProductHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(ProductFacade) private readonly productFacade: ProductFacade,
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly productFacade = inject(ProductFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
@@ -31,7 +30,7 @@ export class GetProductHandler implements RequestHandler {
       const product = await this.productFacade.getProduct(validatedSchema.id);
 
       return this.jsonResponseFactory.create(product);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof SessionNotFoundError) {
         return this.errorResponseFactory.createNotFoundResponse(e.message, e);
       } else if (e instanceof SessionScenarioNotSetError) {

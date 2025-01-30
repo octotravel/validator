@@ -1,15 +1,13 @@
 import 'dotenv/config';
-import 'reflect-metadata';
-import { Server } from 'http';
+import { Server } from 'node:http';
 import * as socketio from 'socket.io';
-import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './common/socketio/SocketIo';
-import { LoggerFactory } from './common/logger/LoggerFactory';
 import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
-import { InjectionToken } from 'tsyringe';
+import { LoggerFactory } from './common/logger/LoggerFactory';
+import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from './common/socketio/SocketIo';
 
 export function initializeSocketIoServer(httpServer: Server): socketio.Server | null {
-  const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+  const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
   const consoleLogger = consoleLoggerFactory.create('socketIoServer');
   const options: Partial<socketio.ServerOptions> = { cors: { origin: '*' } };
   const socketIoServer: socketio.Server = new socketio.Server<
@@ -32,8 +30,10 @@ export function initializeSocketIoServer(httpServer: Server): socketio.Server | 
     socket.leave(socket.data.sessionId);
   });
 
-  const socketIoServerToken: InjectionToken<WebSocket> = 'SocketIoServer';
-  container.registerInstance(socketIoServerToken, socketIoServer);
+  container.bind({
+    provide: 'SocketIoServer',
+    useValue: socketIoServer,
+  });
 
   return socketIoServer;
 }

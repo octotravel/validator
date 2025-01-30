@@ -1,4 +1,4 @@
-import { Unit, Pricing } from '@octocloud/types';
+import { Pricing, Unit } from '@octocloud/types';
 import { PricingValidator } from '../Pricing/PricingValidator';
 import { ModelValidator, ValidatorError } from '../ValidatorHelpers';
 
@@ -15,20 +15,18 @@ export class UnitPricingValidator implements ModelValidator {
     if (isOnBooking) {
       const pricing = unit?.pricing ?? [];
       return pricing
-        .map((pricing, i) => {
+        .flatMap((pricing, i) => {
           this.pricingValidator.setPath(`${this.path}.pricing[${i}]`);
           return this.pricingValidator.validate(pricing);
         })
-        .flat(1)
         .flatMap((v) => (v ? [v] : []));
     } else {
       const pricingFrom = unit?.pricingFrom ?? [];
       return pricingFrom
-        .map((pricingFrom, i) => {
+        .flatMap((pricingFrom, i) => {
           this.pricingValidator.setPath(`${this.path}.pricingFrom[${i}]`);
           return this.pricingValidator.validate(pricingFrom);
         })
-        .flat(1)
         .flatMap((v) => (v ? [v] : []));
     }
   };

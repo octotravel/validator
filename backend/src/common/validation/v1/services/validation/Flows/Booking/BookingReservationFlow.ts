@@ -1,18 +1,18 @@
-import { BookingReservationScenario } from '../../Scenarios/Booking/Reservation/BookingReservationScenario';
-import { Flow, FlowResult } from '../Flow';
-import { BookingReservationInvalidProductScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidProductScenario';
-import { BookingReservationInvalidOptionScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidOptionScenario';
-import { BookingReservationInvalidAvailabilityIdScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidAvailabilityIdScenario';
-import { BaseFlow } from '../BaseFlow';
-import { BookingReservationSoldOutScenario } from '../../Scenarios/Booking/Reservation/BookingReservationSoldOutScenario';
-import { BookingReservationMissingUnitItemsScenario } from '../../Scenarios/Booking/Reservation/BookingReservationMissingUnitItemsScenario';
-import { BookingReservationEmptyUnitItemsScenario } from '../../Scenarios/Booking/Reservation/BookingReservationEmptyUnitItemsScenario';
-import { BookingReservationInvalidUnitIdScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidUnitIdScenario';
-import { Scenario } from '../../Scenarios/Scenario';
+import { LogicError } from '@octocloud/core';
 import { Booker } from '../../Booker';
+import { BookingReservationEmptyUnitItemsScenario } from '../../Scenarios/Booking/Reservation/BookingReservationEmptyUnitItemsScenario';
+import { BookingReservationInvalidAvailabilityIdScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidAvailabilityIdScenario';
+import { BookingReservationInvalidOptionScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidOptionScenario';
+import { BookingReservationInvalidProductScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidProductScenario';
+import { BookingReservationInvalidUnitIdScenario } from '../../Scenarios/Booking/Reservation/BookingReservationInvalidUnitIdScenario';
+import { BookingReservationMissingUnitItemsScenario } from '../../Scenarios/Booking/Reservation/BookingReservationMissingUnitItemsScenario';
+import { BookingReservationScenario } from '../../Scenarios/Booking/Reservation/BookingReservationScenario';
+import { BookingReservationSoldOutScenario } from '../../Scenarios/Booking/Reservation/BookingReservationSoldOutScenario';
+import { Scenario } from '../../Scenarios/Scenario';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
-import { LogicError } from '@octocloud/core';
+import { BaseFlow } from '../BaseFlow';
+import { Flow, FlowResult } from '../Flow';
 
 export class BookingReservationFlow extends BaseFlow implements Flow {
   private readonly booker = new Booker();

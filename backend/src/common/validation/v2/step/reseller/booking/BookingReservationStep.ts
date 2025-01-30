@@ -1,12 +1,10 @@
-import { Step } from '../../Step';
-import { StepId } from '../../StepId';
-import { singleton } from 'tsyringe';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 import { BookingReservationValidator } from '../../../validator/reseller/booking/BookingReservationValidator';
+import { Step } from '../../Step';
+import { StepId } from '../../StepId';
 
-@singleton()
 export class BookingReservationStep implements Step {
   public getId(): StepId {
     return StepId.BOOKING_RESERVATION;

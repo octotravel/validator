@@ -1,24 +1,23 @@
-import { inject, singleton } from 'tsyringe';
-import { SessionService } from './SessionService';
+import { inject } from '@needle-di/core';
 import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionData } from '../../../../types/Session';
-import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
-import { ScenarioId } from '../scenario/ScenarioId';
 import { RequestLogRepository } from '../../../requestLog/RequestLogRepository';
-import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
-import { StepId } from '../step/StepId';
 import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
+import { ScenarioId } from '../scenario/ScenarioId';
+import { StepId } from '../step/StepId';
+import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
+import { SessionService } from './SessionService';
+import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
-@singleton()
 export class SessionFacade {
   public constructor(
-    @inject(SessionService) private readonly sessionService: SessionService,
-    @inject(SessionScenarioProgressProvider)
-    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
-    @inject(SessionStepQuestionAnswersValidationProcessor)
-    private readonly sessionStepQuestionAnswersValidationProcessor: SessionStepQuestionAnswersValidationProcessor,
-    @inject('RequestLogRepository') private readonly requestLogRepository: RequestLogRepository,
+    private readonly sessionService = inject(SessionService),
+    private readonly sessionScenarioProgressProvider = inject(SessionScenarioProgressProvider),
+    private readonly sessionStepQuestionAnswersValidationProcessor = inject(
+      SessionStepQuestionAnswersValidationProcessor,
+    ),
+    private readonly requestLogRepository = inject<RequestLogRepository>('RequestLogRepository'),
   ) {}
 
   public async createSession(): Promise<Session> {

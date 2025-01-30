@@ -13,16 +13,14 @@ export class CommonValidator {
   ): ValidatorError[] => {
     const regExp = /^\d{2}:\d{2}$/g;
     const errors: Array<ValidatorError | null> = [
-      ...openingHours
-        .map((openingHour, i) => [
-          RegExpValidator.validate(`${label}.openingHours[${i}].from`, openingHour?.from, regExp, {
-            shouldWarn: true,
-          }),
-          RegExpValidator.validate(`${label}.openingHours[${i}].to`, openingHour?.to, regExp, {
-            shouldWarn: true,
-          }),
-        ])
-        .flat(),
+      ...openingHours.flatMap((openingHour, i) => [
+        RegExpValidator.validate(`${label}.openingHours[${i}].from`, openingHour?.from, regExp, {
+          shouldWarn: true,
+        }),
+        RegExpValidator.validate(`${label}.openingHours[${i}].to`, openingHour?.to, regExp, {
+          shouldWarn: true,
+        }),
+      ]),
     ];
     if (availabilityType === AvailabilityType.OPENING_HOURS) {
       errors.push(

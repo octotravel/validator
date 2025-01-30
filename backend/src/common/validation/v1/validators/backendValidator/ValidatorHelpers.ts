@@ -35,15 +35,18 @@ export class ValidatorError extends Error {
 }
 
 export interface ModelValidator {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   validate: (...args: any[]) => ValidatorError[];
 }
 
 class BaseValidator {
-  protected static handleValidatedError = (error: any, shouldWarn: boolean = false): ValidatorError => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  protected static handleValidatedError = (error: any, shouldWarn = false): ValidatorError => {
     if (error instanceof yup.ValidationError) {
       if (error.type === 'required' || error.type === 'typeError') {
         return new ValidatorError({
           type: shouldWarn ? ErrorType.WARNING : ErrorType.CRITICAL,
+          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
           message: error.errors as any,
         });
       }
@@ -59,7 +62,8 @@ class BaseValidator {
 export class StringValidator extends BaseValidator {
   public static validate = (label: string, value: unknown, params?: StringValidatorParams): ValidatorError | null => {
     try {
-      let schema;
+      let schema: yup.BaseSchema<unknown>;
+
       if (params?.nullable) {
         schema = yup.string().label(label).nullable().defined();
       } else {
@@ -168,7 +172,8 @@ export class EnumValidator extends BaseValidator {
     params?: EnumValidatorParams,
   ): ValidatorError | null => {
     try {
-      let schema;
+      let schema: yup.BaseSchema<unknown>;
+
       if (params?.nullable) {
         schema = yup.mixed().label(label).nullable().defined();
       } else {
@@ -231,7 +236,7 @@ export class RegExpValidator extends BaseValidator {
     params?: RegExpValidatorParams,
   ): ValidatorError | null => {
     try {
-      let schema;
+      let schema: yup.BaseSchema<unknown>;
 
       if (params?.isNull) {
         schema = yup.string().label(label).nullable().defined();

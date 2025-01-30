@@ -1,31 +1,31 @@
-import { IRequest, Router, json } from 'itty-router';
-import { inject, singleton } from 'tsyringe';
-import { GetSupplierHandler } from './supplier/GetSupplierHandler';
-import { AuthMiddleware } from './AuthMiddleware';
-import { GetProductsHandler } from './product/GetProductsHandler';
-import { GetProductHandler } from './product/GetProductHandler';
-import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
-import { RequestLoggerMiddleware } from './RequestLoggerMiddleware';
-import { AvailabilityCheckHandler } from './availability/AvailabilityCheckHandler';
-import { BookingReservationHandler } from './booking/BookingReservationHandler';
-import { BookingConfirmationHandler } from './booking/BookingConfirmationHandler';
-import { BookingCancellationHandler } from './booking/BookingCancellationHandler';
+import { IRequest, Router } from 'itty-router';
 
-@singleton()
+import { inject } from '@needle-di/core';
+import { AuthMiddleware } from './AuthMiddleware';
+import { RequestLoggerMiddleware } from './RequestLoggerMiddleware';
+import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
+import { AvailabilityCheckHandler } from './availability/AvailabilityCheckHandler';
+import { BookingCancellationHandler } from './booking/BookingCancellationHandler';
+import { BookingConfirmationHandler } from './booking/BookingConfirmationHandler';
+import { BookingReservationHandler } from './booking/BookingReservationHandler';
+import { GetProductHandler } from './product/GetProductHandler';
+import { GetProductsHandler } from './product/GetProductsHandler';
+import { GetSupplierHandler } from './supplier/GetSupplierHandler';
+
 export class OctoRouter {
   public readonly router;
 
   public constructor(
-    @inject(AuthMiddleware) private readonly authMiddleware: AuthMiddleware,
-    @inject(RequestLoggerMiddleware) private readonly requestLoggerMiddleware: RequestLoggerMiddleware,
-    @inject(GetSupplierHandler) private readonly getSupplierHandler: GetSupplierHandler,
-    @inject(GetProductsHandler) private readonly getProductsHandler: GetProductsHandler,
-    @inject(GetProductHandler) private readonly getProductHandler: GetProductsHandler,
-    @inject(AvailabilityCalendarHandler) private readonly availabilityCalendarHandler: AvailabilityCalendarHandler,
-    @inject(AvailabilityCheckHandler) private readonly availabilityCheckHandler: AvailabilityCheckHandler,
-    @inject(BookingReservationHandler) private readonly bookingReservationHandler: BookingReservationHandler,
-    @inject(BookingConfirmationHandler) private readonly bookingConfirmationHandler: BookingConfirmationHandler,
-    @inject(BookingCancellationHandler) private readonly bookingCancellationHandler: BookingCancellationHandler,
+    private readonly authMiddleware = inject(AuthMiddleware),
+    private readonly requestLoggerMiddleware = inject(RequestLoggerMiddleware),
+    private readonly getSupplierHandler = inject(GetSupplierHandler),
+    private readonly getProductsHandler = inject(GetProductsHandler),
+    private readonly getProductHandler = inject(GetProductHandler),
+    private readonly availabilityCalendarHandler = inject(AvailabilityCalendarHandler),
+    private readonly availabilityCheckHandler = inject(AvailabilityCheckHandler),
+    private readonly bookingReservationHandler = inject(BookingReservationHandler),
+    private readonly bookingConfirmationHandler = inject(BookingConfirmationHandler),
+    private readonly bookingCancellationHandler = inject(BookingCancellationHandler),
   ) {
     const auth = async (req: IRequest): Promise<void> => {
       await this.authMiddleware.invoke(req);

@@ -1,10 +1,10 @@
 import { Availability, PickupPoint } from '@octocloud/types';
 import {
-  StringValidator,
-  ModelValidator,
-  ValidatorError,
   BooleanValidator,
+  ModelValidator,
   NumberValidator,
+  StringValidator,
+  ValidatorError,
 } from '../ValidatorHelpers';
 
 export class AvailabilityPickupValidator implements ModelValidator {
@@ -23,7 +23,7 @@ export class AvailabilityPickupValidator implements ModelValidator {
 
   private readonly validatePickupPoints = (pickupPoints: PickupPoint[]): ValidatorError[] => {
     return pickupPoints
-      .map((pickupPoint, i) => [
+      .flatMap((pickupPoint, i) => [
         StringValidator.validate(`${this.path}.pickupPoints[${i}].id`, pickupPoint?.id),
         StringValidator.validate(`${this.path}.pickupPoints[${i}].name`, pickupPoint?.name),
         StringValidator.validate(`${this.path}.pickupPoints[${i}].directions`, pickupPoint?.directions, {
@@ -46,7 +46,6 @@ export class AvailabilityPickupValidator implements ModelValidator {
         StringValidator.validate(`${this.path}.pickupPoints[${i}].state`, pickupPoint?.state, { nullable: true }),
         StringValidator.validate(`${this.path}.pickupPoints[${i}].country`, pickupPoint?.country, { nullable: true }),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 }

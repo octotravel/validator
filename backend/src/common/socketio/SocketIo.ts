@@ -1,16 +1,16 @@
 import * as socketio from 'socket.io';
-import { inject, singleton } from 'tsyringe';
-import { container } from '../di/container';
-import { WebSocket } from './WebSocket';
-import { ValidationResult } from '../validation/v2/ValidationResult';
+
+import { inject } from '@needle-di/core';
 import { Logger } from '@octocloud/core';
+import { Session } from '../../types/Session';
+import { container } from '../di/container';
 import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
 import { LoggerFactory } from '../logger/LoggerFactory';
-import { StepId } from '../validation/v2/step/StepId';
+import { ValidationResult } from '../validation/v2/ValidationResult';
 import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
-import { Session } from '../../types/Session';
 import { Step } from '../validation/v2/step/Step';
-import config from '../config/config';
+import { StepId } from '../validation/v2/step/StepId';
+import { WebSocket } from './WebSocket';
 
 export interface ServerToClientEvents {
   validationResult(validationResult: ValidationResult): Promise<void>;
@@ -32,7 +32,7 @@ export interface WebSocketValidationResult {
   isValid: boolean;
   scenarioId: ScenarioId;
   stepId: StepId;
-  data: Record<string, any>;
+  data: Record<string, unknown>;
   errors: WebSocketValidationResultItem[];
   warnings: WebSocketValidationResultItem[];
 }
@@ -40,15 +40,14 @@ export interface WebSocketValidationResult {
 export interface WebSocketValidationResultItem {
   message: string;
   path: string;
-  data: any;
+  data: unknown;
 }
 
-@singleton()
 export class SocketIo implements WebSocket {
   private socketIoServer: socketio.Server | null = null;
   private readonly consoleLogger: Logger;
 
-  public constructor(@inject(ConsoleLoggerFactory) consoleLoggerFactory: LoggerFactory) {
+  public constructor(consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory)) {
     this.consoleLogger = consoleLoggerFactory.create('database');
   }
 
@@ -69,7 +68,7 @@ export class SocketIo implements WebSocket {
 
   private getSocketIoServer(): socketio.Server {
     if (this.socketIoServer === null) {
-      const socketIoServer: socketio.Server = container.resolve('SocketIoServer');
+      const socketIoServer: socketio.Server = container.get('SocketIoServer');
 
       this.socketIoServer = socketIoServer;
     }

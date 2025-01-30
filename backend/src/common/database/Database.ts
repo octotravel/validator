@@ -1,21 +1,20 @@
-import assert from 'assert';
+import assert from 'node:assert';
 import postgresql, { ClientConfig, Pool, PoolClient, PoolConfig } from 'pg';
-import { inject, singleton } from 'tsyringe';
+
+import { inject } from '@needle-di/core';
 import { Environment, Logger } from '@octocloud/core';
-import { PoolConnectionError } from './error/PoolConnectionError';
 import isDocker from 'is-docker';
 import config from '../config/config';
-import { ExceptionLogger } from '../logger/ExceptionLogger';
-import { LoggerFactory } from '../logger/LoggerFactory';
 import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
+import { LoggerFactory } from '../logger/LoggerFactory';
+import { PoolConnectionError } from './error/PoolConnectionError';
 
-@singleton()
 export class Database {
   private readonly consoleLogger: Logger;
 
   public constructor(
-    @inject('ExceptionLogger') private readonly exceptionLogger: ExceptionLogger,
-    @inject(ConsoleLoggerFactory) consoleLoggerFactory: LoggerFactory,
+    private readonly exceptionLogger = inject('ExceptionLogger'),
+    consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
   ) {
     this.consoleLogger = consoleLoggerFactory.create('database');
   }
@@ -51,15 +50,15 @@ export class Database {
       const pool = new postgresql.Pool(this.poolConfig);
       this.pool = pool;
 
-      this.pool.on('error', (err: Error, client: any) => {
-        this.consoleLogger.error(err);
-        this.exceptionLogger.error(err);
+      this.pool.on('error', (err: Error, client: PoolClient) => {
+        //this.consoleLogger.error(err);
+        //this.exceptionLogger.error(err);
       });
 
-      this.pool.on('release', (err: Error, client: any) => {
+      this.pool.on('release', (err: Error, client: PoolClient) => {
         if (err) {
-          this.consoleLogger.error(err);
-          this.exceptionLogger.error(err);
+          //this.consoleLogger.error(err);
+          //this.exceptionLogger.error(err);
         }
       });
     } catch (e: unknown) {

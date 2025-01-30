@@ -1,22 +1,24 @@
-import Koa from 'koa';
-import { LoggerFactory } from '../../../common/logger/LoggerFactory';
-import { ConsoleLoggerFactory } from '../../../common/logger/ConsoleLoggerFactory';
-import { container } from '../../../common/di/container';
-import config from '../../../common/config/config';
 import { Environment, HttpError } from '@octocloud/core';
+import Koa from 'koa';
+import config from '../../../common/config/config';
+import { container } from '../../../common/di/container';
+import { ConsoleLoggerFactory } from '../../../common/logger/ConsoleLoggerFactory';
+import { LoggerFactory } from '../../../common/logger/LoggerFactory';
 
-const consoleLoggerFactory: LoggerFactory = container.resolve(ConsoleLoggerFactory);
+const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create();
 
 export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Promise<void> {
   try {
     await next();
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   } catch (error: any) {
     const env = config.getEnvironment();
     const isDebug = env === Environment.LOCAL || env === Environment.TEST;
 
     await consoleLogger.error(error);
 
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     let body: any = {};
 
     if (error instanceof HttpError) {
@@ -33,7 +35,7 @@ export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Pro
     }
 
     body.data = {};
-    body.stack = isDebug ? error.stack ?? '' : undefined;
+    body.stack = isDebug ? (error.stack ?? '') : undefined;
     context.body = body;
 
     if (context.status === 500) {

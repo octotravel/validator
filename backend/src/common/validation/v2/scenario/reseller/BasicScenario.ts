@@ -1,28 +1,23 @@
+import { inject, injectAsync } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
-import { inject, registry, singleton } from 'tsyringe';
-import { Scenario } from '../Scenario';
-import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
-import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
-import { Step } from '../../step/Step';
-import { ScenarioId } from '../ScenarioId';
-import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { DoublyLinkedList } from 'linked-list-typed';
-import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { Step } from '../../step/Step';
+import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
+import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
+import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
+import { Scenario } from '../Scenario';
+import { ScenarioId } from '../ScenarioId';
 
-@singleton()
-@registry([
-  { token: BasicScenario.name, useClass: BasicScenario },
-  { token: 'ResellerScenario', useClass: BasicScenario },
-])
 export class BasicScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 
   public constructor(
-    @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
-    @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
-    @inject(GetProductStep) private readonly getProductStep: GetProductStep,
-    @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
+    private readonly getSupplierStep = inject(GetSupplierStep),
+    private readonly getProductsStep = inject(GetProductsStep),
+    private readonly getProductStep = inject(GetProductStep),
+    private readonly availabilityCalendarStep = inject(AvailabilityCalendarStep),
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }

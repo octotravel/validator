@@ -1,17 +1,17 @@
 import { IRequest } from 'itty-router';
-import { inject, singleton } from 'tsyringe';
-import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
+
+import { inject } from '@needle-di/core';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
 import { SessionService } from '../../../../common/validation/v2/session/SessionService';
 import { SessionNotFoundError } from '../../../../common/validation/v2/session/error/SessionNotFoundError';
 import { Session } from '../../../../types/Session';
+import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 
-@singleton()
 export class AuthMiddleware {
   public constructor(
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
-    @inject(SessionService) private readonly sessionService: SessionService,
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
+    private readonly sessionService = inject(SessionService),
   ) {}
 
   public async invoke(request: IRequest): Promise<Response | null> {
@@ -28,7 +28,7 @@ export class AuthMiddleware {
 
     try {
       session = await this.sessionService.getSession(sessionId);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof SessionNotFoundError) {
         return this.errorResponseFactory.createUnauthorizedResponse('API Key in the Authorization header is invalid.');
       }

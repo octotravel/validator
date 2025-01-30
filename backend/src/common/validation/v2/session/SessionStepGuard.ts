@@ -1,18 +1,18 @@
-import { inject, singleton } from 'tsyringe';
+import { inject } from '@needle-di/core';
 import { Session } from '../../../../types/Session';
-import { Step } from '../step/Step';
 import { ScenarioService } from '../scenario/ScenarioService';
+import { Step } from '../step/Step';
+import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
+import { SessionIsInInvalidState } from './error/SessionIsInInvalidState';
 import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
-import { SessionIsInInvalidState } from './error/SessionIsInInvalidState';
-import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 
-@singleton()
 export class SessionStepGuard {
   public constructor(
-    @inject(ScenarioService) private readonly scenarioService: ScenarioService,
-    @inject(SessionScenarioProgressProvider)
-    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider,
+    private readonly scenarioService = inject(ScenarioService),
+    private readonly sessionScenarioProgressProvider: SessionScenarioProgressProvider = inject(
+      SessionScenarioProgressProvider,
+    ),
   ) {}
 
   public async check(session: Session, targetStep: Step): Promise<void> {

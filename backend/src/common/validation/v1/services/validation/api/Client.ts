@@ -1,8 +1,8 @@
+import { RequestContext, SubRequestContext, fetchRetry } from '@octocloud/core';
 import { CapabilityId } from '@octocloud/types';
-import { Result } from './types';
-import { Context } from '../context/Context';
-import { fetchRetry, RequestContext, SubRequestContext } from '@octocloud/core';
 import { asyncLocalStorage } from '../../../../../di/asyncLocalStorage';
+import { Context } from '../context/Context';
+import { Result } from './types';
 
 export interface FetchData {
   url: string;
@@ -27,7 +27,6 @@ export class Client {
 
   protected fetch = async <T>(data: FetchData): Promise<Result<T>> => {
     const { url, method = 'GET', body } = data;
-    // eslint-disable-next-line no-console
     console.log(`${new Date().toISOString()} | ${method}: ${url}`);
     const headers = this.createHeaders();
     const init: RequestInit = {
@@ -124,7 +123,7 @@ export class Client {
     };
   };
 
-  private readonly parseBody = (body: string | null): Record<string, any> | null => {
+  private readonly parseBody = (body: string | null): Record<string, unknown> | null => {
     if (body === null) {
       return null;
     }

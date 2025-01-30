@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
 import { AvailabilityType, OpeningHours } from '@octocloud/types';
+import { describe, expect, it } from 'vitest';
 import { CommonValidator } from '../CommonValidator';
 import { ValidatorError } from '../ValidatorHelpers';
 

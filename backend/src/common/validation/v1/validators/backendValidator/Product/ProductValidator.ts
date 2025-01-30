@@ -1,22 +1,22 @@
 import {
-  ArrayValidator,
-  NumberValidator,
-  StringValidator,
-  BooleanValidator,
-  EnumValidator,
-  EnumArrayValidator,
-  ValidatorError,
-  ModelValidator,
-} from './../ValidatorHelpers';
-import {
+  AvailabilityType,
   CapabilityId,
-  Product,
   DeliveryFormat,
   DeliveryMethod,
+  Product,
   RedemptionMethod,
-  AvailabilityType,
 } from '@octocloud/types';
 import { OptionValidator } from '../Option/OptionValidator';
+import {
+  ArrayValidator,
+  BooleanValidator,
+  EnumArrayValidator,
+  EnumValidator,
+  ModelValidator,
+  NumberValidator,
+  StringValidator,
+  ValidatorError,
+} from '../ValidatorHelpers';
 import { ProductContentValidator } from './ProductContentValidator';
 import { ProductPricingValidator } from './ProductPricingValidator';
 
@@ -95,16 +95,14 @@ export class ProductValidator implements ModelValidator {
       ArrayValidator.validate(`${this.path}.options`, options, { min: 1, shouldWarn: this.shouldNotHydrate }),
     ];
     errors.push(
-      ...options
-        .map((option, i) => {
-          const optionValidator = new OptionValidator({
-            path: `${this.path}.options[${i}]`,
-            capabilities: this.capabilities,
-            shouldNotHydrate: this.shouldNotHydrate,
-          });
-          return optionValidator.validate(option, product?.availabilityType, product?.pricingPer);
-        })
-        .flat(1),
+      ...options.flatMap((option, i) => {
+        const optionValidator = new OptionValidator({
+          path: `${this.path}.options[${i}]`,
+          capabilities: this.capabilities,
+          shouldNotHydrate: this.shouldNotHydrate,
+        });
+        return optionValidator.validate(option, product?.availabilityType, product?.pricingPer);
+      }),
     );
 
     return errors.flatMap((v) => (v ? [v] : []));

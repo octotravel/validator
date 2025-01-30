@@ -1,8 +1,8 @@
 import { Product } from '@octocloud/types';
-import { Scenario, ScenarioResult } from '../Scenario';
-import { AvailabilityCalendarScenarioHelper } from '../../helpers/AvailabilityCalendarScenarioHelper';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
+import { AvailabilityCalendarScenarioHelper } from '../../helpers/AvailabilityCalendarScenarioHelper';
+import { Scenario, ScenarioResult } from '../Scenario';
 
 export class AvailabilityCalendarIntervalScenario implements Scenario {
   private readonly product: Product;

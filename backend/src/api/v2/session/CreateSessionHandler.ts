@@ -1,15 +1,14 @@
-import { singleton, inject } from 'tsyringe';
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
-import { SessionResponse } from './SessionResponse';
-import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
+import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../http/request/RequestHandler';
+import { SessionResponse } from './SessionResponse';
 
-@singleton()
 export class CreateSessionHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(SessionFacade) private readonly sessionFacade: SessionFacade,
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly sessionFacade = inject(SessionFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {

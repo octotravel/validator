@@ -1,24 +1,24 @@
 import { Router as BaseRouter, RouterType } from 'itty-router';
-import { inject, singleton } from 'tsyringe';
+
+import { inject } from '@needle-di/core';
+import { RequestContext } from '@octocloud/core';
 import { Context, Next } from 'koa';
+import { RequestLogger } from '../common/logger/request/RequestLogger';
+import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
+import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
 import { RequestMapper } from './http/request/RequestMapper';
-import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 import { V1Router } from './v1/V1Router';
 import { V2Router } from './v2/V2Router';
-import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
-import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
-import { RequestContext } from '@octocloud/core';
-import { RequestLogger } from '../common/logger/request/RequestLogger';
+import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 
-@singleton()
 export class ApiRouter {
   public constructor(
-    @inject(V1Router) private readonly v1Router: V1Router,
-    @inject(V2Router) private readonly v2Router: V2Router,
-    @inject(GetDocsHandler) private readonly getDocsHandler: GetDocsHandler,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
-    @inject('RequestLogger') private readonly requestLogger: RequestLogger,
+    private readonly v1Router = inject(V1Router),
+    private readonly v2Router = inject(V2Router),
+    private readonly getDocsHandler = inject(GetDocsHandler),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
+    private readonly requestLogger: RequestLogger = inject<RequestLogger>('RequestLogger'),
     private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
@@ -28,7 +28,7 @@ export class ApiRouter {
     this.router.all('/v1/*', this.v1Router.router.fetch);
     this.router.all('/v2/*', this.v2Router.router.fetch);
     this.router.all('*', () => {
-      return errorResponseFactory.createNotFoundResponse('Not found');
+      return this.errorResponseFactory.createNotFoundResponse('Not found');
     });
   }
 

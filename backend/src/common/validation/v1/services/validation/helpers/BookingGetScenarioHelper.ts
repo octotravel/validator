@@ -1,14 +1,14 @@
 import { Booking } from '@octocloud/types';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
-import { ScenarioResult } from '../Scenarios/Scenario';
 
 export class BookingGetScenarioHelper extends ScenarioHelper {
   public validateBookingGet = (
     data: ScenarioHelperData<Booking>,
     context: Context,
-    shouldNotHydrate: boolean = false,
+    shouldNotHydrate = false,
   ): ScenarioResult => {
     const { result } = data;
     const response = result?.response;

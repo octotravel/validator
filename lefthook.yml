@@ -1,18 +1,11 @@
 pre-commit:
   parallel: true
   commands:
-    backend-lint:
+    backend-check:
       root: "backend/"
-      run: npm run lint:fix
-    backend-format:
-      root: "backend/"
-      run: npm run format:staged
-    backend-package-format:
-      root: "backend/"
-      run: npm run format:package
-    backend-type-check:
-      root: "backend/"
-      run: npm run typecheck
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      stage_fixed: true
     #gitLeaks:
       #root: "backend/"
       #run: npm run gitleaks
@@ -26,11 +19,13 @@ pre-commit:
       root: "frontend/"
       run: npm run check:svelte
 
-# Disabled due to bug in vitest
-#pre-push:
-#  parallel: true
-#  commands:
-#    backend-packages-audit:
-#      root: "backend/"
-#      tags: backend security
-#      run: npm audit
+pre-push:
+  parallel: true
+  commands:
+    backend-check:
+      root: "backend/"
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: npx biome check --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {push_files}
+    backend-audit:
+      root: "backend/"
+      run: npm run audit

@@ -1,8 +1,11 @@
-import { TicketValidator } from './../Ticket/TicketValidator';
-import { CapabilityId, Booking, BookingStatus, DeliveryMethod } from '@octocloud/types';
-import { BookingStateValidator } from './BookingState/BookingStateValidator';
+import { Booking, BookingStatus, CapabilityId, DeliveryMethod } from '@octocloud/types';
+import { CommonValidator } from '../CommonValidator';
+import { ContactValidator } from '../Contact/ContactValidator';
 import { OptionValidator } from '../Option/OptionValidator';
+import { PricingValidator } from '../Pricing/PricingValidator';
 import { ProductValidator } from '../Product/ProductValidator';
+import { TicketValidator } from '../Ticket/TicketValidator';
+import { UnitItemValidator } from '../UnitItem/UnitItemValidator';
 import {
   BooleanValidator,
   EnumArrayValidator,
@@ -12,11 +15,8 @@ import {
   StringValidator,
   ValidatorError,
 } from '../ValidatorHelpers';
-import { ContactValidator } from '../Contact/ContactValidator';
-import { UnitItemValidator } from '../UnitItem/UnitItemValidator';
-import { PricingValidator } from '../Pricing/PricingValidator';
-import { CommonValidator } from '../CommonValidator';
 import { BookingPickupValidator } from './BookingPickupValidator';
+import { BookingStateValidator } from './BookingState/BookingStateValidator';
 
 // TODO: add support for validating pricing
 // TODO: add support for validating delivery method related things
@@ -147,7 +147,7 @@ export class BookingValidator implements ModelValidator {
   private readonly validateUnitItems = (booking: Booking | null): ValidatorError[] => {
     const unitItems = booking?.unitItems ?? [];
     return unitItems
-      .map((unitItem, i) => {
+      .flatMap((unitItem, i) => {
         const validator = new UnitItemValidator({
           path: `${this.path}.unitItems[${i}]`,
           capabilities: this.capabilities,
@@ -156,7 +156,6 @@ export class BookingValidator implements ModelValidator {
         });
         return validator.validate(unitItem, booking?.deliveryMethods, booking?.product?.pricingPer);
       })
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 

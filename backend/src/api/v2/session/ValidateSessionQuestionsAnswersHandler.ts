@@ -1,25 +1,24 @@
-import { singleton, inject } from 'tsyringe';
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
-import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
-import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
-import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
-import { RequestHandler } from '../../http/request/RequestHandler';
 import { ValidationError } from 'yup';
-import { SchemaValidator } from '../../util/SchemaValidator';
+import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
 import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
+import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
+import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
+import { RequestHandler } from '../../http/request/RequestHandler';
 import { BodyParser } from '../../util/BodyParser';
+import { SchemaValidator } from '../../util/SchemaValidator';
 import {
   ValidateSessionQuestionAnswersSchema,
   validateSessionQuestionAnswersSchema,
 } from './ValidateSessionQuestionAnswersSchema';
 import { ValidateSessionQuestionsAnswersResponse } from './ValidateSessionQuestionsAnswersResponse';
 
-@singleton()
 export class ValidateSessionQuestionsAnswersHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(SessionFacade) private readonly sessionFacade: SessionFacade,
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly sessionFacade = inject(SessionFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
@@ -51,7 +50,7 @@ export class ValidateSessionQuestionsAnswersHandler implements RequestHandler {
       } as ValidateSessionQuestionsAnswersResponse;
 
       return this.jsonResponseFactory.create(validationResponsee);
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       }

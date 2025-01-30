@@ -2,9 +2,9 @@ import { DatabaseError } from '../../database/error/DatabaseError';
 
 export class CannotUpdateRequestLogError extends DatabaseError {
   public readonly requestLogRowId: string;
-  public readonly requestLogUpdateData: any;
+  public readonly requestLogUpdateData: unknown;
 
-  private constructor(message: string, requestLogRowId: string, requestLogRowData: any, previousError: any) {
+  private constructor(message: string, requestLogRowId: string, requestLogRowData: unknown, previousError: unknown) {
     super(message, previousError);
 
     this.requestLogRowId = requestLogRowId;
@@ -13,13 +13,15 @@ export class CannotUpdateRequestLogError extends DatabaseError {
 
   public static create(
     requestLogRowId: string,
-    requestLogUpdateData: any,
-    previousError: any,
+    requestLogUpdateData: unknown,
+    previousError: unknown,
   ): CannotUpdateRequestLogError {
-    return new this(
+    const message = previousError instanceof Error ? previousError.message : 'unknown';
+
+    return new CannotUpdateRequestLogError(
       `Request log id ${requestLogRowId} can not be updated with data ${JSON.stringify(
         requestLogUpdateData,
-      )}, because of error "${previousError.message ?? ''}".`,
+      )}, because of "${message}" error.`,
       requestLogRowId,
       requestLogUpdateData,
       previousError,

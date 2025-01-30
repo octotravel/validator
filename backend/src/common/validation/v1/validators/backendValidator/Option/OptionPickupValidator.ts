@@ -1,10 +1,10 @@
-import { PickupPoint, Option } from '@octocloud/types';
+import { Option, PickupPoint } from '@octocloud/types';
 import {
-  StringValidator,
   BooleanValidator,
   ModelValidator,
-  ValidatorError,
   NumberValidator,
+  StringValidator,
+  ValidatorError,
 } from '../ValidatorHelpers';
 
 export class OptionPickupValidator implements ModelValidator {
@@ -23,7 +23,7 @@ export class OptionPickupValidator implements ModelValidator {
 
   private readonly validatePickupPoints = (pickupPoints: PickupPoint[]): ValidatorError[] => {
     return pickupPoints
-      .map((pickupPoint, i) => [
+      .flatMap((pickupPoint, i) => [
         StringValidator.validate(`${this.path}.pickupPoints[${i}].id`, pickupPoint?.id),
         StringValidator.validate(`${this.path}.pickupPoints[${i}].name`, pickupPoint?.name),
         StringValidator.validate(`${this.path}.pickupPoints[${i}].directions`, pickupPoint?.directions, {
@@ -46,7 +46,6 @@ export class OptionPickupValidator implements ModelValidator {
         StringValidator.validate(`${this.path}.pickupPoints[${i}].state`, pickupPoint?.state, { nullable: true }),
         StringValidator.validate(`${this.path}.pickupPoints[${i}].country`, pickupPoint?.country, { nullable: true }),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 }

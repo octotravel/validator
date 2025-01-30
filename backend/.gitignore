@@ -10,7 +10,8 @@ nbproject
 coverage
 
 # Local files
-pnpm-lock.yaml
+.cache
+.husky
 .ansible-password
 /.env
 /dist
@@ -20,9 +21,3 @@ pnpm-lock.yaml
 # Docker
 /ops/docker/postgres/*/data
 /ops/docker/redis/*/data
-
-# Tmp
-/packages/octo-node/node_modules/*
-/packages/octo-node/ops/*
-/packages/octo-node/.env
-/packages/octo-node/.ansible-password

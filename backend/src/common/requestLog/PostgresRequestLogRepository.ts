@@ -1,22 +1,21 @@
-import { inject, singleton } from 'tsyringe';
+import { inject } from '@needle-di/core';
 import { pg as named } from 'yesql';
+import { RequestLog, RequestLogRowData } from '../../types/RequestLog';
+import { Database } from '../database/Database';
+import { QueryUtil } from '../database/util/QueryUtil';
+import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
 import {
   RequestLogDetail,
   RequestLogLatestDetail,
   RequestLogProgress,
   RequestLogRepository,
 } from './RequestLogRepository';
-import { RequestLog, RequestLogRowData } from '../../types/RequestLog';
-import { Database } from '../database/Database';
-import { QueryUtil } from '../database/util/QueryUtil';
 import { CannotCreateRequestLogError } from './error/CannotCreateRequestLogError';
-import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
 import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError';
 import { CannotUpdateRequestLogError } from './error/CannotUpdateRequestLogError';
 
-@singleton()
 export class PostgresRequestLogRepository implements RequestLogRepository {
-  public constructor(@inject(Database) private readonly database: Database) {}
+  public constructor(private readonly database = inject(Database)) {}
 
   public async create(requestLog: RequestLog): Promise<void> {
     const requestLogRowData: RequestLogRowData = {
@@ -46,7 +45,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     await this.database
       .getConnection()
       .query(named(query)(requestLogRowData))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotCreateRequestLogError.create(requestLogRowData, e);
       });
   }
@@ -63,7 +62,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     await this.database
       .getConnection()
       .query(named(query)({ id: requestLogId }))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotUpdateRequestLogError.create(requestLogId, [], e);
       });
   }
@@ -74,7 +73,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     const queryResult = await this.database
       .getConnection()
       .query(named(query)({ sessionId }))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotSelectRequestLogError.create(query, e);
       });
 
@@ -98,7 +97,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     const queryResult = await this.database
       .getConnection()
       .query(named(query)({ sessionId, scenarioId }))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotSelectRequestLogError.create(query, e);
       });
 
@@ -129,7 +128,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     const queryResult = await this.database
       .getConnection()
       .query(named(query)({ sessionId, stepId, scenarioId }))
-      .catch((e: any) => {
+      .catch((e: unknown) => {
         throw CannotSelectRequestLogError.create(query, e);
       });
 

@@ -1,36 +1,31 @@
+import { inject } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
-import { inject, registry, singleton } from 'tsyringe';
-import { Scenario } from '../Scenario';
-import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
-import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
-import { Step } from '../../step/Step';
-import { ScenarioId } from '../ScenarioId';
-import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { DoublyLinkedList } from 'linked-list-typed';
-import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { Step } from '../../step/Step';
+import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
 import { AvailabilityCheckStep } from '../../step/reseller/availability/AvailabilityCheckStep';
-import { BookingReservationStep } from '../../step/reseller/booking/BookingReservationStep';
-import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
 import { BookingCancellationStep } from '../../step/reseller/booking/BookingCancellationStep';
+import { BookingConfirmationStep } from '../../step/reseller/booking/BookingConfirmationStep';
+import { BookingReservationStep } from '../../step/reseller/booking/BookingReservationStep';
+import { GetProductStep } from '../../step/reseller/product/GetProductStep';
+import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
+import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
+import { Scenario } from '../Scenario';
+import { ScenarioId } from '../ScenarioId';
 
-@singleton()
-@registry([
-  { token: AdvancedScenario.name, useClass: AdvancedScenario },
-  { token: 'ResellerScenario', useClass: AdvancedScenario },
-])
 export class AdvancedScenario implements Scenario {
   public readonly capabilities: CapabilityId[] = [];
 
   public constructor(
-    @inject(GetSupplierStep) private readonly getSupplierStep: GetSupplierStep,
-    @inject(GetProductsStep) private readonly getProductsStep: GetProductsStep,
-    @inject(GetProductStep) private readonly getProductStep: GetProductStep,
-    @inject(AvailabilityCalendarStep) private readonly availabilityCalendarStep: AvailabilityCalendarStep,
-    @inject(AvailabilityCheckStep) private readonly availabilityCheckStep: AvailabilityCheckStep,
-    @inject(BookingReservationStep) private readonly bookingReservationStep: BookingReservationStep,
-    @inject(BookingConfirmationStep) private readonly bookingConfirmationStep: BookingConfirmationStep,
-    @inject(BookingCancellationStep) private readonly bookingCancellationStep: BookingCancellationStep,
+    private readonly getSupplierStep = inject(GetSupplierStep),
+    private readonly getProductsStep = inject(GetProductsStep),
+    private readonly getProductStep = inject(GetProductStep),
+    private readonly availabilityCalendarStep = inject(AvailabilityCalendarStep),
+    private readonly availabilityCheckStep = inject(AvailabilityCheckStep),
+    private readonly bookingReservationStep = inject(BookingReservationStep),
+    private readonly bookingConfirmationStep = inject(BookingConfirmationStep),
+    private readonly bookingCancellationStep = inject(BookingCancellationStep),
   ) {
     this.capabilities = this.getRequiredCapabilities().concat(this.getOptionalCapabilities());
   }

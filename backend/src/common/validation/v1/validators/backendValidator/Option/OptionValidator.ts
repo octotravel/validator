@@ -1,24 +1,24 @@
 import {
+  AvailabilityType,
   CapabilityId,
-  Unit,
   ContactField,
   Option,
   OptionRestrictions,
   PricingPer,
-  AvailabilityType,
+  Unit,
 } from '@octocloud/types';
-import { OptionPickupValidator } from './OptionPickupValidator';
 import { UnitValidator } from '../Unit/UnitValidator';
 import {
-  StringValidator,
-  RegExpArrayValidator,
+  ArrayValidator,
   BooleanValidator,
   EnumArrayValidator,
-  NumberValidator,
-  ValidatorError,
   ModelValidator,
-  ArrayValidator,
+  NumberValidator,
+  RegExpArrayValidator,
+  StringValidator,
+  ValidatorError,
 } from '../ValidatorHelpers';
+import { OptionPickupValidator } from './OptionPickupValidator';
 import { OptionPricingValidator } from './OptionPricingValidator';
 
 export class OptionValidator implements ModelValidator {
@@ -101,20 +101,15 @@ export class OptionValidator implements ModelValidator {
       }),
     ].flatMap((v) => (v ? [v] : []));
 
-  private readonly validateUnits = (
-    units: Unit[],
-    pricingPer?: PricingPer,
-    shouldWarn: boolean = false,
-  ): ValidatorError[] => {
+  private readonly validateUnits = (units: Unit[], pricingPer?: PricingPer, shouldWarn = false): ValidatorError[] => {
     return units
-      .map((unit, i) => {
+      .flatMap((unit, i) => {
         const validator = new UnitValidator({
           path: `${this.path}.units[${i}]`,
           capabilities: this.capabilities,
         });
         return validator.validate(unit, pricingPer);
       })
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 

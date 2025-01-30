@@ -1,15 +1,14 @@
-import { inject, singleton } from 'tsyringe';
+import { inject } from '@needle-di/core';
+import { $enum } from 'ts-enum-util';
 import { Session, SessionScenarioProgress, SessionScenarioProgressStepStatus } from '../../../../types/Session';
-import { ScenarioService } from '../scenario/ScenarioService';
 import { RequestLogProgress, RequestLogRepository } from '../../../requestLog/RequestLogRepository';
 import { ScenarioId } from '../scenario/ScenarioId';
-import { $enum } from 'ts-enum-util';
+import { ScenarioService } from '../scenario/ScenarioService';
 
-@singleton()
 export class SessionScenarioProgressProvider {
   public constructor(
-    @inject(ScenarioService) private readonly scenarioService: ScenarioService,
-    @inject('RequestLogRepository') private readonly requestLogRepository: RequestLogRepository,
+    private readonly scenarioService = inject(ScenarioService),
+    private readonly requestLogRepository: RequestLogRepository = inject<RequestLogRepository>('RequestLogRepository'),
   ) {}
 
   public async getSessionScenarioProgress(session: Session): Promise<SessionScenarioProgress[]> {

@@ -1,7 +1,7 @@
 import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
 
 export class BodyParser {
-  public static async parseBody(request: Request): Promise<Record<string, any>> {
+  public static async parseBody(request: Request): Promise<Record<string, unknown>> {
     try {
       const req = request.clone();
       const body = await req.json();

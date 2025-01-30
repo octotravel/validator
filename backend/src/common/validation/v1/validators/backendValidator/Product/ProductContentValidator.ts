@@ -1,9 +1,9 @@
-import { Destination, Category, FAQ, Image, Product } from '@octocloud/types';
+import { Category, Destination, FAQ, Image, Product } from '@octocloud/types';
 import {
-  StringValidator,
   BooleanValidator,
-  StringArrayValidator,
   ModelValidator,
+  StringArrayValidator,
+  StringValidator,
   ValidatorError,
 } from '../ValidatorHelpers';
 
@@ -74,7 +74,7 @@ export class ProductContentValidator implements ModelValidator {
 
   private readonly validateCategories = (categories: Category[]): ValidatorError[] => {
     return categories
-      .map((category, i) => [
+      .flatMap((category, i) => [
         StringValidator.validate(`${this.path}.categories[${i}].id`, category?.id),
         BooleanValidator.validate(`${this.path}.categories[${i}].default`, category?.default),
         StringValidator.validate(`${this.path}.categories[${i}].title`, category?.title),
@@ -88,28 +88,25 @@ export class ProductContentValidator implements ModelValidator {
           nullable: true,
         }),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 
   private readonly validateFAQS = (faqs: FAQ[]): ValidatorError[] => {
     return faqs
-      .map((faq, i) => [
+      .flatMap((faq, i) => [
         StringValidator.validate(`${this.path}.faqs[${i}].question`, faq?.question),
         StringValidator.validate(`${this.path}.faqs[${i}].answer`, faq?.answer),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 
   private readonly validateImages = (label: string, images: Image[]): ValidatorError[] => {
     return images
-      .map((image, i) => [
+      .flatMap((image, i) => [
         StringValidator.validate(`${this.path}.${label}[${i}].url`, image?.url),
         StringValidator.validate(`${this.path}.${label}[${i}].title`, image?.title, { nullable: true }),
         StringValidator.validate(`${this.path}.${label}[${i}].caption`, image?.caption, { nullable: true }),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 }

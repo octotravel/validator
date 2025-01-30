@@ -1,13 +1,10 @@
-import { Step } from '../../Step';
-import { StepId } from '../../StepId';
-import { singleton } from 'tsyringe';
 import { Question } from '../../../question/Question';
 import { Validator } from '../../../validator/Validator';
-import { AvailabilityCalendarValidator } from '../../../validator/reseller/availability/AvailabilityCalendarValidator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 import { AvailabilityCheckValidator } from '../../../validator/reseller/availability/AvailabilityCheckValidator';
+import { Step } from '../../Step';
+import { StepId } from '../../StepId';
 
-@singleton()
 export class AvailabilityCheckStep implements Step {
   public getId(): StepId {
     return StepId.AVAILABILITY_CHECK;

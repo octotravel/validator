@@ -1,10 +1,12 @@
 import 'reflect-metadata';
-import { container } from './src/common/di/container';
-import { LoggerFactory } from './src/common/logger/LoggerFactory';
 import { Migrator } from './src/common/database/Migrator';
+import { container } from './src/common/di/container';
 
-const migrator = container.resolve(Migrator);
-const consoleLoggerFactory: LoggerFactory = container.resolve('ConsoleLoggerFactory');
+import { ConsoleLoggerFactory } from './src/common/logger/ConsoleLoggerFactory';
+import { LoggerFactory } from './src/common/logger/LoggerFactory';
+
+const migrator = container.get(Migrator);
+const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create();
 
 export async function setup(): Promise<void> {

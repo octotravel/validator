@@ -33,7 +33,7 @@ export class PricingValidator implements ModelValidator {
 
   private readonly validateTaxes = (taxes: Tax[]): ValidatorError[] => {
     return taxes
-      .map((tax, i) => [
+      .flatMap((tax, i) => [
         StringValidator.validate(`${this.path}.taxes[${i}].name`, tax?.name),
         NumberValidator.validate(`${this.path}.taxes[${i}].retail`, tax?.retail, {
           integer: true,
@@ -44,7 +44,6 @@ export class PricingValidator implements ModelValidator {
           nullable: true,
         }),
       ])
-      .flat(1)
       .flatMap((v) => (v ? [v] : []));
   };
 }

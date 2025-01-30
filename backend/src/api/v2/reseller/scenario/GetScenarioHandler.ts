@@ -1,20 +1,19 @@
-import { inject, singleton } from 'tsyringe';
-import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
-import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
+import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
+import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
+import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../http/request/RequestHandler';
 import { SchemaValidator } from '../../../util/SchemaValidator';
-import { GetScenarioSchema, getScenarioSchema } from './GetScenarioSchema';
 import { GetScenarioResponseFactory } from './GetScenarioResponseFactory';
+import { GetScenarioSchema, getScenarioSchema } from './GetScenarioSchema';
 
-@singleton()
 export class GetScenarioHandler implements RequestHandler {
   public constructor(
-    @inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory,
-    @inject(ErrorResponseFactory) private readonly errorResponseFactory: ErrorResponseFactory,
-    @inject(ScenarioFacade) private readonly scenarioFacade: ScenarioFacade,
+    private readonly jsonResponseFactory = inject(JsonResponseFactory),
+    private readonly errorResponseFactory = inject(ErrorResponseFactory),
+    private readonly scenarioFacade = inject(ScenarioFacade),
   ) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
@@ -30,7 +29,7 @@ export class GetScenarioHandler implements RequestHandler {
       const scenario = await this.scenarioFacade.getScenarioById(validatedSchema.scenarioId);
 
       return this.jsonResponseFactory.create(GetScenarioResponseFactory.create(scenario));
-    } catch (e: any) {
+    } catch (e: unknown) {
       if (e instanceof ValidationError) {
         return this.errorResponseFactory.createBadRequestResponse(e.message, e);
       }

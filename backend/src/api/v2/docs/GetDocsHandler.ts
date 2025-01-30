@@ -1,15 +1,14 @@
-import { inject, singleton } from 'tsyringe';
+import { inject } from '@needle-di/core';
+import { IRequest } from 'itty-router';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../http/request/RequestHandler';
-import { IRequest } from 'itty-router';
 
 export interface GetDocsResponse {
   docs: string;
 }
 
-@singleton()
 export class GetDocsHandler implements RequestHandler {
-  public constructor(@inject(JsonResponseFactory) private readonly jsonResponseFactory: JsonResponseFactory) {}
+  public constructor(private readonly jsonResponseFactory = inject(JsonResponseFactory)) {}
 
   public async handleRequest(request: IRequest): Promise<Response> {
     return this.jsonResponseFactory.create({

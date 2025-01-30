@@ -1,22 +1,19 @@
-import { inject, singleton } from 'tsyringe';
-import { SessionService } from './SessionService';
-import { SessionStepGuard } from './SessionStepGuard';
-import { StepDataValidator } from '../step/StepDataValidator';
-import { Step } from '../step/Step';
-import { WebSocket } from '../../../socketio/WebSocket';
+import { inject } from '@needle-di/core';
 import { RequestScopedContextProvider } from '../../../requestContext/RequestScopedContextProvider';
+import { WebSocket } from '../../../socketio/WebSocket';
+import { Step } from '../step/Step';
+import { StepDataValidator } from '../step/StepDataValidator';
+import { SessionStepGuard } from './SessionStepGuard';
 
-@singleton()
 export class SessionStepValidationProcessor {
   public constructor(
-    @inject(SessionService) private readonly sessionService: SessionService,
-    @inject(SessionStepGuard) private readonly sessionStepGuard: SessionStepGuard,
-    @inject(StepDataValidator) private readonly stepDataValidator: StepDataValidator,
-    @inject('WebSocket') private readonly webSocket: WebSocket,
-    @inject(RequestScopedContextProvider) private readonly requestScopedContextProvider: RequestScopedContextProvider,
+    private readonly sessionStepGuard = inject(SessionStepGuard),
+    private readonly stepDataValidator = inject(StepDataValidator),
+    private readonly webSocket: WebSocket = inject<WebSocket>('WebSocket'),
+    private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
-  public async process(step: Step, requestData: any = null): Promise<void> {
+  public async process(step: Step, requestData: unknown = null): Promise<void> {
     const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
     requestScopedContext.getSession();
     requestScopedContext.setStep(step);

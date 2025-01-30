@@ -18,7 +18,7 @@ export class SessionScenarioStepNotAllowedError extends RuntimeError {
     scenarioFirstStepId: StepId,
     stepId: StepId,
   ): SessionScenarioStepNotAllowedError {
-    return new this(
+    return new SessionScenarioStepNotAllowedError(
       `Current session does not have a step set. Step ${scenarioFirstStepId} is expected initial step for current session, but ${stepId} was called instead.`,
       scenarioId,
       stepId,
@@ -26,7 +26,7 @@ export class SessionScenarioStepNotAllowedError extends RuntimeError {
   }
 
   public static createForNonExistingStep(scenarioId: ScenarioId, stepId: StepId): SessionScenarioStepNotAllowedError {
-    return new this(
+    return new SessionScenarioStepNotAllowedError(
       `The specified step "${stepId}" does not exist within the scenario "${scenarioId}".`,
       scenarioId,
       stepId,
@@ -34,7 +34,7 @@ export class SessionScenarioStepNotAllowedError extends RuntimeError {
   }
 
   public static createForInvalidStep(scenarioId: ScenarioId, stepId: StepId): SessionScenarioStepNotAllowedError {
-    return new this(
+    return new SessionScenarioStepNotAllowedError(
       `The specified step "${stepId}" is not allowed within the current scenario "${scenarioId}" and session.`,
       scenarioId,
       stepId,

@@ -1,10 +1,10 @@
-import { Flow, FlowResult } from '../Flow';
-import { BookingListSupplierReferenceScenario } from '../../Scenarios/Booking/List/BookingListSupplierReference';
-import { BookingListResellerReferenceScenario } from '../../Scenarios/Booking/List/BookingListResellerReference';
 import { BookingListBadRequestScenario } from '../../Scenarios/Booking/List/BookingListBadRequest';
-import { BaseFlow } from '../BaseFlow';
+import { BookingListResellerReferenceScenario } from '../../Scenarios/Booking/List/BookingListResellerReference';
+import { BookingListSupplierReferenceScenario } from '../../Scenarios/Booking/List/BookingListSupplierReference';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { BaseFlow } from '../BaseFlow';
+import { Flow, FlowResult } from '../Flow';
 
 export class BookingListFlow extends BaseFlow implements Flow {
   public constructor() {

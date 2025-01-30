@@ -1,8 +1,8 @@
 import { SchemaOf, ValidationError, object, string } from 'yup';
+import { ValidationFailureFactory } from '../../ValidationFailureFactory';
 import { ValidationResult } from '../../ValidationResult';
 import { octoCapabilitiesValidator } from '../../yup/RequiredHeaders';
 import { Validator } from '../Validator';
-import { ValidationFailureFactory } from '../../ValidationFailureFactory';
 
 export interface RequestHeadersSchema {
   Authorization: string;
@@ -28,7 +28,7 @@ export class RequestHeadersValidator implements Validator {
 
     try {
       requestHeadersSchema.validateSync(parsedHeaders, { abortEarly: false, strict: true });
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof ValidationError) {
         const validationFailures = ValidationFailureFactory.createMultipleFromYupValidationError(error);
 

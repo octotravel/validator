@@ -11,7 +11,7 @@ export class RequestMapper {
     return new Request(ctx.URL, {
       method: ctx.method,
       body,
-      headers: ctx.headers as any,
+      headers: ctx.headers as Record<string, string>,
     });
   }
 }

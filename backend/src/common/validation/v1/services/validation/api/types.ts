@@ -15,7 +15,7 @@ export interface Result<T> {
 export interface ResultRequest {
   url: string;
   method: string;
-  body: Record<string, any> | null;
+  body: Record<string, unknown> | null;
   headers: Record<string, string>;
 }
 

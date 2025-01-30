@@ -2,8 +2,8 @@ import { CapabilityId } from '@octocloud/types';
 import * as R from 'ramda';
 import { STATUS_NOT_FOUND } from '../../../models/Error';
 import { ErrorType, ModelValidator, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import { Result, ResultResponse } from '../api/types';
 import { ScenarioResult, ValidationResult } from '../Scenarios/Scenario';
+import { Result, ResultResponse } from '../api/types';
 
 interface ScenarioData<T> {
   name: string;
@@ -138,7 +138,7 @@ export class ScenarioHelper {
     errors: ValidatorError[],
     uuid?: string,
     httpStatus?: number,
-    expectedHttpStatus: number = 200,
+    expectedHttpStatus = 200,
   ): boolean => {
     return (httpStatus && httpStatus !== expectedHttpStatus) || (!uuid && !this.isSuccess(errors));
   };
