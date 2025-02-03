@@ -55,7 +55,6 @@
     "pprof": "3.2.1",
     "query-string": "8.1.0",
     "ramda": "0.28.0",
-    "reflect-metadata": "0.2.2",
     "short-uuid": "4.2.2",
     "socket.io": "4.7.5",
     "socket.io-client": "4.7.5",

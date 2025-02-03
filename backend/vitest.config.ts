@@ -1,9 +1,8 @@
-import typescript from '@rollup/plugin-typescript';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   esbuild: {
-    target: 'ESNext',
+    target: 'ES2022',
   },
   cacheDir: '.cache/vitest',
   test: {
@@ -24,7 +23,6 @@ export default defineConfig({
     reporters: ['verbose'],
     include: ['**/__tests__/**/*.+(test.ts)'],
     exclude: ['**/node_modules/**', '**/dist/**', '**/.pnpm-store/**', '**/ops/**'],
-    setupFiles: ['./vitestSetup.ts'],
     globalSetup: ['./vitestGlobalSetup.ts', './vitestGlobalTeardown.ts'],
   },
 });

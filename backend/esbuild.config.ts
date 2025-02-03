@@ -19,9 +19,12 @@ function generateReleaseName(): string {
 const releaseName = generateReleaseName();
 const plugins = [esbuildPluginPino({ transports: ['pino-pretty'] })];
 
-const commonConfig = {
+const esbuildConfig: esbuild.BuildOptions = {
+  entryPoints: ['src/server.ts', 'src/console.ts'],
+  outdir: 'dist',
   // logLevel: 'debug',
   platform: 'node',
+  target: 'ES2022',
   bundle: true,
   keepNames: false,
   minifyWhitespace: true,
@@ -31,15 +34,8 @@ const commonConfig = {
   plugins,
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const mainConfig: any = {
-  entryPoints: ['src/server.ts', 'src/console.ts'],
-  outdir: 'dist',
-  ...commonConfig,
-};
-
 if (env !== Environment.LOCAL && env !== Environment.TEST) {
-  mainConfig.plugins.push(
+  esbuildConfig.plugins!.push(
     sentryEsbuildPlugin({
       release: {
         name: releaseName,
@@ -58,7 +54,7 @@ if (env !== Environment.LOCAL && env !== Environment.TEST) {
   );
 }
 
-esbuild.build(mainConfig).catch((e) => {
+esbuild.build(esbuildConfig).catch((e) => {
   console.error(e);
   process.exit(1);
 });

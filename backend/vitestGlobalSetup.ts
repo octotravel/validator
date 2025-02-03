@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { Migrator } from './src/common/database/Migrator';
 import { container } from './src/common/di/container';
 
