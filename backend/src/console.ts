@@ -7,7 +7,7 @@ import { RequestScopedContext } from './common/requestContext/RequestScopedConte
 import { SentryUtil } from './common/util/SentryUtil';
 import { Command } from './console/command/Command';
 
-const database = container.get(Database);
+const database: Database = container.get('Database');
 const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
 const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('console');

@@ -14,7 +14,7 @@ import { initializeSocketIoServer } from './socketIoServer';
 
 SentryUtil.initSentry();
 
-const database: Database = container.get(Database);
+const database: Database = container.get('Database');
 const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create('server');
 const env = config.getEnvironment();

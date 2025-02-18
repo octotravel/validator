@@ -15,7 +15,7 @@ import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError
 import { CannotUpdateRequestLogError } from './error/CannotUpdateRequestLogError';
 
 export class PostgresRequestLogRepository implements RequestLogRepository {
-  public constructor(private readonly database = inject(Database)) {}
+  public constructor(private readonly database: Database = inject('Database')) {}
 
   public async create(requestLog: RequestLog): Promise<void> {
     const requestLogRowData: RequestLogRowData = {
@@ -42,12 +42,9 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       requestLogRowData,
     )})`;
 
-    await this.database
-      .getConnection()
-      .query(named(query)(requestLogRowData))
-      .catch((e: unknown) => {
-        throw CannotCreateRequestLogError.create(requestLogRowData, e);
-      });
+    await this.database.query(named(query)(requestLogRowData)).catch((e: unknown) => {
+      throw CannotCreateRequestLogError.create(requestLogRowData, e);
+    });
   }
 
   public async markCorrectlyAnsweredQuestions(requestLogId: string): Promise<void> {
@@ -59,23 +56,17 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
         id = :id
     `;
 
-    await this.database
-      .getConnection()
-      .query(named(query)({ id: requestLogId }))
-      .catch((e: unknown) => {
-        throw CannotUpdateRequestLogError.create(requestLogId, [], e);
-      });
+    await this.database.query(named(query)({ id: requestLogId })).catch((e: unknown) => {
+      throw CannotUpdateRequestLogError.create(requestLogId, [], e);
+    });
   }
 
   public async getAllForProgress(sessionId: string): Promise<RequestLogProgress[]> {
     const query =
       'SELECT DISTINCT ON (scenario_id, step_id) scenario_id, step_id, is_valid, has_correctly_answered_questions FROM request_log WHERE session_id = :sessionId ORDER BY scenario_id, step_id, created_at DESC';
-    const queryResult = await this.database
-      .getConnection()
-      .query(named(query)({ sessionId }))
-      .catch((e: unknown) => {
-        throw CannotSelectRequestLogError.create(query, e);
-      });
+    const queryResult = await this.database.query(named(query)({ sessionId })).catch((e: unknown) => {
+      throw CannotSelectRequestLogError.create(query, e);
+    });
 
     if (queryResult.rowCount === 0) {
       return [];
@@ -94,12 +85,9 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
   public async getAllForScenario(scenarioId: ScenarioId, sessionId: string): Promise<RequestLogDetail[]> {
     const query =
       'SELECT step_id, created_at, req_headers, req_body, validation_result, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId ORDER BY created_at DESC';
-    const queryResult = await this.database
-      .getConnection()
-      .query(named(query)({ sessionId, scenarioId }))
-      .catch((e: unknown) => {
-        throw CannotSelectRequestLogError.create(query, e);
-      });
+    const queryResult = await this.database.query(named(query)({ sessionId, scenarioId })).catch((e: unknown) => {
+      throw CannotSelectRequestLogError.create(query, e);
+    });
 
     if (queryResult.rowCount === 0) {
       return [];
@@ -126,7 +114,6 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       'SELECT DISTINCT ON (scenario_id, step_id) id, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId AND step_id = :stepId ORDER BY scenario_id, step_id, created_at DESC';
 
     const queryResult = await this.database
-      .getConnection()
       .query(named(query)({ sessionId, stepId, scenarioId }))
       .catch((e: unknown) => {
         throw CannotSelectRequestLogError.create(query, e);

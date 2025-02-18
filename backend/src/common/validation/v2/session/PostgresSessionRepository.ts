@@ -10,10 +10,10 @@ import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
 import { CannotUpdateSessionError } from './error/CannotUpdateSessionError';
 
 export class PostgresSessionRepository implements SessionRepository {
-  public constructor(private readonly database = inject(Database)) {}
+  public constructor(private readonly database: Database = inject('Database')) {}
 
   public async get(id: string): Promise<SessionData | null> {
-    const queryResult = await this.database.getConnection().query('SELECT * FROM session WHERE id = $1', [id]);
+    const queryResult = await this.database.query('SELECT * FROM session WHERE id = $1', [id]);
 
     if (queryResult.rowCount === 0) {
       return null;
@@ -60,12 +60,9 @@ export class PostgresSessionRepository implements SessionRepository {
       updated_at: sessionData.updatedAt,
     };
 
-    await this.database
-      .getConnection()
-      .query(named(query)(sessionRowData))
-      .catch((e: unknown) => {
-        throw CannotCreateSessionError.create(sessionRowData, e);
-      });
+    await this.database.query(named(query)(sessionRowData)).catch((e: unknown) => {
+      throw CannotCreateSessionError.create(sessionRowData, e);
+    });
   }
 
   public async update(sessionData: SessionData): Promise<void> {
@@ -90,12 +87,9 @@ export class PostgresSessionRepository implements SessionRepository {
       updated_at: sessionData.updatedAt,
     };
 
-    await this.database
-      .getConnection()
-      .query(named(query)(sessionRowData))
-      .catch((e: unknown) => {
-        throw CannotUpdateSessionError.create(sessionRowData, e);
-      });
+    await this.database.query(named(query)(sessionRowData)).catch((e: unknown) => {
+      throw CannotUpdateSessionError.create(sessionRowData, e);
+    });
   }
 
   public async delete(id: string): Promise<void> {
@@ -103,11 +97,8 @@ export class PostgresSessionRepository implements SessionRepository {
     DELETE FROM account WHERE id = :id;
     `;
 
-    await this.database
-      .getConnection()
-      .query(named(query)({ id }))
-      .catch((e: unknown) => {
-        throw CannotDeleteSessionError.create(id, e);
-      });
+    await this.database.query(named(query)({ id })).catch((e: unknown) => {
+      throw CannotDeleteSessionError.create(id, e);
+    });
   }
 }

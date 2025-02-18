@@ -10,7 +10,7 @@ export class MigrateDbCommand implements Command {
   };
 
   public run = async (): Promise<void> => {
-    const database = container.get(Database);
+    const database: Database = container.get('Database');
     const migrator = container.get(Migrator);
     const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
     const consoleLogger = consoleLoggerFactory.create(this.getSlug());

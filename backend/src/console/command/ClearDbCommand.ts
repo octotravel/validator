@@ -8,7 +8,7 @@ export class ClearDbCommand implements Command {
   };
 
   public run = async (): Promise<void> => {
-    const database: Database = container.get(Database);
+    const database: Database = container.get('Database');
 
     await database.dropTables();
     await database.endPool();
