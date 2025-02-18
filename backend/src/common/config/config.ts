@@ -2,6 +2,17 @@ import { Environment } from '@octocloud/core';
 import { EnvType, load } from 'ts-dotenv';
 
 const schema = {
+  DB_USE_IAM_AUTH: {
+    type: Boolean,
+    optional: true,
+    default: false,
+  },
+  DB_USE_MIGRATION_IAM_USER: {
+    type: Boolean,
+    readonly: false,
+    optional: true,
+    default: false,
+  },
   DB_HOST: {
     type: String,
     optional: true,
@@ -33,6 +44,21 @@ const schema = {
     default: '',
   },
   DB_PASSWORD: {
+    type: String,
+    optional: true,
+    default: '',
+  },
+  DB_IAM_USER: {
+    type: String,
+    optional: true,
+    default: '',
+  },
+  DB_IAM_MIGRATION_USER: {
+    type: String,
+    optional: true,
+    default: '',
+  },
+  DB_INSTANCE_CONNECTION_NAME: {
     type: String,
     optional: true,
     default: '',

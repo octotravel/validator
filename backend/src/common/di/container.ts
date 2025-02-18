@@ -33,10 +33,9 @@ import { AnsibleEncryptCommand } from '../../console/command/AnsibleEncryptComma
 import { ClearDbCommand } from '../../console/command/ClearDbCommand';
 import { MigrateDbCommand } from '../../console/command/MigrateDbCommand';
 import config from '../config/config';
-import { Database } from '../database/Database';
 import { Migrator } from '../database/Migrator';
+import { PostgresDatabase } from '../database/PostgresDatabase';
 import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
-import { ExceptionLogger } from '../logger/ExceptionLogger';
 import { SentryExceptionLogger } from '../logger/SentryExceptionLogger';
 import { VentrataRequestLogger } from '../logger/request/VentrataRequestLogger';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
@@ -51,13 +50,11 @@ import { ProductFacade } from '../validation/v2/facade/product/ProductFacade';
 import { SupplierFacade } from '../validation/v2/facade/supplier/SupplierFacade';
 import { InMemoryScenarioRepository } from '../validation/v2/scenario/InMemoryScenarioRepository';
 import { ScenarioFacade } from '../validation/v2/scenario/ScenarioFacade';
-import { ScenarioRepository } from '../validation/v2/scenario/ScenarioRepository';
 import { ScenarioService } from '../validation/v2/scenario/ScenarioService';
 import { AdvancedScenario } from '../validation/v2/scenario/reseller/AdvancedScenario';
 import { BasicScenario } from '../validation/v2/scenario/reseller/BasicScenario';
 import { PostgresSessionRepository } from '../validation/v2/session/PostgresSessionRepository';
 import { SessionFacade } from '../validation/v2/session/SessionFacade';
-import { SessionRepository } from '../validation/v2/session/SessionRepository';
 import { SessionScenarioProgressProvider } from '../validation/v2/session/SessionScenarioProgressProvider';
 import { SessionService } from '../validation/v2/session/SessionService';
 import { SessionStepGuard } from '../validation/v2/session/SessionStepGuard';
@@ -98,7 +95,10 @@ container.bind({
 });
 
 // Database
-container.bind(Database);
+container.bind({
+  provide: 'Database',
+  useClass: PostgresDatabase,
+});
 container.bind(Migrator);
 
 // Request Context

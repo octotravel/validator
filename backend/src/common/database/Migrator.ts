@@ -10,10 +10,10 @@ import { MigrateError } from './error/MigrateError';
 export class Migrator {
   private migrationDirectoryPath: string | undefined;
 
-  public constructor(private readonly database = inject(Database)) {}
+  public constructor(private readonly database: Database = inject('Database')) {}
 
   private readonly createMigrationTable = async (): Promise<void> => {
-    await this.database.getConnection().query(`
+    await this.database.query(`
 			CREATE TABLE IF NOT EXISTS migration
 			(
 				name VARCHAR(128) UNIQUE NOT NULL,
@@ -24,7 +24,7 @@ export class Migrator {
   };
 
   private readonly getAppliedMigrations = async (): Promise<string[]> => {
-    const createResult = await this.database.getConnection().query(`
+    const createResult = await this.database.query(`
 			SELECT name FROM migration
 		`);
 
@@ -73,13 +73,13 @@ export class Migrator {
     for (const availableMigration of availableMigrations) {
       const migrationSql = readFileSync(`${await this.getMigrationDirectoryPath()}/${availableMigration}`).toString();
 
-      const migrationResult = this.database.getConnection().query(migrationSql);
-      const migrationRecordResult = this.database
-        .getConnection()
-        .query('INSERT INTO migration (name, applied_at) VALUES($1, now())', [availableMigration]);
+      const migrationResult = await this.database.query(migrationSql);
+      const migrationRecordResult = this.database.query('INSERT INTO migration (name, applied_at) VALUES($1, now())', [
+        availableMigration,
+      ]);
 
       await Promise.all([migrationResult, migrationRecordResult]).catch(async (reason) => {
-        await this.database.getConnection().query('DELETE FROM migration WHERE name = $1;', [availableMigration]);
+        await this.database.query('DELETE FROM migration WHERE name = $1;', [availableMigration]);
         throw new MigrateError(`Migration ${availableMigration} failed because an error (${reason}) occurred.`);
       });
 

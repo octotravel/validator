@@ -23,7 +23,7 @@ describe('AdvancedScenario', () => {
   let scenarioStepTestUtil: ScenarioStepTestUtil;
 
   beforeAll(async () => {
-    database = container.get(Database);
+    database = container.get('Database');
 
     // Fetch scenarios
     const scenariosResponse = await request(server).get('/v2/reseller/scenarios').set(headers).send();
@@ -68,8 +68,8 @@ describe('AdvancedScenario', () => {
 
   afterAll(async () => {
     server.close(async () => {
-      await database.getConnection().query('DELETE FROM request_log');
-      await database.getConnection().query('DELETE FROM session');
+      await database.query('DELETE FROM request_log');
+      await database.query('DELETE FROM session');
     });
   });
 });
