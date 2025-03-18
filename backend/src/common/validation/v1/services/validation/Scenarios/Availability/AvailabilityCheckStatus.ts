@@ -48,6 +48,7 @@ export class AvailabilityCheckStatusScenario implements Scenario {
           },
           context,
         );
+
         return {
           result,
           product,

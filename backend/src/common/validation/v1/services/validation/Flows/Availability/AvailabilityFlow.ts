@@ -41,6 +41,10 @@ export class AvailabilityFlow extends BaseFlow implements Flow {
   };
 
   private readonly checkAvailabilityID = (context: Context): AvailabilityCheckAvailabilityIdScenario[] => {
+    if (context.availabilityConfig.skipAvailabilityIdsChecks) {
+      return [];
+    }
+
     return context.productConfig.productsForAvailabilityCheck.map(
       (product) => new AvailabilityCheckAvailabilityIdScenario(product),
     );

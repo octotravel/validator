@@ -48,12 +48,13 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
     } else if (availableData.data !== null) {
       context.productConfig.availableProducts = availableData.data;
     }
+
     return this.handleResult({
       name: data.name,
       result: {
-        response: null,
-        request: null,
-        data: null,
+        response: data.products[0].result.response,
+        request: data.products[0].result.request,
+        data: data,
       },
       errors,
       description: descriptions.availabilityCheckStatus,

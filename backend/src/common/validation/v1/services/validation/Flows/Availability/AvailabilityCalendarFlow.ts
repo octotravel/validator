@@ -14,12 +14,17 @@ export class AvailabilityCalendarFlow extends BaseFlow implements Flow {
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {
-    const scenarios: Scenario[] = [
-      ...this.checkCalendarAvaialbility(context),
-      new AvailabilityCalendarInvalidProductScenario(),
-      new AvailabilityCalendarInvalidOptionScenario(),
-      new AvailabilityCalendarBadRequestScenario(),
-    ];
+    let scenarios: Scenario[] = [];
+
+    if (!context.availabilityConfig.skipAvailabilityCalendarChecks) {
+      scenarios = [
+        ...this.checkCalendarAvaialbility(context),
+        new AvailabilityCalendarInvalidProductScenario(),
+        new AvailabilityCalendarInvalidOptionScenario(),
+        new AvailabilityCalendarBadRequestScenario(),
+      ];
+    }
+
     return await this.validateScenarios(scenarios, context);
   };
 

@@ -5,6 +5,7 @@ import { ValidationEndpoint } from '../../../../../../api/v1/validate/Validation
 import { DateHelper } from '../../../helpers/DateHelper';
 import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { ApiClient } from '../api/ApiClient';
+import { AvailabilityContext } from './AvailabilityContext';
 import { ProductContext } from './ProductContext';
 
 export interface ErrorResult<T> {
@@ -37,6 +38,7 @@ export class Context implements IContext {
   public localDateEnd = DateHelper.getDate(addDays(new Date(), 30).toISOString());
 
   public readonly productConfig = new ProductContext();
+  public readonly availabilityConfig = new AvailabilityContext();
 
   public setSchema = (data: ValidationEndpoint): void => {
     this.endpoint = data.backend.endpoint;
