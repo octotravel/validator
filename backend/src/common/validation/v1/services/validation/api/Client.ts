@@ -27,7 +27,11 @@ export class Client {
 
   protected fetch = async <T>(data: FetchData): Promise<Result<T>> => {
     const { url, method = 'GET', body } = data;
-    console.log(`${new Date().toISOString()} | ${method}: ${url}`);
+
+    if (data.context.enableConsoleLog) {
+      console.log(`${new Date().toISOString()} | ${method}: ${url}`);
+    }
+
     const headers = this.createHeaders();
     const init: RequestInit = {
       method,
