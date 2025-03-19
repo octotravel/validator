@@ -107,6 +107,7 @@ export class ScenarioHelper {
                 }
               : null,
           };
+
     return {
       name: data.name,
       success: data.success ?? this.isSuccess(data.errors),

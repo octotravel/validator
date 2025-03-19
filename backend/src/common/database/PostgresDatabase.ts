@@ -114,7 +114,6 @@ export class PostgresDatabase implements Database {
       client.release();
       return true;
     } catch (e: unknown) {
-      console.log(e);
       return false;
     }
   }

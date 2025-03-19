@@ -58,6 +58,7 @@ export class AvailabilityFlow extends BaseFlow implements Flow {
     if (context.productConfig.hasOpeningHourProducts) {
       scenarios.push(new AvailabilityCheckStatusScenario(context.productConfig.openingHourProducts));
     }
+
     return scenarios;
   };
 }

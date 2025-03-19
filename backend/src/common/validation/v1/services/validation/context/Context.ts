@@ -23,6 +23,7 @@ export class Context implements IContext {
   private headers = {};
   private capabilities: CapabilityId[] = [];
   public _terminateValidation = false;
+  private _enableConsoleLog = true;
   private _useRequestContext = true;
   public requestId = '';
   private readonly date = new Date();
@@ -62,6 +63,14 @@ export class Context implements IContext {
 
   public set terminateValidation(terminateValidation: boolean) {
     this._terminateValidation = terminateValidation;
+  }
+
+  public get enableConsoleLog(): boolean {
+    return this._enableConsoleLog;
+  }
+
+  public set enableConsoleLog(enableConsoleLog: boolean) {
+    this._enableConsoleLog = enableConsoleLog;
   }
 
   public get useRequestContext(): boolean {

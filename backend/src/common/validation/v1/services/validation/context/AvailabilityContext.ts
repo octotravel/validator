@@ -1,6 +1,6 @@
 export class AvailabilityContext {
-  private _skipAvailabilityCalendarChecks = true;
-  private _skipAvailabilityIdsChecks = true;
+  private _skipAvailabilityCalendarChecks = false;
+  private _skipAvailabilityIdsChecks = false;
 
   public set skipAvailabilityCalendarChecks(skipAvailabilityCalendarChecks: boolean) {
     this._skipAvailabilityCalendarChecks = skipAvailabilityCalendarChecks;
