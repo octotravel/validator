@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/node';
 import Koa, { Context } from 'koa';
 
 import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
-import koaBody, { HttpMethodEnum } from 'koa-body';
+//import koaBody, { HttpMethodEnum } from 'koa-body';
 import { errorMiddleware } from './api/http/error/ErrorMiddleware';
 import { router } from './api/http/router/RouterMiddleware';
 import config from './common/config/config';
@@ -28,6 +28,7 @@ app.on('error', (err, ctx: Context) => {
 
 app.use(errorMiddleware);
 // app.use(cors);
+/*
 app.use(
   koaBody({
     parsedMethods: [HttpMethodEnum.POST, HttpMethodEnum.PUT, HttpMethodEnum.PATCH, HttpMethodEnum.DELETE],
@@ -38,7 +39,7 @@ app.use(
       });
     },
   }),
-);
+);*/
 app.use(router);
 
 export { app };

@@ -1,16 +1,13 @@
-FROM node:22.9.0-alpine3.20
-
-RUN apk add --no-cache libc6-compat wget git ansible make build-base
-
-WORKDIR /var/www/backend/
-
-RUN apk add --no-cache git
-
-COPY . .
+FROM denoland/deno:2.2.8
 
 EXPOSE $APP_PORT
 
-RUN npm update --global npm
-RUN npm install --global concurrently node-gyp
+WORKDIR /app
 
-CMD ["sh", "-c", "npm install --no-lockfile --prefer-offline && npm run dev"]
+USER deno
+
+RUN deno install
+
+COPY . .
+
+CMD ["run", "--unstable-sloppy-imports", "--allow-net", "--allow-env", "--allow-read", "--allow-sys", "--watch", "src/server.ts"]
