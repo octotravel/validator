@@ -153,11 +153,13 @@ export class VentrataRequestLogger implements RequestLogger {
       'Ventrata-Queue-Overflow': 'true',
     };
 
-    await fetchRetry(`https://api.ventrata.com/octo/ventrata/requests/${id}`, {
+    const request = new Request(`https://api.ventrata.com/octo/ventrata/requests/${id}`, {
       method: RequestMethod.Put,
       headers,
       body: JSON.stringify(data),
     });
+
+    await fetchRetry(request);
   }
 
   private transformHeaders(headers: Headers): Record<string, string> {

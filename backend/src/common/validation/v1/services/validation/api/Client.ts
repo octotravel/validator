@@ -52,7 +52,7 @@ export class Client {
       });
     }
 
-    const res = await fetchRetry(req, undefined, { subRequestContext: subRequestContext });
+    const res = await fetchRetry(req, { subRequestContext: subRequestContext });
 
     if (ventrataRequestContext && subRequestContext) {
       const subRequestData = subRequestContext.getRequestData();
