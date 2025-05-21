@@ -14,7 +14,7 @@ export class BookingListSupplierReferenceScenario implements Scenario {
 
   public validate = async (context: Context): Promise<ScenarioResult> => {
     const apiClient = context.getApiClient();
-    const name = 'List Bookings - Supplier Reference';
+    const name = 'List Bookings - Supplier Reference (Optional)';
     const description = descriptions.bookingListSupplierReference;
     const [bookableProduct] = context.productConfig.availableProducts;
 
@@ -29,13 +29,14 @@ export class BookingListSupplierReferenceScenario implements Scenario {
       });
     }
 
+    const resellerReference = ReferenceHelper.generate();
     const resultConfirmation = await apiClient.bookingConfirmation(
       {
         uuid: resultReservation.data.uuid,
         contact: {
           fullName: 'John Doe',
         },
-        resellerReference: ReferenceHelper.generate(),
+        resellerReference: resellerReference,
       },
       context,
     );
@@ -49,9 +50,12 @@ export class BookingListSupplierReferenceScenario implements Scenario {
       });
     }
 
+    const supplierReference =
+      resultReservation.data.supplierReference ?? resultConfirmation.data.supplierReference ?? undefined;
     const result = await apiClient.getBookings(
       {
-        supplierReference: resultConfirmation.data.supplierReference as string,
+        supplierReference: supplierReference,
+        resellerReference: supplierReference === undefined ? resellerReference : undefined,
       },
       context,
     );

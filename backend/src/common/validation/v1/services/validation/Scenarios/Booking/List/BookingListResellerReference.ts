@@ -1,3 +1,4 @@
+import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Booker } from '../../../Booker';
 import descriptions from '../../../consts/descriptions';
@@ -27,8 +28,7 @@ export class BookingListResellerReferenceScenario implements Scenario {
         errors: [new ValidatorError({ type: ErrorType.CRITICAL, message: 'Reservation Creation Failed' })],
       });
     }
-
-    const resellerReference = `RESREF${resultReservation.data.resellerReference}`;
+    const resellerReference = ReferenceHelper.generate();
     const resultConfirmation = await apiClient.bookingConfirmation(
       {
         uuid: resultReservation.data.uuid,
@@ -48,6 +48,16 @@ export class BookingListResellerReferenceScenario implements Scenario {
         errors: [new ValidatorError({ type: ErrorType.CRITICAL, message: 'Reservation Confirm Failed' })],
       });
     }
+
+    if (resultConfirmation.data.resellerReference === null) {
+      return this.helper.handleResult({
+        result: resultReservation,
+        name,
+        description,
+        errors: [new ValidatorError({ type: ErrorType.CRITICAL, message: 'Reseller Reference is missing' })],
+      });
+    }
+
     const result = await apiClient.getBookings(
       {
         resellerReference,
