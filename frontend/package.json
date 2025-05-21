@@ -3,7 +3,10 @@
 	"version": "1.0.0",
 	"private": true,
 	"overrides": {
-		"esbuild": "^0.25.0"
+		"esbuild": "0.25.0",
+		"nanoid": "3.3.11",
+		"cookie": "0.7.0",
+		"@babel/runtime": "7.26.10"
 	},
 	"scripts": {
 		"dev": "vite dev",
