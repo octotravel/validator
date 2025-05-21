@@ -1,3 +1,4 @@
+import * as R from 'ramda';
 import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Booker } from '../../../Booker';
@@ -55,7 +56,7 @@ export class BookingListSupplierReferenceScenario implements Scenario {
     const result = await apiClient.getBookings(
       {
         supplierReference: supplierReference,
-        resellerReference: supplierReference === undefined ? resellerReference : undefined,
+        resellerReference: R.isNil(supplierReference) ? resellerReference : undefined,
       },
       context,
     );
