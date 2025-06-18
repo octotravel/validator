@@ -10,4 +10,8 @@ RUN npm install
 RUN npm run build
 
 EXPOSE $PUBLIC_APP_PORT
+
+RUN npm update --global npm
+RUN npm install --global
+
 CMD ["node", "build/index.js"]
