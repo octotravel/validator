@@ -1,8 +1,6 @@
-FROM node:22.9.0-alpine3.20
+FROM node:22.15.1-alpine3.21
 
-RUN apk add --no-cache libc6-compat wget git ansible make build-base
-
-WORKDIR /var/www/backend/
+WORKDIR /var/www/node/
 
 RUN apk add --no-cache git
 
@@ -10,7 +8,4 @@ COPY . .
 
 EXPOSE $APP_PORT
 
-RUN npm update --global npm
-RUN npm install --global concurrently node-gyp
-
-CMD ["sh", "-c", "npm install --no-lockfile --prefer-offline && npm run dev"]
+CMD ["sh", "-c", "npm install --silent --no-audit --no-fund --prefer-offline && npm run dev"]

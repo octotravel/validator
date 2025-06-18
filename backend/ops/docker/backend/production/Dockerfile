@@ -1,17 +1,28 @@
-FROM node:22.9.0-alpine3.20 as builder
+# Base
+FROM node:22.15.1-alpine3.21 AS base
+
+ARG SENTRY_AUTH_TOKEN
 
 WORKDIR /app
 
-RUN apk add --no-cache libc6-compat wget git ansible make build-base
-RUN npm install --global npm node-gyp esbuild
+COPY package*.json /app
+RUN npm install --include=dev --silent --no-audit --no-fund --ignore-scripts
 
-COPY package.json /app/
-RUN npm install --no-lockfile
+COPY . /app
 
-ARG SENTRY_AUTH_TOKEN
-ARG NODE_ENV
+ENV NODE_ENV=production
 
-COPY . /app/
 RUN npm run esbuild
 
-CMD ["/bin/sh", "-c", "node --max-old-space-size=6144 /app/dist/server.js"]
+# Final
+FROM node:22.15.1-alpine3.21 AS final
+
+ENV NODE_ENV=production
+
+WORKDIR /app
+
+COPY --from=base /app/package.json /app/package.json
+COPY --from=base /app/src/common/database/migrations /app/src/common/database/migrations
+COPY --from=base /app/dist /app/dist
+
+CMD ["node", "--no-warnings", "--max-old-space-size=6144", "/app/dist/server.js"]

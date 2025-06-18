@@ -38,7 +38,6 @@
     "@sentry/node": "7.81.1",
     "@sentry/utils": "7.81.1",
     "@types/yesql": "4.1.1",
-    "ansible-vault": "1.1.1",
     "dotenv": "16.3.1",
     "guid-ts": "1.1.2",
     "http-graceful-shutdown": "3.1.13",
