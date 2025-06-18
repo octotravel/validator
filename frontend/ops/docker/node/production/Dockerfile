@@ -1,11 +1,13 @@
-FROM node:22.9.0-alpine3.20
+FROM node:22.15.1-alpine3.21 AS base
 
 WORKDIR /app
 
 COPY . .
 
+ENV NODE_ENV=production
+
 RUN npm install
 RUN npm run build
 
 EXPOSE $PUBLIC_APP_PORT
-CMD ["node","build/index.js"]
+CMD ["node", "build/index.js"]

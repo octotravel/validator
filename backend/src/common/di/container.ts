@@ -28,8 +28,6 @@ import { GetSessionHandler } from '../../api/v2/session/GetSessionHandler';
 import { GetSessionValidationHistoryHandler } from '../../api/v2/session/GetSessionValidationHistoryHandler';
 import { UpdateSessionHandler } from '../../api/v2/session/UpdateSessionHandler';
 import { ValidateSessionQuestionsAnswersHandler } from '../../api/v2/session/ValidateSessionQuestionsAnswersHandler';
-import { AnsibleDecryptCommand } from '../../console/command/AnsibleDecryptCommand';
-import { AnsibleEncryptCommand } from '../../console/command/AnsibleEncryptCommand';
 import { ClearDbCommand } from '../../console/command/ClearDbCommand';
 import { MigrateDbCommand } from '../../console/command/MigrateDbCommand';
 import config from '../config/config';
@@ -187,31 +185,6 @@ container.bind(UpdateSessionHandler);
 container.bind(ValidateSessionQuestionsAnswersHandler);
 
 // Commands
-container.bind({
-  provide: 'Command',
-  useClass: AnsibleDecryptCommand,
-  multi: true,
-});
-container.bind({
-  provide: 'AnsibleDecryptCommand',
-  useClass: AnsibleDecryptCommand,
-});
-container.bind(AnsibleDecryptCommand);
-container.bind({
-  provide: 'Command',
-  useClass: AnsibleEncryptCommand,
-  multi: true,
-});
-container.bind({
-  provide: 'AnsibleEncryptCommand',
-  useClass: AnsibleEncryptCommand,
-});
-container.bind(AnsibleEncryptCommand);
-container.bind({
-  provide: 'Command',
-  useClass: ClearDbCommand,
-  multi: true,
-});
 container.bind({
   provide: 'ClearDbCommand',
   useClass: ClearDbCommand,
