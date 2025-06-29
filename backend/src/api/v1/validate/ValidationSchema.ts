@@ -4,6 +4,7 @@ export interface ValidationEndpoint {
   backend: {
     endpoint: string;
     headers: Record<string, string>;
+    validationRunId?: string;
   };
 }
 
@@ -18,6 +19,7 @@ export const validationConfigSchema = object({
           );
         })
         .required(),
+      validationRunId: string().optional(),
     })
     .required(),
 });

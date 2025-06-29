@@ -32,6 +32,7 @@ export class Context implements IContext {
   public invalidUUID = 'invalidUUID';
   public note = 'Test Note';
   private readonly _shouldNotHydrate = true;
+  private validationRunId = '';
 
   public localDateStart = DateHelper.getDate(new Date().toISOString());
   public localDateEnd = DateHelper.getDate(addDays(new Date(), 30).toISOString());
@@ -44,6 +45,7 @@ export class Context implements IContext {
     this.capabilities = [];
     this._terminateValidation = false;
     this.requestId = uuid();
+    this.validationRunId = data.backend.validationRunId || uuid();
   };
 
   public getApiClient = (): ApiClient => {
@@ -101,6 +103,10 @@ export class Context implements IContext {
   };
 
   public getRequestDuration = (): number => this.getDuration(this.date, new Date());
+
+  public getValidationRunId(): string {
+    return this.validationRunId;
+  }
 
   public get shouldNotHydrate(): boolean {
     return this._shouldNotHydrate;

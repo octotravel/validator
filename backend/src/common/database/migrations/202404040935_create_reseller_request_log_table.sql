@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "request_log"
+CREATE TABLE IF NOT EXISTS "reseller_request_log"
 (
 	id UUID NOT NULL,
 	session_id UUID NOT NULL,
@@ -17,11 +17,11 @@ CREATE TABLE IF NOT EXISTS "request_log"
 	is_valid BOOLEAN NOT NULL,
 	has_correctly_answered_questions BOOLEAN NOT NULL,
 	CONSTRAINT fk_session_id FOREIGN KEY (session_id) REFERENCES "session" (id),
-	CONSTRAINT pk_request_log PRIMARY KEY (id)
+	CONSTRAINT pk_reseller_request_log PRIMARY KEY (id)
 );
 
-CREATE INDEX index_request_log_session_id ON request_log(session_id);
-CREATE INDEX index_request_log_scenario_id ON request_log(scenario_id);
-CREATE INDEX index_request_log_step_id ON request_log(step_id);
-CREATE INDEX index_request_log_created_at ON request_log(created_at DESC);
-CREATE INDEX index_request_log_is_valid ON request_log(is_valid);
+CREATE INDEX index_request_log_session_id ON reseller_request_log(session_id);
+CREATE INDEX index_request_log_scenario_id ON reseller_request_log(scenario_id);
+CREATE INDEX index_request_log_step_id ON reseller_request_log(step_id);
+CREATE INDEX index_request_log_created_at ON reseller_request_log(created_at DESC);
+CREATE INDEX index_request_log_is_valid ON reseller_request_log(is_valid);

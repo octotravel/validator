@@ -1,7 +1,7 @@
 import { ScenarioId } from '../common/validation/v2/scenario/ScenarioId';
 import { StepId } from '../common/validation/v2/step/StepId';
 
-export interface RequestLog {
+export interface ResellerRequestLog {
   id: string;
   sessionId: string;
   scenarioId: ScenarioId;
@@ -20,7 +20,7 @@ export interface RequestLog {
   hasCorrectlyAnsweredQuestions: boolean;
 }
 
-export interface RequestLogRowData {
+export interface ResellerRequestLogRowData {
   id: string;
   session_id: string;
   scenario_id: ScenarioId;
