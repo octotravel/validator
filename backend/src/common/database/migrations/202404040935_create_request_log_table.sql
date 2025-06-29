@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "request_log"
+CREATE TABLE IF NOT EXISTS "reseller_request_log"
 (
 	id UUID NOT NULL,
 	session_id UUID NOT NULL,

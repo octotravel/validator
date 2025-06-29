@@ -1,8 +1,8 @@
-import { RequestLog } from '../../types/RequestLog';
-import { RequestScopedContext } from '../requestContext/RequestScopedContext';
+import { ResellerRequestLog } from '../../../types/ResellerRequestLog';
+import { RequestScopedContext } from '../../requestContext/RequestScopedContext';
 
-export class RequestLogFactory {
-  public static async createFromContext(requestScopedContext: RequestScopedContext): Promise<RequestLog> {
+export class ResellerRequestLogFactory {
+  public static async createFromContext(requestScopedContext: RequestScopedContext): Promise<ResellerRequestLog> {
     const request = requestScopedContext.getRequest();
     const response = requestScopedContext.getResponse();
     const validationResult = requestScopedContext.getValidationResult();
@@ -13,13 +13,13 @@ export class RequestLogFactory {
       scenarioId: requestScopedContext.getSession().currentScenario!,
       stepId: requestScopedContext.getStep().getId(),
       createdAt: new Date(),
-      reqBody: await RequestLogFactory.parseBody(request),
+      reqBody: await ResellerRequestLogFactory.parseBody(request),
       reqMethod: request.method,
       reqUrl: request.url,
-      reqHeaders: JSON.stringify(RequestLogFactory.transformHeaders(request.headers)),
+      reqHeaders: JSON.stringify(ResellerRequestLogFactory.transformHeaders(request.headers)),
       resStatus: response.status,
-      resHeaders: JSON.stringify(RequestLogFactory.transformHeaders(response.headers)),
-      resBody: await RequestLogFactory.parseBody(response),
+      resHeaders: JSON.stringify(ResellerRequestLogFactory.transformHeaders(response.headers)),
+      resBody: await ResellerRequestLogFactory.parseBody(response),
       resDuration: 0,
       validationResult: JSON.stringify(validationResult),
       isValid: validationResult.isValid(),

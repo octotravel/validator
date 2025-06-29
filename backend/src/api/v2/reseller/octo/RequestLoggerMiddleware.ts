@@ -1,12 +1,12 @@
 import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
-import { RequestLogFactory } from '../../../../common/requestLog/RequestLogFactory';
-import { RequestLogService } from '../../../../common/requestLog/RequestLogService';
+import { ResellerRequestLogFactory } from '../../../../common/requestLog/reseller/ResellerRequestLogFactory';
+import { ResellerRequestLogService } from '../../../../common/requestLog/reseller/ResellerRequestLogService';
 
 export class RequestLoggerMiddleware {
   public constructor(
-    private readonly requestLogService = inject(RequestLogService),
+    private readonly requestLogService = inject(ResellerRequestLogService),
     private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
@@ -19,7 +19,7 @@ export class RequestLoggerMiddleware {
     const requestScopedContext = this.requestScopedContextProvider.getRequestScopedContext();
     requestScopedContext.setResponse(response);
 
-    const requestLog = await RequestLogFactory.createFromContext(requestScopedContext);
+    const requestLog = await ResellerRequestLogFactory.createFromContext(requestScopedContext);
     await this.requestLogService.logRequest(requestLog);
   }
 }
