@@ -1,24 +1,24 @@
 import { inject } from '@needle-di/core';
 import { pg as named } from 'yesql';
-import { RequestLog, RequestLogRowData } from '../../types/RequestLog';
-import { Database } from '../database/Database';
-import { QueryUtil } from '../database/util/QueryUtil';
-import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
+import { ResellerRequestLog, ResellerRequestLogRowData } from '../../../types/ResellerRequestLog';
+import { Database } from '../../database/Database';
+import { QueryUtil } from '../../database/util/QueryUtil';
+import { ScenarioId } from '../../validation/v2/scenario/ScenarioId';
+import { CannotCreateRequestLogError } from '../error/CannotCreateRequestLogError';
+import { CannotSelectRequestLogError } from '../error/CannotSelectRequestLogError';
+import { CannotUpdateRequestLogError } from '../error/CannotUpdateRequestLogError';
 import {
   RequestLogDetail,
   RequestLogLatestDetail,
   RequestLogProgress,
-  RequestLogRepository,
-} from './RequestLogRepository';
-import { CannotCreateRequestLogError } from './error/CannotCreateRequestLogError';
-import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError';
-import { CannotUpdateRequestLogError } from './error/CannotUpdateRequestLogError';
+  ResellerRequestLogRepository,
+} from './ResellerRequestLogRepository';
 
-export class PostgresRequestLogRepository implements RequestLogRepository {
+export class PostgresResellerRequestLogRepository implements ResellerRequestLogRepository {
   public constructor(private readonly database: Database = inject('Database')) {}
 
-  public async create(requestLog: RequestLog): Promise<void> {
-    const requestLogRowData: RequestLogRowData = {
+  public async create(requestLog: ResellerRequestLog): Promise<void> {
+    const requestLogRowData: ResellerRequestLogRowData = {
       id: requestLog.id,
       session_id: requestLog.sessionId,
       scenario_id: requestLog.scenarioId,
@@ -38,7 +38,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     };
 
     const query = `
-    INSERT INTO request_log(${QueryUtil.getColumnNames(requestLogRowData)}) VALUES(${QueryUtil.getColumnBindNames(
+    INSERT INTO reseller_request_log(${QueryUtil.getColumnNames(requestLogRowData)}) VALUES(${QueryUtil.getColumnBindNames(
       requestLogRowData,
     )})`;
 
@@ -52,7 +52,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       UPDATE request_log
       SET
         has_correctly_answered_questions = true
-      WHERE 
+      WHERE
         id = :id
     `;
 
@@ -72,7 +72,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       return [];
     }
 
-    return queryResult.rows.map((requestLog: RequestLogRowData) => {
+    return queryResult.rows.map((requestLog: ResellerRequestLogRowData) => {
       return {
         scenarioId: requestLog.scenario_id,
         stepId: requestLog.step_id,
@@ -93,7 +93,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       return [];
     }
 
-    return queryResult.rows.map((requestLog: RequestLogRowData) => {
+    return queryResult.rows.map((requestLog: ResellerRequestLogRowData) => {
       return {
         stepId: requestLog.step_id,
         createdAt: requestLog.created_at,
@@ -123,7 +123,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       return null;
     }
 
-    const requestLogProgress = queryResult.rows[0] as RequestLogRowData;
+    const requestLogProgress = queryResult.rows[0] as ResellerRequestLogRowData;
 
     return {
       id: requestLogProgress.id,

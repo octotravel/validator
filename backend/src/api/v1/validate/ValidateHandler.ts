@@ -19,16 +19,20 @@ export class ValidateHandler {
     const context = new Context();
 
     try {
+      console.log('REQUEST', request);
       const requestBody = await BodyParser.parseBody(request);
+      console.log('BODY', requestBody);
       await validationConfigSchema.validate(requestBody);
+      console.log('VALID');
       const schema = validationConfigSchema.cast(requestBody) as ValidationEndpoint;
       context.setSchema(schema);
+
+      console.log('CONTEXT', context);
 
       const flowResult = await this.validatorController.validate(context);
 
       return this.jsonResponseFactory.create(flowResult);
     } catch (e) {
-      console.log(e);
       const err = e as Error;
 
       if (err instanceof OctoError) {
