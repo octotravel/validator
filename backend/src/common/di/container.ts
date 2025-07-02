@@ -39,6 +39,7 @@ import { VentrataRequestLogger } from '../logger/request/VentrataRequestLogger';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 import { PostgresResellerRequestLogRepository } from '../requestLog/reseller/PostgresResellerRequestLogRepository';
 import { ResellerRequestLogService } from '../requestLog/reseller/ResellerRequestLogService';
+import { CombinedSupplierRequestLogRepository } from '../requestLog/supplier/CombinedSupplierRequestLogRepository';
 import { InMemorySupplierRequestLogRepository } from '../requestLog/supplier/InMemorySupplierRequestLogRepository';
 import { PostgresSupplierRequestLogRepository } from '../requestLog/supplier/PostgresSupplierRequestLogRepository';
 import { SupplierRequestLogService } from '../requestLog/supplier/SupplierRequestLogService';
@@ -118,9 +119,26 @@ container.bind(ResellerRequestLogService);
 
 if (config.getEnvironment() === Environment.TEST || config.getEnvironment() === Environment.LOCAL) {
   container.bind({
-    provide: 'SupplierRequestLogRepository',
+    provide: 'InMemorySupplierRequestLogRepository',
     useClass: InMemorySupplierRequestLogRepository,
   });
+  container.bind(InMemorySupplierRequestLogRepository);
+
+  container.bind({
+    provide: 'PostgresSupplierRequestLogRepository',
+    useClass: PostgresSupplierRequestLogRepository,
+  });
+  container.bind(PostgresSupplierRequestLogRepository);
+
+  container.bind({
+    provide: 'SupplierRequestLogRepository',
+    useFactory: (context) => {
+      const memoryRepo = context.get(InMemorySupplierRequestLogRepository);
+      const postgresRepo = context.get(PostgresSupplierRequestLogRepository);
+      return new CombinedSupplierRequestLogRepository(memoryRepo, postgresRepo);
+    },
+  });
+  container.bind(CombinedSupplierRequestLogRepository);
 } else {
   container.bind({
     provide: 'SupplierRequestLogRepository',
