@@ -1,24 +1,24 @@
 import { inject } from '@needle-di/core';
 import { pg as named } from 'yesql';
-import { RequestLog, RequestLogRowData } from '../../types/RequestLog';
-import { Database } from '../database/Database';
-import { QueryUtil } from '../database/util/QueryUtil';
-import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
+import { ResellerRequestLog, ResellerRequestLogRowData } from '../../../types/ResellerRequestLog';
+import { Database } from '../../database/Database';
+import { QueryUtil } from '../../database/util/QueryUtil';
+import { ScenarioId } from '../../validation/v2/scenario/ScenarioId';
+import { CannotCreateRequestLogError } from '../error/CannotCreateRequestLogError';
+import { CannotSelectRequestLogError } from '../error/CannotSelectRequestLogError';
+import { CannotUpdateRequestLogError } from '../error/CannotUpdateRequestLogError';
 import {
   RequestLogDetail,
   RequestLogLatestDetail,
   RequestLogProgress,
-  RequestLogRepository,
-} from './RequestLogRepository';
-import { CannotCreateRequestLogError } from './error/CannotCreateRequestLogError';
-import { CannotSelectRequestLogError } from './error/CannotSelectRequestLogError';
-import { CannotUpdateRequestLogError } from './error/CannotUpdateRequestLogError';
+  ResellerRequestLogRepository,
+} from './ResellerRequestLogRepository';
 
-export class PostgresRequestLogRepository implements RequestLogRepository {
+export class PostgresResellerRequestLogRepository implements ResellerRequestLogRepository {
   public constructor(private readonly database: Database = inject('Database')) {}
 
-  public async create(requestLog: RequestLog): Promise<void> {
-    const requestLogRowData: RequestLogRowData = {
+  public async create(requestLog: ResellerRequestLog): Promise<void> {
+    const requestLogRowData: ResellerRequestLogRowData = {
       id: requestLog.id,
       session_id: requestLog.sessionId,
       scenario_id: requestLog.scenarioId,
@@ -38,7 +38,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     };
 
     const query = `
-    INSERT INTO request_log(${QueryUtil.getColumnNames(requestLogRowData)}) VALUES(${QueryUtil.getColumnBindNames(
+    INSERT INTO reseller_request_log(${QueryUtil.getColumnNames(requestLogRowData)}) VALUES(${QueryUtil.getColumnBindNames(
       requestLogRowData,
     )})`;
 
@@ -49,10 +49,10 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
 
   public async markCorrectlyAnsweredQuestions(requestLogId: string): Promise<void> {
     const query = `
-      UPDATE request_log
+      UPDATE reseller_request_log
       SET
         has_correctly_answered_questions = true
-      WHERE 
+      WHERE
         id = :id
     `;
 
@@ -63,7 +63,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
 
   public async getAllForProgress(sessionId: string): Promise<RequestLogProgress[]> {
     const query =
-      'SELECT DISTINCT ON (scenario_id, step_id) scenario_id, step_id, is_valid, has_correctly_answered_questions FROM request_log WHERE session_id = :sessionId ORDER BY scenario_id, step_id, created_at DESC';
+      'SELECT DISTINCT ON (scenario_id, step_id) scenario_id, step_id, is_valid, has_correctly_answered_questions FROM reseller_request_log WHERE session_id = :sessionId ORDER BY scenario_id, step_id, created_at DESC';
     const queryResult = await this.database.query(named(query)({ sessionId })).catch((e: unknown) => {
       throw CannotSelectRequestLogError.create(query, e);
     });
@@ -72,7 +72,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       return [];
     }
 
-    return queryResult.rows.map((requestLog: RequestLogRowData) => {
+    return queryResult.rows.map((requestLog: ResellerRequestLogRowData) => {
       return {
         scenarioId: requestLog.scenario_id,
         stepId: requestLog.step_id,
@@ -84,7 +84,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
 
   public async getAllForScenario(scenarioId: ScenarioId, sessionId: string): Promise<RequestLogDetail[]> {
     const query =
-      'SELECT step_id, created_at, req_headers, req_body, validation_result, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId ORDER BY created_at DESC';
+      'SELECT step_id, created_at, req_headers, req_body, validation_result, is_valid FROM reseller_request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId ORDER BY created_at DESC';
     const queryResult = await this.database.query(named(query)({ sessionId, scenarioId })).catch((e: unknown) => {
       throw CannotSelectRequestLogError.create(query, e);
     });
@@ -93,7 +93,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       return [];
     }
 
-    return queryResult.rows.map((requestLog: RequestLogRowData) => {
+    return queryResult.rows.map((requestLog: ResellerRequestLogRowData) => {
       return {
         stepId: requestLog.step_id,
         createdAt: requestLog.created_at,
@@ -111,7 +111,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
     sessionId: string,
   ): Promise<RequestLogLatestDetail | null> {
     const query =
-      'SELECT DISTINCT ON (scenario_id, step_id) id, is_valid FROM request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId AND step_id = :stepId ORDER BY scenario_id, step_id, created_at DESC';
+      'SELECT DISTINCT ON (scenario_id, step_id) id, is_valid FROM reseller_request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId AND step_id = :stepId ORDER BY scenario_id, step_id, created_at DESC';
 
     const queryResult = await this.database
       .query(named(query)({ sessionId, stepId, scenarioId }))
@@ -123,7 +123,7 @@ export class PostgresRequestLogRepository implements RequestLogRepository {
       return null;
     }
 
-    const requestLogProgress = queryResult.rows[0] as RequestLogRowData;
+    const requestLogProgress = queryResult.rows[0] as ResellerRequestLogRowData;
 
     return {
       id: requestLogProgress.id,

@@ -68,7 +68,7 @@ describe('AdvancedScenario', () => {
 
   afterAll(async () => {
     server.close(async () => {
-      await database.query('DELETE FROM request_log');
+      await database.query('DELETE FROM reseller_request_log');
       await database.query('DELETE FROM session');
     });
   });
