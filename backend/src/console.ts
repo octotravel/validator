@@ -57,4 +57,13 @@ const consoleLogger = consoleLoggerFactory.create('console');
     await SentryUtil.endSentry();
     process.exit(1);
   }
-})();
+})().catch(async (err: unknown) => {
+  try {
+    await consoleLogger.error(err);
+    await exceptionLogger.error(err);
+    await database.endPool();
+    await SentryUtil.endSentry();
+  } finally {
+    process.exit(1);
+  }
+});

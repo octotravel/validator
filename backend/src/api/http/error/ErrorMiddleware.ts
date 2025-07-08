@@ -11,14 +11,14 @@ const consoleLogger = consoleLoggerFactory.create();
 export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Promise<void> {
   try {
     await next();
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: <any>
   } catch (error: any) {
     const env = config.getEnvironment();
     const isDebug = env === Environment.LOCAL || env === Environment.TEST;
 
     await consoleLogger.error(error);
 
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: <any>
     let body: any = {};
 
     if (error instanceof HttpError) {

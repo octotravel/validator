@@ -1,6 +1,5 @@
-import { Router } from 'itty-router';
-
 import { inject } from '@needle-di/core';
+import { Router } from 'itty-router';
 import { GetCapabilitiesHandler } from './capabilities/GetCapabilitiesHandler';
 import { OctoRouter } from './octo/OctoRouter';
 import { GetScenarioHandler } from './scenario/GetScenarioHandler';

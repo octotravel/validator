@@ -2,10 +2,10 @@ import { inject } from '@needle-di/core';
 import { Session } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { Step } from '../step/Step';
-import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 import { SessionIsInInvalidState } from './error/SessionIsInInvalidState';
 import { SessionScenarioNotSetError } from './error/SessionScenarioNotSetError';
 import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
+import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 
 export class SessionStepGuard {
   public constructor(

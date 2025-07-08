@@ -1,5 +1,5 @@
-import { Scenario, ScenarioResult, ValidationResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
+import { Scenario, ScenarioResult, ValidationResult } from '../Scenarios/Scenario';
 import { FlowResult } from './Flow';
 
 export abstract class BaseFlow {

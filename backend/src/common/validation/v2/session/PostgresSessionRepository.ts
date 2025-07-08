@@ -4,10 +4,10 @@ import { pg as named } from 'yesql';
 import { SessionData, SessionRowData } from '../../../../types/Session';
 import { Database } from '../../../database/Database';
 import { ScenarioId } from '../scenario/ScenarioId';
-import { SessionRepository } from './SessionRepository';
 import { CannotCreateSessionError } from './error/CannotCreateSessionError';
 import { CannotDeleteSessionError } from './error/CannotDeleteSessionError';
 import { CannotUpdateSessionError } from './error/CannotUpdateSessionError';
+import { SessionRepository } from './SessionRepository';
 
 export class PostgresSessionRepository implements SessionRepository {
   public constructor(private readonly database: Database = inject('Database')) {}
@@ -74,7 +74,7 @@ export class PostgresSessionRepository implements SessionRepository {
       current_scenario = :current_scenario,
       created_at = :created_at,
       updated_at = :updated_at
-    WHERE 
+    WHERE
       id = :id
     `;
 

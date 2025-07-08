@@ -1,5 +1,5 @@
 import { parentPort } from 'node:worker_threads';
-import { Environment, LogLevel, LogicError } from '@octocloud/core';
+import { Environment, LogicError, LogLevel } from '@octocloud/core';
 import { format } from 'date-fns';
 import pino, { Logger as PinoLogger, TransportTargetOptions } from 'pino';
 import { packageDirectory } from 'pkg-dir';
@@ -14,7 +14,7 @@ export class ConsoleLogger extends BaseLogger {
     super();
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async logLevel(level: LogLevel, message: unknown, context: any = null): Promise<void> {
     if (!config.APP_ENABLE_LOGGER) {
       return;

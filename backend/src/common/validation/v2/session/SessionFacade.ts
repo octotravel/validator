@@ -8,7 +8,6 @@ import { StepId } from '../step/StepId';
 import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 import { SessionService } from './SessionService';
 import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
-import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
 export class SessionFacade {
   public constructor(

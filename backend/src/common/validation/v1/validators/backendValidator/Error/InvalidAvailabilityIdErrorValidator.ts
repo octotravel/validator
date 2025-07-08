@@ -3,7 +3,7 @@ import { Result } from '../../../services/validation/api/types';
 import { ModelValidator, NumberValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class InvalidAvailabilityIdErrorValidator implements ModelValidator {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public validate = (result: Result<any>): ValidatorError[] => {
     return [
       StringValidator.validate('error', result?.data?.error, {

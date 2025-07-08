@@ -1,9 +1,9 @@
 import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
-import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
 import { SessionMissingRequiredScenarioCapabilities } from '../../../common/validation/v2/session/error/SessionMissingRequiredScenarioCapabilities';
 import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
+import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
 import { SessionData } from '../../../types/Session';
 import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
@@ -19,7 +19,6 @@ export class UpdateSessionHandler implements RequestHandler {
     private readonly errorResponseFactory = inject(ErrorResponseFactory),
     private readonly sessionFacade = inject(SessionFacade),
   ) {}
-
   public async handleRequest(request: IRequest): Promise<Response> {
     const parsedBody = await BodyParser.parseBody(request);
 

@@ -1,7 +1,7 @@
 import { Supplier } from '@octocloud/types';
 import { SupplierValidator } from '../../../validators/backendValidator/Supplier/SupplierValidator';
-import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class SupplierScenarioHelper extends ScenarioHelper {

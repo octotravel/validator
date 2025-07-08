@@ -13,7 +13,6 @@ import {
   EnumArrayValidator,
   EnumValidator,
   ModelValidator,
-  NumberValidator,
   StringValidator,
   ValidatorError,
 } from '../ValidatorHelpers';

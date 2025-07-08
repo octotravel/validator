@@ -1,4 +1,4 @@
-import { RequestContext, SubRequestContext, fetchRetry } from '@octocloud/core';
+import { fetchRetry, RequestContext, SubRequestContext } from '@octocloud/core';
 import { CapabilityId } from '@octocloud/types';
 import { asyncLocalStorage } from '../../../../../di/asyncLocalStorage';
 import { Context } from '../context/Context';

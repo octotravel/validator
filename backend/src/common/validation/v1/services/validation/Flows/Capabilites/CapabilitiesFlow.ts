@@ -1,5 +1,5 @@
-import { GetCapabilitiesScenario } from '../../Scenarios/Capabilities/GetCapabilities';
 import { Context } from '../../context/Context';
+import { GetCapabilitiesScenario } from '../../Scenarios/Capabilities/GetCapabilities';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

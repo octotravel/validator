@@ -1,12 +1,12 @@
-import { inject, injectAsync } from '@needle-di/core';
+import { inject } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
 import { DoublyLinkedList } from 'linked-list-typed';
-import { Step } from '../../step/Step';
-import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { AvailabilityCalendarStep } from '../../step/reseller/availability/AvailabilityCalendarStep';
 import { GetProductStep } from '../../step/reseller/product/GetProductStep';
 import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 import { GetSupplierStep } from '../../step/reseller/supplier/GetSupplierStep';
+import { Step } from '../../step/Step';
+import { StepLinkedListFactory } from '../../step/StepLinkedListFactory';
 import { Scenario } from '../Scenario';
 import { ScenarioId } from '../ScenarioId';
 

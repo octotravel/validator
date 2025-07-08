@@ -1,8 +1,8 @@
+import docs from '../../consts/docs';
+import { Context } from '../../context/Context';
 import { BookingGetBookingScenario } from '../../Scenarios/Booking/Get/BookingGetBooking';
 import { BookingGetInvalidUUIDScenario } from '../../Scenarios/Booking/Get/BookingGetInvalidUUID';
 import { BookingGetReservationScenario } from '../../Scenarios/Booking/Get/BookingGetReservation';
-import docs from '../../consts/docs';
-import { Context } from '../../context/Context';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

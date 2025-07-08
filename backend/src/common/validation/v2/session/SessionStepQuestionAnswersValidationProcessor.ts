@@ -1,13 +1,13 @@
 import { inject } from '@needle-di/core';
-import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
 import { ScenarioId } from '../scenario/ScenarioId';
 import { ScenarioService } from '../scenario/ScenarioService';
 import { StepId } from '../step/StepId';
 import { StepQuestionAnswersValidator } from '../step/StepQuestionAnswersValidator';
+import { ValidationResult } from '../ValidationResult';
+import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 import { SessionService } from './SessionService';
 import { SessionStepGuard } from './SessionStepGuard';
-import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 
 export class SessionStepQuestionAnswersValidationProcessor {
   public constructor(

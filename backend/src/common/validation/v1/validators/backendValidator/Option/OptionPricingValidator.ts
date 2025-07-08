@@ -1,4 +1,4 @@
-import { Option, Pricing } from '@octocloud/types';
+import { Option } from '@octocloud/types';
 import { PricingValidator } from '../Pricing/PricingValidator';
 import { ModelValidator, ValidatorError } from '../ValidatorHelpers';
 

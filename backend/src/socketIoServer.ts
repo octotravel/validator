@@ -18,15 +18,15 @@ export function initializeSocketIoServer(httpServer: Server): socketio.Server | 
   >(httpServer, options);
 
   socketIoServer.on('connection', (socket: socketio.Socket) => {
-    socket.on('session', (sessionId: string) => {
-      consoleLogger.log(`Client connected to session with id "${sessionId}".`);
+    socket.on('session', async (sessionId: string) => {
+      await consoleLogger.log(`Client connected to session with id "${sessionId}".`);
       socket.data.sessionId = sessionId;
       socket.join(sessionId);
     });
   });
 
-  socketIoServer.on('disconnect', (socket: socketio.Socket) => {
-    consoleLogger.log(`Client disconnected to session with id "${socket.data.sessionId}".`);
+  socketIoServer.on('disconnect', async (socket: socketio.Socket) => {
+    await consoleLogger.log(`Client disconnected to session with id "${socket.data.sessionId}".`);
     socket.leave(socket.data.sessionId);
   });
 

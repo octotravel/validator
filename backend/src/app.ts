@@ -1,7 +1,6 @@
+import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
 import * as Sentry from '@sentry/node';
 import Koa, { Context } from 'koa';
-
-import { BAD_REQUEST, HttpBadRequest } from '@octocloud/core';
 import koaBody, { HttpMethodEnum } from 'koa-body';
 import { errorMiddleware } from './api/http/error/ErrorMiddleware';
 import { router } from './api/http/router/RouterMiddleware';
@@ -31,6 +30,7 @@ app.use(errorMiddleware);
 app.use(
   koaBody({
     parsedMethods: [HttpMethodEnum.POST, HttpMethodEnum.PUT, HttpMethodEnum.PATCH, HttpMethodEnum.DELETE],
+    // biome-ignore lint/correctness/noUnusedFunctionParameters: <?>
     onError: (error: Error, context: Context) => {
       throw new HttpBadRequest({
         error: BAD_REQUEST,

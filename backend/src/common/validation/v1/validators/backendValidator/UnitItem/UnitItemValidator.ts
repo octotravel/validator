@@ -1,10 +1,9 @@
 import { BookingStatus, CapabilityId, DeliveryMethod, PricingPer, Ticket, UnitItem } from '@octocloud/types';
-import { UnitValidator } from '../Unit/UnitValidator';
-
 import { CommonValidator } from '../CommonValidator';
 import { ContactValidator } from '../Contact/ContactValidator';
 import { PricingValidator } from '../Pricing/PricingValidator';
 import { TicketValidator } from '../Ticket/TicketValidator';
+import { UnitValidator } from '../Unit/UnitValidator';
 import { EnumValidator, ModelValidator, NullValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class UnitItemValidator implements ModelValidator {

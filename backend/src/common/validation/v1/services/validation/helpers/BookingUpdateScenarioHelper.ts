@@ -1,8 +1,8 @@
 import { Booking, UpdateBookingBodySchema } from '@octocloud/types';
 import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
-import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class BookingUpdateScenarioHelper extends ScenarioHelper {

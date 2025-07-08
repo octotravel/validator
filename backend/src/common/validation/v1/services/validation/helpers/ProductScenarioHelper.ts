@@ -1,8 +1,8 @@
 import { Product } from '@octocloud/types';
 import { ProductValidator } from '../../../validators/backendValidator/Product/ProductValidator';
 import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class ProductScenarioHelper extends ScenarioHelper {

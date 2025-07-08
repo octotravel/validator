@@ -1,7 +1,7 @@
+import { QuestionAnswer } from '../question/Question';
 import { ValidationFailure } from '../ValidationFailure';
 import { ValidationFailureType } from '../ValidationFailureType';
 import { ValidationResult } from '../ValidationResult';
-import { QuestionAnswer } from '../question/Question';
 import { Validator } from '../validator/Validator';
 import { Step } from './Step';
 
