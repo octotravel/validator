@@ -3,6 +3,7 @@ import { pg as named } from 'yesql';
 import { SupplierScenarioLogRawData } from '../../../types/SupplierRequestLog';
 import { Database } from '../../database/Database';
 import { QueryUtil } from '../../database/util/QueryUtil';
+import { safeJson } from '../../database/util/SafeJson';
 import { ScenarioResult } from '../../validation/v1/services/validation/Scenarios/Scenario';
 import { Context } from '../../validation/v1/services/validation/context/Context';
 import { CannotCreateRequestLogError } from '../error/CannotCreateRequestLogError';
@@ -16,13 +17,13 @@ export class PostgresSupplierRequestLogRepository implements SupplierRequestLogR
       id: context.requestId,
       validation_run_id: context.getValidationRunId(),
       created_at: new Date().toISOString(),
-      req_body: JSON.stringify(scenario.request?.body),
-      req_method: scenario.request?.method || null,
+      req_body: safeJson(scenario.request?.body),
+      req_method: safeJson(scenario.request?.method),
       req_url: scenario.request?.url || null,
-      req_headers: JSON.stringify(scenario.request?.headers),
+      req_headers: safeJson(scenario.request?.headers),
       res_status: scenario.response?.status || null,
-      res_headers: JSON.stringify(scenario.response?.headers),
-      res_body: JSON.stringify(scenario.response?.body),
+      res_headers: safeJson(scenario.response?.headers),
+      res_body: safeJson(scenario.response?.body),
       res_duration: context.getRequestDuration(),
       validation_result: scenario.validationResult,
       is_valid: scenario.success,
