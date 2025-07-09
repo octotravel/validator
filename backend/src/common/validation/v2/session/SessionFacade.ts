@@ -1,6 +1,6 @@
 import { inject } from '@needle-di/core';
 import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionData } from '../../../../types/Session';
-import { RequestLogRepository } from '../../../requestLog/RequestLogRepository';
+import { ResellerRequestLogRepository } from '../../../requestLog/reseller/ResellerRequestLogRepository';
 import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
 import { ScenarioId } from '../scenario/ScenarioId';
@@ -17,7 +17,7 @@ export class SessionFacade {
     private readonly sessionStepQuestionAnswersValidationProcessor = inject(
       SessionStepQuestionAnswersValidationProcessor,
     ),
-    private readonly requestLogRepository = inject<RequestLogRepository>('RequestLogRepository'),
+    private readonly requestLogRepository = inject<ResellerRequestLogRepository>('ResellerRequestLogRepository'),
   ) {}
 
   public async createSession(): Promise<Session> {

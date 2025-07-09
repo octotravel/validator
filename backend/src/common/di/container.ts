@@ -1,4 +1,4 @@
-import { Container, InjectionToken } from '@needle-di/core';
+import { Container } from '@needle-di/core';
 import { BackendContainer } from '@octocloud/backend';
 import { BaseConfig, Environment } from '@octocloud/core';
 import { ApiRouter } from '../../api/ApiRouter';
@@ -37,8 +37,12 @@ import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
 import { SentryExceptionLogger } from '../logger/SentryExceptionLogger';
 import { VentrataRequestLogger } from '../logger/request/VentrataRequestLogger';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
-import { PostgresRequestLogRepository } from '../requestLog/PostgresRequestLogRepository';
-import { RequestLogService } from '../requestLog/RequestLogService';
+import { PostgresResellerRequestLogRepository } from '../requestLog/reseller/PostgresResellerRequestLogRepository';
+import { ResellerRequestLogService } from '../requestLog/reseller/ResellerRequestLogService';
+import { CombinedSupplierRequestLogRepository } from '../requestLog/supplier/CombinedSupplierRequestLogRepository';
+import { InMemorySupplierRequestLogRepository } from '../requestLog/supplier/InMemorySupplierRequestLogRepository';
+import { PostgresSupplierRequestLogRepository } from '../requestLog/supplier/PostgresSupplierRequestLogRepository';
+import { SupplierRequestLogService } from '../requestLog/supplier/SupplierRequestLogService';
 import { DummySocketIo } from '../socketio/DummySocketIo';
 import { SocketIo } from '../socketio/SocketIo';
 import { ValidationController } from '../validation/v1/services/validation/Controller';
@@ -108,10 +112,40 @@ container.bind({
   useClass: VentrataRequestLogger,
 });
 container.bind({
-  provide: 'RequestLogRepository',
-  useClass: PostgresRequestLogRepository,
+  provide: 'ResellerRequestLogRepository',
+  useClass: PostgresResellerRequestLogRepository,
 });
-container.bind(RequestLogService);
+container.bind(ResellerRequestLogService);
+
+if (config.getEnvironment() === Environment.TEST || config.getEnvironment() === Environment.LOCAL) {
+  container.bind({
+    provide: 'InMemorySupplierRequestLogRepository',
+    useClass: InMemorySupplierRequestLogRepository,
+  });
+  container.bind(InMemorySupplierRequestLogRepository);
+
+  container.bind({
+    provide: 'PostgresSupplierRequestLogRepository',
+    useClass: PostgresSupplierRequestLogRepository,
+  });
+  container.bind(PostgresSupplierRequestLogRepository);
+
+  container.bind({
+    provide: 'SupplierRequestLogRepository',
+    useFactory: (context) => {
+      const memoryRepo = context.get(InMemorySupplierRequestLogRepository);
+      const postgresRepo = context.get(PostgresSupplierRequestLogRepository);
+      return new CombinedSupplierRequestLogRepository(memoryRepo, postgresRepo);
+    },
+  });
+  container.bind(CombinedSupplierRequestLogRepository);
+} else {
+  container.bind({
+    provide: 'SupplierRequestLogRepository',
+    useClass: PostgresSupplierRequestLogRepository,
+  });
+}
+container.bind(SupplierRequestLogService);
 
 // V1
 container.bind(ValidateHandler);
