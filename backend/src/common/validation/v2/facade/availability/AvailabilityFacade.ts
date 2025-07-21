@@ -16,7 +16,7 @@ export class AvailabilityFacade {
   ) {}
 
   public async getAvailabilityCalendar(
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: <?>
     availabilityCalendarData: any,
   ): Promise<AvailabilityCalendar[]> {
     await this.sessionStepValidationProcessor.process(this.availabilityCalendarStep, availabilityCalendarData);
@@ -25,7 +25,7 @@ export class AvailabilityFacade {
     });
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async getAvailability(availabilityCheckData: any): Promise<Availability[]> {
     await this.sessionStepValidationProcessor.process(this.availabilityCheckStep, availabilityCheckData);
     return await this.backend.getAvailability(availabilityCheckData, {

@@ -73,15 +73,15 @@ export class PostgresDatabase implements Database {
         });
       }
 
-      this.pool.on('error', (err: Error, client: ClientBase) => {
-        this.consoleLogger.error(err);
-        this.exceptionLogger.error(err);
+      this.pool.on('error', async (err: Error, client: ClientBase) => {
+        await this.consoleLogger.error(err);
+        await this.exceptionLogger.error(err);
       });
 
-      this.pool.on('release', (err: Error, client: ClientBase) => {
+      this.pool.on('release', async (err: Error, client: ClientBase) => {
         if (err) {
-          this.consoleLogger.error(err);
-          this.exceptionLogger.error(err);
+          await this.consoleLogger.error(err);
+          await this.exceptionLogger.error(err);
         }
       });
     } catch (e: unknown) {
@@ -131,7 +131,7 @@ export class PostgresDatabase implements Database {
     return await (await this.getConnection()).connect();
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async query(...args: [string, ...any[]]): Promise<QueryResult<any>> {
     return await (await this.getConnection()).query(...args);
   }

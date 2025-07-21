@@ -1,4 +1,4 @@
-import { SchemaOf, object } from 'yup';
+import { object, SchemaOf } from 'yup';
 import { octoCapabilitiesValidator } from '../../../../common/validation/v2/yup/RequiredHeaders';
 
 export interface GetScenariosSchema {

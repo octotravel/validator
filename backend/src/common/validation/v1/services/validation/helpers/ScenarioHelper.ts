@@ -2,8 +2,8 @@ import { CapabilityId } from '@octocloud/types';
 import * as R from 'ramda';
 import { STATUS_NOT_FOUND } from '../../../models/Error';
 import { ErrorType, ModelValidator, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import { ScenarioResult, ValidationResult } from '../Scenarios/Scenario';
 import { Result, ResultResponse } from '../api/types';
+import { ScenarioResult, ValidationResult } from '../Scenarios/Scenario';
 
 interface ScenarioData<T> {
   name: string;

@@ -2,9 +2,9 @@ import { inject } from '@needle-di/core';
 import { v4 as uuidv4 } from 'uuid';
 import { Session, SessionData, UpdateSessionData } from '../../../../types/Session';
 import { ScenarioService } from '../scenario/ScenarioService';
-import { SessionRepository } from './SessionRepository';
 import { SessionMissingRequiredScenarioCapabilities } from './error/SessionMissingRequiredScenarioCapabilities';
 import { SessionNotFoundError } from './error/SessionNotFoundError';
+import { SessionRepository } from './SessionRepository';
 
 export class SessionService {
   public constructor(

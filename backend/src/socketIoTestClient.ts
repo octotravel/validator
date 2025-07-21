@@ -1,4 +1,4 @@
-import { Socket, io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import { ClientToServerEvents, ServerToClientEvents } from './common/socketio/SocketIo';
 import { ValidationResult } from './common/validation/v2/ValidationResult';
 

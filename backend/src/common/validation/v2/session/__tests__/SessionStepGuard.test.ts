@@ -4,9 +4,9 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { mockDeep, mockReset } from 'vitest-mock-extended';
 import { Session } from '../../../../../types/Session';
 import { ScenarioService } from '../../scenario/ScenarioService';
+import { SessionScenarioNotSetError } from '../error/SessionScenarioNotSetError';
 import { SessionScenarioProgressProvider } from '../SessionScenarioProgressProvider';
 import { SessionStepGuard } from '../SessionStepGuard';
-import { SessionScenarioNotSetError } from '../error/SessionScenarioNotSetError';
 import { TestStep } from './TestStep';
 
 describe('SessionStepGuard', () => {

@@ -1,4 +1,4 @@
-import { HttpError, InternalError, LogLevel, LogicError, OctoError, RequestContext } from '@octocloud/core';
+import { HttpError, InternalError, LogicError, LogLevel, OctoError, RequestContext } from '@octocloud/core';
 import * as Sentry from '@sentry/node';
 import { Context } from 'koa';
 import { ExceptionLogger } from './ExceptionLogger';
@@ -28,7 +28,7 @@ export class SentryExceptionLogger implements ExceptionLogger {
     return await this.logLevel(LogLevel.DEBUG, data, context);
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async logLevel(level: LogLevel, data: any, context?: Context): Promise<unknown> {
     if (data instanceof HttpError || data instanceof OctoError || data instanceof InternalError) {
       return null;

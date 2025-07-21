@@ -5,7 +5,6 @@ import {
   EnumValidator,
   ModelValidator,
   NumberValidator,
-  RegExpValidator,
   StringValidator,
   ValidatorError,
 } from '../ValidatorHelpers';

@@ -1,7 +1,7 @@
-import { BookingReservationExtendScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtend';
-import { BookingReservationExtendInvalidUUIDScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtendInvalidUUID';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { BookingReservationExtendScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtend';
+import { BookingReservationExtendInvalidUUIDScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtendInvalidUUID';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

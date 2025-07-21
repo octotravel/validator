@@ -1,5 +1,4 @@
 import { Booking } from '@octocloud/types';
-import { CommonValidator } from '../CommonValidator';
 import {
   BooleanValidator,
   ModelValidator,

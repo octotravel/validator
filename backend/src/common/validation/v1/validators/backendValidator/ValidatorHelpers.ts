@@ -35,18 +35,18 @@ export class ValidatorError extends Error {
 }
 
 export interface ModelValidator {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   validate: (...args: any[]) => ValidatorError[];
 }
 
 class BaseValidator {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   protected static handleValidatedError = (error: any, shouldWarn = false): ValidatorError => {
     if (error instanceof yup.ValidationError) {
       if (error.type === 'required' || error.type === 'typeError') {
         return new ValidatorError({
           type: shouldWarn ? ErrorType.WARNING : ErrorType.CRITICAL,
-          // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+          // biome-ignore lint/suspicious/noExplicitAny: <?>
           message: error.errors as any,
         });
       }

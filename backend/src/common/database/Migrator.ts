@@ -96,7 +96,7 @@ export class Migrator {
   }
 
   private async getAllFilesInDirectory(directoryPath: string): Promise<string[]> {
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    // biome-ignore lint/suspicious/noExplicitAny: <?>
     const files: any = await Promise.all(
       (await readdir(directoryPath)).map(async (entity) => {
         const path = join(directoryPath, entity);

@@ -1,22 +1,20 @@
+import { inject } from '@needle-di/core';
 import {
   BaseRequestData,
   BaseRequestMetaData,
   Environment,
+  fetchRetry,
   Logger,
   RequestContext,
   RequestData,
   RequestMethod,
   SubRequestData,
   SubRequestRetryData,
-  fetchRetry,
 } from '@octocloud/core';
-import qs from 'query-string';
-
-import { inject } from '@needle-di/core';
 import pLimit from 'p-limit';
+import qs from 'query-string';
 import config from '../../config/config';
 import { ConsoleLoggerFactory } from '../ConsoleLoggerFactory';
-import { ExceptionLogger } from '../ExceptionLogger';
 import { LoggerFactory } from '../LoggerFactory';
 import { RequestLogger } from './RequestLogger';
 
@@ -33,8 +31,8 @@ export class VentrataRequestLogger implements RequestLogger {
   }
 
   public async logAll(requestData: RequestData, requestContext: RequestContext): Promise<void> {
-    await this.logRequest(requestData, requestContext).catch((e) => {
-      this.consoleLogger.error(e);
+    await this.logRequest(requestData, requestContext).catch(async (e) => {
+      await this.consoleLogger.error(e);
       // this.exceptionLogger.error(e, requestContext);
     });
 
@@ -52,11 +50,11 @@ export class VentrataRequestLogger implements RequestLogger {
         const response = subRequestData.getResponse();
 
         if (!request.bodyUsed) {
-          request.text();
+          await request.text();
         }
 
         if (!response.bodyUsed) {
-          response.text();
+          await response.text();
         }
       }
 
@@ -69,8 +67,8 @@ export class VentrataRequestLogger implements RequestLogger {
       }
     }
 
-    await Promise.all(subrequestPromises).catch((e) => {
-      this.consoleLogger.error(e);
+    await Promise.all(subrequestPromises).catch(async (e) => {
+      await this.consoleLogger.error(e);
       // this.exceptionLogger.error(e, requestContext);
     });
   }
@@ -116,7 +114,7 @@ export class VentrataRequestLogger implements RequestLogger {
     const resBody = await this.parseBody(res);
     const env = config.getEnvironment();
 
-    const requestData: Record<string, unknown> = {
+    return {
       test: env === Environment.LOCAL || env === Environment.TEST,
       error: !data.getMetaData().success,
       user_agent: ctx.getRequest().headers.get('user-agent'),
@@ -136,7 +134,6 @@ export class VentrataRequestLogger implements RequestLogger {
       created_at: data.getMetaData().date.toISOString(),
       backend_id: ctx.getRequest().headers.get('ventrata-backend-id'),
     };
-    return requestData;
   }
 
   private getServiceName(ctx: RequestContext): string {

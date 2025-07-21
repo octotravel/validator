@@ -1,4 +1,3 @@
-import { BookingContactSchema } from '@octocloud/types';
 import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Booker } from '../../../Booker';

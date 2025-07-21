@@ -2,8 +2,8 @@ import { AvailabilityCalendar, Product } from '@octocloud/types';
 import * as R from 'ramda';
 import { AvailabilityCalendarValidator } from '../../../validators/backendValidator/AvailabilityCalendar/AvailabilityCalendarValidator';
 import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
-import { ScenarioResult } from '../Scenarios/Scenario';
 import { Context } from '../context/Context';
+import { ScenarioResult } from '../Scenarios/Scenario';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
 
 export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {

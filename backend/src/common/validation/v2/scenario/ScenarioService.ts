@@ -1,9 +1,8 @@
+import { inject } from '@needle-di/core';
 import { CapabilityId } from '@octocloud/types';
 import { Scenario } from './Scenario';
-import { ScenarioRepository } from './ScenarioRepository';
-
-import { inject } from '@needle-di/core';
 import { ScenarioId } from './ScenarioId';
+import { ScenarioRepository } from './ScenarioRepository';
 
 export class ScenarioService {
   public constructor(private readonly scenarioRepository: ScenarioRepository = inject('ScenarioRepository')) {}

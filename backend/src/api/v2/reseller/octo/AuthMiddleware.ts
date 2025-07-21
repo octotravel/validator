@@ -1,9 +1,8 @@
-import { IRequest } from 'itty-router';
-
 import { inject } from '@needle-di/core';
+import { IRequest } from 'itty-router';
 import { RequestScopedContextProvider } from '../../../../common/requestContext/RequestScopedContextProvider';
-import { SessionService } from '../../../../common/validation/v2/session/SessionService';
 import { SessionNotFoundError } from '../../../../common/validation/v2/session/error/SessionNotFoundError';
+import { SessionService } from '../../../../common/validation/v2/session/SessionService';
 import { Session } from '../../../../types/Session';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 

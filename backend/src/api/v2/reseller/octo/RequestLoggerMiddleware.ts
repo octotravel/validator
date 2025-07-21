@@ -10,7 +10,7 @@ export class RequestLoggerMiddleware {
     private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
-  public async invoke(response: Response, request: IRequest): Promise<void> {
+  public async invoke(response: Response, _request: IRequest): Promise<void> {
     // TODO handle differently?
     if (!response || !response.ok) {
       return;

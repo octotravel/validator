@@ -1,4 +1,4 @@
-import { Pricing, Unit } from '@octocloud/types';
+import { Unit } from '@octocloud/types';
 import { PricingValidator } from '../Pricing/PricingValidator';
 import { ModelValidator, ValidatorError } from '../ValidatorHelpers';
 

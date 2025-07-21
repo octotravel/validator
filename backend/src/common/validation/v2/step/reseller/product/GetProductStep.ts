@@ -1,6 +1,6 @@
 import { Question, QuestionInputType } from '../../../question/Question';
-import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
+import { Validator } from '../../../validator/Validator';
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
 

@@ -1,10 +1,10 @@
+import docs from '../../consts/docs';
+import { Context } from '../../context/Context';
 import { AvailabilityCalendarBadRequestScenario } from '../../Scenarios/AvailabilityCalendar/AvailabilityCalendarBadRequest';
 import { AvailabilityCalendarIntervalScenario } from '../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInterval';
 import { AvailabilityCalendarInvalidOptionScenario } from '../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidOption';
 import { AvailabilityCalendarInvalidProductScenario } from '../../Scenarios/AvailabilityCalendar/AvailabilityCalendarInvalidProduct';
 import { Scenario } from '../../Scenarios/Scenario';
-import docs from '../../consts/docs';
-import { Context } from '../../context/Context';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

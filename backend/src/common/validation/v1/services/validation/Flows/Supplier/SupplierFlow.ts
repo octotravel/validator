@@ -1,7 +1,7 @@
-import { Scenario } from '../../Scenarios/Scenario';
-import { GetSupplierScenario } from '../../Scenarios/Supplier/GetSuppliers';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { Scenario } from '../../Scenarios/Scenario';
+import { GetSupplierScenario } from '../../Scenarios/Supplier/GetSuppliers';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

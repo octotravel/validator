@@ -1,4 +1,4 @@
-import { SchemaOf, ValidationError, object, string } from 'yup';
+import { object, SchemaOf, string, ValidationError } from 'yup';
 import { ValidationFailureFactory } from '../../ValidationFailureFactory';
 import { ValidationResult } from '../../ValidationResult';
 import { octoCapabilitiesValidator } from '../../yup/RequiredHeaders';

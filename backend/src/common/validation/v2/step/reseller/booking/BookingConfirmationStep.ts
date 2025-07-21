@@ -1,7 +1,7 @@
 import { Question } from '../../../question/Question';
-import { Validator } from '../../../validator/Validator';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 import { BookingConfirmationValidator } from '../../../validator/reseller/booking/BookingConfirmationValidator';
+import { Validator } from '../../../validator/Validator';
 import { Step } from '../../Step';
 import { StepId } from '../../StepId';
 

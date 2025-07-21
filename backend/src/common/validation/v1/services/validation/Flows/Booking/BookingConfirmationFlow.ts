@@ -1,9 +1,9 @@
-import { BookingConfirmationScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmation';
-import { BookingConfirmationInvalidUUIDScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationInvalidUUID';
-import { BookingConfirmationInvalidUnitIdScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationInvalidUnitId';
-import { BookingConfirmationUnitItemUpdateScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationUnitItemsUpdate';
 import docs from '../../consts/docs';
 import { Context } from '../../context/Context';
+import { BookingConfirmationScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmation';
+import { BookingConfirmationInvalidUnitIdScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationInvalidUnitId';
+import { BookingConfirmationInvalidUUIDScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationInvalidUUID';
+import { BookingConfirmationUnitItemUpdateScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationUnitItemsUpdate';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

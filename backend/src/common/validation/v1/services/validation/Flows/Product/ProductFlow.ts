@@ -1,9 +1,9 @@
+import docs from '../../consts/docs';
+import { Context } from '../../context/Context';
 import { GetProductScenario } from '../../Scenarios/Product/GetProduct';
 import { GetProductInvalidScenario } from '../../Scenarios/Product/GetProductInvalid';
 import { GetProductsScenario } from '../../Scenarios/Product/GetProducts';
 import { Scenario } from '../../Scenarios/Scenario';
-import docs from '../../consts/docs';
-import { Context } from '../../context/Context';
 import { BaseFlow } from '../BaseFlow';
 import { Flow, FlowResult } from '../Flow';
 

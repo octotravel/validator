@@ -17,7 +17,7 @@ export class BookingFacade {
     private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {}
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async bookingReservation(bookingReservationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingReservationStep, bookingReservationData);
     return await this.backend.createBooking(bookingReservationData, {
@@ -25,7 +25,7 @@ export class BookingFacade {
     });
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async bookingConfirmation(bookingConfirmationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingConfirmationStep, bookingConfirmationData);
     return await this.backend.confirmBooking(bookingConfirmationData, {
@@ -33,7 +33,7 @@ export class BookingFacade {
     });
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async bookingCancellation(bookingCancellationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingCancellationStep, bookingCancellationData);
     return await this.backend.cancelBooking(bookingCancellationData, {

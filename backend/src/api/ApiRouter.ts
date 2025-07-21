@@ -1,25 +1,24 @@
-import { Router as BaseRouter, RouterType } from 'itty-router';
-
 import { inject } from '@needle-di/core';
 import { RequestContext } from '@octocloud/core';
+import { Router as BaseRouter, RouterType } from 'itty-router';
 import { Context, Next } from 'koa';
 import { RequestLogger } from '../common/logger/request/RequestLogger';
 import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
 import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
 import { RequestMapper } from './http/request/RequestMapper';
 import { V1Router } from './v1/V1Router';
-import { V2Router } from './v2/V2Router';
 import { GetDocsHandler } from './v2/docs/GetDocsHandler';
+import { V2Router } from './v2/V2Router';
 
 export class ApiRouter {
   public constructor(
+    private readonly router: RouterType,
     private readonly v1Router = inject(V1Router),
     private readonly v2Router = inject(V2Router),
     private readonly getDocsHandler = inject(GetDocsHandler),
     private readonly errorResponseFactory = inject(ErrorResponseFactory),
     private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
     private readonly requestLogger: RequestLogger = inject<RequestLogger>('RequestLogger'),
-    private readonly router: RouterType,
   ) {
     this.router = BaseRouter();
 
