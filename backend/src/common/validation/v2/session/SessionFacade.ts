@@ -1,10 +1,11 @@
 import { inject } from '@needle-di/core';
 import { Session, SessionValidationHistory, SessionWithProgress, UpdateSessionData } from '../../../../types/Session';
 import { ResellerRequestLogRepository } from '../../../requestLog/reseller/ResellerRequestLogRepository';
-import { ValidationResult } from '../ValidationResult';
 import { QuestionAnswer } from '../question/Question';
 import { ScenarioId } from '../scenario/ScenarioId';
 import { StepId } from '../step/StepId';
+import { ValidationResult } from '../ValidationResult';
+import { SessionScenarioStepNotAllowedError } from './error/SessionScenarioStepNotAllowedError';
 import { SessionScenarioProgressProvider } from './SessionScenarioProgressProvider';
 import { SessionService } from './SessionService';
 import { SessionStepQuestionAnswersValidationProcessor } from './SessionStepQuestionAnswersValidationProcessor';
