@@ -4,8 +4,8 @@ import { SupplierScenarioLogRawData } from '../../../types/SupplierRequestLog';
 import { Database } from '../../database/Database';
 import { QueryUtil } from '../../database/util/QueryUtil';
 import { safeJson } from '../../database/util/SafeJson';
-import { ScenarioResult } from '../../validation/v1/services/validation/Scenarios/Scenario';
 import { Context } from '../../validation/v1/services/validation/context/Context';
+import { ScenarioResult } from '../../validation/v1/services/validation/Scenarios/Scenario';
 import { CannotCreateRequestLogError } from '../error/CannotCreateRequestLogError';
 import { SupplierRequestLogRepository } from './SupplierRequestLogRepository';
 
