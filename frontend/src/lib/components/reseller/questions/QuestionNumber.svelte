@@ -30,7 +30,7 @@
 		return QuestionValidationStatus.NOT_VALIDATED;
 	};
 
-	$: answer, handleBlur(question, answer);
+	$: answer, handleBlur(question, Number(answer) || 0);
 </script>
 
 <div class="accordion-border p-4">
@@ -47,6 +47,6 @@
 			<span class="badge variant-soft-surface">Loading...</span>
 		{/if}
 
-		<input class="input" bind:value={answer} placeholder="Your answer..." />
+		<input class="input" type="number" bind:value={answer} placeholder="Your answer..." />
 	</label>
 </div>
