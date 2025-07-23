@@ -4,9 +4,9 @@
 
 	export let question: Question;
 	// eslint-disable-next-line
-	export let handleBlur: (question: Question, answer: any) => void;
+	export let handleBlur: (question: Question, answer: number) => void;
 
-	let answer = '';
+	let answer = 0;
 
 	$: status = () => {
 		const q =
