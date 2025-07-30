@@ -39,7 +39,7 @@ export class AdvancedScenario implements Scenario {
   }
 
   public getDescription(): string {
-    return 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas ipsum velit, consectetuer eu lobortis ut, dictum at dui. Morbi scelerisque luctus velit. Ut tempus purus at lorem. Sed convallis magna eu sem. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Etiam commodo dui eget wisi. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Integer pellentesque quam vel velit. Suspendisse nisl. In sem justo, commodo ut, suscipit at, pharetra vitae, orci. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+    return 'An API validator is a crucial component in ensuring the reliability, security, and proper functioning of APIs. Our OCTO API validator acts as a gatekeeper, verifying that incoming requests and outgoing responses adhere to predefined rules, formats, and schemas. This validation process is vital for maintaining data integrity, preventing errors, and safeguarding against malicious inputs. Following is a set of scenarios to validate basic OCTO API functions eagerly waiting for your calls.';
   }
 
   public getRequiredCapabilities(): CapabilityId[] {

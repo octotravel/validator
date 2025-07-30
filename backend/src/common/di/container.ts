@@ -52,7 +52,6 @@ import { ProductFacade } from '../validation/v2/facade/product/ProductFacade';
 import { SupplierFacade } from '../validation/v2/facade/supplier/SupplierFacade';
 import { InMemoryScenarioRepository } from '../validation/v2/scenario/InMemoryScenarioRepository';
 import { AdvancedScenario } from '../validation/v2/scenario/reseller/AdvancedScenario';
-import { BasicScenario } from '../validation/v2/scenario/reseller/BasicScenario';
 import { ScenarioFacade } from '../validation/v2/scenario/ScenarioFacade';
 import { ScenarioService } from '../validation/v2/scenario/ScenarioService';
 import { PostgresSessionRepository } from '../validation/v2/session/PostgresSessionRepository';
@@ -268,9 +267,10 @@ container.bind({
   useClass: AdvancedScenario,
   multi: true,
 });
+/*
 container.bind(BasicScenario);
 container.bind({
   provide: 'ResellerScenario',
   useClass: BasicScenario,
   multi: true,
-});
+});*/

@@ -30,7 +30,6 @@ app.use(errorMiddleware);
 app.use(
   koaBody({
     parsedMethods: [HttpMethodEnum.POST, HttpMethodEnum.PUT, HttpMethodEnum.PATCH, HttpMethodEnum.DELETE],
-    // biome-ignore lint/correctness/noUnusedFunctionParameters: <?>
     onError: (error: Error, context: Context) => {
       throw new HttpBadRequest({
         error: BAD_REQUEST,
