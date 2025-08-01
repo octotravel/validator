@@ -42,7 +42,7 @@ export class PostgresDatabase implements Database {
         const connector = new Connector();
         const clientOpts = await connector.getOptions({
           instanceConnectionName: config.DB_INSTANCE_CONNECTION_NAME,
-          ipType: IpAddressTypes.PRIVATE,
+          ipType: IpAddressTypes.PUBLIC,
           authType: AuthTypes.IAM,
         });
 
