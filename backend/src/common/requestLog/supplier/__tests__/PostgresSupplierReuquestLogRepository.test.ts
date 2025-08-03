@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
-import { Context } from '../../../validation/v1/services/validation/context/Context';
+import { Context } from '../../../validation/supplier/services/validation/context/Context';
 import {
   ScenarioRequest,
   ScenarioResponse,
   ScenarioResult,
   ValidationResult,
-} from '../../../validation/v1/services/validation/Scenarios/Scenario';
-import { ErrorType, MappedError } from '../../../validation/v1/validators/backendValidator/ValidatorHelpers';
+} from '../../../validation/supplier/services/validation/Scenarios/Scenario';
+import { ErrorType, MappedError } from '../../../validation/supplier/validators/backendValidator/ValidatorHelpers';
 import { SupplierRequestLogRepository } from '../SupplierRequestLogRepository';
 import { SupplierRequestLogService } from '../SupplierRequestLogService';
 

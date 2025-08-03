@@ -1,7 +1,7 @@
 import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
-import { ScenarioFacade } from '../../../../common/validation/v2/scenario/ScenarioFacade';
+import { ScenarioFacade } from '../../../../common/validation/reseller/scenario/ScenarioFacade';
 import { ErrorResponseFactory } from '../../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../http/request/RequestHandler';

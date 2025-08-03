@@ -1,4 +1,4 @@
-import { Scenario } from '../../../../common/validation/v2/scenario/Scenario';
+import { Scenario } from '../../../../common/validation/reseller/scenario/Scenario';
 import { GetScenarioResponse, GetScenarioStepResponse } from './GetScenarioResponse';
 
 export class GetScenarioResponseFactory {

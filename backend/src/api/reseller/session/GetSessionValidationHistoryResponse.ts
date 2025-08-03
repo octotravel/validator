@@ -1,5 +1,5 @@
-import { StepId } from '../../../common/validation/v2/step/StepId';
-import { ValidationResult } from '../../../common/validation/v2/ValidationResult';
+import { StepId } from '../../../common/validation/reseller/step/StepId';
+import { ValidationResult } from '../../../common/validation/reseller/ValidationResult';
 
 export interface GetSessionValidationHistoryResponse {
   stepId: StepId;

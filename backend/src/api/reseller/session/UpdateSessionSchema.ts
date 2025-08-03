@@ -1,7 +1,7 @@
 import { CapabilityId } from '@octocloud/types';
 import { $enum } from 'ts-enum-util';
 import { array, mixed, object, string } from 'yup';
-import { ScenarioId } from '../../../common/validation/v2/scenario/ScenarioId';
+import { ScenarioId } from '../../../common/validation/reseller/scenario/ScenarioId';
 
 export interface UpdateSessionSchema {
   id: string;

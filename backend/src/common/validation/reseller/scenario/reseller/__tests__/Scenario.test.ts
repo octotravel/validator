@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { GetScenariosResponse } from '../../../../../../api/v2/reseller/scenario/GetScenariosResponse';
-import { SessionResponse } from '../../../../../../api/v2/session/SessionResponse';
+import { GetScenariosResponse } from '../../../../../../api/reseller/reseller/scenario/GetScenariosResponse';
+import { SessionResponse } from '../../../../../../api/reseller/session/SessionResponse';
 import { app } from '../../../../../../app';
 import { Database } from '../../../../../database/Database';
 import { container } from '../../../../../di/container';

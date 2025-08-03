@@ -7,7 +7,7 @@ build: ## Builds docker stack
 
 up: ## Brings Docker stack up
 	mkdir -p node_modules
-	docker compose up -d -V --force-recreate
+	docker compose up -V --force-recreate
 
 down: ## Brings Docker stack down
 	docker compose down --remove-orphans

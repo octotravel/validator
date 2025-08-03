@@ -1,8 +1,8 @@
 import { $enum } from 'ts-enum-util';
 import { array, mixed, object, string } from 'yup';
-import { QuestionAnswer } from '../../../common/validation/v2/question/Question';
-import { ScenarioId } from '../../../common/validation/v2/scenario/ScenarioId';
-import { StepId } from '../../../common/validation/v2/step/StepId';
+import { QuestionAnswer } from '../../../common/validation/reseller/question/Question';
+import { ScenarioId } from '../../../common/validation/reseller/scenario/ScenarioId';
+import { StepId } from '../../../common/validation/reseller/step/StepId';
 
 export interface ValidateSessionQuestionAnswersSchema {
   sessionId: string;

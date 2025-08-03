@@ -5,10 +5,10 @@ import { Session } from '../../types/Session';
 import { container } from '../di/container';
 import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
 import { LoggerFactory } from '../logger/LoggerFactory';
-import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
-import { Step } from '../validation/v2/step/Step';
-import { StepId } from '../validation/v2/step/StepId';
-import { ValidationResult } from '../validation/v2/ValidationResult';
+import { ScenarioId } from '../validation/reseller/scenario/ScenarioId';
+import { Step } from '../validation/reseller/step/Step';
+import { StepId } from '../validation/reseller/step/StepId';
+import { ValidationResult } from '../validation/reseller/ValidationResult';
 import { WebSocket } from './WebSocket';
 
 export interface ServerToClientEvents {
