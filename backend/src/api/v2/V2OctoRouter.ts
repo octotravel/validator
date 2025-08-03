@@ -1,17 +1,17 @@
 import { inject } from '@needle-di/core';
 import { IRequest, Router } from 'itty-router';
-import { AuthMiddleware } from './AuthMiddleware';
-import { AvailabilityCalendarHandler } from './availability/AvailabilityCalendarHandler';
-import { AvailabilityCheckHandler } from './availability/AvailabilityCheckHandler';
-import { BookingCancellationHandler } from './booking/BookingCancellationHandler';
-import { BookingConfirmationHandler } from './booking/BookingConfirmationHandler';
-import { BookingReservationHandler } from './booking/BookingReservationHandler';
-import { GetProductHandler } from './product/GetProductHandler';
-import { GetProductsHandler } from './product/GetProductsHandler';
-import { RequestLoggerMiddleware } from './RequestLoggerMiddleware';
-import { GetSupplierHandler } from './supplier/GetSupplierHandler';
+import { AuthMiddleware } from '../reseller/reseller/octo/AuthMiddleware';
+import { AvailabilityCalendarHandler } from '../reseller/reseller/octo/availability/AvailabilityCalendarHandler';
+import { AvailabilityCheckHandler } from '../reseller/reseller/octo/availability/AvailabilityCheckHandler';
+import { BookingCancellationHandler } from '../reseller/reseller/octo/booking/BookingCancellationHandler';
+import { BookingConfirmationHandler } from '../reseller/reseller/octo/booking/BookingConfirmationHandler';
+import { BookingReservationHandler } from '../reseller/reseller/octo/booking/BookingReservationHandler';
+import { GetProductHandler } from '../reseller/reseller/octo/product/GetProductHandler';
+import { GetProductsHandler } from '../reseller/reseller/octo/product/GetProductsHandler';
+import { RequestLoggerMiddleware } from '../reseller/reseller/octo/RequestLoggerMiddleware';
+import { GetSupplierHandler } from '../reseller/reseller/octo/supplier/GetSupplierHandler';
 
-export class OctoRouter {
+export class V2OctoRouter {
   public readonly router;
 
   public constructor(

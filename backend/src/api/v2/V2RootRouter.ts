@@ -1,15 +1,15 @@
 import { inject } from '@needle-di/core';
 import { Router } from 'itty-router';
-import { GetCapabilitiesHandler } from './capabilities/GetCapabilitiesHandler';
-import { OctoRouter } from './octo/OctoRouter';
-import { GetScenarioHandler } from './scenario/GetScenarioHandler';
-import { GetScenariosHandler } from './scenario/GetScenariosHandler';
+import { GetCapabilitiesHandler } from '../reseller/reseller/capabilities/GetCapabilitiesHandler';
+import { GetScenarioHandler } from '../reseller/reseller/scenario/GetScenarioHandler';
+import { GetScenariosHandler } from '../reseller/reseller/scenario/GetScenariosHandler';
+import { V2OctoRouter } from './V2OctoRouter';
 
-export class ResellerRouter {
+export class V2RootRouter {
   public readonly router;
 
   public constructor(
-    private readonly octoRouter = inject(OctoRouter),
+    private readonly octoRouter = inject(V2OctoRouter),
     private readonly getCapabilitiesHandler = inject(GetCapabilitiesHandler),
     private readonly getScenariosHandler = inject(GetScenariosHandler),
     private readonly getScenarioHandler = inject(GetScenarioHandler),

@@ -1,5 +1,5 @@
-import { Context } from '../../validation/v1/services/validation/context/Context';
-import { ScenarioResult } from '../../validation/v1/services/validation/Scenarios/Scenario';
+import { Context } from '../../validation/supplier/services/validation/context/Context';
+import { ScenarioResult } from '../../validation/supplier/services/validation/Scenarios/Scenario';
 import { InMemorySupplierRequestLogRepository } from './InMemorySupplierRequestLogRepository';
 import { PostgresSupplierRequestLogRepository } from './PostgresSupplierRequestLogRepository';
 import { SupplierRequestLogRepository } from './SupplierRequestLogRepository';

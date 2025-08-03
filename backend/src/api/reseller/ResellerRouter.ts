@@ -54,6 +54,6 @@ export class ResellerRouter {
       async (request) => await this.validateSessionQuestionsAnswersHandler.handleRequest(request),
     );
 
-    this.router.all('/reseller/*', this.rootRouter.router.fetch);
+    this.router.all('/*', this.rootRouter.router.fetch);
   }
 }

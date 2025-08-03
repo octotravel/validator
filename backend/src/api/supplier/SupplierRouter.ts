@@ -11,13 +11,13 @@ export class SupplierRouter {
     private readonly validateHandler = inject(ValidateHandler),
   ) {
     this.router = Router({
-      base: 'supplier',
+      base: '/supplier',
       before: [
         async (req: IRequest): Promise<null> => {
           const ventrataRequestContext = this.requestScopedContextProvider
             .getRequestScopedContext()
             .getVentrataRequestContext();
-          ventrataRequestContext.setChannel('Octo SupplierRouter Validator');
+          ventrataRequestContext.setChannel('Octo Supplier Validator');
           ventrataRequestContext.setAction('Validate');
           return null;
         },

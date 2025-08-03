@@ -1,5 +1,5 @@
 import { ResellerRequestLog } from '../../../types/ResellerRequestLog';
-import { ScenarioId } from '../../validation/v2/scenario/ScenarioId';
+import { ScenarioId } from '../../validation/reseller/scenario/ScenarioId';
 
 export type RequestLogProgress = Pick<
   ResellerRequestLog,

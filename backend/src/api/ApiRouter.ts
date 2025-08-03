@@ -6,10 +6,10 @@ import { RequestLogger } from '../common/logger/request/RequestLogger';
 import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
 import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
 import { RequestMapper } from './http/request/RequestMapper';
+import { GetDocsHandler } from './reseller/docs/GetResellerDocsHandler';
 import { ResellerRouter } from './reseller/ResellerRouter';
 import { SupplierRouter } from './supplier/SupplierRouter';
 import { V1Router } from './v1/V1Router';
-import { GetDocsHandler } from './v2/docs/GetDocsHandler';
 import { V2Router } from './v2/V2Router';
 
 export class ApiRouter {
@@ -20,6 +20,7 @@ export class ApiRouter {
     private readonly supplierRouter = inject(SupplierRouter),
     private readonly resellerRouter = inject(ResellerRouter),
     private readonly getDocsHandler = inject(GetDocsHandler),
+
     private readonly errorResponseFactory = inject(ErrorResponseFactory),
     private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
     private readonly requestLogger: RequestLogger = inject<RequestLogger>('RequestLogger'),
@@ -28,10 +29,10 @@ export class ApiRouter {
 
     // Main
     this.router.get('/', async (request) => await this.getDocsHandler.handleRequest(request));
-    this.router.all('/v1/*', this.v1Router.router.fetch);
-    this.router.all('/v2/*', this.v2Router.router.fetch);
     this.router.all('/supplier/*', this.supplierRouter.router.fetch);
+    this.router.all('/v1/*', this.v1Router.router.fetch);
     this.router.all('/reseller/*', this.resellerRouter.router.fetch);
+    this.router.all('/v2/*', this.v2Router.router.fetch);
     this.router.all('*', () => {
       return this.errorResponseFactory.createNotFoundResponse('Not found');
     });

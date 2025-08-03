@@ -1,10 +1,10 @@
 import { inject } from '@needle-di/core';
 import { GetProductPathParamsSchema, getProductPathParamsSchema } from '@octocloud/types';
 import { IRequest } from 'itty-router';
-import { ProductFacade } from '../../../../../common/validation/v2/facade/product/ProductFacade';
-import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
-import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
+import { ProductFacade } from '../../../../../common/validation/reseller/facade/product/ProductFacade';
+import { SessionNotFoundError } from '../../../../../common/validation/reseller/session/error/SessionNotFoundError';
+import { SessionScenarioNotSetError } from '../../../../../common/validation/reseller/session/error/SessionScenarioNotSetError';
+import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/reseller/session/error/SessionScenarioStepNotAllowedError';
 import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';

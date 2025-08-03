@@ -15,7 +15,7 @@ import {
 } from '@octocloud/types';
 import request from 'supertest';
 import { expect } from 'vitest';
-import { ValidateSessionQuestionsAnswersResponse } from '../../../../../../api/v2/session/ValidateSessionQuestionsAnswersResponse';
+import { ValidateSessionQuestionsAnswersResponse } from '../../../../../../api/reseller/session/ValidateSessionQuestionsAnswersResponse';
 import { SessionScenarioProgressStepStatus, SessionWithProgress } from '../../../../../../types/Session';
 import { StepId } from '../../../step/StepId';
 import { Scenario } from '../../Scenario';

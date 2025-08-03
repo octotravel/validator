@@ -1,8 +1,8 @@
 import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
-import { SessionNotFoundError } from '../../../common/validation/v2/session/error/SessionNotFoundError';
-import { SessionFacade } from '../../../common/validation/v2/session/SessionFacade';
+import { SessionNotFoundError } from '../../../common/validation/reseller/session/error/SessionNotFoundError';
+import { SessionFacade } from '../../../common/validation/reseller/session/SessionFacade';
 import { ErrorResponseFactory } from '../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../http/request/RequestHandler';

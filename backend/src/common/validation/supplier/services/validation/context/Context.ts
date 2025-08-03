@@ -1,7 +1,7 @@
 import { Capability, CapabilityId, Product } from '@octocloud/types';
 import { addDays } from 'date-fns';
 import { v4 as uuid } from 'uuid';
-import { ValidationEndpoint } from '../../../../../../api/v1/validate/ValidationSchema';
+import { ValidationEndpoint } from '../../../../../../api/supplier/validate/ValidationSchema';
 import { DateHelper } from '../../../helpers/DateHelper';
 import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { ApiClient } from '../api/ApiClient';

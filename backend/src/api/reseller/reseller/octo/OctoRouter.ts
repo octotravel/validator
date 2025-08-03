@@ -35,7 +35,7 @@ export class OctoRouter {
     };
 
     this.router = Router({
-      base: '/v2/reseller/octo',
+      base: '/reseller/octo',
       before: [auth],
       finally: [requestLogger],
     });

@@ -1,9 +1,9 @@
 import { inject } from '@needle-di/core';
 import { IRequest } from 'itty-router';
-import { SupplierFacade } from '../../../../../common/validation/v2/facade/supplier/SupplierFacade';
-import { SessionNotFoundError } from '../../../../../common/validation/v2/session/error/SessionNotFoundError';
-import { SessionScenarioNotSetError } from '../../../../../common/validation/v2/session/error/SessionScenarioNotSetError';
-import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/v2/session/error/SessionScenarioStepNotAllowedError';
+import { SupplierFacade } from '../../../../../common/validation/reseller/facade/supplier/SupplierFacade';
+import { SessionNotFoundError } from '../../../../../common/validation/reseller/session/error/SessionNotFoundError';
+import { SessionScenarioNotSetError } from '../../../../../common/validation/reseller/session/error/SessionScenarioNotSetError';
+import { SessionScenarioStepNotAllowedError } from '../../../../../common/validation/reseller/session/error/SessionScenarioStepNotAllowedError';
 import { ErrorResponseFactory } from '../../../../http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../../../http/json/JsonResponseFactory';
 import { RequestHandler } from '../../../../http/request/RequestHandler';
