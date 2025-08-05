@@ -1,7 +1,7 @@
 import { inject } from '@needle-di/core';
 import { IRequest, Router } from 'itty-router';
 import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
-import { ResellerRouter } from '../reseller/ResellerRouter';
+import { RootResellerRouter } from '../reseller/reseller/RootResellerRouter';
 import { CreateSessionHandler } from '../reseller/session/CreateSessionHandler';
 import { GetSessionHandler } from '../reseller/session/GetSessionHandler';
 import { GetSessionValidationHistoryHandler } from '../reseller/session/GetSessionValidationHistoryHandler';
@@ -17,7 +17,7 @@ export class V2Router {
     private readonly updateSessionHandler = inject(UpdateSessionHandler),
     private readonly getSessionValidationHistoryHandler = inject(GetSessionValidationHistoryHandler),
     private readonly validateSessionQuestionsAnswersHandler = inject(ValidateSessionQuestionsAnswersHandler),
-    private readonly resellerRouter = inject(ResellerRouter),
+    private readonly rootRouter = inject(RootResellerRouter),
     private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {
     this.router = Router({
@@ -54,6 +54,6 @@ export class V2Router {
       async (request) => await this.validateSessionQuestionsAnswersHandler.handleRequest(request),
     );
 
-    this.router.all('/reseller/*', this.resellerRouter.router.fetch);
+    this.router.all('/reseller/*', this.rootRouter.router.fetch);
   }
 }

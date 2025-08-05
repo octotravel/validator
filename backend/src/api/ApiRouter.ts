@@ -30,8 +30,8 @@ export class ApiRouter {
     // Main
     this.router.get('/', async (request) => await this.getDocsHandler.handleRequest(request));
     this.router.all('/supplier/*', this.supplierRouter.router.fetch);
-    this.router.all('/reseller/*', this.resellerRouter.router.fetch);
     this.router.all('/v1/*', this.v1Router.router.fetch);
+    this.router.all('/reseller/*', this.resellerRouter.router.fetch);
     this.router.all('/v2/*', this.v2Router.router.fetch);
     this.router.all('*', () => {
       return this.errorResponseFactory.createNotFoundResponse('Not found');

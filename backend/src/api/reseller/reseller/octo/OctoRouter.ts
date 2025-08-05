@@ -35,11 +35,13 @@ export class OctoRouter {
     };
 
     this.router = Router({
-      base: '/v2/reseller/octo',
       before: [auth],
       finally: [requestLogger],
     });
 
+    console.log('[OctoRouter] Registering routes for OctoRouter');
+
+    // Register routes
     this.router.get('/supplier', async (request) => await this.getSupplierHandler.handleRequest(request));
     this.router.get('/products', async (request) => await this.getProductsHandler.handleRequest(request));
     this.router.get('/products/:productId', async (request) => await this.getProductHandler.handleRequest(request));
@@ -57,5 +59,10 @@ export class OctoRouter {
       '/bookings/:bookingUuid/cancel',
       async (request) => await this.bookingCancellationHandler.handleRequest(request),
     );
+
+    this.router.all('*', (req) => {
+      console.warn(`[OctoRouter] Unhandled route: ${req.url}`);
+      return new Response(JSON.stringify({ error: 'Octo route not found' }), { status: 404 });
+    });
   }
 }
