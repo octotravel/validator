@@ -28,6 +28,7 @@ describe('AdvancedScenario', () => {
     // Fetch scenarios
     const scenariosResponse = await request(server).get('/v2/reseller/scenarios').set(headers).send();
     const scenariosBody = scenariosResponse.body as GetScenariosResponse;
+    console.log('SCENARIOSBODY', scenariosBody);
     const scenarioInfo = scenariosBody.find((scenario) => scenario.id === targetScenarioId)!;
 
     // Prepare session
@@ -54,6 +55,8 @@ describe('AdvancedScenario', () => {
   describe('Should test all scenarios', async () => {
     scenarioRepository = container.get('ScenarioRepository');
     const scenarios = await scenarioRepository.getAllResellerScenarios();
+
+    console.log(scenarios);
 
     for (const scenario of scenarios) {
       describe(`${scenario.getName()} (${scenario.getId()})`, async () => {
