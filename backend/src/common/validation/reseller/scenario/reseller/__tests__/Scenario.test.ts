@@ -26,7 +26,7 @@ describe('AdvancedScenario', () => {
     database = container.get('Database');
 
     // Fetch scenarios
-    const scenariosResponse = await request(server).get('/reseller/reseller/scenarios').set(headers).send();
+    const scenariosResponse = await request(server).get('/reseller/scenarios').set(headers).send();
     const scenariosBody = scenariosResponse.body as GetScenariosResponse;
     const scenarioInfo = scenariosBody.find((scenario) => scenario.id === targetScenarioId)!;
 
