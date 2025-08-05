@@ -1,6 +1,5 @@
-import { Environment, HttpError } from '@octocloud/core';
+import { HttpError } from '@octocloud/core';
 import Koa from 'koa';
-import config from '../../../common/config/config';
 import { container } from '../../../common/di/container';
 import { ConsoleLoggerFactory } from '../../../common/logger/ConsoleLoggerFactory';
 import { LoggerFactory } from '../../../common/logger/LoggerFactory';
@@ -11,35 +10,35 @@ const consoleLogger = consoleLoggerFactory.create();
 export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Promise<void> {
   try {
     await next();
-    // biome-ignore lint/suspicious/noExplicitAny: <any>
-  } catch (error: any) {
-    const env = config.getEnvironment();
-    const isDebug = env === Environment.LOCAL || env === Environment.TEST;
+  } catch (err: unknown) {
+    await consoleLogger.error(err);
 
-    await consoleLogger.error(error);
+    if (err instanceof HttpError) {
+      context.status = err.status;
+      let body: unknown = {};
 
-    // biome-ignore lint/suspicious/noExplicitAny: <any>
-    let body: any = {};
+      if (Object.keys(err.body).length > 0) {
+        body = {
+          ...err.body,
+        };
+      } else if (err.error !== '') {
+        body = {
+          message: err.error,
+        };
+      } else {
+        body = {
+          message: err.message,
+        };
+      }
 
-    if (error instanceof HttpError) {
-      context.status = error.status;
-      body = {
-        ...error.body,
-      };
+      context.body = body;
     } else {
       context.status = 500;
       context.body = {
-        error: 'INTERNAL_SERVER_ERROR',
-        errorMessage: `There was an un-recoverable error, please try again (${error.message}).`,
+        message: 'There was an un-recoverable error, please try again',
       };
-    }
 
-    body.data = {};
-    body.stack = isDebug ? (error.stack ?? '') : undefined;
-    context.body = body;
-
-    if (context.status === 500) {
-      context.app.emit('error', error, context);
+      context.app.emit('error', err, context);
     }
   }
 }

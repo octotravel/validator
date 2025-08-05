@@ -10,5 +10,6 @@ export async function router(context: Context, next: Next): Promise<void> {
   const requestScopedContext = new RequestScopedContext();
   await asyncLocalStorage.run({ requestScopedContext }, async () => {
     await apiRouter.serve(context, next);
+    await next();
   });
 }

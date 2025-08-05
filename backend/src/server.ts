@@ -1,3 +1,4 @@
+import './common/util/sentry';
 import { createServer } from 'node:http';
 import { Environment } from '@octocloud/core';
 import gracefulShutdown from 'http-graceful-shutdown';
@@ -8,10 +9,7 @@ import { Database } from './common/database/Database';
 import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
 import { LoggerFactory } from './common/logger/LoggerFactory';
-import { SentryUtil } from './common/util/SentryUtil';
 import { initializeSocketIoServer } from './socketIoServer';
-
-SentryUtil.initSentry();
 
 const database: Database = container.get('Database');
 const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
@@ -34,7 +32,6 @@ if (env !== Environment.LOCAL && env !== Environment.TEST) {
         setTimeout(() => {
           Promise.resolve()
             .then(() => database.endPool())
-            .then(() => SentryUtil.endSentry())
             .then(() => resolve())
             .catch(async (error) => {
               await consoleLogger.error('Error during shutdown:', error);

@@ -1,5 +1,5 @@
 import { CapabilityId } from '@octocloud/types';
-import { uuid4 } from '@sentry/utils';
+import { v4 as uuidv4 } from 'uuid';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { mockDeep, mockReset } from 'vitest-mock-extended';
 import { Session } from '../../../../../types/Session';
@@ -23,7 +23,7 @@ describe('SessionStepGuard', () => {
 
   it('should throw SessionScenarioNotSetError due to unset currentScenario in session', async () => {
     session = {
-      id: uuid4(),
+      id: uuidv4(),
       name: 'test session',
       capabilities: [CapabilityId.Pricing],
       currentScenario: null,
@@ -37,7 +37,7 @@ describe('SessionStepGuard', () => {
 
   it('should throw SessionScenarioNotSetError due to unset currentScenario in session', async () => {
     session = {
-      id: uuid4(),
+      id: uuidv4(),
       name: 'test session',
       capabilities: [CapabilityId.Pricing],
       currentScenario: null,

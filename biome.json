@@ -25,7 +25,8 @@
       },
       "correctness": {
         "noUnusedVariables": "off",
-        "noUnusedFunctionParameters": "off"
+        "noUnusedFunctionParameters": "off",
+        "noUnusedPrivateClassMembers": "off"
       },
       "style": {
         "useBlockStatements": "off",

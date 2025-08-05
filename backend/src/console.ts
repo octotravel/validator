@@ -1,10 +1,10 @@
+import './common/util/sentry';
 import { Database } from './common/database/Database';
 import { asyncLocalStorage } from './common/di/asyncLocalStorage';
 import { container } from './common/di/container';
 import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
 import { ExceptionLogger } from './common/logger/ExceptionLogger';
 import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
-import { SentryUtil } from './common/util/SentryUtil';
 import { Command } from './console/command/Command';
 
 const database: Database = container.get('Database');
@@ -14,8 +14,6 @@ const consoleLogger = consoleLoggerFactory.create('console');
 
 (async () => {
   try {
-    SentryUtil.initSentry();
-
     const commandName = process.argv[2] ?? null;
     const availableCommands: Command[] = container.get('Command', { multi: true });
     availableCommands.sort((a, b) => a.getSlug().localeCompare(b.getSlug()));
@@ -48,13 +46,11 @@ const consoleLogger = consoleLoggerFactory.create('console');
     }
 
     await database.endPool();
-    await SentryUtil.endSentry();
     process.exit(0);
   } catch (err: unknown) {
     await consoleLogger.error(err);
     await exceptionLogger.error(err);
     await database.endPool();
-    await SentryUtil.endSentry();
     process.exit(1);
   }
 })().catch(async (err: unknown) => {
@@ -62,7 +58,6 @@ const consoleLogger = consoleLoggerFactory.create('console');
     await consoleLogger.error(err);
     await exceptionLogger.error(err);
     await database.endPool();
-    await SentryUtil.endSentry();
   } finally {
     process.exit(1);
   }
