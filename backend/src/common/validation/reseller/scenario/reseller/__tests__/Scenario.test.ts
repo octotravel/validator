@@ -26,9 +26,8 @@ describe('AdvancedScenario', () => {
     database = container.get('Database');
 
     // Fetch scenarios
-    const scenariosResponse = await request(server).get('/v2/reseller/scenarios').set(headers).send();
+    const scenariosResponse = await request(server).get('/reseller/reseller/scenarios').set(headers).send();
     const scenariosBody = scenariosResponse.body as GetScenariosResponse;
-    console.log('SCENARIOSBODY', scenariosBody);
     const scenarioInfo = scenariosBody.find((scenario) => scenario.id === targetScenarioId)!;
 
     // Prepare session
