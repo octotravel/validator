@@ -1,7 +1,6 @@
 import { Container } from '@needle-di/core';
 import { BackendContainer } from '@octocloud/backend';
 import { BaseConfig, Environment } from '@octocloud/core';
-import { ValidateHandler } from 'src/api/supplier/validate/ValidateHandler';
 import { ApiRouter } from '../../api/ApiRouter';
 import { ErrorResponseFactory } from '../../api/http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../api/http/json/JsonResponseFactory';
@@ -28,6 +27,7 @@ import { GetSessionValidationHistoryHandler } from '../../api/reseller/session/G
 import { UpdateSessionHandler } from '../../api/reseller/session/UpdateSessionHandler';
 import { ValidateSessionQuestionsAnswersHandler } from '../../api/reseller/session/ValidateSessionQuestionsAnswersHandler';
 import { SupplierRouter } from '../../api/supplier/SupplierRouter';
+import { ValidateHandler } from '../../api/supplier/validate/ValidateHandler';
 import { V1Router } from '../../api/v1/V1Router';
 import { V2Router } from '../../api/v2/V2Router';
 import { ClearDbCommand } from '../../console/command/ClearDbCommand';
