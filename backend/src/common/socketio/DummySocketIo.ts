@@ -1,6 +1,6 @@
 import { Session } from '../../types/Session';
-import { Step } from '../validation/v2/step/Step';
-import { ValidationResult } from '../validation/v2/ValidationResult';
+import { Step } from '../validation/reseller/step/Step';
+import { ValidationResult } from '../validation/reseller/ValidationResult';
 import { WebSocket } from './WebSocket';
 
 export class DummySocketIo implements WebSocket {
