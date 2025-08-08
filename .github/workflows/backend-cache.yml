@@ -45,4 +45,4 @@ jobs:
             pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts --reporter=silent
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
