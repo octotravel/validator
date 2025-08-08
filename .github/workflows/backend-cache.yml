@@ -12,7 +12,7 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
-    runs-on: all-purpose
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
