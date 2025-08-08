@@ -26,14 +26,20 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup node
-        uses: actions/setup-node@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+          version: 10
+          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-store
         run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Cache pnpm store
         uses: actions/cache/restore@v4
@@ -68,6 +74,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-store
@@ -106,6 +118,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-store
@@ -169,6 +187,12 @@ jobs:
 
       - name: Setup postgres
         run: docker compose -f docker-compose.ci.yml up -d
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+          run_install: false
 
       - name: Get pnpm store directory
         id: pnpm-store
