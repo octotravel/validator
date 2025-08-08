@@ -30,18 +30,21 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - uses: actions/cache@v4
-        name: Setup node modules cache
-        id: cache-node-modules
-        with:
-          path: ./node_modules
-          key: node-modules-${{ hashFiles('./package-lock.json') }}
-          restore-keys: |
-            node-modules-
+      - name: Get pnpm store directory
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
 
-      - name: Install node modules
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install --no-lockfile --ignore-scripts --prefer-offline --unsafe-perm
+      - name: Cache pnpm store
+        uses: actions/cache/restore@v4
+        id: cache-pnpm
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Build the project
         run: npm run build
@@ -52,7 +55,6 @@ jobs:
       run:
         working-directory: ./backend
     name: Check vulnerabilities
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -66,24 +68,21 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - uses: actions/cache/restore@v4
-        name: Restore node modules cache
-        id: cache-node-modules
-        with:
-          path: ./node_modules
-          key: node-modules-${{ hashFiles('./package-lock.json') }}
+      - name: Get pnpm store directory
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
 
-      - name: Install node modules
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install --no-lockfile --ignore-scripts --prefer-offline --unsafe-perm
-
-      - name: Setup tsc cache
-        uses: actions/cache@v4
+      - name: Cache pnpm store
+        uses: actions/cache/restore@v4
+        id: cache-pnpm
         with:
-          path: ./.cache/tsc
-          key: node-tsc-${{ hashFiles('./package-lock.json', './tsconfig.json') }}
+          path: ${{ env.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
           restore-keys: |
-            node-tsc-
+            pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Do npm audit check
         run: npm run audit
@@ -93,7 +92,6 @@ jobs:
       run:
         working-directory: ./backend
     name: Check Types
-    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -108,24 +106,21 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - uses: actions/cache/restore@v4
-        name: Restore node modules cache
-        id: cache-node-modules
-        with:
-          path: ./node_modules
-          key: node-modules-${{ hashFiles('./package-lock.json') }}
+      - name: Get pnpm store directory
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
 
-      - name: Install node modules
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install --no-lockfile --ignore-scripts --prefer-offline --unsafe-perm
-
-      - name: Setup tsc cache
-        uses: actions/cache@v4
+      - name: Cache pnpm store
+        uses: actions/cache/restore@v4
+        id: cache-pnpm
         with:
-          path: ./.cache/tsc
-          key: node-tsc-${{ hashFiles('./package-lock.json', './tsconfig.json') }}
+          path: ${{ env.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
           restore-keys: |
-            node-tsc-
+            pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Do dry build
         run: npm run build:dry:ci
@@ -135,7 +130,6 @@ jobs:
       run:
         working-directory: ./backend
     name: Check code quality
-    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -158,7 +152,6 @@ jobs:
       run:
         working-directory: ./backend
     name: Run tests
-    needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -176,21 +169,21 @@ jobs:
       - name: Setup postgres
         run: docker compose -f docker-compose.ci.yml up -d
 
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
+      - name: Get pnpm store directory
+        id: pnpm-store
+        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
 
-      - uses: actions/cache/restore@v4
-        name: Restore node modules cache
-        id: cache-node-modules
+      - name: Cache pnpm store
+        uses: actions/cache/restore@v4
+        id: cache-pnpm
         with:
-          path: ./node_modules
-          key: node-modules-${{ hashFiles('./package-lock.json') }}
+          path: ${{ env.STORE_PATH }}
+          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
+          restore-keys: |
+            pnpm-store-
 
-      - name: Install node modules
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm install --no-lockfile --ignore-scripts --prefer-offline --unsafe-perm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
       - name: Run Vitest
         run: npm run test
