@@ -1,12 +1,12 @@
 import { inject } from '@needle-di/core';
 import { IRequest, Router } from 'itty-router';
 import { RequestScopedContextProvider } from '../../common/requestContext/RequestScopedContextProvider';
-import { ResellerRouter } from './reseller/ResellerRouter';
-import { CreateSessionHandler } from './session/CreateSessionHandler';
-import { GetSessionHandler } from './session/GetSessionHandler';
-import { GetSessionValidationHistoryHandler } from './session/GetSessionValidationHistoryHandler';
-import { UpdateSessionHandler } from './session/UpdateSessionHandler';
-import { ValidateSessionQuestionsAnswersHandler } from './session/ValidateSessionQuestionsAnswersHandler';
+import { CreateSessionHandler } from '../reseller/session/CreateSessionHandler';
+import { GetSessionHandler } from '../reseller/session/GetSessionHandler';
+import { GetSessionValidationHistoryHandler } from '../reseller/session/GetSessionValidationHistoryHandler';
+import { UpdateSessionHandler } from '../reseller/session/UpdateSessionHandler';
+import { ValidateSessionQuestionsAnswersHandler } from '../reseller/session/ValidateSessionQuestionsAnswersHandler';
+import { V2RootRouter } from './V2RootRouter';
 
 export class V2Router {
   public readonly router;
@@ -17,7 +17,7 @@ export class V2Router {
     private readonly updateSessionHandler = inject(UpdateSessionHandler),
     private readonly getSessionValidationHistoryHandler = inject(GetSessionValidationHistoryHandler),
     private readonly validateSessionQuestionsAnswersHandler = inject(ValidateSessionQuestionsAnswersHandler),
-    private readonly resellerRouter = inject(ResellerRouter),
+    private readonly rootRouter = inject(V2RootRouter),
     private readonly requestScopedContextProvider = inject(RequestScopedContextProvider),
   ) {
     this.router = Router({
@@ -54,6 +54,6 @@ export class V2Router {
       async (request) => await this.validateSessionQuestionsAnswersHandler.handleRequest(request),
     );
 
-    this.router.all('/reseller/*', this.resellerRouter.router.fetch);
+    this.router.all('/reseller/*', this.rootRouter.router.fetch);
   }
 }

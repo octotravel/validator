@@ -3,7 +3,7 @@ import { pg as named } from 'yesql';
 import { ResellerRequestLog, ResellerRequestLogRowData } from '../../../types/ResellerRequestLog';
 import { Database } from '../../database/Database';
 import { QueryUtil } from '../../database/util/QueryUtil';
-import { ScenarioId } from '../../validation/v2/scenario/ScenarioId';
+import { ScenarioId } from '../../validation/reseller/scenario/ScenarioId';
 import { CannotCreateRequestLogError } from '../error/CannotCreateRequestLogError';
 import { CannotSelectRequestLogError } from '../error/CannotSelectRequestLogError';
 import { CannotUpdateRequestLogError } from '../error/CannotUpdateRequestLogError';

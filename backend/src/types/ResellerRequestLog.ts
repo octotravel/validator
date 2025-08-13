@@ -1,5 +1,5 @@
-import { ScenarioId } from '../common/validation/v2/scenario/ScenarioId';
-import { StepId } from '../common/validation/v2/step/StepId';
+import { ScenarioId } from '../common/validation/reseller/scenario/ScenarioId';
+import { StepId } from '../common/validation/reseller/step/StepId';
 
 export interface ResellerRequestLog {
   id: string;

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { DeepMockProxy, mockDeep } from 'vitest-mock-extended';
-import { Context } from '../../../validation/v1/services/validation/context/Context';
-import { ScenarioResult, ValidationResult } from '../../../validation/v1/services/validation/Scenarios/Scenario';
+import { Context } from '../../../validation/supplier/services/validation/context/Context';
+import { ScenarioResult, ValidationResult } from '../../../validation/supplier/services/validation/Scenarios/Scenario';
 import { InMemorySupplierRequestLogRepository } from '../InMemorySupplierRequestLogRepository';
 
 class TestableInMemorySupplierRequestLogRepository extends InMemorySupplierRequestLogRepository {

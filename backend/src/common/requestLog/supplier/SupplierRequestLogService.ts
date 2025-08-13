@@ -1,6 +1,6 @@
 import { inject } from '@needle-di/core';
-import { Context } from '../../validation/v1/services/validation/context/Context';
-import { ScenarioResult } from '../../validation/v1/services/validation/Scenarios/Scenario';
+import { Context } from '../../validation/supplier/services/validation/context/Context';
+import { ScenarioResult } from '../../validation/supplier/services/validation/Scenarios/Scenario';
 import { SupplierRequestLogRepository } from './SupplierRequestLogRepository';
 
 export interface ISupplierRequestLogService {
