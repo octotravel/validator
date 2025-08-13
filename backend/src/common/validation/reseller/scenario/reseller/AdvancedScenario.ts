@@ -35,7 +35,7 @@ export class AdvancedScenario implements Scenario {
   }
 
   public getName(): string {
-    return 'Advanced Scenario';
+    return 'Core Scenarios';
   }
 
   public getDescription(): string {
