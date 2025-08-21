@@ -34,31 +34,6 @@ export class GetProductStep implements Step {
   }
 
   public getQuestions(): Question[] {
-    return [
-      {
-        id: 'qr_code_first_passenger',
-        label: 'What is the value of the QR code for the 1st passenger in the response?',
-        description: 'Get it from the response data.',
-        input: {
-          type: QuestionInputType.STRING,
-          options: [],
-        },
-        answer: async () => {
-          return 'DUMMY_QR_CODE';
-        },
-      },
-      {
-        id: 'price_first_unit',
-        label: 'What is the price for the first unit returned in the response?',
-        description: 'Get it from the response data.',
-        input: {
-          type: QuestionInputType.NUMBER,
-          options: [],
-        },
-        answer: async () => {
-          return 123;
-        },
-      },
-    ];
+    return [];
   }
 }
