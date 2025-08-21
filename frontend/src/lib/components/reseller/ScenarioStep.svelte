@@ -3,6 +3,7 @@
 	import IconCircleCheck from '$lib/icons/IconCircleCheck.svelte';
 	import IconCircleDashed from '$lib/icons/IconCircleDashed.svelte';
 	import IconX from '$lib/icons/IconX.svelte';
+	import IconCopy from '$lib/icons/IconCopy.svelte';
 	import {
 		resellerScenarioQuestionsValidationStore,
 		resellerScenarioSelectedStore,
@@ -11,7 +12,12 @@
 	} from '$lib/stores';
 	import { ScenarioProgressStepStatus, type ScenarioProgressStep } from '$lib/types/Session';
 	import type { ResultsStore } from '$lib/types/Validation';
-	import { Accordion, AccordionItem, getToastStore } from '@skeletonlabs/skeleton';
+	import {
+		Accordion,
+		AccordionItem,
+		getToastStore,
+		type ToastSettings
+	} from '@skeletonlabs/skeleton';
 	import { JsonView } from '@zerodevx/svelte-json-view';
 	import { format } from 'date-fns';
 	import IconSearch from '$lib/icons/IconSearch.svelte';
@@ -22,6 +28,17 @@
 	export let index: number;
 
 	const toastStore = getToastStore();
+
+	const copyToast: ToastSettings = {
+		message: 'URL copied to clipboard',
+		background: 'variant-filled-tertiary'
+	};
+
+	const copyUrlToClipboard = () => {
+		const url = `${PUBLIC_VALIDATOR_BASE_URL}/v2/reseller/octo${step.endpointUrl}`;
+		navigator.clipboard.writeText(url);
+		toastStore.trigger(copyToast);
+	};
 
 	const nextStep = () => {
 		$resellerScenarioSelectedStore.scenario!.steps[index].status =
@@ -159,11 +176,21 @@
 				<div class="col-span-4">
 					<div class="label">
 						<span class="font-semibold">URL</span>
-						<div class="p-2 square border w-full text-neutral-500 accordion-border">
-							<span class="badge variant-soft-surface">{step.endpointMethod}</span>
-							<span>
-								{PUBLIC_VALIDATOR_BASE_URL}/v2/reseller/octo{step.endpointUrl}
-							</span>
+						<div
+							class="p-2 square border w-full text-neutral-500 accordion-border flex justify-between items-center"
+						>
+							<div>
+								<span class="badge variant-soft-surface">{step.endpointMethod}</span>
+								<span>
+									{PUBLIC_VALIDATOR_BASE_URL}/v2/reseller/octo{step.endpointUrl}
+								</span>
+							</div>
+							<button
+								class="badge cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900 p-1"
+								on:click={copyUrlToClipboard}
+							>
+								<IconCopy size={'18'} />
+							</button>
 						</div>
 					</div>
 				</div>
