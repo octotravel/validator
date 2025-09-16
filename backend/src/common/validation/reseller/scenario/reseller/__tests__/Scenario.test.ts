@@ -10,14 +10,14 @@ import { Database } from '../../../../../database/Database';
 import { container } from '../../../../../di/container';
 import { ScenarioId } from '../../ScenarioId';
 import { ScenarioRepository } from '../../ScenarioRepository';
-import { AdvancedScenario } from '../AdvancedScenario';
+import { CoreScenario } from '../CoreScenario';
 import { ResellerScenarioTestUtil } from './ResellerScenarioTestUtil';
 import { ScenarioStepTestUtil } from './ScenarioStepTestUtil';
 
-describe('AdvancedScenario', () => {
+describe('CoreScenario', () => {
   const server = app.listen();
   const targetScenarioId = ScenarioId.ADVANCED_SCENARIO;
-  const targetScenario = container.get(AdvancedScenario);
+  const targetScenario = container.get(CoreScenario);
   let headers: Record<string, string> = {
     'Content-Type': 'application/json',
   };
@@ -79,10 +79,10 @@ describe('AdvancedScenario', () => {
     });
   });
 
-  describe('AdvancedScenarioReseller', () => {
+  describe('CoreScenarioReseller', () => {
     const server = app.listen();
     const targetScenarioId = ScenarioId.ADVANCED_SCENARIO;
-    const targetScenario = container.get(AdvancedScenario);
+    const targetScenario = container.get(CoreScenario);
     let headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };

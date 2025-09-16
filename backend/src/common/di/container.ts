@@ -54,7 +54,7 @@ import { BookingFacade } from '../validation/reseller/facade/booking/BookingFaca
 import { ProductFacade } from '../validation/reseller/facade/product/ProductFacade';
 import { SupplierFacade } from '../validation/reseller/facade/supplier/SupplierFacade';
 import { InMemoryScenarioRepository } from '../validation/reseller/scenario/InMemoryScenarioRepository';
-import { AdvancedScenario } from '../validation/reseller/scenario/reseller/AdvancedScenario';
+import { CoreScenario } from '../validation/reseller/scenario/reseller/CoreScenario';
 import { ScenarioFacade } from '../validation/reseller/scenario/ScenarioFacade';
 import { ScenarioService } from '../validation/reseller/scenario/ScenarioService';
 import { PostgresSessionRepository } from '../validation/reseller/session/PostgresSessionRepository';
@@ -269,10 +269,10 @@ container.bind(GetProductsHandler);
 container.bind(GetProductHandler);
 
 // Reseller Scenarios ResellerScenario
-container.bind(AdvancedScenario);
+container.bind(CoreScenario);
 container.bind({
   provide: 'ResellerScenario',
-  useClass: AdvancedScenario,
+  useClass: CoreScenario,
   multi: true,
 });
 /*

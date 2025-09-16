@@ -73,7 +73,7 @@ export class Context implements IContext {
   }
 
   public setCapabilities = (capabilities: Capability[]): ValidatorError[] => {
-    const supportedCapabilities: CapabilityId[] = [];
+    const supportedCapabilities: CapabilityId[] = [CapabilityId.Pricing];
     this.capabilities = capabilities
       .map((capability) => {
         return capability.id;
