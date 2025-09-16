@@ -81,30 +81,8 @@ export class ScenarioStepTestUtil {
       .set(this.headers)
       .send();
     expect(getProductResponse.status).toBe(200);
-    await this.checkSession(StepId.GET_PRODUCT, SessionScenarioProgressStepStatus.PENDING_QUESTIONS);
-
-    const getProductsStep = this.scenario.getSteps().find((step) => step.getId() === StepId.GET_PRODUCT)!;
-    const questionAnswers: QuestionAnswer[] = await Promise.all(
-      getProductsStep.getQuestions().map(async (question) => {
-        return {
-          questionId: question.id,
-          value: await question.answer(),
-        } as QuestionAnswer;
-      }),
-    );
-
-    const validateQuestionAnswersResponse = await request(this.server)
-      .post(`/v2/session/${this.sessionId}/validate-question-answers/${this.scenario.getId()}/${StepId.GET_PRODUCT}`)
-      .set(this.headers)
-      .send({
-        answers: questionAnswers,
-      });
-    const validationResult = validateQuestionAnswersResponse.body as ValidateSessionQuestionsAnswersResponse;
-    expect(validateQuestionAnswersResponse.status).toBe(200);
-    expect(validationResult.errors.length).toBe(0);
-    expect(validationResult.warnings.length).toBe(0);
-    expect(validationResult.isValid).toBe(true);
     await this.checkSession(StepId.GET_PRODUCT, SessionScenarioProgressStepStatus.COMPLETED);
+
     this.getProductData = getProductResponse.body as Product;
   }
 
@@ -181,9 +159,36 @@ export class ScenarioStepTestUtil {
       .post(`/v2/reseller/octo/bookings/${this.bookingReservationData!.uuid}/confirm`)
       .set(this.headers)
       .send(bookingReservationPayload);
-    expect(bookingConfirmationResponse.status).toBe(200);
-    await this.checkSession(StepId.BOOKING_CONFIRMATION, SessionScenarioProgressStepStatus.COMPLETED);
 
+    expect(bookingConfirmationResponse.status).toBe(200);
+    await this.checkSession(StepId.BOOKING_CONFIRMATION, SessionScenarioProgressStepStatus.PENDING_QUESTIONS);
+
+    const bookingConfirmationStep = this.scenario
+      .getSteps()
+      .find((step) => step.getId() === StepId.BOOKING_CONFIRMATION)!;
+    const questionAnswers: QuestionAnswer[] = await Promise.all(
+      bookingConfirmationStep.getQuestions().map(async (question) => {
+        return {
+          questionId: question.id,
+          value: await question.answer(),
+        } as QuestionAnswer;
+      }),
+    );
+
+    const validateQuestionAnswersResponse = await request(this.server)
+      .post(
+        `/v2/session/${this.sessionId}/validate-question-answers/${this.scenario.getId()}/${StepId.BOOKING_CONFIRMATION}`,
+      )
+      .set(this.headers)
+      .send({
+        answers: questionAnswers,
+      });
+    const validationResult = validateQuestionAnswersResponse.body as ValidateSessionQuestionsAnswersResponse;
+    expect(validateQuestionAnswersResponse.status).toBe(200);
+    expect(validationResult.errors.length).toBe(0);
+    expect(validationResult.warnings.length).toBe(0);
+    expect(validationResult.isValid).toBe(true);
+    await this.checkSession(StepId.BOOKING_CONFIRMATION, SessionScenarioProgressStepStatus.COMPLETED);
     this.bookingConfirmationData = bookingConfirmationResponse.body as Booking;
   }
 

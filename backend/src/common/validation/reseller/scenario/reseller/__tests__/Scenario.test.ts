@@ -11,7 +11,6 @@ import { container } from '../../../../../di/container';
 import { ScenarioId } from '../../ScenarioId';
 import { ScenarioRepository } from '../../ScenarioRepository';
 import { CoreScenario } from '../CoreScenario';
-import { ResellerScenarioTestUtil } from './ResellerScenarioTestUtil';
 import { ScenarioStepTestUtil } from './ScenarioStepTestUtil';
 
 describe('CoreScenario', () => {
@@ -89,7 +88,7 @@ describe('CoreScenario', () => {
     let database: Database;
     let scenarioRepository: ScenarioRepository;
     let sessionId: string;
-    let scenarioStepTestUtil: ResellerScenarioTestUtil;
+    let scenarioStepTestUtil: ScenarioStepTestUtil;
 
     beforeAll(async () => {
       database = container.get('Database');
@@ -97,7 +96,9 @@ describe('CoreScenario', () => {
       // Fetch scenarios
       const scenariosResponse = await request(server).get('/reseller/scenarios').set(headers).send();
       const scenariosBody = scenariosResponse.body as GetScenariosResponse;
-      const scenarioInfo = scenariosBody.find((scenario: any) => scenario.id === targetScenarioId)!;
+      const scenarioInfo = scenariosBody.find(
+        (scenario: GetScenariosScenarioResponse) => scenario.id === targetScenarioId,
+      )!;
 
       // Prepare session
       const createSessionResponse = await request(server).post('/reseller/session').set(headers).send();
@@ -117,7 +118,7 @@ describe('CoreScenario', () => {
         'Octo-Capabilities': capabilities.join(','),
       };
 
-      scenarioStepTestUtil = new ResellerScenarioTestUtil(server, headers, targetScenario, sessionId);
+      scenarioStepTestUtil = new ScenarioStepTestUtil(server, headers, targetScenario, sessionId);
     });
 
     describe('Should test all scenarios', async () => {
