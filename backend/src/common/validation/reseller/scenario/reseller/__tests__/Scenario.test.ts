@@ -1,6 +1,9 @@
 import request from 'supertest';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { GetScenariosResponse } from '../../../../../../api/reseller/reseller/scenario/GetScenariosResponse';
+import {
+  GetScenariosResponse,
+  GetScenariosScenarioResponse,
+} from '../../../../../../api/reseller/reseller/scenario/GetScenariosResponse';
 import { SessionResponse } from '../../../../../../api/reseller/session/SessionResponse';
 import { app } from '../../../../../../app';
 import { Database } from '../../../../../database/Database';
@@ -29,7 +32,9 @@ describe('AdvancedScenario', () => {
     // Fetch scenarios
     const scenariosResponse = await request(server).get('/v2/reseller/scenarios').set(headers).send();
     const scenariosBody = scenariosResponse.body as GetScenariosResponse;
-    const scenarioInfo = scenariosBody.find((scenario: any) => scenario.id === targetScenarioId)!;
+    const scenarioInfo = scenariosBody.find(
+      (scenario: GetScenariosScenarioResponse) => scenario.id === targetScenarioId,
+    )!;
 
     // Prepare session
     const createSessionResponse = await request(server).post('/v2/session').set(headers).send();

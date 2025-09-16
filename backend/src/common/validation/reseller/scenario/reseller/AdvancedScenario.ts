@@ -47,7 +47,7 @@ export class AdvancedScenario implements Scenario {
   }
 
   public getOptionalCapabilities(): CapabilityId[] {
-    return [CapabilityId.Pricing, CapabilityId.Cart];
+    return [];
   }
 
   public getCapabilities(): CapabilityId[] {
