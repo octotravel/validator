@@ -17,18 +17,19 @@
 				'Define a custom session name (optional). If left blank, the default session ID will be used.',
 			controls: {
 				back: true,
-				forward: true
-			}
-		},
-		{
-			name: 'Capabilities',
-			description: 'Select the capabilities you want to enable for this session.',
-			controls: {
-				back: true,
 				forward: true,
 				isLast: true
 			}
 		}
+		// {
+		// 	name: 'Capabilities',
+		// 	description: 'Select the capabilities you want to enable for this session.',
+		// 	controls: {
+		// 		back: true,
+		// 		forward: true,
+		// 		isLast: true
+		// 	}
+		// }
 	];
 </script>
 
