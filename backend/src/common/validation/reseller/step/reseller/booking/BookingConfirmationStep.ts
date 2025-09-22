@@ -48,7 +48,7 @@ export class BookingConfirmationStep implements Step {
         answer: async (requestData: object, responseData: object) => {
           const response = responseData as Booking;
 
-          var ticket = response.voucher as Ticket;
+          var ticket = response.unitItems[0].ticket as Ticket;
           var qrCode = ticket.deliveryOptions.find(
             (deliveryOption) => deliveryOption.deliveryFormat === DeliveryFormat.QRCODE,
           );
