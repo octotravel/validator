@@ -77,6 +77,7 @@ export class SessionFacade {
       sessionId,
       scenarioId,
       stepId,
+      latestRequestLogDetail,
       answers,
     );
 

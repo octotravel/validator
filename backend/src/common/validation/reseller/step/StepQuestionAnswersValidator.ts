@@ -1,3 +1,4 @@
+import { RequestLogLatestDetail } from '../../../requestLog/reseller/ResellerRequestLogRepository';
 import { QuestionAnswer } from '../question/Question';
 import { ValidationFailure } from '../ValidationFailure';
 import { ValidationFailureType } from '../ValidationFailureType';
@@ -6,7 +7,11 @@ import { Validator } from '../validator/Validator';
 import { Step } from './Step';
 
 export class StepQuestionAnswersValidator implements Validator {
-  public async validate(step: Step, answers: QuestionAnswer[]): Promise<ValidationResult> {
+  public async validate(
+    step: Step,
+    requestLogDetail: RequestLogLatestDetail,
+    answers: QuestionAnswer[],
+  ): Promise<ValidationResult> {
     const validationResult = new ValidationResult(answers);
     const questions = step.getQuestions();
     const questionValidationPromises: Array<Promise<ValidationResult>> = [];
@@ -23,7 +28,10 @@ export class StepQuestionAnswersValidator implements Validator {
               new ValidationFailure(ValidationFailureType.WARNING, question.id, 'Missing answer for question', ''),
             );
           } else {
-            const correctQuestionAnswer = await question.answer();
+            const correctQuestionAnswer = await question.answer(
+              JSON.parse(requestLogDetail.reqBody),
+              JSON.parse(requestLogDetail.resBody),
+            );
 
             if (questionAnswer.value !== correctQuestionAnswer) {
               validationResult.addError(

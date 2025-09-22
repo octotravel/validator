@@ -1,3 +1,4 @@
+import { Booking, DeliveryFormat, Ticket } from '@octocloud/types';
 import { Question, QuestionInputType } from '../../../question/Question';
 import { RequestHeadersValidator } from '../../../validator/request/RequestHeadersValidator';
 import { BookingConfirmationValidator } from '../../../validator/reseller/booking/BookingConfirmationValidator';
@@ -44,20 +45,28 @@ export class BookingConfirmationStep implements Step {
           type: QuestionInputType.STRING,
           options: [],
         },
-        answer: async () => {
-          return 'DUMMY_QR_CODE';
+        answer: async (requestData: object, responseData: object) => {
+          const response = responseData as Booking;
+
+          var ticket = response.voucher as Ticket;
+          var qrCode = ticket.deliveryOptions.find(
+            (deliveryOption) => deliveryOption.deliveryFormat === DeliveryFormat.QRCODE,
+          );
+
+          return qrCode?.deliveryValue ?? '';
         },
       },
       {
         id: 'price_first_unit',
-        label: 'What is the price for the first unit returned in the response?',
+        label: 'What is the retail price for the first unit returned in the response?',
         description: 'Get it from the response data.',
         input: {
           type: QuestionInputType.NUMBER,
           options: [],
         },
-        answer: async () => {
-          return 123;
+        answer: async (requestData: object, responseData: object) => {
+          const response = responseData as Booking;
+          return response.unitItems[0].pricing?.retail ?? 0;
         },
       },
     ];

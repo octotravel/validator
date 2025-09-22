@@ -170,7 +170,7 @@ export class ScenarioStepTestUtil {
       bookingConfirmationStep.getQuestions().map(async (question) => {
         return {
           questionId: question.id,
-          value: await question.answer(),
+          value: await question.answer(bookingReservationPayload, bookingConfirmationResponse.body),
         } as QuestionAnswer;
       }),
     );

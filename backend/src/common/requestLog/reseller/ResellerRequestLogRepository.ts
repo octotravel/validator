@@ -10,7 +10,7 @@ export type RequestLogDetail = Pick<
   'stepId' | 'createdAt' | 'reqHeaders' | 'reqBody' | 'validationResult' | 'isValid'
 >;
 
-export type RequestLogLatestDetail = Pick<ResellerRequestLog, 'id' | 'isValid'>;
+export type RequestLogLatestDetail = Pick<ResellerRequestLog, 'id' | 'reqBody' | 'resBody' | 'isValid'>;
 
 export interface ResellerRequestLogRepository {
   create: (requestLog: ResellerRequestLog) => Promise<void>;

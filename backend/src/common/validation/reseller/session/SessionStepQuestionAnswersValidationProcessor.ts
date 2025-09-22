@@ -1,4 +1,5 @@
 import { inject } from '@needle-di/core';
+import { RequestLogLatestDetail } from '../../../requestLog/reseller/ResellerRequestLogRepository';
 import { QuestionAnswer } from '../question/Question';
 import { ScenarioId } from '../scenario/ScenarioId';
 import { ScenarioService } from '../scenario/ScenarioService';
@@ -21,6 +22,7 @@ export class SessionStepQuestionAnswersValidationProcessor {
     sessionId: string,
     scenarioId: ScenarioId,
     stepId: StepId,
+    requestLogDetail: RequestLogLatestDetail,
     answers: QuestionAnswer[],
   ): Promise<ValidationResult> {
     const session = await this.sessionService.getSession(sessionId);
@@ -32,7 +34,7 @@ export class SessionStepQuestionAnswersValidationProcessor {
     }
 
     await this.sessionStepGuard.check(session, step);
-    const validationResult = await this.stepQuestionAnswersValidator.validate(step, answers);
+    const validationResult = await this.stepQuestionAnswersValidator.validate(step, requestLogDetail, answers);
 
     return validationResult;
   }

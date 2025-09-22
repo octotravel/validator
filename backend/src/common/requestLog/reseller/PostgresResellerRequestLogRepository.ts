@@ -111,7 +111,7 @@ export class PostgresResellerRequestLogRepository implements ResellerRequestLogR
     sessionId: string,
   ): Promise<RequestLogLatestDetail | null> {
     const query =
-      'SELECT DISTINCT ON (scenario_id, step_id) id, is_valid FROM reseller_request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId AND step_id = :stepId ORDER BY scenario_id, step_id, created_at DESC';
+      'SELECT DISTINCT ON (scenario_id, step_id) id, req_body, res_body, is_valid FROM reseller_request_log WHERE session_id = :sessionId AND scenario_id = :scenarioId AND step_id = :stepId ORDER BY scenario_id, step_id, created_at DESC';
 
     const queryResult = await this.database
       .query(named(query)({ sessionId, stepId, scenarioId }))
@@ -127,6 +127,8 @@ export class PostgresResellerRequestLogRepository implements ResellerRequestLogR
 
     return {
       id: requestLogProgress.id,
+      reqBody: requestLogProgress.req_body,
+      resBody: requestLogProgress.res_body,
       isValid: requestLogProgress.is_valid,
     };
   }

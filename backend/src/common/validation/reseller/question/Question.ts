@@ -3,7 +3,7 @@ export interface Question {
   label: string;
   description: string;
   input: QuestionInptut;
-  answer: () => Promise<unknown>;
+  answer: (requestData: object, responseData: object) => Promise<unknown>;
 }
 
 export interface QuestionInptut {
