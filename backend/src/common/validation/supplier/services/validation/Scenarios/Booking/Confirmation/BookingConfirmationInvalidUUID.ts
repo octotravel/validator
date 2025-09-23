@@ -18,7 +18,7 @@ export class BookingConfirmationInvalidUUIDScenario implements Scenario {
       context,
     );
 
-    const name = 'Booking Confirmation Invalid Booking UUID (400 INVALID_BOOKING_UUID)';
+    const name = 'Booking Confirmation Invalid Booking UUID (400 INVALID_BOOKING_UUID/BAD_REQUEST)';
     const description = descriptions.invalidUUID;
 
     return this.bookingConfirmationScenarioHelper.validateError(

@@ -25,6 +25,7 @@ const ERROR_MESSAGE_INVALID_OPTION_ID = "The optionId was missing or invalid'";
 const ERROR_MESSAGE_INVALID_UNIT_ID = 'The unitId was missing or invalid';
 const ERROR_MESSAGE_INVALID_AVAILABILITY_ID = 'The availabilityId was missing or invalid';
 const ERROR_MESSAGE_INVALID_BOOKING_UUID = 'The uuid was already used, missing or invalid';
+const ERROR_MESSAGE_INVALID_UUID = 'The UUID format is invalid';
 const ERROR_MESSAGE_BAD_REQUEST =
   'The request body is not formatted correctly, you have missing required fields or any of the data types are incorrect';
 const ERROR_MESSAGE_UNPROCESSABLE_ENTITY =
@@ -124,6 +125,16 @@ export class InvalidBookingUUIDError extends OctoError {
       bodyParams: { uuid },
     });
     this.uuid = uuid;
+  }
+}
+
+export class InvalidUUIDError extends OctoError {
+  public constructor() {
+    super({
+      status: STATUS_BAD_REQUEST,
+      error: BAD_REQUEST,
+      errorMessage: ERROR_MESSAGE_INVALID_UUID,
+    });
   }
 }
 

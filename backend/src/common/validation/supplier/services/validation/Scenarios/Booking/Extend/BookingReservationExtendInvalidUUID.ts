@@ -9,7 +9,7 @@ export class BookingReservationExtendInvalidUUIDScenario implements Scenario {
 
   public validate = async (context: Context): Promise<ScenarioResult> => {
     const apiClient = context.getApiClient();
-    const name = 'Extend Reservation Invalid UUID (INVALID_BOOKING_UUID)';
+    const name = 'Extend Reservation Invalid UUID (400 INVALID_BOOKING_UUID/BAD_REQUEST)';
     const description = descriptions.invalidUUID;
 
     const result = await apiClient.bookingExtend(
