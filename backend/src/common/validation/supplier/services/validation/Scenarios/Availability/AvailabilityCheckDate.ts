@@ -21,7 +21,8 @@ export class AvailabilityCheckDateScenario implements Scenario {
       {
         productId: this.product.id,
         optionId: this.product.options[0].id,
-        localDate: DateHelper.getDate(availability.localDateTimeStart),
+        localDateStart: DateHelper.getDate(availability.localDateTimeStart),
+        localDateEnd: DateHelper.getDate(availability.localDateTimeEnd),
       },
       context,
     );
