@@ -7,13 +7,13 @@ import { Validator } from '../Validator';
 export interface RequestHeadersSchema {
   Authorization: string;
   'Content-Type': string;
-  'Octo-Capabilities': string;
+  'Octo-Capabilities'?: string;
 }
 
 export const requestHeadersSchema: SchemaOf<RequestHeadersSchema> = object().shape({
   Authorization: string().required(),
   'Content-Type': string().required(),
-  'Octo-Capabilities': octoCapabilitiesValidator.required(),
+  'Octo-Capabilities': octoCapabilitiesValidator.optional(),
 });
 
 export class RequestHeadersValidator implements Validator {
