@@ -10,7 +10,7 @@ export const octoCapabilitiesValidator = string().test((capabilities, ctx) => {
     });
   }
 
-  if (capabilities === '') {
+  if (capabilities.trim() === '') {
     return true;
   }
 
