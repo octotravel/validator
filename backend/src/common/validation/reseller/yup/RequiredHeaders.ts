@@ -3,7 +3,14 @@ import { $enum } from 'ts-enum-util';
 import { string } from 'yup';
 
 export const octoCapabilitiesValidator = string().test((capabilities, ctx) => {
-  if (capabilities === '' || capabilities === undefined) {
+  if (capabilities === undefined) {
+    return ctx.createError({
+      type: 'required',
+      message: 'Octo-Capabilities header is required',
+    });
+  }
+
+  if (capabilities === '') {
     return true;
   }
 
