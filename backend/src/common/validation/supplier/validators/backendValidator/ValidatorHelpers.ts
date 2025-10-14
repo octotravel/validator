@@ -40,21 +40,26 @@ export interface ModelValidator {
 }
 
 class BaseValidator {
-  // biome-ignore lint/suspicious/noExplicitAny: <?>
-  protected static handleValidatedError = (error: any, shouldWarn = false): ValidatorError => {
+  protected static handleValidatedError = (error: unknown, shouldWarn = false): ValidatorError => {
+    const type = shouldWarn ? ErrorType.WARNING : ErrorType.CRITICAL;
+    let message = 'Validation failed with unknown error';
+
     if (error instanceof yup.ValidationError) {
-      if (error.type === 'required' || error.type === 'typeError') {
-        return new ValidatorError({
-          type: shouldWarn ? ErrorType.WARNING : ErrorType.CRITICAL,
-          // biome-ignore lint/suspicious/noExplicitAny: <?>
-          message: error.errors as any,
-        });
+      if (error.errors && error.errors.length > 0) {
+        message = error.errors[0];
       }
+    } else if (error instanceof Error && error?.name === 'ValidationError') {
+      const err = error as yup.ValidationError;
+      if (err.errors && err.errors.length > 0) {
+        message = err.errors[0];
+      }
+    } else if (error instanceof Error) {
+      message = error.message;
     }
 
     return new ValidatorError({
-      type: shouldWarn ? ErrorType.WARNING : ErrorType.CRITICAL,
-      message: error.errors,
+      type,
+      message,
     });
   };
 }
@@ -189,7 +194,7 @@ export class EnumValidator extends BaseValidator {
         }
       }
       return null;
-    } catch (err) {
+    } catch (err: unknown) {
       return this.handleValidatedError(err, params?.shouldWarn);
     }
   };
@@ -204,11 +209,22 @@ export class EnumArrayValidator extends BaseValidator {
   public static validate = (
     label: string,
     value: unknown,
-    values: string[],
+    allowedValues: string[],
     params?: GeneralArrayValidatorParams,
   ): ValidatorError | null => {
     try {
-      let schema = yup.array(yup.mixed().oneOf(values)).label(label).required();
+      let schema = yup
+        .array(
+          yup
+            .mixed()
+            .oneOf(
+              allowedValues,
+              () =>
+                `${label} must contain only the following values: ${allowedValues.join(', ')}, but the provided value contains ${value}`,
+            ),
+        )
+        .label(label)
+        .required();
       if (params?.min) {
         schema = schema.min(params.min);
       }
