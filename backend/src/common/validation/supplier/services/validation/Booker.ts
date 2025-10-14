@@ -1,5 +1,4 @@
-import { Booking, BookingUnitItemSchema } from '@octocloud/types';
-import { CreateBookingSchema } from '../../schemas/Booking';
+import { Booking, BookingReservationBody, BookingUnitItem } from '@octocloud/types';
 import { Result } from './api/types';
 import { Context } from './context/Context';
 import { ProductBookable } from './context/ProductBookable';
@@ -32,7 +31,7 @@ export class Booker {
       productId,
       optionId,
       availabilityId,
-    } as CreateBookingSchema;
+    } as BookingReservationBody;
     if (unitItems) {
       data.unitItems = unitItems;
     }
@@ -53,10 +52,7 @@ export class Booker {
     return productBookable.randomAvailabilityID;
   }
 
-  private getUnitItems(
-    productBookable: ProductBookable,
-    params?: CreateReservationParams,
-  ): BookingUnitItemSchema[] | null {
+  private getUnitItems(productBookable: ProductBookable, params?: CreateReservationParams): BookingUnitItem[] | null {
     if (params?.invalidUnitItems) {
       return productBookable.getInvalidUnitItems();
     } else if (params?.unitItemsMissing) {

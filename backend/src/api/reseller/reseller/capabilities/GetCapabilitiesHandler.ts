@@ -12,7 +12,7 @@ export class GetCapabilitiesHandler implements RequestHandler {
     return this.jsonResponseFactory.create(
       CapabilityResponseFactory.create(
         'https://docs.octo.travel/getting-started/endpoints-and-capabilities#capabilities',
-        [CapabilityId.Pricing],
+        [CapabilityId.OCTO_PRICING],
       ),
     );
   }

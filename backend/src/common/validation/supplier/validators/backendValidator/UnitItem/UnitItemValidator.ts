@@ -69,7 +69,7 @@ export class UnitItemValidator implements ModelValidator {
   };
 
   private readonly validatePricingCapability = (unitItem: UnitItem, pricingPer?: PricingPer): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pricing) && pricingPer === PricingPer.UNIT) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PRICING) && pricingPer === PricingPer.UNIT) {
       const pricingValidator = new PricingValidator(`${this.path}.pricing`);
       return pricingValidator.validate(unitItem?.pricing);
     }

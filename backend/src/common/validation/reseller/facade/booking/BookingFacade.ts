@@ -20,24 +20,24 @@ export class BookingFacade {
   // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async bookingReservation(bookingReservationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingReservationStep, bookingReservationData);
-    return await this.backend.createBooking(bookingReservationData, {
+    return (await this.backend.createBooking(bookingReservationData, {
       ctx: this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext(),
-    });
+    })) as Booking;
   }
 
   // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async bookingConfirmation(bookingConfirmationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingConfirmationStep, bookingConfirmationData);
-    return await this.backend.confirmBooking(bookingConfirmationData, {
+    return (await this.backend.confirmBooking(bookingConfirmationData, {
       ctx: this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext(),
-    });
+    })) as Booking;
   }
 
   // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async bookingCancellation(bookingCancellationData: any): Promise<Booking> {
     await this.sessionStepValidationProcessor.process(this.bookingCancellationStep, bookingCancellationData);
-    return await this.backend.cancelBooking(bookingCancellationData, {
+    return (await this.backend.cancelBooking(bookingCancellationData, {
       ctx: this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext(),
-    });
+    })) as Booking;
   }
 }

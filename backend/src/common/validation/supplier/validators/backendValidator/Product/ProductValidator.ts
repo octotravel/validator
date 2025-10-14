@@ -108,14 +108,14 @@ export class ProductValidator implements ModelValidator {
   };
 
   private readonly validatePricingCapability = (product?: Product | null): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pricing)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PRICING)) {
       return this.pricingValidator.validate(product);
     }
     return [];
   };
 
   private readonly validateContentCapability = (product?: Product | null): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Content)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_CONTENT)) {
       return this.contentValidator.validate(product);
     }
     return [];

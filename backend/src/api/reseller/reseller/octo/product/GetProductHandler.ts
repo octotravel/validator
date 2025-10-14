@@ -1,5 +1,5 @@
 import { inject } from '@needle-di/core';
-import { GetProductPathParamsSchema, getProductPathParamsSchema } from '@octocloud/types';
+import { GetProductPathParams, getProductPathParamsSchema } from '@octocloud/types';
 import { IRequest } from 'itty-router';
 import { ProductFacade } from '../../../../../common/validation/reseller/facade/product/ProductFacade';
 import { SessionNotFoundError } from '../../../../../common/validation/reseller/session/error/SessionNotFoundError';
@@ -23,7 +23,7 @@ export class GetProductHandler implements RequestHandler {
     };
 
     try {
-      const validatedSchema = await SchemaValidator.validateSchema<GetProductPathParamsSchema>(
+      const validatedSchema = await SchemaValidator.validateSchema<GetProductPathParams>(
         getProductPathParamsSchema,
         requestPayload,
       );

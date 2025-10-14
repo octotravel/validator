@@ -2,15 +2,13 @@ import { Server } from 'node:http';
 import { LogicError } from '@octocloud/core';
 import {
   Availability,
-  AvailabilityBodySchema,
   AvailabilityCalendar,
-  AvailabilityCalendarBodySchema,
+  AvailabilityCalendarBody,
+  AvailabilityCheckBody,
   Booking,
-  CancelBookingBodySchema,
-  ConfirmBookingBodySchema,
-  CreateBookingBodySchema,
+  BookingConfirmationBody,
+  BookingReservationBody,
   Product,
-  QuestionAnswer,
   Supplier,
 } from '@octocloud/types';
 import request from 'supertest';
@@ -87,7 +85,7 @@ export class ScenarioStepTestUtil {
   }
 
   public async callAndCheckGetAvailabilityCalendar(): Promise<void> {
-    const availabilityCalendarPayload: AvailabilityCalendarBodySchema = {
+    const availabilityCalendarPayload: AvailabilityCalendarBody = {
       productId: this.getProductData!.id,
       optionId: this.getProductData!.options[0].id,
       localDateStart: new Date().toISOString(),
@@ -105,7 +103,7 @@ export class ScenarioStepTestUtil {
   }
 
   public async callAndCheckGetAvailability(): Promise<void> {
-    const availabilityCheckPayload: AvailabilityBodySchema = {
+    const availabilityCheckPayload: AvailabilityCheckBody = {
       productId: this.getProductData!.id,
       optionId: this.getProductData!.options[0].id,
       localDateStart: new Date().toISOString(),
@@ -123,7 +121,7 @@ export class ScenarioStepTestUtil {
   }
 
   public async callAndCheckBookingReservation(): Promise<void> {
-    const bookingReservationPayload: CreateBookingBodySchema = {
+    const bookingReservationPayload: BookingReservationBody = {
       productId: this.getProductData!.id,
       optionId: this.getProductData!.options[0].id,
       availabilityId: this.getAvailabilityData![0].id,
@@ -145,7 +143,7 @@ export class ScenarioStepTestUtil {
   }
 
   public async callAndCheckBookingConfirmation(): Promise<void> {
-    const bookingReservationPayload: ConfirmBookingBodySchema = {
+    const bookingReservationPayload: BookingConfirmationBody = {
       contact: {},
       emailReceipt: false,
       unitItems: [
@@ -193,7 +191,7 @@ export class ScenarioStepTestUtil {
   }
 
   public async callAndCheckBookingCancellation(): Promise<void> {
-    const bookingCancellationPayload: CancelBookingBodySchema = {
+    const bookingCancellationPayload = {
       reason: 'Test!',
       emailReceipt: false,
     };

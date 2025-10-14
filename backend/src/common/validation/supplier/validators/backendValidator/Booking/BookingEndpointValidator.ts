@@ -1,13 +1,12 @@
 import {
   Booking,
+  BookingCancellationBody,
+  BookingConfirmationBody,
+  BookingReservationBody,
   BookingStatus,
-  CancelBookingBodySchema,
-  ConfirmBookingBodySchema,
-  CreateBookingBodySchema,
-  ExtendBookingBodySchema,
-  UpdateBookingBodySchema,
+  BookingUpdateBody,
+  ExtendReservationBody,
 } from '@octocloud/types';
-import { GetBookingsSchema } from '../../../schemas/Booking';
 import { ArrayValidator, ErrorType, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 interface ValidateData {
@@ -19,31 +18,31 @@ interface ValidateData {
 
 interface ValidateReservationData {
   reservation?: Booking | null;
-  schema: CreateBookingBodySchema;
+  schema: BookingReservationBody;
 }
 
 interface ValidateReservationExtendData {
   reservation: Booking;
   reservationExtended: Booking | null;
-  schema: ExtendBookingBodySchema;
+  schema: ExtendReservationBody;
 }
 
 interface ValidateConfirmationdData {
   reservation: Booking;
   booking: Booking | null;
-  schema: ConfirmBookingBodySchema;
+  schema: BookingConfirmationBody;
 }
 
 interface ValidateUpdateData {
   booking: Booking | null;
   bookingUpdated: Booking | null;
-  schema: UpdateBookingBodySchema;
+  schema: BookingUpdateBody;
 }
 
 interface ValidateCancelData {
   booking: Booking;
   bookingCancelled: Booking | null;
-  schema: CancelBookingBodySchema;
+  schema: BookingCancellationBody;
 }
 
 interface ValidateGetBookingsData {
@@ -108,7 +107,7 @@ export class BookingEndpointValidator {
   };
 
   private readonly validateUnitItems = (
-    schema: CreateBookingBodySchema | ConfirmBookingBodySchema | UpdateBookingBodySchema,
+    schema: BookingReservationBody | BookingConfirmationBody | BookingUpdateBody,
     booking?: Booking | null,
   ): ValidatorError[] => {
     const errors = [];
@@ -230,7 +229,7 @@ export class BookingEndpointValidator {
 
   private readonly validateContact = (
     booking: Booking | null,
-    schema: ConfirmBookingBodySchema | UpdateBookingBodySchema,
+    schema: BookingConfirmationBody | BookingUpdateBody,
   ): ValidatorError[] => {
     if (schema.contact) {
       const errors = [

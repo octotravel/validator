@@ -1,4 +1,4 @@
-import { AvailabilityCalendarBodySchema } from '@octocloud/types';
+import { AvailabilityCalendarBody } from '@octocloud/types';
 import { addDays } from 'date-fns';
 import { DateHelper } from '../../../../helpers/DateHelper';
 import { BadRequestErrorValidator } from '../../../../validators/backendValidator/Error/BadRequestErrorValidator';
@@ -19,7 +19,7 @@ export class AvailabilityCalendarBadRequestScenario implements Scenario {
         productId: product.id,
         optionId: product.options[0].id,
         localDateEnd: DateHelper.getDate(addDays(new Date(), 30).toISOString()),
-      } as AvailabilityCalendarBodySchema,
+      } as AvailabilityCalendarBody,
       context,
     );
 

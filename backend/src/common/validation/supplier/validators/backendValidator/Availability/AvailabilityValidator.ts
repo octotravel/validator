@@ -83,14 +83,14 @@ export class AvailabilityValidator implements ModelValidator {
   };
 
   private readonly validatePricingCapability = (availability: Availability): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pricing)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PRICING)) {
       return this.pricingValidator.validate(availability);
     }
     return [];
   };
 
   private readonly validatePickupCapability = (availability: Availability): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pickups)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PICKUPS)) {
       return this.pickupValidator.validate(availability);
     }
     return [];

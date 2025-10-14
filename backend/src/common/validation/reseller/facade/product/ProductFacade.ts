@@ -17,17 +17,17 @@ export class ProductFacade {
 
   public async getProducts(): Promise<Product[]> {
     await this.sessionStepValidationProcessor.process(this.getProductsStep, null);
-    return await this.backend.getProducts(
+    return (await this.backend.getProducts(
       {},
       { ctx: this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext() },
-    );
+    )) as Product[];
   }
 
   public async getProduct(productId: string): Promise<Product> {
     await this.sessionStepValidationProcessor.process(this.getProductStep, null);
-    return await this.backend.getProduct(
+    return (await this.backend.getProduct(
       { id: productId },
       { ctx: this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext() },
-    );
+    )) as Product;
   }
 }

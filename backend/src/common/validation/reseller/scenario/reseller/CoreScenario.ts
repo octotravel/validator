@@ -47,7 +47,7 @@ export class CoreScenario implements Scenario {
   }
 
   public getOptionalCapabilities(): CapabilityId[] {
-    return [CapabilityId.Pricing];
+    return [CapabilityId.OCTO_PRICING];
   }
 
   public getCapabilities(): CapabilityId[] {

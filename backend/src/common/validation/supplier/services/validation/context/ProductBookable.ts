@@ -1,4 +1,4 @@
-import { BookingUnitItemSchema, Option, Product, UnitType } from '@octocloud/types';
+import { BookingUnitItem, Option, Product, UnitType } from '@octocloud/types';
 import { PseudoRandomGenerator } from '../../../helpers/PseudoRandomGenerator';
 
 interface GetUnitItemsData {
@@ -6,7 +6,7 @@ interface GetUnitItemsData {
 }
 
 interface GetAvailabilityIDData {
-  omitID: string;
+  omitID: string | null;
 }
 
 export class ProductBookable {
@@ -59,7 +59,7 @@ export class ProductBookable {
     return array[new PseudoRandomGenerator(array.length).nextInt(0, array.length - 1)];
   };
 
-  public getValidUnitItems = (data?: GetUnitItemsData): BookingUnitItemSchema[] => {
+  public getValidUnitItems = (data?: GetUnitItemsData): BookingUnitItem[] => {
     const option = this.getOption();
     const unit = option.units.find((unit) => unit.type === UnitType.ADULT) ?? option.units[0];
     const unitId = unit.id;
@@ -73,7 +73,7 @@ export class ProductBookable {
     return Array(quantity).fill({ unitId });
   };
 
-  public getInvalidUnitItems = (data?: GetUnitItemsData): BookingUnitItemSchema[] => {
+  public getInvalidUnitItems = (data?: GetUnitItemsData): BookingUnitItem[] => {
     const quantity = data?.quantity ?? 1;
     const unitItems = Array.from({ length: quantity }, () => {
       return {
