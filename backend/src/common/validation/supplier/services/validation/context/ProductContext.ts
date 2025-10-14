@@ -21,6 +21,7 @@ export class ProductContext {
         }),
       ];
     }
+
     const errors = new Array<ValidatorError>();
     const startTimeProducts = products.filter((p) => p.availabilityType === AvailabilityType.START_TIME);
 
@@ -91,7 +92,7 @@ export class ProductContext {
   }
 
   public get productsForAvailabilityCheck(): Product[] {
-    const products = Array<Product>();
+    const products: Product[] = [];
     if (this.hasOpeningHourProducts) {
       products.push(this.openingHourProducts[0]);
     }

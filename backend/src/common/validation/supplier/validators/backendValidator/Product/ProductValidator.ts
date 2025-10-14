@@ -60,7 +60,7 @@ export class ProductValidator implements ModelValidator {
       EnumValidator.validate(
         `${this.path}.availabilityType`,
         product?.availabilityType,
-        [AvailabilityType.START_TIME, AvailabilityType.OPENING_HOURS],
+        Object.values(AvailabilityType),
         { shouldWarn },
       ),
       EnumArrayValidator.validate(
@@ -78,7 +78,7 @@ export class ProductValidator implements ModelValidator {
       EnumValidator.validate(
         `${this.path}.redemptionMethod`,
         product?.redemptionMethod,
-        [RedemptionMethod.DIGITAL, RedemptionMethod.PRINT, RedemptionMethod.MANIFEST],
+        Object.values(RedemptionMethod),
         { shouldWarn },
       ),
       ...this.validateOptions(product),
