@@ -2,6 +2,7 @@ import { inject } from '@needle-di/core';
 import { RequestContext } from '@octocloud/core';
 import { Router as BaseRouter, RouterType } from 'itty-router';
 import { Context, Next } from 'koa';
+import config from '../common/config/config';
 import { RequestLogger } from '../common/logger/request/RequestLogger';
 import { RequestScopedContextProvider } from '../common/requestContext/RequestScopedContextProvider';
 import { ErrorResponseFactory } from './http/error/ErrorResponseFactory';
@@ -11,7 +12,6 @@ import { ResellerRouter } from './reseller/ResellerRouter';
 import { SupplierRouter } from './supplier/SupplierRouter';
 import { V1Router } from './v1/V1Router';
 import { V2Router } from './v2/V2Router';
-
 export class ApiRouter {
   public constructor(
     private readonly router: RouterType,
@@ -43,6 +43,7 @@ export class ApiRouter {
     const request = RequestMapper.mapRequest(ctx);
     requestScopedContext.setRequest(request);
     const ventrataRequestContext = new RequestContext({
+      environment: config.getEnvironment(),
       request,
     });
     ventrataRequestContext.setConnection({

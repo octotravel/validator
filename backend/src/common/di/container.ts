@@ -1,6 +1,6 @@
 import { Container } from '@needle-di/core';
 import { BackendContainer } from '@octocloud/backend';
-import { BaseConfig, Environment } from '@octocloud/core';
+import { Environment } from '@octocloud/core';
 import { ApiRouter } from '../../api/ApiRouter';
 import { ErrorResponseFactory } from '../../api/http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../api/http/json/JsonResponseFactory';
@@ -88,15 +88,9 @@ container.bind({
 const consoleLoggerFactory: ConsoleLoggerFactory = container.get(ConsoleLoggerFactory);
 const consoleLogger = consoleLoggerFactory.create();
 
-const baseConfig = new BaseConfig({
-  environment: config.getEnvironment(),
-  productionURL: config.BACKEND_ENDPOINT_URL, // TODO unite in core to just "url"
-  stagingURL: config.BACKEND_ENDPOINT_URL, // TODO remove in core
-});
-
 container.bind({
   provide: 'OctoBackend',
-  useValue: new BackendContainer({ config: baseConfig, logger: consoleLogger }).backend,
+  useValue: new BackendContainer({ logger: consoleLogger }).backend,
 });
 
 // Database
