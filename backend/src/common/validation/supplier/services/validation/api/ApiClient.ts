@@ -1,26 +1,24 @@
 import {
   Availability,
-  AvailabilityBodySchema,
   AvailabilityCalendar,
-  AvailabilityCalendarBodySchema,
+  AvailabilityCalendarBody,
+  AvailabilityCheckBody,
   Booking,
-  CancelBookingBodySchema,
-  CancelBookingPathParamsSchema,
   Capability,
   CapabilityId,
-  ConfirmBookingBodySchema,
-  ConfirmBookingPathParamsSchema,
-  ExtendBookingBodySchema,
-  ExtendBookingPathParamsSchema,
-  GetBookingPathParamsSchema,
-  GetBookingsQueryParamsSchema,
-  GetProductPathParamsSchema,
+  GetProductPathParams,
   Product,
   Supplier,
-  UpdateBookingBodySchema,
-  UpdateBookingPathParamsSchema,
 } from '@octocloud/types';
-import { CreateBookingSchema } from '../../../schemas/Booking';
+import {
+  CancelBookingSchema,
+  ConfirmBookingSchema,
+  CreateBookingSchema,
+  ExtendBookingSchema,
+  GetBookingSchema,
+  GetBookingsSchema,
+  UpdateBookingSchema,
+} from '../../../schemas/Booking';
 import { Context } from '../context/Context';
 import { Client } from './Client';
 import { Result } from './types';
@@ -48,19 +46,19 @@ export class ApiClient extends Client {
     return await this.fetch({ url, context });
   };
 
-  public getProduct = async (data: GetProductPathParamsSchema, context: Context): Promise<Result<Product>> => {
+  public getProduct = async (data: GetProductPathParams, context: Context): Promise<Result<Product>> => {
     const url = `${this.url}/products/${data.id}`;
     return await this.fetch({ url, context });
   };
 
-  public getAvailability = async (data: AvailabilityBodySchema, context: Context): Promise<Result<Availability[]>> => {
+  public getAvailability = async (data: AvailabilityCheckBody, context: Context): Promise<Result<Availability[]>> => {
     const url = `${this.url}/availability`;
     const body = JSON.stringify(data);
     return await this.fetch({ url, body, method: 'POST', context });
   };
 
   public getAvailabilityCalendar = async (
-    data: AvailabilityCalendarBodySchema,
+    data: AvailabilityCalendarBody,
     context: Context,
   ): Promise<Result<AvailabilityCalendar[]>> => {
     const url = `${this.url}/availability/calendar`;
@@ -74,21 +72,18 @@ export class ApiClient extends Client {
     return await this.fetch({ url, body, method: 'POST', context });
   };
 
-  public bookingConfirmation = async (
-    data: ConfirmBookingBodySchema & ConfirmBookingPathParamsSchema,
-    context: Context,
-  ): Promise<Result<Booking>> => {
+  public bookingConfirmation = async (data: ConfirmBookingSchema, context: Context): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}/confirm`;
     const { uuid, ...rest } = data;
     const body = JSON.stringify(rest);
     return await this.fetch({ url, body, method: 'POST', context });
   };
 
-  public getBookings = async (data: GetBookingsQueryParamsSchema, context: Context): Promise<Result<Booking[]>> => {
+  public getBookings = async (data: GetBookingsSchema, context: Context): Promise<Result<Booking[]>> => {
     const queryParams = new URLSearchParams();
 
     Object.keys(data).forEach((key) => {
-      const value = data[key as keyof GetBookingsQueryParamsSchema];
+      const value = data[key as keyof GetBookingsSchema];
 
       if (value) {
         queryParams.append(key, value);
@@ -99,35 +94,26 @@ export class ApiClient extends Client {
     return await this.fetch({ url, context });
   };
 
-  public getBooking = async (data: GetBookingPathParamsSchema, context: Context): Promise<Result<Booking>> => {
+  public getBooking = async (data: GetBookingSchema, context: Context): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}`;
     return await this.fetch({ url, context });
   };
 
-  public cancelBooking = async (
-    data: CancelBookingBodySchema & CancelBookingPathParamsSchema,
-    context: Context,
-  ): Promise<Result<Booking>> => {
+  public cancelBooking = async (data: CancelBookingSchema, context: Context): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}/cancel`;
     const { uuid, ...rest } = data;
     const body = JSON.stringify(rest);
     return await this.fetch({ url, body, method: 'POST', context });
   };
 
-  public bookingExtend = async (
-    data: ExtendBookingBodySchema & ExtendBookingPathParamsSchema,
-    context: Context,
-  ): Promise<Result<Booking>> => {
+  public bookingExtend = async (data: ExtendBookingSchema, context: Context): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}/extend`;
     const { uuid, ...rest } = data;
     const body = JSON.stringify(rest);
     return await this.fetch({ url, body, method: 'POST', context });
   };
 
-  public bookingUpdate = async (
-    data: UpdateBookingBodySchema & UpdateBookingPathParamsSchema,
-    context: Context,
-  ): Promise<Result<Booking>> => {
+  public bookingUpdate = async (data: UpdateBookingSchema, context: Context): Promise<Result<Booking>> => {
     const url = `${this.url}/bookings/${data.uuid}`;
     const { uuid, ...rest } = data;
     const body = JSON.stringify(rest);

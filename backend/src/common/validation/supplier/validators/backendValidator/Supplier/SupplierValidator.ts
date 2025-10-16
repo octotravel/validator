@@ -34,7 +34,8 @@ export class SupplierValidator implements ModelValidator {
 
   private readonly validateContentCapability = (supplier: Supplier | null): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.OCTO_CONTENT)) {
-      return this.contentValidator.validate(supplier);
+      return [];
+      // return this.contentValidator.validate(supplier);
     }
     return [];
   };

@@ -164,12 +164,12 @@ export class ScenarioStepTestUtil {
     const bookingConfirmationStep = this.scenario
       .getSteps()
       .find((step) => step.getId() === StepId.BOOKING_CONFIRMATION)!;
-    const questionAnswers: QuestionAnswer[] = await Promise.all(
+    const questionAnswers = await Promise.all(
       bookingConfirmationStep.getQuestions().map(async (question) => {
         return {
           questionId: question.id,
           value: await question.answer(bookingReservationPayload, bookingConfirmationResponse.body),
-        } as QuestionAnswer;
+        };
       }),
     );
 

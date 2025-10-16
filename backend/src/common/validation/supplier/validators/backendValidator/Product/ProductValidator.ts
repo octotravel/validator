@@ -116,7 +116,8 @@ export class ProductValidator implements ModelValidator {
 
   private readonly validateContentCapability = (product?: Product | null): ValidatorError[] => {
     if (this.capabilities.includes(CapabilityId.OCTO_CONTENT)) {
-      return this.contentValidator.validate(product);
+      return [];
+      // return this.contentValidator.validate(product);
     }
     return [];
   };

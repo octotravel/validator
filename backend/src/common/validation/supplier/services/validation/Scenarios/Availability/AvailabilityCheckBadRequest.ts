@@ -1,4 +1,3 @@
-import { DateHelper } from '../../../../helpers/DateHelper';
 import { BadRequestErrorValidator } from '../../../../validators/backendValidator/Error/BadRequestErrorValidator';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
@@ -19,7 +18,6 @@ export class AvailabilityCheckBadRequestScenario implements Scenario {
         optionId: product.options[0].id,
         localDateStart: context.localDateStart,
         localDateEnd: context.localDateEnd,
-        localDate: DateHelper.getDate(availability.localDateTimeStart),
         availabilityIds: [availability.id],
       },
       context,
