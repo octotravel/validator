@@ -1,5 +1,5 @@
 import { inject } from '@needle-di/core';
-import { Backend } from '@octocloud/core';
+import { OctoBackend } from '@octocloud/backend';
 import { Availability, AvailabilityCalendar } from '@octocloud/types';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
 import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
@@ -8,7 +8,7 @@ import { AvailabilityCheckStep } from '../../step/reseller/availability/Availabi
 
 export class AvailabilityFacade {
   public constructor(
-    private readonly backend = inject<Backend>('OctoBackend'),
+    private readonly backend = inject<OctoBackend>('OctoBackend'),
     private readonly availabilityCalendarStep = inject(AvailabilityCalendarStep),
     private readonly availabilityCheckStep = inject(AvailabilityCheckStep),
     private readonly sessionStepValidationProcessor = inject(SessionStepValidationProcessor),

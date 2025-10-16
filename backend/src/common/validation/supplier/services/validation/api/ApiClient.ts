@@ -18,7 +18,7 @@ import {
   GetBookingSchema,
   GetBookingsSchema,
   UpdateBookingSchema,
-} from '../../../schemas/Booking';
+} from '../../../../../schemas/Booking';
 import { Context } from '../context/Context';
 import { Client } from './Client';
 import { Result } from './types';

@@ -7,7 +7,7 @@ import {
   BookingUpdateBody,
   ExtendReservationBody,
 } from '@octocloud/types';
-import { GetBookingsSchema } from '../../../schemas/Booking';
+import { GetBookingsSchema } from '../../../../../schemas/Booking';
 import { ArrayValidator, ErrorType, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 interface ValidateData {

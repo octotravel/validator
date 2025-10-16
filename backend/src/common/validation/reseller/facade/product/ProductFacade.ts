@@ -1,5 +1,5 @@
 import { inject } from '@needle-di/core';
-import { Backend } from '@octocloud/core';
+import { OctoBackend } from '@octocloud/backend';
 import { Product } from '@octocloud/types';
 import { RequestScopedContextProvider } from '../../../../requestContext/RequestScopedContextProvider';
 import { SessionStepValidationProcessor } from '../../session/SessionStepValidationProcessor';
@@ -8,7 +8,7 @@ import { GetProductsStep } from '../../step/reseller/product/GetProductsStep';
 
 export class ProductFacade {
   public constructor(
-    private readonly backend = inject<Backend>('OctoBackend'),
+    private readonly backend = inject<OctoBackend>('OctoBackend'),
     private readonly getProductsStep = inject(GetProductsStep),
     private readonly getProductStep = inject(GetProductStep),
     private readonly sessionStepValidationProcessor = inject(SessionStepValidationProcessor),
