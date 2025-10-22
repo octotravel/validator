@@ -1,4 +1,4 @@
-import { Booking, CreateBookingBodySchema } from '@octocloud/types';
+import { Booking, BookingReservationBody } from '@octocloud/types';
 import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
 import { Context } from '../context/Context';
@@ -23,7 +23,7 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
 
     const errors = [
       ...this.bookingEndpointValidator.validateReservation({
-        schema: request?.body as unknown as CreateBookingBodySchema,
+        schema: request?.body as unknown as BookingReservationBody,
         reservation,
       }),
       ...this.bookingEndpointValidator.validate({

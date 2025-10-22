@@ -1,5 +1,5 @@
-import { confirmBookingSchema } from '@octocloud/core';
 import { ValidationError } from 'yup';
+import { confirmBookingSchema } from '../../../../../schemas/Booking';
 import { ValidationFailureFactory } from '../../../ValidationFailureFactory';
 import { ValidationResult } from '../../../ValidationResult';
 import { Validator } from '../../Validator';

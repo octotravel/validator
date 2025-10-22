@@ -1,4 +1,4 @@
-import { Booking, ConfirmBookingBodySchema } from '@octocloud/types';
+import { Booking, BookingConfirmationBody } from '@octocloud/types';
 import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
 import { Context } from '../context/Context';
@@ -29,13 +29,13 @@ export class BookingConfirmationScenarioHelper extends ScenarioHelper {
       ...this.bookingEndpointValidator.validateConfirmation({
         booking,
         reservation,
-        schema: request?.body as unknown as ConfirmBookingBodySchema,
+        schema: request?.body as unknown as BookingConfirmationBody,
       }),
       ...this.bookingEndpointValidator.validate({
         booking,
         productId: reservation.productId,
         optionId: reservation.optionId,
-        availabilityId: reservation.availabilityId,
+        availabilityId: reservation.availabilityId!,
       }),
       ...new BookingValidator({
         capabilities: context.getCapabilityIDs(),

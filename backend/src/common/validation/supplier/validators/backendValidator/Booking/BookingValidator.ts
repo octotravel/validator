@@ -160,14 +160,14 @@ export class BookingValidator implements ModelValidator {
   };
 
   private readonly validatePricingCapability = (booking: Booking | null): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pricing)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PRICING)) {
       return this.pricingValidator.validate(booking?.pricing);
     }
     return [];
   };
 
   private readonly validatePickupCapability = (booking: Booking | null): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pickups)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PICKUPS)) {
       return this.pickupValidator.validate(booking);
     }
     return [];

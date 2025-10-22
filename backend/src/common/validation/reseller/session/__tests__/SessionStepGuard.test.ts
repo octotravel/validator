@@ -25,7 +25,7 @@ describe('SessionStepGuard', () => {
     session = {
       id: uuidv4(),
       name: 'test session',
-      capabilities: [CapabilityId.Pricing],
+      capabilities: [CapabilityId.OCTO_PRICING],
       currentScenario: null,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -39,7 +39,7 @@ describe('SessionStepGuard', () => {
     session = {
       id: uuidv4(),
       name: 'test session',
-      capabilities: [CapabilityId.Pricing],
+      capabilities: [CapabilityId.OCTO_PRICING],
       currentScenario: null,
       createdAt: new Date(),
       updatedAt: new Date(),

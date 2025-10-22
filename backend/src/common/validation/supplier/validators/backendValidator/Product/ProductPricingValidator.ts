@@ -1,6 +1,5 @@
 import { PricingPer, Product } from '@octocloud/types';
 import {
-  BooleanValidator,
   EnumValidator,
   ModelValidator,
   StringArrayValidator,
@@ -21,7 +20,6 @@ export class ProductPricingValidator implements ModelValidator {
         min: 1,
       }),
       EnumValidator.validate(`${this.path}.pricingPer`, product?.pricingPer, Object.values(PricingPer)),
-      BooleanValidator.validate(`${this.path}.includeTax`, product?.includeTax),
     ].flatMap((v) => (v ? [v] : []));
   };
 }

@@ -52,7 +52,7 @@ export class AvailabilityCalendarValidator implements ModelValidator {
   };
 
   private readonly validatePricingCapability = (availability: AvailabilityCalendar): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pricing)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PRICING)) {
       return this.pricingValidator.validate(availability);
     }
     return [];

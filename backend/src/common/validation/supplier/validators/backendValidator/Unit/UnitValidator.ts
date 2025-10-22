@@ -1,4 +1,4 @@
-import { CapabilityId, ContactField, PricingPer, Restrictions, Unit } from '@octocloud/types';
+import { CapabilityId, ContactField, PricingPer, Unit, UnitRestrictions } from '@octocloud/types';
 import {
   BooleanValidator,
   EnumArrayValidator,
@@ -53,7 +53,7 @@ export class UnitValidator implements ModelValidator {
   };
 
   private readonly validatePricingCapability = (unit: Unit, pricingPer?: PricingPer): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pricing) && pricingPer === PricingPer.UNIT) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PRICING) && pricingPer === PricingPer.UNIT) {
       const pricingValidator = new UnitPricingValidator({
         path: this.path,
       });
@@ -62,7 +62,7 @@ export class UnitValidator implements ModelValidator {
     return [];
   };
 
-  private readonly validateRestrictions = (restrictions: Restrictions): ValidatorError[] => {
+  private readonly validateRestrictions = (restrictions: UnitRestrictions): ValidatorError[] => {
     const shouldWarn = this.shouldNotHydrate;
     return [
       NumberValidator.validate(`${this.path}.restrictions.minAge`, restrictions?.minAge, {

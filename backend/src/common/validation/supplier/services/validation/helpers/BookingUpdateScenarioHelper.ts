@@ -1,4 +1,4 @@
-import { Booking, UpdateBookingBodySchema } from '@octocloud/types';
+import { Booking, BookingUpdateBody } from '@octocloud/types';
 import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
 import { Context } from '../context/Context';
@@ -16,7 +16,7 @@ export class BookingUpdateScenarioHelper extends ScenarioHelper {
     const bookingUpdated = result?.data;
     const request = result?.request;
     const response = result?.response;
-    const schema = request?.body as UpdateBookingBodySchema;
+    const schema = request?.body as BookingUpdateBody;
     if (response?.error) {
       return this.handleResult({
         ...data,
@@ -35,7 +35,7 @@ export class BookingUpdateScenarioHelper extends ScenarioHelper {
         booking: result.data,
         productId: schema.productId ?? booking.productId,
         optionId: schema.optionId ?? booking.optionId,
-        availabilityId: schema.availabilityId ?? booking.availabilityId,
+        availabilityId: schema.availabilityId ?? booking.availabilityId!,
       }),
       ...new BookingValidator({
         capabilities: context.getCapabilityIDs(),

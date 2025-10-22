@@ -33,8 +33,9 @@ export class SupplierValidator implements ModelValidator {
     ].flatMap((v) => (v ? [v] : []));
 
   private readonly validateContentCapability = (supplier: Supplier | null): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Content)) {
-      return this.contentValidator.validate(supplier);
+    if (this.capabilities.includes(CapabilityId.OCTO_CONTENT)) {
+      return [];
+      // return this.contentValidator.validate(supplier);
     }
     return [];
   };

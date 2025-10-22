@@ -114,7 +114,7 @@ export class OptionValidator implements ModelValidator {
   };
 
   private readonly validatePricingCapability = (option?: Option | null, pricingPer?: PricingPer): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pricing) && pricingPer === PricingPer.BOOKING) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PRICING) && pricingPer === PricingPer.BOOKING) {
       const pricingValidator = new OptionPricingValidator({
         path: `${this.path}`,
       });
@@ -124,7 +124,7 @@ export class OptionValidator implements ModelValidator {
   };
 
   private readonly validatePickupCapability = (option?: Option | null): ValidatorError[] => {
-    if (this.capabilities.includes(CapabilityId.Pickups)) {
+    if (this.capabilities.includes(CapabilityId.OCTO_PICKUPS)) {
       const pickupValidator = new OptionPickupValidator({
         path: `${this.path}`,
       });
