@@ -44,7 +44,7 @@
     "http-graceful-shutdown": "3.1.13",
     "is-docker": "3.0.0",
     "itty-router": "5.0.16",
-    "koa": "^2.16.2",
+    "koa": "^3.0.3",
     "koa-body": "6.0.1",
     "koa-pino-logger": "4.0.0",
     "linked-list-typed": "1.52.0",
