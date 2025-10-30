@@ -76,8 +76,8 @@ jobs:
       - name: Run Biome
         run: biome ci .
 
-  run-common-tests:
-    name: Run common tests
+  run-tests:
+    name: Run tests
     defaults:
       run:
         working-directory: ./backend
@@ -93,6 +93,9 @@ jobs:
 
       - name: Setup
         uses: ./.github/actions/backend-node-setup
+
+      - name: Setup postgres
+        run: docker compose -f docker-compose.ci.yml up -d
 
       - name: Run Vitest
         run: yarn test
