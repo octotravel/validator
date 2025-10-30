@@ -1,4 +1,4 @@
-name: Backend cache
+name: Backend Cache
 
 on:
   push:
@@ -23,26 +23,24 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.9.0
+          node-version: 22.15.1
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          run_install: false
+      - name: Setup yarn
+        run: corepack enable
+        shell: bash
 
-      - name: Get pnpm store directory
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-
-      - name: Cache pnpm store
+      - name: Cache yarn
         uses: actions/cache@v4
-        id: cache-pnpm
+        id: cache-yarn
         with:
-          path: ${{ env.STORE_PATH }}
-          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
+          path: |
+            .yarn/cache
+            .yarn/install-state.gz
+            node_modules
+          key: yarn-cache-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            pnpm-store-
+            yarn-cache-
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+      - name: Install node modules
+        run: yarn install --immutable --mode=skip-build
+        shell: bash

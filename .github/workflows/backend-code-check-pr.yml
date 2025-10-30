@@ -1,4 +1,4 @@
-name: Code Check
+name: Backend Code Check
 
 on:
   pull_request:
@@ -13,6 +13,9 @@ env:
 jobs:
   build:
     name: Build
+    defaults:
+      run:
+        working-directory: ./backend
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -54,6 +57,9 @@ jobs:
 
   check-code-quality:
     name: Check code quality
+    defaults:
+      run:
+        working-directory: ./backend
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -76,6 +82,9 @@ jobs:
 
   run-common-tests:
     name: Run common tests
+    defaults:
+      run:
+        working-directory: ./backend
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 5
