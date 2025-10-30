@@ -35,6 +35,9 @@ jobs:
 
   check-types:
     name: Check Types
+    defaults:
+      run:
+        working-directory: ./backend
     needs: build
     runs-on: ubuntu-latest
 
@@ -75,6 +78,9 @@ jobs:
 
   run-common-tests:
     name: Run common tests
+    defaults:
+      run:
+        working-directory: ./backend
     defaults:
       run:
         working-directory: ./backend
