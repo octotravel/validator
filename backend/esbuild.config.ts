@@ -17,12 +17,11 @@ function generateReleaseName(): string {
 }
 
 const releaseName = generateReleaseName();
-const plugins = [esbuildPluginPino({ transports: ['pino-pretty'] })];
+const plugins = [esbuildPluginPino({ transports: [] })];
 
 const esbuildConfig: esbuild.BuildOptions = {
   entryPoints: ['src/server.ts', 'src/console.ts'],
   outdir: 'dist',
-  // logLevel: 'debug',
   platform: 'node',
   target: 'ES2022',
   bundle: true,

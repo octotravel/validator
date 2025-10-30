@@ -1,11 +1,5 @@
 import { Availability } from '@octocloud/types';
-import {
-  BooleanValidator,
-  ModelValidator,
-  NumberValidator,
-  StringValidator,
-  ValidatorError,
-} from '../ValidatorHelpers';
+import { ModelValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class AvailabilityPickupValidator implements ModelValidator {
   private readonly path: string;

@@ -1,10 +1,8 @@
 import { inject } from '@needle-di/core';
-import { Logger } from '@octocloud/core';
 import * as socketio from 'socket.io';
 import { Session } from '../../types/Session';
 import { container } from '../di/container';
-import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
-import { LoggerFactory } from '../logger/LoggerFactory';
+import { ConsoleLogger } from '../logger/console/ConsoleLogger';
 import { ScenarioId } from '../validation/reseller/scenario/ScenarioId';
 import { Step } from '../validation/reseller/step/Step';
 import { StepId } from '../validation/reseller/step/StepId';
@@ -44,11 +42,8 @@ export interface WebSocketValidationResultItem {
 
 export class SocketIo implements WebSocket {
   private socketIoServer: socketio.Server | null = null;
-  private readonly consoleLogger: Logger;
 
-  public constructor(consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory)) {
-    this.consoleLogger = consoleLoggerFactory.create('database');
-  }
+  public constructor(private readonly consoleLogger: ConsoleLogger = inject('ConsoleLogger')) {}
 
   public async sendValidationResult(session: Session, step: Step, validationResult: ValidationResult): Promise<void> {
     await this.consoleLogger.log(`Sending validation result to session with id "${session.id}".`);

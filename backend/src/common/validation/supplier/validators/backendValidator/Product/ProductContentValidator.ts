@@ -1,11 +1,5 @@
 import { Product } from '@octocloud/types';
-import {
-  BooleanValidator,
-  ModelValidator,
-  StringArrayValidator,
-  StringValidator,
-  ValidatorError,
-} from '../ValidatorHelpers';
+import { ModelValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class ProductContentValidator implements ModelValidator {
   private readonly path: string;

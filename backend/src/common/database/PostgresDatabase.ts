@@ -1,24 +1,19 @@
 import { AuthTypes, Connector, IpAddressTypes } from '@google-cloud/cloud-sql-connector';
 import { inject } from '@needle-di/core';
-import { Environment, Logger } from '@octocloud/core';
+import { Environment } from '@octocloud/core';
 import isDocker from 'is-docker';
 import postgresql, { ClientBase, ClientConfig, Pool, PoolClient, PoolConfig, QueryResult } from 'pg';
 import config from '../config/config';
-import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
-import { ExceptionLogger } from '../logger/ExceptionLogger';
-import { LoggerFactory } from '../logger/LoggerFactory';
+import { ConsoleLogger } from '../logger/console/ConsoleLogger';
+import { ExceptionLogger } from '../logger/exception/ExceptionLogger';
 import { Database } from './Database';
 import { PoolConnectionError } from './error/PoolConnectionError';
 
 export class PostgresDatabase implements Database {
-  private readonly consoleLogger: Logger;
-
   public constructor(
+    private readonly consoleLogger: ConsoleLogger = inject('ConsoleLogger'),
     private readonly exceptionLogger: ExceptionLogger = inject('ExceptionLogger'),
-    consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
-  ) {
-    this.consoleLogger = consoleLoggerFactory.create('database');
-  }
+  ) {}
 
   private pool: Pool | null = null;
 

@@ -1,11 +1,5 @@
 import { Option } from '@octocloud/types';
-import {
-  BooleanValidator,
-  ModelValidator,
-  NumberValidator,
-  StringValidator,
-  ValidatorError,
-} from '../ValidatorHelpers';
+import { ModelValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class OptionPickupValidator implements ModelValidator {
   private readonly path: string;

@@ -5,14 +5,16 @@ ARG SENTRY_AUTH_TOKEN
 
 WORKDIR /app
 
-COPY package*.json /app
-RUN npm install --include=dev --silent --no-audit --no-fund --ignore-scripts
+COPY package.json yarn.lock .yarnrc.yml /app
+RUN apk add --no-cache git
+RUN corepack enable
+RUN yarn install --immutable --mode=skip-build
 
 COPY . /app
 
 ENV NODE_ENV=production
 
-RUN npm run esbuild
+RUN yarn run esbuild
 
 # Final
 FROM node:22.15.1-alpine3.21 AS final

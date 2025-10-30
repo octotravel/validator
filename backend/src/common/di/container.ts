@@ -37,9 +37,11 @@ import { MigrateDbCommand } from '../../console/command/MigrateDbCommand';
 import config from '../config/config';
 import { Migrator } from '../database/Migrator';
 import { PostgresDatabase } from '../database/PostgresDatabase';
-import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
+import { ConsoleLogger } from '../logger/console/ConsoleLogger';
+import { NoopConsoleLogger } from '../logger/console/NoopConsoleLogger';
+import { PinoConsoleLogger } from '../logger/console/PinoConsoleLogger';
+import { SentryExceptionLogger } from '../logger/exception/SentryExceptionLogger';
 import { VentrataRequestLogger } from '../logger/request/VentrataRequestLogger';
-import { SentryExceptionLogger } from '../logger/SentryExceptionLogger';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 import { PostgresResellerRequestLogRepository } from '../requestLog/reseller/PostgresResellerRequestLogRepository';
 import { ResellerRequestLogService } from '../requestLog/reseller/ResellerRequestLogService';
@@ -77,16 +79,27 @@ import { StepQuestionAnswersValidator } from '../validation/reseller/step/StepQu
 import { ValidationController } from '../validation/supplier/services/validation/Controller';
 
 export const container = new Container();
+const env = config.getEnvironment();
+
+if (env === Environment.TEST) {
+  container.bind({
+    provide: 'ConsoleLogger',
+    useClass: NoopConsoleLogger,
+  });
+} else {
+  container.bind({
+    provide: 'ConsoleLogger',
+    useClass: PinoConsoleLogger,
+  });
+}
+
+const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
 
 // Logger
-container.bind(ConsoleLoggerFactory);
 container.bind({
   provide: 'ExceptionLogger',
   useClass: SentryExceptionLogger,
 });
-
-const consoleLoggerFactory: ConsoleLoggerFactory = container.get(ConsoleLoggerFactory);
-const consoleLogger = consoleLoggerFactory.create();
 
 container.bind({
   provide: 'OctoBackend',

@@ -1,11 +1,11 @@
 import { HttpError, LogicError, LogLevel, OctoError, RequestContext } from '@octocloud/core';
 import * as Sentry from '@sentry/node';
 import { Context } from 'koa';
-import config from '../config/config';
+import config from '../../config/config';
 import { ExceptionLogger } from './ExceptionLogger';
 
 export class SentryExceptionLogger implements ExceptionLogger {
-  public static readonly IGNORED_ERRORS = [];
+  public static readonly IGNORED_ERRORS: (string | RegExp)[] = [];
 
   public async fatal(data: Error, context?: Context | RequestContext): Promise<unknown> {
     return await this.logLevel(LogLevel.FATAL, data, context);
@@ -31,14 +31,9 @@ export class SentryExceptionLogger implements ExceptionLogger {
     return await this.logLevel(LogLevel.DEBUG, data, context);
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: abstraction
+  // biome-ignore lint/suspicious/noExplicitAny: needed
   public async logLevel(level: LogLevel, data: any, context?: Context | RequestContext): Promise<unknown> {
-    if (
-      !config.IS_SENTRY_ENABLED ||
-      data instanceof OctoError ||
-      (data instanceof HttpError &&
-        ((data.status >= 400 && data.status < 500) || (data.statusLog >= 400 && data.statusLog < 500)))
-    ) {
+    if (!config.SENTRY_ENABLED || data instanceof OctoError || (data instanceof HttpError && data.status === 429)) {
       return null;
     }
 
@@ -50,7 +45,12 @@ export class SentryExceptionLogger implements ExceptionLogger {
       errorMessage = data.message;
     }
 
-    if (errorMessage !== '' && SentryExceptionLogger.IGNORED_ERRORS.some((error) => errorMessage.includes(error))) {
+    if (
+      errorMessage !== '' &&
+      SentryExceptionLogger.IGNORED_ERRORS.some((pattern) =>
+        typeof pattern === 'string' ? errorMessage.includes(pattern) : pattern.test(errorMessage),
+      )
+    ) {
       return null;
     }
 
@@ -63,7 +63,7 @@ export class SentryExceptionLogger implements ExceptionLogger {
 
       if (requestContext !== undefined && requestContext instanceof RequestContext) {
         try {
-          // biome-ignore lint/suspicious/noExplicitAny: allow all fields
+          // biome-ignore lint/suspicious/noExplicitAny: needed
           const sentryOctoContext: any = {};
 
           const requestId = this.getContextValue(() => requestContext.getRequestId());
@@ -78,12 +78,14 @@ export class SentryExceptionLogger implements ExceptionLogger {
           sentryOctoContext.accountId = accountId;
           sentryOctoContext.connection = connection;
 
+          Sentry.setTag('octo.requestId', requestId);
+
           Sentry.setTag(
-            'octo.requestId',
-            `${requestId} (https://dashboard.ventrata.com/admin/en/requests?fixed_filters[id]=${requestId} #dt-row:${requestId})`,
+            'octo.requestDashboardUrl',
+            `https://dashboard.ventrata.com/admin/en/requests?fixed_filters[id]=${requestId} #dt-row:${requestId}`,
           );
 
-          if (channel !== undefined) {
+          if (channel !== undefined && channel.trim() !== '') {
             Sentry.setTag('octo.channel', channel);
           }
 
@@ -91,7 +93,7 @@ export class SentryExceptionLogger implements ExceptionLogger {
             Sentry.setTag('octo.action', action);
           }
 
-          if (accountId !== undefined) {
+          if (accountId !== undefined && accountId.trim() !== '') {
             Sentry.setTag('octo.accountId', accountId);
           }
 
@@ -103,38 +105,6 @@ export class SentryExceptionLogger implements ExceptionLogger {
         } catch (e: unknown) {
           // Report exception regardless invalid context
         }
-      }
-
-      try {
-        const request = requestContext.getRequest();
-
-        const requestHeaders: Record<string, unknown> = {};
-        request.headers.forEach((value: unknown, key: string | number) => {
-          requestHeaders[key] = value;
-        });
-
-        Sentry.setExtra('request_method', request.method);
-        Sentry.setExtra('request_headers', requestHeaders);
-        Sentry.setExtra('request_body', (await request.text()) ?? '');
-      } catch (e: unknown) {
-        // Report exception regardless invalid context
-      }
-
-      try {
-        const response = requestContext.getResponse();
-
-        if (response !== null) {
-          const responseHeaders: Record<string, unknown> = {};
-          response.headers.forEach((value: unknown, key: string | number) => {
-            responseHeaders[key] = value;
-          });
-
-          Sentry.setExtra('response_status', response.status);
-          Sentry.setExtra('response_headers', responseHeaders);
-          Sentry.setExtra('response_body', await response.text());
-        }
-      } catch (e: unknown) {
-        // Report exception regardless invalid context
       }
 
       let exceptionId: string | null;

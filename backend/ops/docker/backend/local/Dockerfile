@@ -3,9 +3,10 @@ FROM node:22.15.1-alpine3.21
 WORKDIR /var/www/backend/
 
 RUN apk add --no-cache git
+RUN corepack enable
 
 COPY . .
 
 EXPOSE $APP_PORT
 
-CMD ["sh", "-c", "npm install --silent --no-audit --no-fund --prefer-offline && npm run dev"]
+CMD ["sh", "-c", "yarn install --silent --immutable --mode=skip-build && yarn run esbuild && yarn run dev"]
