@@ -1,11 +1,9 @@
 import { HttpError } from '@octocloud/core';
 import Koa from 'koa';
 import { container } from '../../../common/di/container';
-import { ConsoleLoggerFactory } from '../../../common/logger/ConsoleLoggerFactory';
-import { LoggerFactory } from '../../../common/logger/LoggerFactory';
+import { ConsoleLogger } from '../../../common/logger/console/ConsoleLogger';
 
-const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
-const consoleLogger = consoleLoggerFactory.create();
+const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
 
 export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Promise<void> {
   try {

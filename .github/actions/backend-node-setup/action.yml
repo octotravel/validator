@@ -1,0 +1,34 @@
+name: "Node Setup"
+description: "Sets up Node, restores cache, installs deps"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Create .env file
+      run: mv ./backend/.env.ci ./backend/.env
+      shell: bash
+
+    - name: Setup node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.15.1
+
+    - name: Setup yarn
+      run: corepack enable
+      shell: bash
+
+    - name: Restore yarn cache
+      uses: actions/cache/restore@v4
+      id: cache-yarn
+      with:
+        path: |
+          ./backend/.yarn/cache
+          ./backend/.yarn/install-state.gz
+          ./backend/node_modules
+        key: yarn-cache-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          yarn-cache-
+
+    - name: Install node modules
+      run: cd ./backend && yarn install --immutable --mode=skip-build
+      shell: bash

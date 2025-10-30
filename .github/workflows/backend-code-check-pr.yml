@@ -1,24 +1,25 @@
-name: Backend code check
+name: Backend Code Check
 
 on:
   pull_request:
     branches:
       - '!main'
-      - '!master'
       - '**'
   workflow_dispatch:
 
 env:
-  NODE_VERSION: 22.9.0
+  NODE_VERSION: 22.15.1
 
 jobs:
   build:
+    name: Build
     defaults:
       run:
         working-directory: ./backend
-    name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
       - name: Checkout
@@ -26,87 +27,19 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Cache pnpm store
-        uses: actions/cache/restore@v4
-        id: cache-pnpm
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
-          restore-keys: |
-            pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+      - name: Setup
+        uses: ./.github/actions/backend-node-setup
 
       - name: Build the project
-        run: npm run build
-
-
-  check-vulnerabilities:
-    defaults:
-      run:
-        working-directory: ./backend
-    name: Check vulnerabilities
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-
-      - name: Cache pnpm store
-        uses: actions/cache/restore@v4
-        id: cache-pnpm
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
-          restore-keys: |
-            pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
-
-      - name: Do npm audit check
-        run: npm run audit
+        run: yarn run esbuild
 
   check-types:
+    name: Check Types
     defaults:
       run:
         working-directory: ./backend
-    name: Check Types
+    needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -114,43 +47,20 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-
-      - name: Cache pnpm store
-        uses: actions/cache/restore@v4
-        id: cache-pnpm
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
-          restore-keys: |
-            pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+      - name: Setup
+        uses: ./.github/actions/backend-node-setup
 
       - name: Do dry build
-        run: npm run build:dry:ci
+        run: yarn run build:dry
 
   check-code-quality:
+    name: Check code quality
     defaults:
       run:
         working-directory: ./backend
-    name: Check code quality
+    needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
 
     steps:
       - name: Checkout
@@ -161,18 +71,19 @@ jobs:
       - name: Setup Biome
         uses: biomejs/setup-biome@v2
         with:
-          version: 2.1.3
-
+          version: 2.1.4
+      
       - name: Run Biome
         run: biome ci .
 
   run-tests:
+    name: Run tests
     defaults:
       run:
         working-directory: ./backend
-    name: Run tests
+    needs: build
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
 
     steps:
       - name: Checkout
@@ -180,35 +91,11 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Create .env file
-        shell: bash
-        run: |
-          mv .env.ci .env
+      - name: Setup
+        uses: ./.github/actions/backend-node-setup
 
       - name: Setup postgres
         run: docker compose -f docker-compose.ci.yml up -d
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-store
-        run: echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
-
-      - name: Cache pnpm store
-        uses: actions/cache/restore@v4
-        id: cache-pnpm
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: pnpm-store-${{ hashFiles('./backend/pnpm-lock.yaml') }}
-          restore-keys: |
-            pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
-
       - name: Run Vitest
-        run: npm run test
+        run: yarn test

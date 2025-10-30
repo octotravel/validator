@@ -1,6 +1,5 @@
 import { Capability, CapabilityId, Product } from '@octocloud/types';
 import { addDays } from 'date-fns';
-import * as R from 'ramda';
 import { v4 as uuid } from 'uuid';
 import { ValidationEndpoint } from '../../../../../../api/supplier/validate/ValidationSchema';
 import { DateHelper } from '../../../helpers/DateHelper';
@@ -88,17 +87,11 @@ export class Context implements IContext {
   };
 
   public setProducts = (products: Product[]): ValidatorError[] => {
-    if (this.productConfig.areProductsValid(products)) {
+    if (this.productConfig.areProductsInvalid(products)) {
       this.terminateValidation = true;
     }
 
-    const productConfig = this.productConfig.setProducts(products);
-
-    if (!R.isEmpty(productConfig)) {
-      this.terminateValidation = true;
-    }
-
-    return productConfig;
+    return this.productConfig.setProducts(products);
   };
 
   public getProduct = (): Product => {

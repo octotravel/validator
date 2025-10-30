@@ -7,13 +7,11 @@ import { app } from './app';
 import config from './common/config/config';
 import { Database } from './common/database/Database';
 import { container } from './common/di/container';
-import { ConsoleLoggerFactory } from './common/logger/ConsoleLoggerFactory';
-import { LoggerFactory } from './common/logger/LoggerFactory';
+import { ConsoleLogger } from './common/logger/console/ConsoleLogger';
 import { initializeSocketIoServer } from './socketIoServer';
 
 const database: Database = container.get('Database');
-const consoleLoggerFactory: LoggerFactory = container.get(ConsoleLoggerFactory);
-const consoleLogger = consoleLoggerFactory.create('server');
+const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
 const env = config.getEnvironment();
 const port = config.APP_PORT;
 

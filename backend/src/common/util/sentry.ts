@@ -1,8 +1,8 @@
 import * as Sentry from '@sentry/node';
 import config from '../config/config';
-import { SentryExceptionLogger } from '../logger/SentryExceptionLogger';
+import { SentryExceptionLogger } from '../logger/exception/SentryExceptionLogger';
 
-if (config.IS_SENTRY_ENABLED) {
+if (config.SENTRY_ENABLED) {
   Sentry.init({
     dsn: config.SENTRY_DNS,
     debug: false,
