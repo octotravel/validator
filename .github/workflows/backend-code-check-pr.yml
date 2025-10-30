@@ -81,9 +81,6 @@ jobs:
     defaults:
       run:
         working-directory: ./backend
-    defaults:
-      run:
-        working-directory: ./backend
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 5
