@@ -5,19 +5,23 @@ runs:
   using: "composite"
   steps:
     - name: Create .env file
+      working-directory: ./backend
       run: mv .env.ci .env
       shell: bash
 
     - name: Setup node
+      working-directory: ./backend
       uses: actions/setup-node@v4
       with:
         node-version: 22.15.1
 
     - name: Setup yarn
+      working-directory: ./backend
       run: corepack enable
       shell: bash
 
     - name: Restore yarn cache
+      working-directory: ./backend
       uses: actions/cache/restore@v4
       id: cache-yarn
       with:
@@ -30,5 +34,6 @@ runs:
           yarn-cache-
 
     - name: Install node modules
+      working-directory: ./backend
       run: yarn install --immutable --mode=skip-build
       shell: bash
