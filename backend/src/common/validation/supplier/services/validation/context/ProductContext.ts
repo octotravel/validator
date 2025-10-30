@@ -13,7 +13,7 @@ export class ProductContext {
 
   public setProducts = (products: Product[]): ValidatorError[] => {
     this._products = products;
-    if (this.areProductsValid(products)) {
+    if (this.areProductsInvalid(products)) {
       return [
         new ValidatorError({
           type: ErrorType.CRITICAL,
@@ -47,7 +47,7 @@ export class ProductContext {
     return errors;
   };
 
-  public areProductsValid(product: Product[]): boolean {
+  public areProductsInvalid(product: Product[]): boolean {
     return R.isEmpty(product) || R.isNil(product) || !R.is(Array, product);
   }
 
