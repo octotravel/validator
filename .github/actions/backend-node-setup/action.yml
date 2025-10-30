@@ -30,5 +30,5 @@ runs:
           yarn-cache-
 
     - name: Install node modules
-      run: yarn install --immutable --mode=skip-build
+      run: cd ./backend && yarn install --immutable --mode=skip-build
       shell: bash

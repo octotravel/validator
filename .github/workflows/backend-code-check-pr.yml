@@ -49,7 +49,6 @@ jobs:
 
       - name: Do dry build
         run: yarn run build:dry
-        working-directory: ${{ env.working-directory }}
 
   check-code-quality:
     name: Check code quality
@@ -94,4 +93,3 @@ jobs:
 
       - name: Run Vitest
         run: yarn test
-        working-directory: ${{ env.working-directory }}
