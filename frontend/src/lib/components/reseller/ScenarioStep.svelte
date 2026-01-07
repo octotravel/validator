@@ -134,7 +134,7 @@
 		);
 	};
 
-	$: $resellerScenarioValidationResultStore.results, updateResults();
+	$: ($resellerScenarioValidationResultStore.results, updateResults());
 </script>
 
 <div class="text-start {isOpen() ? 'border border-primary-500' : 'accordion-border'}">
