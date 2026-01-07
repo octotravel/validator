@@ -1,23 +1,13 @@
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  esbuild: {
-    target: 'ES2022',
-  },
-  cacheDir: '.cache/vitest',
   test: {
     passWithNoTests: true,
     isolate: true,
     pool: 'forks',
-    poolOptions: {
-      forks: {
-        singleFork: false,
-        isolate: true,
-      },
-    },
     fileParallelism: true,
+    mockReset: true,
     watch: false,
-    globals: false,
     testTimeout: 30000,
     hookTimeout: 30000,
     reporters: ['verbose'],
