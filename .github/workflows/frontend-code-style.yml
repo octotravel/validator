@@ -20,12 +20,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24.11
 
       - uses: actions/cache@v3
         name: Setup npm cache
@@ -53,12 +53,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24.11
 
       - uses: actions/cache@v3
         name: Setup npm cache
@@ -87,12 +87,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24.11
 
       - uses: actions/cache@v3
         name: Setup npm cache
@@ -121,12 +121,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24.11
 
       - uses: actions/cache@v3
         name: Setup npm cache
@@ -155,12 +155,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 22
+          node-version: 24.11
 
       - uses: actions/cache@v3
         name: Setup npm cache
