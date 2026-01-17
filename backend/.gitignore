@@ -8,6 +8,7 @@
 Thumbs.db
 nbproject
 coverage
+.yarn
 
 # Local files
 .cache

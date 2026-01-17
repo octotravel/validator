@@ -1,24 +1,19 @@
 import { AuthTypes, Connector, IpAddressTypes } from '@google-cloud/cloud-sql-connector';
 import { inject } from '@needle-di/core';
-import { Environment, Logger } from '@octocloud/core';
+import { Environment } from '@octocloud/core';
 import isDocker from 'is-docker';
 import postgresql, { ClientBase, ClientConfig, Pool, PoolClient, PoolConfig, QueryResult } from 'pg';
 import config from '../config/config';
-import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
-import { ExceptionLogger } from '../logger/ExceptionLogger';
-import { LoggerFactory } from '../logger/LoggerFactory';
+import { ConsoleLogger } from '../logger/console/ConsoleLogger';
+import { ExceptionLogger } from '../logger/exception/ExceptionLogger';
 import { Database } from './Database';
 import { PoolConnectionError } from './error/PoolConnectionError';
 
 export class PostgresDatabase implements Database {
-  private readonly consoleLogger: Logger;
-
   public constructor(
+    private readonly consoleLogger: ConsoleLogger = inject('ConsoleLogger'),
     private readonly exceptionLogger: ExceptionLogger = inject('ExceptionLogger'),
-    consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory),
-  ) {
-    this.consoleLogger = consoleLoggerFactory.create('database');
-  }
+  ) {}
 
   private pool: Pool | null = null;
 
@@ -42,7 +37,7 @@ export class PostgresDatabase implements Database {
         const connector = new Connector();
         const clientOpts = await connector.getOptions({
           instanceConnectionName: config.DB_INSTANCE_CONNECTION_NAME,
-          ipType: IpAddressTypes.PRIVATE,
+          ipType: IpAddressTypes.PUBLIC,
           authType: AuthTypes.IAM,
         });
 
@@ -73,15 +68,15 @@ export class PostgresDatabase implements Database {
         });
       }
 
-      this.pool.on('error', (err: Error, client: ClientBase) => {
-        this.consoleLogger.error(err);
-        this.exceptionLogger.error(err);
+      this.pool.on('error', async (err: Error, client: ClientBase) => {
+        await this.consoleLogger.error(err);
+        await this.exceptionLogger.error(err);
       });
 
-      this.pool.on('release', (err: Error, client: ClientBase) => {
+      this.pool.on('release', async (err: Error, client: ClientBase) => {
         if (err) {
-          this.consoleLogger.error(err);
-          this.exceptionLogger.error(err);
+          await this.consoleLogger.error(err);
+          await this.exceptionLogger.error(err);
         }
       });
     } catch (e: unknown) {
@@ -131,7 +126,7 @@ export class PostgresDatabase implements Database {
     return await (await this.getConnection()).connect();
   }
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   public async query(...args: [string, ...any[]]): Promise<QueryResult<any>> {
     return await (await this.getConnection()).query(...args);
   }

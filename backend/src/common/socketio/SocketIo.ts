@@ -1,15 +1,12 @@
-import * as socketio from 'socket.io';
-
 import { inject } from '@needle-di/core';
-import { Logger } from '@octocloud/core';
+import * as socketio from 'socket.io';
 import { Session } from '../../types/Session';
 import { container } from '../di/container';
-import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
-import { LoggerFactory } from '../logger/LoggerFactory';
-import { ValidationResult } from '../validation/v2/ValidationResult';
-import { ScenarioId } from '../validation/v2/scenario/ScenarioId';
-import { Step } from '../validation/v2/step/Step';
-import { StepId } from '../validation/v2/step/StepId';
+import { ConsoleLogger } from '../logger/console/ConsoleLogger';
+import { ScenarioId } from '../validation/reseller/scenario/ScenarioId';
+import { Step } from '../validation/reseller/step/Step';
+import { StepId } from '../validation/reseller/step/StepId';
+import { ValidationResult } from '../validation/reseller/ValidationResult';
 import { WebSocket } from './WebSocket';
 
 export interface ServerToClientEvents {
@@ -45,15 +42,11 @@ export interface WebSocketValidationResultItem {
 
 export class SocketIo implements WebSocket {
   private socketIoServer: socketio.Server | null = null;
-  private readonly consoleLogger: Logger;
 
-  public constructor(consoleLoggerFactory: LoggerFactory = inject(ConsoleLoggerFactory)) {
-    this.consoleLogger = consoleLoggerFactory.create('database');
-  }
+  public constructor(private readonly consoleLogger: ConsoleLogger = inject('ConsoleLogger')) {}
 
   public async sendValidationResult(session: Session, step: Step, validationResult: ValidationResult): Promise<void> {
-    this.consoleLogger.log(`Sending validation result to session with id "${session.id}".`);
-
+    await this.consoleLogger.log(`Sending validation result to session with id "${session.id}".`);
     const websocketValidationResult = {
       isValid: validationResult.isValid(),
       scenarioId: session.currentScenario,

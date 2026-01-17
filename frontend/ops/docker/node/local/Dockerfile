@@ -1,6 +1,4 @@
-FROM node:22.9.0-alpine3.20
-
-RUN apk add --no-cache libc6-compat wget git ansible
+FROM node:24.11-alpine3.21
 
 WORKDIR /var/www/frontend/
 
@@ -10,7 +8,4 @@ COPY . .
 
 EXPOSE $PUBLIC_APP_PORT
 
-RUN npm update --global npm
-RUN npm install --global
-
-CMD ["sh", "-c", "npm install --no-lockfile --prefer-offline && npm run dev"]
+CMD ["sh", "-c", "npm install --silent --no-audit --no-fund --prefer-offline && npm run dev"]

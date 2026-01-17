@@ -1,97 +1,109 @@
-import { Container, InjectionToken } from '@needle-di/core';
+import { Container } from '@needle-di/core';
 import { BackendContainer } from '@octocloud/backend';
-import { BaseConfig, Environment } from '@octocloud/core';
+import { Environment } from '@octocloud/core';
 import { ApiRouter } from '../../api/ApiRouter';
 import { ErrorResponseFactory } from '../../api/http/error/ErrorResponseFactory';
 import { JsonResponseFactory } from '../../api/http/json/JsonResponseFactory';
+import { GetDocsHandler } from '../../api/reseller/docs/GetResellerDocsHandler';
+import { ResellerRouter } from '../../api/reseller/ResellerRouter';
+import { GetCapabilitiesHandler } from '../../api/reseller/reseller/capabilities/GetCapabilitiesHandler';
+import { AuthMiddleware } from '../../api/reseller/reseller/octo/AuthMiddleware';
+import { AvailabilityCalendarHandler } from '../../api/reseller/reseller/octo/availability/AvailabilityCalendarHandler';
+import { AvailabilityCheckHandler } from '../../api/reseller/reseller/octo/availability/AvailabilityCheckHandler';
+import { BookingCancellationHandler } from '../../api/reseller/reseller/octo/booking/BookingCancellationHandler';
+import { BookingConfirmationHandler } from '../../api/reseller/reseller/octo/booking/BookingConfirmationHandler';
+import { BookingReservationHandler } from '../../api/reseller/reseller/octo/booking/BookingReservationHandler';
+import { OctoRouter } from '../../api/reseller/reseller/octo/OctoRouter';
+import { GetProductHandler } from '../../api/reseller/reseller/octo/product/GetProductHandler';
+import { GetProductsHandler } from '../../api/reseller/reseller/octo/product/GetProductsHandler';
+import { RequestLoggerMiddleware } from '../../api/reseller/reseller/octo/RequestLoggerMiddleware';
+import { GetSupplierHandler } from '../../api/reseller/reseller/octo/supplier/GetSupplierHandler';
+import { RootResellerRouter } from '../../api/reseller/reseller/RootResellerRouter';
+import { GetScenarioHandler } from '../../api/reseller/reseller/scenario/GetScenarioHandler';
+import { GetScenariosHandler } from '../../api/reseller/reseller/scenario/GetScenariosHandler';
+import { CreateSessionHandler } from '../../api/reseller/session/CreateSessionHandler';
+import { GetSessionHandler } from '../../api/reseller/session/GetSessionHandler';
+import { GetSessionValidationHistoryHandler } from '../../api/reseller/session/GetSessionValidationHistoryHandler';
+import { UpdateSessionHandler } from '../../api/reseller/session/UpdateSessionHandler';
+import { ValidateSessionQuestionsAnswersHandler } from '../../api/reseller/session/ValidateSessionQuestionsAnswersHandler';
+import { SupplierRouter } from '../../api/supplier/SupplierRouter';
+import { ValidateHandler } from '../../api/supplier/validate/ValidateHandler';
 import { V1Router } from '../../api/v1/V1Router';
-import { ValidateHandler } from '../../api/v1/validate/ValidateHandler';
+import { V2OctoRouter } from '../../api/v2/V2OctoRouter';
+import { V2RootRouter } from '../../api/v2/V2RootRouter';
 import { V2Router } from '../../api/v2/V2Router';
-import { GetDocsHandler } from '../../api/v2/docs/GetDocsHandler';
-import { ResellerRouter } from '../../api/v2/reseller/ResellerRouter';
-import { GetCapabilitiesHandler } from '../../api/v2/reseller/capabilities/GetCapabilitiesHandler';
-import { AuthMiddleware } from '../../api/v2/reseller/octo/AuthMiddleware';
-import { OctoRouter } from '../../api/v2/reseller/octo/OctoRouter';
-import { RequestLoggerMiddleware } from '../../api/v2/reseller/octo/RequestLoggerMiddleware';
-import { AvailabilityCalendarHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCalendarHandler';
-import { AvailabilityCheckHandler } from '../../api/v2/reseller/octo/availability/AvailabilityCheckHandler';
-import { BookingCancellationHandler } from '../../api/v2/reseller/octo/booking/BookingCancellationHandler';
-import { BookingConfirmationHandler } from '../../api/v2/reseller/octo/booking/BookingConfirmationHandler';
-import { BookingReservationHandler } from '../../api/v2/reseller/octo/booking/BookingReservationHandler';
-import { GetProductHandler } from '../../api/v2/reseller/octo/product/GetProductHandler';
-import { GetProductsHandler } from '../../api/v2/reseller/octo/product/GetProductsHandler';
-import { GetSupplierHandler } from '../../api/v2/reseller/octo/supplier/GetSupplierHandler';
-import { GetScenarioHandler } from '../../api/v2/reseller/scenario/GetScenarioHandler';
-import { GetScenariosHandler } from '../../api/v2/reseller/scenario/GetScenariosHandler';
-import { CreateSessionHandler } from '../../api/v2/session/CreateSessionHandler';
-import { GetSessionHandler } from '../../api/v2/session/GetSessionHandler';
-import { GetSessionValidationHistoryHandler } from '../../api/v2/session/GetSessionValidationHistoryHandler';
-import { UpdateSessionHandler } from '../../api/v2/session/UpdateSessionHandler';
-import { ValidateSessionQuestionsAnswersHandler } from '../../api/v2/session/ValidateSessionQuestionsAnswersHandler';
-import { AnsibleDecryptCommand } from '../../console/command/AnsibleDecryptCommand';
-import { AnsibleEncryptCommand } from '../../console/command/AnsibleEncryptCommand';
 import { ClearDbCommand } from '../../console/command/ClearDbCommand';
 import { MigrateDbCommand } from '../../console/command/MigrateDbCommand';
 import config from '../config/config';
 import { Migrator } from '../database/Migrator';
 import { PostgresDatabase } from '../database/PostgresDatabase';
-import { ConsoleLoggerFactory } from '../logger/ConsoleLoggerFactory';
-import { SentryExceptionLogger } from '../logger/SentryExceptionLogger';
+import { ConsoleLogger } from '../logger/console/ConsoleLogger';
+import { NoopConsoleLogger } from '../logger/console/NoopConsoleLogger';
+import { PinoConsoleLogger } from '../logger/console/PinoConsoleLogger';
+import { SentryExceptionLogger } from '../logger/exception/SentryExceptionLogger';
 import { VentrataRequestLogger } from '../logger/request/VentrataRequestLogger';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
-import { PostgresRequestLogRepository } from '../requestLog/PostgresRequestLogRepository';
-import { RequestLogService } from '../requestLog/RequestLogService';
+import { PostgresResellerRequestLogRepository } from '../requestLog/reseller/PostgresResellerRequestLogRepository';
+import { ResellerRequestLogService } from '../requestLog/reseller/ResellerRequestLogService';
+import { CombinedSupplierRequestLogRepository } from '../requestLog/supplier/CombinedSupplierRequestLogRepository';
+import { InMemorySupplierRequestLogRepository } from '../requestLog/supplier/InMemorySupplierRequestLogRepository';
+import { PostgresSupplierRequestLogRepository } from '../requestLog/supplier/PostgresSupplierRequestLogRepository';
+import { SupplierRequestLogService } from '../requestLog/supplier/SupplierRequestLogService';
 import { DummySocketIo } from '../socketio/DummySocketIo';
 import { SocketIo } from '../socketio/SocketIo';
-import { ValidationController } from '../validation/v1/services/validation/Controller';
-import { AvailabilityFacade } from '../validation/v2/facade/availability/AvailabilityFacade';
-import { BookingFacade } from '../validation/v2/facade/booking/BookingFacade';
-import { ProductFacade } from '../validation/v2/facade/product/ProductFacade';
-import { SupplierFacade } from '../validation/v2/facade/supplier/SupplierFacade';
-import { InMemoryScenarioRepository } from '../validation/v2/scenario/InMemoryScenarioRepository';
-import { ScenarioFacade } from '../validation/v2/scenario/ScenarioFacade';
-import { ScenarioService } from '../validation/v2/scenario/ScenarioService';
-import { AdvancedScenario } from '../validation/v2/scenario/reseller/AdvancedScenario';
-import { BasicScenario } from '../validation/v2/scenario/reseller/BasicScenario';
-import { PostgresSessionRepository } from '../validation/v2/session/PostgresSessionRepository';
-import { SessionFacade } from '../validation/v2/session/SessionFacade';
-import { SessionScenarioProgressProvider } from '../validation/v2/session/SessionScenarioProgressProvider';
-import { SessionService } from '../validation/v2/session/SessionService';
-import { SessionStepGuard } from '../validation/v2/session/SessionStepGuard';
-import { SessionStepQuestionAnswersValidationProcessor } from '../validation/v2/session/SessionStepQuestionAnswersValidationProcessor';
-import { SessionStepValidationProcessor } from '../validation/v2/session/SessionStepValidationProcessor';
-import { StepDataValidator } from '../validation/v2/step/StepDataValidator';
-import { StepQuestionAnswersValidator } from '../validation/v2/step/StepQuestionAnswersValidator';
-import { AvailabilityCalendarStep } from '../validation/v2/step/reseller/availability/AvailabilityCalendarStep';
-import { AvailabilityCheckStep } from '../validation/v2/step/reseller/availability/AvailabilityCheckStep';
-import { BookingCancellationStep } from '../validation/v2/step/reseller/booking/BookingCancellationStep';
-import { BookingConfirmationStep } from '../validation/v2/step/reseller/booking/BookingConfirmationStep';
-import { BookingReservationStep } from '../validation/v2/step/reseller/booking/BookingReservationStep';
-import { GetProductStep } from '../validation/v2/step/reseller/product/GetProductStep';
-import { GetProductsStep } from '../validation/v2/step/reseller/product/GetProductsStep';
-import { GetSupplierStep } from '../validation/v2/step/reseller/supplier/GetSupplierStep';
+import { AvailabilityFacade } from '../validation/reseller/facade/availability/AvailabilityFacade';
+import { BookingFacade } from '../validation/reseller/facade/booking/BookingFacade';
+import { ProductFacade } from '../validation/reseller/facade/product/ProductFacade';
+import { SupplierFacade } from '../validation/reseller/facade/supplier/SupplierFacade';
+import { InMemoryScenarioRepository } from '../validation/reseller/scenario/InMemoryScenarioRepository';
+import { CoreScenario } from '../validation/reseller/scenario/reseller/CoreScenario';
+import { ScenarioFacade } from '../validation/reseller/scenario/ScenarioFacade';
+import { ScenarioService } from '../validation/reseller/scenario/ScenarioService';
+import { PostgresSessionRepository } from '../validation/reseller/session/PostgresSessionRepository';
+import { SessionFacade } from '../validation/reseller/session/SessionFacade';
+import { SessionScenarioProgressProvider } from '../validation/reseller/session/SessionScenarioProgressProvider';
+import { SessionService } from '../validation/reseller/session/SessionService';
+import { SessionStepGuard } from '../validation/reseller/session/SessionStepGuard';
+import { SessionStepQuestionAnswersValidationProcessor } from '../validation/reseller/session/SessionStepQuestionAnswersValidationProcessor';
+import { SessionStepValidationProcessor } from '../validation/reseller/session/SessionStepValidationProcessor';
+import { AvailabilityCalendarStep } from '../validation/reseller/step/reseller/availability/AvailabilityCalendarStep';
+import { AvailabilityCheckStep } from '../validation/reseller/step/reseller/availability/AvailabilityCheckStep';
+import { BookingCancellationStep } from '../validation/reseller/step/reseller/booking/BookingCancellationStep';
+import { BookingConfirmationStep } from '../validation/reseller/step/reseller/booking/BookingConfirmationStep';
+import { BookingReservationStep } from '../validation/reseller/step/reseller/booking/BookingReservationStep';
+import { GetProductStep } from '../validation/reseller/step/reseller/product/GetProductStep';
+import { GetProductsStep } from '../validation/reseller/step/reseller/product/GetProductsStep';
+import { GetSupplierStep } from '../validation/reseller/step/reseller/supplier/GetSupplierStep';
+import { StepDataValidator } from '../validation/reseller/step/StepDataValidator';
+import { StepQuestionAnswersValidator } from '../validation/reseller/step/StepQuestionAnswersValidator';
+import { ValidationController } from '../validation/supplier/services/validation/Controller';
 
 export const container = new Container();
+const env = config.getEnvironment();
+
+if (env === Environment.TEST) {
+  container.bind({
+    provide: 'ConsoleLogger',
+    useClass: NoopConsoleLogger,
+  });
+} else {
+  container.bind({
+    provide: 'ConsoleLogger',
+    useClass: PinoConsoleLogger,
+  });
+}
+
+const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
 
 // Logger
-container.bind(ConsoleLoggerFactory);
 container.bind({
   provide: 'ExceptionLogger',
   useClass: SentryExceptionLogger,
 });
 
-const consoleLoggerFactory: ConsoleLoggerFactory = container.get(ConsoleLoggerFactory);
-const consoleLogger = consoleLoggerFactory.create();
-
-const baseConfig = new BaseConfig({
-  environment: config.getEnvironment(),
-  productionURL: config.BACKEND_ENDPOINT_URL, // TODO unite in core to just "url"
-  stagingURL: config.BACKEND_ENDPOINT_URL, // TODO remove in core
-});
-
 container.bind({
   provide: 'OctoBackend',
-  useValue: new BackendContainer({ config: baseConfig, logger: consoleLogger }).backend,
+  useValue: new BackendContainer({ logger: consoleLogger }).backend,
 });
 
 // Database
@@ -110,10 +122,40 @@ container.bind({
   useClass: VentrataRequestLogger,
 });
 container.bind({
-  provide: 'RequestLogRepository',
-  useClass: PostgresRequestLogRepository,
+  provide: 'ResellerRequestLogRepository',
+  useClass: PostgresResellerRequestLogRepository,
 });
-container.bind(RequestLogService);
+container.bind(ResellerRequestLogService);
+
+if (config.getEnvironment() === Environment.TEST || config.getEnvironment() === Environment.LOCAL) {
+  container.bind({
+    provide: 'InMemorySupplierRequestLogRepository',
+    useClass: InMemorySupplierRequestLogRepository,
+  });
+  container.bind(InMemorySupplierRequestLogRepository);
+
+  container.bind({
+    provide: 'PostgresSupplierRequestLogRepository',
+    useClass: PostgresSupplierRequestLogRepository,
+  });
+  container.bind(PostgresSupplierRequestLogRepository);
+
+  container.bind({
+    provide: 'SupplierRequestLogRepository',
+    useFactory: (context) => {
+      const memoryRepo = context.get(InMemorySupplierRequestLogRepository);
+      const postgresRepo = context.get(PostgresSupplierRequestLogRepository);
+      return new CombinedSupplierRequestLogRepository(memoryRepo, postgresRepo);
+    },
+  });
+  container.bind(CombinedSupplierRequestLogRepository);
+} else {
+  container.bind({
+    provide: 'SupplierRequestLogRepository',
+    useClass: PostgresSupplierRequestLogRepository,
+  });
+}
+container.bind(SupplierRequestLogService);
 
 // V1
 container.bind(ValidateHandler);
@@ -188,31 +230,6 @@ container.bind(ValidateSessionQuestionsAnswersHandler);
 
 // Commands
 container.bind({
-  provide: 'Command',
-  useClass: AnsibleDecryptCommand,
-  multi: true,
-});
-container.bind({
-  provide: 'AnsibleDecryptCommand',
-  useClass: AnsibleDecryptCommand,
-});
-container.bind(AnsibleDecryptCommand);
-container.bind({
-  provide: 'Command',
-  useClass: AnsibleEncryptCommand,
-  multi: true,
-});
-container.bind({
-  provide: 'AnsibleEncryptCommand',
-  useClass: AnsibleEncryptCommand,
-});
-container.bind(AnsibleEncryptCommand);
-container.bind({
-  provide: 'Command',
-  useClass: ClearDbCommand,
-  multi: true,
-});
-container.bind({
   provide: 'ClearDbCommand',
   useClass: ClearDbCommand,
 });
@@ -230,13 +247,17 @@ container.bind(MigrateDbCommand);
 
 // V1 validator
 container.bind(V1Router);
+container.bind(SupplierRouter);
 container.bind(ValidationController);
 
 // V2 validator
 // Routers
 container.bind(V2Router);
+container.bind(V2RootRouter);
+container.bind(V2OctoRouter);
 container.bind(OctoRouter);
 container.bind(ResellerRouter);
+container.bind(RootResellerRouter);
 
 container.bind(AuthMiddleware);
 container.bind(RequestLoggerMiddleware);
@@ -255,15 +276,16 @@ container.bind(GetProductsHandler);
 container.bind(GetProductHandler);
 
 // Reseller Scenarios ResellerScenario
-container.bind(AdvancedScenario);
+container.bind(CoreScenario);
 container.bind({
   provide: 'ResellerScenario',
-  useClass: AdvancedScenario,
+  useClass: CoreScenario,
   multi: true,
 });
+/*
 container.bind(BasicScenario);
 container.bind({
   provide: 'ResellerScenario',
   useClass: BasicScenario,
   multi: true,
-});
+});*/

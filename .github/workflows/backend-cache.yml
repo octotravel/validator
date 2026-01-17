@@ -1,0 +1,46 @@
+name: Backend Cache
+
+on:
+  push:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  build-cache:
+    name: Build Cache
+    defaults:
+      run:
+        working-directory: ./backend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.11
+
+      - name: Setup yarn
+        run: corepack enable
+        shell: bash
+
+      - name: Cache yarn
+        uses: actions/cache@v4
+        id: cache-yarn
+        with:
+          path: |
+            .yarn/cache
+            .yarn/install-state.gz
+            node_modules
+          key: yarn-cache-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-cache-
+
+      - name: Install node modules
+        run: yarn install --immutable --mode=skip-build
+        shell: bash

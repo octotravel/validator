@@ -1,8 +1,8 @@
-FROM denoland/deno:2.2.8
+FROM denoland/deno:alpine-2.6.5
 
 EXPOSE $APP_PORT
 
-WORKDIR /app
+WORKDIR /var/www/backend/
 
 USER deno
 

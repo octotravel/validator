@@ -1,23 +1,23 @@
-# octovalidator
+# Octo Validator
 
-OCTO API validator
+## Development
 
-Usage
+### Project setup
+#### 1. Prepare .env files
 
-To run client and server in dev
-```
-npm run dev
-```
+- Copy `.env.local` as `.env`:
+    - `cp backend/.env.local backend/.env`
+    - `cp frontend/.env.local frontend/.env`
 
-To build client 
-```
-npm run febuild
-```
+#### 2. Install and run build the containers
 
-To run only server
+- Install Docker (https://docs.docker.com/get-docker/)
+- Run `make build` command to build all docker containers
 
-```
-npm run server
-```
+#### 3. Run all containers
 
-ci test
+- Run `make up` command and wait for `node_modules` installation
+
+#### 4. Prepare database
+
+- Run `cd backend && make console migrate-db`

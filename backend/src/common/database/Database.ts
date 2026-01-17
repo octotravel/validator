@@ -2,7 +2,7 @@ import { Pool, PoolClient } from 'pg';
 
 export interface QueryResult {
   rowCount: number;
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   rows: any[];
 }
 
@@ -17,7 +17,7 @@ export interface Database {
 
   getClient: () => Promise<PoolClient>;
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: <?>
   query: (...args: any[]) => Promise<QueryResult>;
 
   startTransaction: () => Promise<void>;

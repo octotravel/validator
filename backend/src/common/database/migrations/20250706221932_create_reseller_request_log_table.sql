@@ -1,0 +1,11 @@
+ALTER TABLE request_log RENAME TO reseller_request_log;
+
+ALTER TABLE reseller_request_log RENAME CONSTRAINT pk_request_log TO pk_reseller_request_log;
+
+ALTER TABLE reseller_request_log RENAME CONSTRAINT fk_session_id TO fk_reseller_session_id;
+
+ALTER INDEX index_request_log_session_id RENAME TO index_reseller_request_log_session_id;
+ALTER INDEX index_request_log_scenario_id RENAME TO index_reseller_request_log_scenario_id;
+ALTER INDEX index_request_log_step_id RENAME TO index_reseller_request_log_step_id;
+ALTER INDEX index_request_log_created_at RENAME TO index_reseller_request_log_created_at;
+ALTER INDEX index_request_log_is_valid RENAME TO index_reseller_request_log_is_valid;

@@ -24,7 +24,7 @@
 	};
 </script>
 
-<div class="card">
+<div class="card sticky top-56 z-10">
 	<div class="p-2">
 		<h3 class="font-bold text-center">Scenarios</h3>
 	</div>

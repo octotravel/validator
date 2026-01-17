@@ -68,6 +68,11 @@ const schema = {
     optional: true,
     default: 3006,
   },
+  APP_LOG_LEVEL: {
+    type: String,
+    optional: true,
+    default: 'trace',
+  },
   APP_ENABLE_LOGGER: {
     type: Boolean,
     optional: true,
@@ -93,7 +98,7 @@ const schema = {
     optional: true,
     default: '',
   },
-  IS_SENTRY_ENABLED: {
+  SENTRY_ENABLED: {
     type: Boolean,
     optional: true,
     default: false,

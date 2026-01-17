@@ -1,7 +1,7 @@
 import { Database } from '../../common/database/Database';
 import { Migrator } from '../../common/database/Migrator';
 import { container } from '../../common/di/container';
-import { ConsoleLoggerFactory } from '../../common/logger/ConsoleLoggerFactory';
+import { ConsoleLogger } from '../../common/logger/console/ConsoleLogger';
 import { Command } from './Command';
 
 export class MigrateDbCommand implements Command {
@@ -12,8 +12,7 @@ export class MigrateDbCommand implements Command {
   public run = async (): Promise<void> => {
     const database: Database = container.get('Database');
     const migrator = container.get(Migrator);
-    const consoleLoggerFactory = container.get(ConsoleLoggerFactory);
-    const consoleLogger = consoleLoggerFactory.create(this.getSlug());
+    const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
 
     await migrator.migrate(consoleLogger);
     await database.endPool();

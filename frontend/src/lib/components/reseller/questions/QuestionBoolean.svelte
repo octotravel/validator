@@ -31,7 +31,7 @@
 		return QuestionValidationStatus.NOT_VALIDATED;
 	};
 
-	$: answer, handleBlur(question, answer);
+	$: (answer, handleBlur(question, answer));
 </script>
 
 <div class="accordion-border p-4">

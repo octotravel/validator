@@ -17,7 +17,7 @@
 </script>
 
 {#if $resellerSessionStore.session}
-	<div class="card w-full mb-2">
+	<div class="card w-full mb-2 sticky top-2 z-10">
 		<div class="card-header text-center">
 			<h3 class="card-title font-bold">Session Details</h3>
 		</div>
