@@ -1,9 +1,21 @@
 {
-  "private": true,
   "name": "@octocloud/validator",
   "version": "1.0.0",
+  "description": "",
   "license": "ISC",
   "author": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "./dist/index.js",
+    "./dist/src/common/validation/supplier/**/*"
+  ],
   "scripts": {
     "build": "tsc",
     "build:dry": "tsc --noEmit",
