@@ -88,6 +88,7 @@ export class Context implements IContext {
 
   public setProducts = (products: Product[]): ValidatorError[] => {
     if (this.productConfig.areProductsInvalid(products)) {
+      console.log("termination");
       this.terminateValidation = true;
     }
 
