@@ -37,7 +37,8 @@
     "test": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts",
     "test:coverage": "VITE_CJS_IGNORE_WARNING=true vitest run --config ./vitest.config.ts --coverage",
     "lefthook": "cd .. && lefthook install",
-    "audit": "audit-ci --config ./audit-ci.json"
+    "audit": "audit-ci --config ./audit-ci.json",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "@date-fns/tz": "1.2.0",
