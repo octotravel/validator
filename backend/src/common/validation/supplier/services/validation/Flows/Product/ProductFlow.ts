@@ -12,10 +12,7 @@ export class ProductFlow extends BaseFlow implements Flow {
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {
-    const scenarios: Scenario[] = [
-      new GetProductScenario(),
-      new GetProductInvalidScenario(),
-    ];
+    const scenarios: Scenario[] = [new GetProductScenario(), new GetProductInvalidScenario()];
     return await this.validateScenarios(scenarios, context);
   };
 }

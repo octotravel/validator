@@ -2,6 +2,7 @@ import { inject } from '@needle-di/core';
 import { OctoError, RequestContext } from '@octocloud/core';
 import { IRequest } from 'itty-router';
 import { ValidationError } from 'yup';
+import { SupplierRequestLogService } from '../../../common/requestLog/supplier/SupplierRequestLogService';
 import { BadRequestError, InternalServerError } from '../../../common/validation/supplier/models/Error';
 import { ValidationController } from '../../../common/validation/supplier/services/validation/Controller';
 import { Context } from '../../../common/validation/supplier/services/validation/context/Context';
@@ -11,13 +12,12 @@ import {
 } from '../../../common/validation/supplier/validators/backendValidator/ValidationSchema';
 import { JsonResponseFactory } from '../../http/json/JsonResponseFactory';
 import { BodyParser } from '../../util/BodyParser';
-import { SupplierRequestLogService } from '../../../common/requestLog/supplier/SupplierRequestLogService';
 
 export class ValidateHandler {
   public constructor(
     private readonly jsonResponseFactory = inject(JsonResponseFactory),
     private readonly validatorController = inject(ValidationController),
-    private readonly supplierRequestLogService = inject(SupplierRequestLogService)
+    private readonly supplierRequestLogService = inject(SupplierRequestLogService),
   ) {}
 
   private handleError(err: Error): Response {
@@ -47,7 +47,7 @@ export class ValidateHandler {
 
       const flowResult = await this.validatorController.validate(context);
 
-      for (const scenario of flowResult.flatMap(fr => fr.scenarios)) {
+      for (const scenario of flowResult.flatMap((fr) => fr.scenarios)) {
         this.supplierRequestLogService.logScenario(scenario, context);
       }
 
