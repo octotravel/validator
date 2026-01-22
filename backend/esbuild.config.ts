@@ -29,7 +29,7 @@ const esbuildConfig: esbuild.BuildOptions = {
   minifyWhitespace: true,
   minifyIdentifiers: false,
   minifySyntax: true,
-  sourcemap: 'linked',
+  sourcemap: true,
   plugins,
 };
 
