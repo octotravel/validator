@@ -5,7 +5,7 @@ import { Context } from '../../context/Context';
 import { AvailabilityScenarioHelper } from '../../helpers/AvailabilityScenarioHelper';
 import { Scenario, ScenarioResult } from '../Scenario';
 
-export class AvailabilityChecIntervalScenario implements Scenario {
+export class AvailabilityCheckIntervalScenario implements Scenario {
   private readonly product: Product;
   private readonly availabilityScenarioHelper = new AvailabilityScenarioHelper();
 

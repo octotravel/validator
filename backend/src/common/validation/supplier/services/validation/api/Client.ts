@@ -1,6 +1,5 @@
 import { fetchRetry, RequestContext, SubRequestContext } from '@octocloud/core';
 import { CapabilityId } from '@octocloud/types';
-import { asyncLocalStorage } from '../../../../../di/asyncLocalStorage';
 import { Context } from '../context/Context';
 import { Result } from './types';
 
@@ -27,7 +26,6 @@ export class Client {
 
   protected fetch = async <T>(data: FetchData): Promise<Result<T>> => {
     const { url, method = 'GET', body } = data;
-    console.log(`${new Date().toISOString()} | ${method}: ${url}`);
     const headers = this.createHeaders();
     const init: RequestInit = {
       method,
@@ -42,8 +40,8 @@ export class Client {
     let ventrataRequestContext: RequestContext | undefined;
     let subRequestContext: SubRequestContext | undefined;
 
-    if (data.context.useRequestContext) {
-      ventrataRequestContext = asyncLocalStorage.getStore()!.requestScopedContext.getVentrataRequestContext();
+    if (data.context.requestContext !== null) {
+      ventrataRequestContext = data.context.requestContext;
       const requestId = ventrataRequestContext.getRequestId();
       subRequestContext = new SubRequestContext({
         request: req,
