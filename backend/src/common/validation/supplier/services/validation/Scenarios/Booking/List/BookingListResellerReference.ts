@@ -34,6 +34,7 @@ export class BookingListResellerReferenceScenario implements Scenario {
         uuid: resultReservation.data.uuid,
         contact: {
           fullName: 'John Doe',
+          emailAddress: 'johndoe@example.com',
         },
         resellerReference,
       },
