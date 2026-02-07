@@ -20,7 +20,7 @@ const releaseName = generateReleaseName();
 const plugins = [esbuildPluginPino({ transports: [] })];
 
 const esbuildConfig: esbuild.BuildOptions = {
-  entryPoints: ['src/server.ts', 'src/console.ts'],
+  entryPoints: ['src/index.ts', 'src/server.ts', 'src/console.ts'],
   outdir: 'dist',
   platform: 'node',
   target: 'ES2022',

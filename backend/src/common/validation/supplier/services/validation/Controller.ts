@@ -1,5 +1,3 @@
-import { inject } from '@needle-di/core';
-import { SupplierRequestLogService } from '../../../../requestLog/supplier/SupplierRequestLogService';
 import { Context } from './context/Context';
 import { AvailabilityCalendarFlow } from './Flows/Availability/AvailabilityCalendarFlow';
 import { AvailabilityFlow } from './Flows/Availability/AvailabilityFlow';
@@ -12,15 +10,15 @@ import { BookingReservationFlow } from './Flows/Booking/BookingReservationFlow';
 import { BookingUpdateFlow } from './Flows/Booking/BookingUpdateFlow';
 import { Flow, FlowResult } from './Flows/Flow';
 import { ProductFlow } from './Flows/Product/ProductFlow';
+import { ProductsFlow } from './Flows/Products/ProductsFlow';
 import { SupplierFlow } from './Flows/Supplier/SupplierFlow';
 
 export class ValidationController {
-  public constructor(private readonly supplierRequestLogService = inject(SupplierRequestLogService)) {}
-
   public validate = async (context: Context): Promise<FlowResult[]> => {
     const flows: Flow[] = [
       // new CapabilitiesFlow(),
       new SupplierFlow(),
+      new ProductsFlow(),
       new ProductFlow(),
       new AvailabilityCalendarFlow(),
       new AvailabilityFlow(),
@@ -32,21 +30,17 @@ export class ValidationController {
       new BookingGetFlow(),
       new BookingListFlow(),
     ];
-    const results = [];
+    const flowResults = [];
 
     for await (const flow of flows) {
-      const result = await flow.validate(context);
-      results.push(result);
-
-      for (const scenario of result.scenarios) {
-        this.supplierRequestLogService.logScenario(scenario, context);
-      }
+      const flowResult = await flow.validate(context);
+      flowResults.push(flowResult);
 
       if (context.terminateValidation) {
         break;
       }
     }
 
-    return results;
+    return flowResults;
   };
 }
