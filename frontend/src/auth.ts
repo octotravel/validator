@@ -52,7 +52,7 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 			return token;
 		},
 		async session({ session, token }) {
-			// @ts-ignore - extending session with accessToken
+			// @ts-expect-error - extending session with accessToken
 			session.accessToken = token.accessToken as string;
 			return session;
 		}
