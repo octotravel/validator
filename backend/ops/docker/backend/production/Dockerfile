@@ -1,20 +1,20 @@
 # Base
 FROM node:24.11-alpine3.21 AS base
 
-ARG SENTRY_AUTH_TOKEN
-
 WORKDIR /app
 
-COPY package.json yarn.lock .yarnrc.yml /app
-RUN apk add --no-cache git
-RUN corepack enable
+COPY package.json yarn.lock .yarnrc.yml /app/
+RUN apk add --no-cache git \
+    && corepack enable
 RUN yarn install --immutable --mode=skip-build
 
 COPY . /app
 
 ENV NODE_ENV=production
 
-RUN yarn run esbuild
+RUN --mount=type=secret,id=sentry_auth_token \
+    SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_auth_token) \
+    yarn run esbuild
 
 # Final
 FROM node:22.15.1-alpine3.21 AS final
