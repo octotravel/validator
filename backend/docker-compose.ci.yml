@@ -14,4 +14,4 @@ services:
       - TZ=${TZ}
       - PGTZ=${TZ}
     volumes:
-      - ./ops/docker/postgres/common/data:/var/lib/postgresql/data:delegated
+      - ./ops/docker/postgres/common/data:/var/lib/postgresql:delegated

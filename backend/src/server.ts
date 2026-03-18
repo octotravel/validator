@@ -6,6 +6,8 @@ import * as socketio from 'socket.io';
 import { app } from './app';
 import config from './common/config/config';
 import { Database } from './common/database/Database';
+import { Migrator } from './common/database/Migrator';
+import { PostgresDatabase } from './common/database/PostgresDatabase';
 import { container } from './common/di/container';
 import { ConsoleLogger } from './common/logger/console/ConsoleLogger';
 import { initializeSocketIoServer } from './socketIoServer';
@@ -18,6 +20,11 @@ const port = config.APP_PORT;
 const httpServer = createServer(app.callback());
 const socketIoServer: socketio.Server | null = initializeSocketIoServer(httpServer);
 const server = httpServer.listen(port, async () => {
+  if (database instanceof PostgresDatabase) {
+    const migrator: Migrator = container.get(Migrator);
+    await migrator.migrate(consoleLogger);
+  }
+
   await consoleLogger.log(`Running app on port ${port} on "${env}" env.`);
 });
 
