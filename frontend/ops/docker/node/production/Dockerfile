@@ -5,6 +5,7 @@ WORKDIR /app
 COPY . .
 
 ENV NODE_ENV=production
+ENV PUBLIC_VALIDATOR_BASE_URL=https://validator-backend.octo.travel
 
 RUN npm install
 RUN npm run build
