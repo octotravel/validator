@@ -9,7 +9,7 @@ runs:
       shell: bash
 
     - name: Setup node
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
       with:
         node-version: 24.11
 
@@ -18,7 +18,7 @@ runs:
       shell: bash
 
     - name: Restore yarn cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       id: cache-yarn
       with:
         path: |
