@@ -34,6 +34,8 @@
 	import logo_light from '$lib/assets/images/logo_light.png';
 	import logo from '$lib/assets/images/logo.png';
 
+	import { page } from '$app/stores';
+
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	initializeStores();
 </script>
@@ -62,6 +64,14 @@
 			</h3>
 			<svelte:fragment slot="trail">
 				<LightSwitch />
+				{#if $page.data.session?.user}
+					<span class="text-sm opacity-75"
+						>{$page.data.session.user.name || $page.data.session.user.email}</span
+					>
+					<form method="post" action="/auth/signout">
+						<button type="submit" class="btn btn-sm variant-soft">Sign Out</button>
+					</form>
+				{/if}
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>

@@ -44,6 +44,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@auth/sveltekit": "^1.11.1",
 		"@floating-ui/dom": "1.6.3",
 		"@octocloud/types": "2.0.2",
 		"@sentry/sveltekit": "^7.112.2",

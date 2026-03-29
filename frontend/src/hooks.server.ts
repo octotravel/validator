@@ -1,6 +1,7 @@
 import { sequence } from '@sveltejs/kit/hooks';
 import { handleErrorWithSentry, sentryHandle } from '@sentry/sveltekit';
 import * as Sentry from '@sentry/sveltekit';
+import { handle as authHandle } from './auth';
 
 Sentry.init({
 	dsn: 'https://47ad4557ea3ccb6fcbf67b9011f8599c@o290279.ingest.us.sentry.io/4507146484842496',
@@ -10,8 +11,8 @@ Sentry.init({
 	// spotlight: import.meta.env.DEV,
 });
 
-// If you have custom handlers, make sure to place them after `sentryHandle()` in the `sequence` function.
-export const handle = sequence(sentryHandle());
+// Auth handle must come before Sentry so session is available
+export const handle = sequence(authHandle, sentryHandle());
 
 // If you have a custom error handler, pass it to `handleErrorWithSentry`
 export const handleError = handleErrorWithSentry();
