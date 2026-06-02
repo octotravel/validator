@@ -1,6 +1,6 @@
 import { Context } from '../context/Context';
 import { Scenario, ScenarioResult, ValidationResult } from '../Scenarios/Scenario';
-import { FlowResult } from './Flow';
+import { FlowResult, ReservationDemand } from './Flow';
 
 export abstract class BaseFlow {
   private readonly name: string;
@@ -12,6 +12,15 @@ export abstract class BaseFlow {
 
   public getName(): string {
     return this.name;
+  }
+
+  /**
+   * Reservations this flow makes against the available product. Defaults to none; booking flows
+   * that create reservations override this so the controller's pre-flight capacity check is
+   * accurate (see docs/reservation-availability-refactor.md).
+   */
+  public getReservationDemand(_context: Context): ReservationDemand {
+    return { reservations: 0 };
   }
 
   public getDocs(): string {

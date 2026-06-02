@@ -3,11 +3,15 @@ import { Context } from '../../context/Context';
 import { BookingReservationExtendScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtend';
 import { BookingReservationExtendInvalidUUIDScenario } from '../../Scenarios/Booking/Extend/BookingReservationExtendInvalidUUID';
 import { BaseFlow } from '../BaseFlow';
-import { Flow, FlowResult } from '../Flow';
+import { Flow, FlowResult, ReservationDemand } from '../Flow';
 
 export class BookingExtendFlow extends BaseFlow implements Flow {
   public constructor() {
     super('Extend Reservation', docs.bookingReservationExtend);
+  }
+
+  public getReservationDemand(): ReservationDemand {
+    return { reservations: 1 };
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {

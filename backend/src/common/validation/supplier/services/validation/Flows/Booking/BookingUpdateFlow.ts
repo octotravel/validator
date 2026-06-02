@@ -6,11 +6,15 @@ import { BookingUpdateProductScenario } from '../../Scenarios/Booking/Update/Boo
 import { BookingUpdateUnitItemsScenario } from '../../Scenarios/Booking/Update/BookingUpdateUnitItems';
 import { Scenario } from '../../Scenarios/Scenario';
 import { BaseFlow } from '../BaseFlow';
-import { Flow, FlowResult } from '../Flow';
+import { Flow, FlowResult, ReservationDemand } from '../Flow';
 
 export class BookingUpdateFlow extends BaseFlow implements Flow {
   public constructor() {
     super('Booking Update', docs.bookingUpdate);
+  }
+
+  public getReservationDemand(context: Context): ReservationDemand {
+    return { reservations: context.productConfig.isRebookAvailable ? 4 : 3 };
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {
