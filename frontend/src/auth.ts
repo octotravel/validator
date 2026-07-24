@@ -1,10 +1,9 @@
 import { env } from '$env/dynamic/private';
 import { SvelteKitAuth } from '@auth/sveltekit';
 
-export const { handle, signIn, signOut } = SvelteKitAuth({
-	secret: env.BETTER_AUTH_SECRET,
+export const { handle } = SvelteKitAuth({
+	secret: env.PRIVATE_AUTH_SECRET,
 	trustHost: true,
-	debug: false,
 	providers: [
 		{
 			id: 'outseta',
@@ -40,21 +39,5 @@ export const { handle, signIn, signOut } = SvelteKitAuth({
 				};
 			}
 		}
-	],
-	callbacks: {
-		async signIn() {
-			return true;
-		},
-		async jwt({ token, account }) {
-			if (account) {
-				token.accessToken = account.access_token;
-			}
-			return token;
-		},
-		async session({ session, token }) {
-			// @ts-expect-error - extending session with accessToken
-			session.accessToken = token.accessToken as string;
-			return session;
-		}
-	}
+	]
 });
