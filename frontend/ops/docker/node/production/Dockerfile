@@ -15,4 +15,4 @@ EXPOSE $PUBLIC_APP_PORT
 RUN npm update --global npm
 RUN npm install --global
 
-CMD ["node", "build/index.js"]
+CMD ["node", "--env-file=/secrets/.env", "build/index.js"]
