@@ -23,6 +23,13 @@ export class V1Router {
         },
       ],
     });
-    this.router.post('/validate', async (request) => await this.validateHandler.handleRequest(request));
+    this.router.post(
+      '/validate',
+      async (request) =>
+        await this.validateHandler.handleRequest(
+          request,
+          this.requestScopedContextProvider.getRequestScopedContext().getVentrataRequestContext(),
+        ),
+    );
   }
 }

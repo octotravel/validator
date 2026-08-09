@@ -1,8 +1,9 @@
+import { RequestContext } from '@octocloud/core';
 import { Capability, CapabilityId, Product } from '@octocloud/types';
 import { addDays } from 'date-fns';
 import { v4 as uuid } from 'uuid';
-import { ValidationEndpoint } from '../../../../../../api/supplier/validate/ValidationSchema';
 import { DateHelper } from '../../../helpers/DateHelper';
+import { ValidationEndpoint } from '../../../validators/backendValidator/ValidationSchema';
 import { ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { ApiClient } from '../api/ApiClient';
 import { ProductContext } from './ProductContext';
@@ -22,7 +23,7 @@ export class Context implements IContext {
   private headers = {};
   private capabilities: CapabilityId[] = [];
   public _terminateValidation = false;
-  private _useRequestContext = true;
+  private _requestContext: RequestContext | null = null;
   public requestId = '';
   private readonly date = new Date();
 
@@ -64,12 +65,12 @@ export class Context implements IContext {
     this._terminateValidation = terminateValidation;
   }
 
-  public get useRequestContext(): boolean {
-    return this._useRequestContext;
+  public get requestContext(): RequestContext | null {
+    return this._requestContext;
   }
 
-  public set useRequestContext(useRequestContext: boolean) {
-    this._useRequestContext = useRequestContext;
+  public set requestContext(requestContext: RequestContext | null) {
+    this._requestContext = requestContext;
   }
 
   public setCapabilities = (capabilities: Capability[]): ValidatorError[] => {
