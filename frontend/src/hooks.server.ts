@@ -16,12 +16,18 @@ const apiAuthGuard: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith('/api/')) {
 		const session = await event.locals.auth();
 		if (!session?.user) {
-			return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-				status: 401,
-				headers: {
-					'content-type': 'application/json'
+			return new Response(
+				JSON.stringify({
+					message: 'You are not signed in. Please sign in and try again.',
+					error: 'Unauthorized'
+				}),
+				{
+					status: 401,
+					headers: {
+						'content-type': 'application/json'
+					}
 				}
-			});
+			);
 		}
 	}
 	return resolve(event);

@@ -1,27 +1,28 @@
+import { apiRequest, showError } from '$lib/services/api';
 import { resellerCapabilitiesStore } from '$lib/stores';
+import type { Capability } from '$lib/types/Capabilities';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 
 export abstract class CapabilityService {
-	public static getCapabilities = async () => {
+	public static getCapabilities = async (toastStore: ToastStore | null = null) => {
 		resellerCapabilitiesStore.set({ capabilities: [], isLoading: true, error: null });
 
-		const response = await fetch(`/api/reseller/capabilities`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+		const result = await apiRequest<{ capabilities: Capability[] }>('/api/reseller/capabilities');
 
-		if (!response.ok) {
-			resellerCapabilitiesStore.set({
-				capabilities: [],
-				isLoading: false,
-				error: response.statusText
-			});
+		if (!result.ok) {
+			resellerCapabilitiesStore.set({ capabilities: [], isLoading: false, error: result.error });
+
+			if (toastStore) {
+				showError(toastStore, 'Could not load capabilities', result.error);
+			}
+
 			return null;
 		}
 
-		const capabilities = (await response.json()).capabilities;
-
-		resellerCapabilitiesStore.set({ capabilities, isLoading: false, error: null });
+		resellerCapabilitiesStore.set({
+			capabilities: result.data?.capabilities ?? [],
+			isLoading: false,
+			error: null
+		});
 	};
 }

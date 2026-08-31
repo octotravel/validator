@@ -1,35 +1,15 @@
-import { PUBLIC_VALIDATOR_BASE_URL } from '$env/static/public';
+import { error } from '@sveltejs/kit';
+import { proxyToValidator } from '$lib/server/validatorApi';
 
-export async function GET({ request }) {
-	const url = new URL(request.url);
+export async function GET({ url }) {
 	const id = url.searchParams.get('id');
 	const scenarioId = url.searchParams.get('scenario-id');
 
-	const response = await fetch(
-		`${PUBLIC_VALIDATOR_BASE_URL}/v2/session/${id}/validation-history/${scenarioId}`,
-		{
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}
-	);
-
-	if (response.status !== 200) {
-		const error = await response.json();
-		return new Response(JSON.stringify(error), {
-			status: response.status,
-			headers: {
-				'content-type': 'application/json'
-			}
-		});
+	if (!id || !scenarioId) {
+		error(400, 'Missing required "id" or "scenario-id" query parameter.');
 	}
 
-	const parsedResponse = await response.json();
-
-	return new Response(JSON.stringify(parsedResponse), {
-		headers: {
-			'content-type': 'application/json'
-		}
-	});
+	return await proxyToValidator(
+		`/v2/session/${encodeURIComponent(id)}/validation-history/${encodeURIComponent(scenarioId)}`
+	);
 }

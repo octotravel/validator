@@ -70,7 +70,43 @@ describe('ScenariosService', async () => {
 		// eslint-disable-next-line
 		await ScenariosService.getScenarios({ trigger: () => {} } as any);
 
-		expect(get(resellerSessionStore).error).toBe('Failed to fetch scenarios');
+		expect(get(resellerSessionStore).error).toBe('Request failed with HTTP 500.');
+		expect(get(resellerScenariosListLoadingStore)).toBe(false);
+	});
+
+	it('should surface the error message returned by the backend', async () => {
+		global.fetch = vi
+			.fn()
+			.mockReturnValueOnce(
+				new Response(JSON.stringify({ message: 'Session is not set up yet.' }), { status: 409 })
+			);
+
+		// eslint-disable-next-line
+		await ScenariosService.getScenarios({ trigger: () => {} } as any);
+
+		expect(get(resellerSessionStore).error).toBe('Session is not set up yet.');
+		expect(get(resellerScenariosListLoadingStore)).toBe(false);
+	});
+
+	it('should report a network error when fetch rejects', async () => {
+		global.fetch = vi.fn().mockRejectedValueOnce(new TypeError('fetch failed'));
+
+		// eslint-disable-next-line
+		await ScenariosService.getScenarios({ trigger: () => {} } as any);
+
+		expect(get(resellerSessionStore).error).toContain('Network error');
+		expect(get(resellerScenariosListLoadingStore)).toBe(false);
+	});
+	it('should reset the loading flag when response mapping throws', async () => {
+		global.fetch = vi
+			.fn()
+			.mockReturnValueOnce(new Response(JSON.stringify({ notAnArray: true }), { status: 200 }));
+
+		await expect(
+			// eslint-disable-next-line
+			ScenariosService.getScenarios({ trigger: () => {} } as any)
+		).rejects.toThrow();
+
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);
 	});
 });

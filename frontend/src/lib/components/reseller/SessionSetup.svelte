@@ -5,9 +5,12 @@
 	import SetupStep from './setup/SetupStep.svelte';
 	import type { SessionSetupStep } from '$lib/types/Setup';
 	import SetupMap from './setup/SetupMap.svelte';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+
+	const toastStore = getToastStore();
 
 	onMount(() => {
-		CapabilityService.getCapabilities();
+		CapabilityService.getCapabilities(toastStore);
 	});
 
 	const steps: SessionSetupStep[] = [

@@ -1,6 +1,7 @@
-import type { SupplierValidationRequestData } from '$lib/types/SupplierFlow';
+import { apiRequest, showError } from '$lib/services/api';
 import { supplierFlowResultStore } from '$lib/stores';
-import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
+import type { SupplierValidationRequestData } from '$lib/types/SupplierFlow';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 
 export const supplierValidate = async (
 	data: SupplierValidationRequestData,
@@ -8,27 +9,17 @@ export const supplierValidate = async (
 ) => {
 	supplierFlowResultStore.set({ flows: [], isLoading: true, error: null });
 
-	const response = await fetch(`/api/supplier`, {
+	// eslint-disable-next-line
+	const result = await apiRequest<any[]>('/api/supplier', {
 		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
 		body: JSON.stringify(data)
 	});
 
-	const flows = await response.json();
-
-	if (response.status !== 200) {
-		supplierFlowResultStore.set({ flows: [], isLoading: false, error: flows.errorMessage });
-
-		const t: ToastSettings = {
-			message: flows.errorMessage,
-			background: 'variant-filled-error'
-		};
-
-		toastStore.trigger(t);
+	if (!result.ok) {
+		supplierFlowResultStore.set({ flows: [], isLoading: false, error: result.error });
+		showError(toastStore, 'Validation failed', result.error);
 		return;
 	}
 
-	supplierFlowResultStore.set({ flows, isLoading: false, error: null });
+	supplierFlowResultStore.set({ flows: result.data ?? [], isLoading: false, error: null });
 };

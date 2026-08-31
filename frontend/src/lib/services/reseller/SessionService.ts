@@ -1,87 +1,64 @@
+import { apiRequest, showError } from '$lib/services/api';
 import { resellerSessionStore } from '$lib/stores';
-import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
+import type { Session } from '$lib/types/Session';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
 
 export abstract class SessionService {
 	public static createSession = async (toastStore: ToastStore) => {
 		resellerSessionStore.set({ session: null, isLoading: true, error: null });
 
-		const response = await fetch(`/api/reseller/session`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+		const result = await apiRequest<Session>('/api/reseller/session', { method: 'POST' });
 
-		if (!response.ok) {
-			resellerSessionStore.set({ session: null, isLoading: false, error: response.statusText });
-
-			const t: ToastSettings = {
-				message: 'There was an error creating the session. Please try again later.',
-				background: 'variant-filled-error'
-			};
-			toastStore.trigger(t);
-
+		if (!result.ok) {
+			resellerSessionStore.set({ session: null, isLoading: false, error: result.error });
+			showError(toastStore, 'Could not create session', result.error);
 			return;
 		}
 
-		const session = await response.json();
-
-		resellerSessionStore.set({ session, isLoading: false, error: null });
+		resellerSessionStore.set({ session: result.data, isLoading: false, error: null });
 	};
 
 	public static findSession = async (id: string, toastStore: ToastStore) => {
 		if (!id) {
 			return;
 		}
+
 		resellerSessionStore.set({ session: null, isLoading: true, error: null });
 
-		const response = await fetch(`/api/reseller/session/?id=${id}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+		const result = await apiRequest<Session>(`/api/reseller/session?id=${encodeURIComponent(id)}`);
 
-		if (!response.ok) {
-			resellerSessionStore.set({ session: null, isLoading: false, error: response.statusText });
+		if (!result.ok) {
+			const error = result.status === 404 ? `Session "${id}" was not found.` : result.error;
 
-			const t: ToastSettings = {
-				message: `Session "${id}" not found.`,
-				background: 'variant-filled-warning'
-			};
-			toastStore.trigger(t);
-
+			resellerSessionStore.set({ session: null, isLoading: false, error });
+			showError(toastStore, 'Could not load session', error);
 			return;
 		}
 
-		const session = await response.json();
-
-		resellerSessionStore.set({ session, isLoading: false, error: null });
+		resellerSessionStore.set({ session: result.data, isLoading: false, error: null });
 	};
 
 	public static updateSession = async (toastStore: ToastStore) => {
 		const sessionStore = get(resellerSessionStore);
+
 		const body = {
 			id: sessionStore.session?.id,
 			name: sessionStore.session?.name,
 			capabilities: sessionStore.session?.capabilities,
 			currentScenario: sessionStore.session?.currentScenario
 		};
-		const response = await fetch(`/api/reseller/session`, {
+
+		const result = await apiRequest<Session>('/api/reseller/session', {
 			method: 'PUT',
-			headers: {
-				'Content-Type': 'application/json'
-			},
 			body: JSON.stringify(body)
 		});
 
-		if (!response.ok) {
-			const t: ToastSettings = {
-				message: 'There was an error updating the session. Please try again later.',
-				background: 'variant-filled-error'
-			};
-			toastStore.trigger(t);
+		if (!result.ok) {
+			resellerSessionStore.update((s) => ({ ...s, error: result.error }));
+			showError(toastStore, 'Could not save session', result.error);
 		}
+
+		return result.ok;
 	};
 }

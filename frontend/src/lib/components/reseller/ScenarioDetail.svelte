@@ -1,16 +1,36 @@
 <script lang="ts">
+	import ErrorAlert from '$lib/components/ErrorAlert.svelte';
 	import { resellerScenarioSelectedStore } from '$lib/stores';
-	import { Accordion, AccordionItem } from '@skeletonlabs/skeleton';
+	import { Accordion, AccordionItem, ProgressRadial } from '@skeletonlabs/skeleton';
 	import ScenarioStep from './ScenarioStep.svelte';
 	import IconFileDescription from '$lib/icons/IconFileDescription.svelte';
+
+	const dismissError = () => resellerScenarioSelectedStore.update((s) => ({ ...s, error: null }));
 </script>
 
-{#if $resellerScenarioSelectedStore.scenario}
+{#if $resellerScenarioSelectedStore.isLoading}
+	<div class="card">
+		<div class="flex flex-col items-center gap-3 py-10">
+			<ProgressRadial
+				width="w-12"
+				meter="stroke-primary-500"
+				track="stroke-primary-500/30"
+				value={undefined}
+			/>
+			<p class="text-sm opacity-70">Loading scenario...</p>
+		</div>
+	</div>
+{:else if $resellerScenarioSelectedStore.scenario}
 	<div class="card text-center">
 		<header class="card-header">
 			<h3 class="h3">{$resellerScenarioSelectedStore.scenario.name}</h3>
 		</header>
 		<section class="p-4">
+			<ErrorAlert
+				message={$resellerScenarioSelectedStore.error}
+				title="Scenario error"
+				onDismiss={dismissError}
+			/>
 			<div class="accordion-border">
 				<Accordion>
 					<AccordionItem open>
@@ -32,6 +52,14 @@
 				</Accordion>
 			</div>
 		</section>
+	</div>
+{:else if $resellerScenarioSelectedStore.error}
+	<div class="card p-4">
+		<ErrorAlert
+			message={$resellerScenarioSelectedStore.error}
+			title="Scenario error"
+			onDismiss={dismissError}
+		/>
 	</div>
 {:else}
 	<div class="text-center py-5 card">Select scenario to begin</div>
