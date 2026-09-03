@@ -48,6 +48,36 @@ const extractMessage = (json: unknown, text: string, status: number): string => 
 	return `The validator backend responded with HTTP ${status}.`;
 };
 
+const describeError = (error: unknown): string => {
+	if (!(error instanceof Error)) {
+		return String(error);
+	}
+
+	const cause = (error as Error & { cause?: { code?: string; message?: string } }).cause;
+	const causeText = cause
+		? ` (cause: ${[cause.code, cause.message].filter(Boolean).join(' ')})`
+		: '';
+
+	return `${error.name}: ${error.message}${causeText}`;
+};
+
+const transportFailure = <T>(error: unknown, method: string, url: string): ValidatorResult<T> => {
+	const timedOut = error instanceof Error && error.name === 'TimeoutError';
+	const detail = dev ? ` (${url})` : '';
+
+	console.error(`[validatorApi] ${method} ${url} failed: ${describeError(error)}`);
+
+	return {
+		ok: false,
+		status: timedOut ? 504 : 502,
+		data: null,
+		code: timedOut ? 'VALIDATOR_TIMEOUT' : 'VALIDATOR_UNREACHABLE',
+		message: timedOut
+			? `The validator backend did not respond within ${REQUEST_TIMEOUT_MS / 1000}s${detail}. Please try again shortly.`
+			: `The validator backend is currently unreachable${detail}. Please try again shortly.`
+	};
+};
+
 export const callValidator = async <T>(
 	path: string,
 	options: ProxyOptions = {}
@@ -56,6 +86,7 @@ export const callValidator = async <T>(
 	const url = `${VALIDATOR_BASE_URL}${path}`;
 
 	let response: Response;
+	let text: string;
 
 	try {
 		response = await fetch(url, {
@@ -64,22 +95,11 @@ export const callValidator = async <T>(
 			body: body === undefined ? undefined : JSON.stringify(body),
 			signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
 		});
+		text = NULL_BODY_STATUSES.includes(response.status) ? '' : await response.text();
 	} catch (error) {
-		const timedOut = error instanceof Error && error.name === 'TimeoutError';
-		const detail = dev ? ` (${url})` : '';
-
-		return {
-			ok: false,
-			status: timedOut ? 504 : 502,
-			data: null,
-			code: timedOut ? 'VALIDATOR_TIMEOUT' : 'VALIDATOR_UNREACHABLE',
-			message: timedOut
-				? `The validator backend did not respond within ${REQUEST_TIMEOUT_MS / 1000}s${detail}. Please try again shortly.`
-				: `The validator backend is currently unreachable${detail}. Please try again shortly.`
-		};
+		return transportFailure<T>(error, method, url);
 	}
 
-	const text = NULL_BODY_STATUSES.includes(response.status) ? '' : await response.text();
 	let json: unknown = null;
 
 	if (text !== '') {

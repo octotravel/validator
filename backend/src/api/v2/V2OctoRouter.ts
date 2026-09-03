@@ -10,7 +10,6 @@ import { GetProductHandler } from '../reseller/reseller/octo/product/GetProductH
 import { GetProductsHandler } from '../reseller/reseller/octo/product/GetProductsHandler';
 import { RequestLoggerMiddleware } from '../reseller/reseller/octo/RequestLoggerMiddleware';
 import { GetSupplierHandler } from '../reseller/reseller/octo/supplier/GetSupplierHandler';
-// test
 export class V2OctoRouter {
   public readonly router;
 
@@ -26,9 +25,7 @@ export class V2OctoRouter {
     private readonly bookingConfirmationHandler = inject(BookingConfirmationHandler),
     private readonly bookingCancellationHandler = inject(BookingCancellationHandler),
   ) {
-    const auth = async (req: IRequest): Promise<void> => {
-      await this.authMiddleware.invoke(req);
-    };
+    const auth = async (req: IRequest): Promise<Response | null> => await this.authMiddleware.invoke(req);
 
     const requestLogger = async (response: Response, request: IRequest): Promise<void> => {
       await this.requestLoggerMiddleware.invoke(response, request);

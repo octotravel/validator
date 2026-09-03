@@ -26,9 +26,7 @@ export class OctoRouter {
     private readonly bookingConfirmationHandler = inject(BookingConfirmationHandler),
     private readonly bookingCancellationHandler = inject(BookingCancellationHandler),
   ) {
-    const auth = async (req: IRequest): Promise<void> => {
-      await this.authMiddleware.invoke(req);
-    };
+    const auth = async (req: IRequest): Promise<Response | null> => await this.authMiddleware.invoke(req);
 
     const requestLogger = async (response: Response, request: IRequest): Promise<void> => {
       await this.requestLoggerMiddleware.invoke(response, request);

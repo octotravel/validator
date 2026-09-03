@@ -109,6 +109,37 @@ describe('callValidator', () => {
 		expect(result.status).toBe(504);
 		expect(result.code).toBe('VALIDATOR_TIMEOUT');
 	});
+	it('logs the underlying transport error so it can be diagnosed server-side', async () => {
+		const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+		global.fetch = vi.fn().mockRejectedValueOnce(
+			Object.assign(new TypeError('fetch failed'), {
+				cause: { code: 'ECONNRESET', message: 'socket hang up' }
+			})
+		);
+
+		await callValidator('/v2/session', { method: 'POST' });
+
+		const logged = errorSpy.mock.calls.map((call) => call.map(String).join(' ')).join('\n');
+
+		expect(logged).toContain('POST http://backend.test/v2/session');
+		expect(logged).toContain('ECONNRESET');
+	});
+
+	it('reports a connection dropped while reading the body as 502 instead of throwing', async () => {
+		vi.spyOn(console, 'error').mockImplementation(() => {});
+		const body = new ReadableStream({
+			start(controller) {
+				controller.error(new TypeError('terminated'));
+			}
+		});
+		global.fetch = vi.fn().mockResolvedValueOnce(new Response(body, { status: 200 }));
+
+		const result = await callValidator('/v2/session');
+
+		expect(result.ok).toBe(false);
+		expect(result.status).toBe(502);
+		expect(result.code).toBe('VALIDATOR_UNREACHABLE');
+	});
 });
 
 describe('proxyToValidator', () => {
