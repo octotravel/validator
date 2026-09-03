@@ -1,3 +1,4 @@
+import { ContactHelper } from '../../../../../helpers/ContactHelper';
 import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
 import { Booker } from '../../../Booker';
@@ -31,13 +32,7 @@ export class BookingConfirmationUnitItemUpdateScenario implements Scenario {
     const result = await apiClient.bookingConfirmation(
       {
         uuid: resultReservation.data.uuid,
-        contact: {
-          firstName: 'John',
-          lastName: 'Doe',
-          emailAddress: 'johndoe@mail.com',
-          fullName: 'John Doe',
-          notes: 'Test note',
-        },
+        contact: ContactHelper.build(bookableProduct.getOption().requiredContactFields),
         // TODO: make it dynamic
         resellerReference: ReferenceHelper.generate(),
         unitItems,
