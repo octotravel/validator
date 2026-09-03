@@ -1,3 +1,4 @@
+import { apiRequest, showError, showWarning } from '$lib/services/api';
 import {
 	resellerScenarioAnswersStore,
 	resellerScenarioQuestionsValidationStore,
@@ -13,125 +14,109 @@ import {
 	type ScenarioProgressStep,
 	type Session
 } from '$lib/types/Session';
-import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
+
+let scenarioRequestSeq = 0;
 
 export abstract class ScenariosService {
 	public static getScenarios = async (toastStore: ToastStore) => {
 		resellerScenariosListLoadingStore.set(true);
-		const capabilities = get(resellerSessionStore).session?.capabilities;
-		const response = await fetch(`/api/reseller/scenarios`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				'Octo-capabilities': capabilities?.join(',') || ''
+
+		try {
+			const capabilities = get(resellerSessionStore).session?.capabilities;
+
+			const result = await apiRequest<Scenario[]>('/api/reseller/scenarios', {
+				headers: { 'Octo-capabilities': capabilities?.join(',') || '' }
+			});
+
+			if (!result.ok) {
+				resellerSessionStore.update((s) => ({ ...s, error: result.error }));
+				showError(toastStore, 'Could not load scenarios', result.error);
+				return;
 			}
-		});
 
-		if (!response.ok) {
-			const error = `Failed to fetch scenarios`;
-			const t: ToastSettings = {
-				message: error,
-				background: 'variant-filled-warning'
-			};
-			toastStore.trigger(t);
+			const sessionStore = get(resellerSessionStore);
 
-			resellerSessionStore.update((s) => ({ ...s, error }));
-			resellerScenariosListLoadingStore.set(false);
-			return;
-		}
+			if (!sessionStore.session) {
+				return;
+			}
 
-		const scenarios = await response.json();
+			const existing = sessionStore.session.scenariosProgress;
 
-		const sessionStore = get(resellerSessionStore);
-
-		const scenariosProgress: ScenarioProgress[] = scenarios.map((scenario: Scenario) => {
-			const steps =
-				sessionStore.session?.scenariosProgress.find((sp) => sp.id === scenario.id)?.steps || [];
-			return {
+			const scenariosProgress: ScenarioProgress[] = (result.data ?? []).map((scenario) => ({
 				...scenario,
-				steps
-			};
-		});
+				steps: existing.find((sp) => sp.id === scenario.id)?.steps || []
+			}));
 
-		if (!sessionStore.session) {
+			const updatedSession: Session = { ...sessionStore.session, scenariosProgress };
+
+			resellerSessionStore.update((s) => ({ ...s, session: updatedSession, error: null }));
+		} finally {
 			resellerScenariosListLoadingStore.set(false);
-			return;
 		}
-
-		const updatedSession: Session = {
-			...sessionStore.session,
-			scenariosProgress
-		};
-
-		resellerSessionStore.update((s) => ({ ...s, session: updatedSession }));
-		resellerScenariosListLoadingStore.set(false);
 	};
 
 	public static getScenario = async (id: string, toastStore: ToastStore) => {
-		resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: true, scenario: null }));
-		resellerScenarioAnswersStore.update(() => []);
-
-		const response = await fetch(`/api/reseller/scenario?id=${id}`, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-
-		if (!response.ok) {
-			const error = `Failed to fetch scenario`;
-			const t: ToastSettings = {
-				message: error,
-				background: 'variant-filled-warning'
-			};
-
-			resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: false, error }));
-			toastStore.trigger(t);
-
-			return;
-		}
-
-		const scenario = await response.json();
-
-		const sessionStore = get(resellerSessionStore);
-
-		const steps: ScenarioProgressStep[] = scenario.steps.map((step: Step) => {
-			const progressStep = (
-				sessionStore.session?.scenariosProgress.find((sp) => sp.id === scenario.id)?.steps || []
-			).find((s) => s.id === step.id);
-			return {
-				...step,
-				status: progressStep?.status || ScenarioProgressStepStatus.PENDING_VALIDATION
-			};
-		});
-
-		if (!sessionStore.session) {
-			return;
-		}
-
-		const newScenario: ScenarioProgress = {
-			...scenario,
-			steps
-		};
+		const seq = ++scenarioRequestSeq;
 
 		resellerScenarioSelectedStore.update((s) => ({
 			...s,
-			isLoading: false,
-			scenario: newScenario
+			isLoading: true,
+			scenario: null,
+			error: null
 		}));
+		resellerScenarioAnswersStore.set([]);
 
-		const scenarioIndex = sessionStore.session.scenariosProgress.findIndex(
-			(sp) => sp.id === scenario.id
-		);
+		try {
+			const result = await apiRequest<Scenario>(
+				`/api/reseller/scenario?id=${encodeURIComponent(id)}`
+			);
 
-		const updatedSession: Session = {
-			...sessionStore.session
-		};
+			if (seq !== scenarioRequestSeq) {
+				return;
+			}
 
-		updatedSession.scenariosProgress[scenarioIndex] = newScenario;
+			if (!result.ok) {
+				resellerScenarioSelectedStore.update((s) => ({ ...s, error: result.error }));
+				showError(toastStore, 'Could not load scenario', result.error);
+				return;
+			}
 
-		resellerSessionStore.update((s) => ({ ...s, session: updatedSession }));
+			const scenario = result.data;
+			const sessionStore = get(resellerSessionStore);
+
+			if (!scenario || !sessionStore.session) {
+				return;
+			}
+
+			const progressSteps =
+				sessionStore.session.scenariosProgress.find((sp) => sp.id === scenario.id)?.steps || [];
+
+			const steps: ScenarioProgressStep[] = (scenario.steps ?? []).map((step: Step) => ({
+				...step,
+				status:
+					progressSteps.find((s) => s.id === step.id)?.status ||
+					ScenarioProgressStepStatus.PENDING_VALIDATION
+			}));
+
+			const newScenario: ScenarioProgress = { ...scenario, steps };
+
+			resellerScenarioSelectedStore.update((s) => ({ ...s, scenario: newScenario, error: null }));
+
+			const updatedSession: Session = {
+				...sessionStore.session,
+				scenariosProgress: sessionStore.session.scenariosProgress.map((sp) =>
+					sp.id === scenario.id ? newScenario : sp
+				)
+			};
+
+			resellerSessionStore.update((s) => ({ ...s, session: updatedSession }));
+		} finally {
+			if (seq === scenarioRequestSeq) {
+				resellerScenarioSelectedStore.update((s) => ({ ...s, isLoading: false }));
+			}
+		}
 	};
 
 	public static getStepsHistory = async (
@@ -141,39 +126,30 @@ export abstract class ScenariosService {
 	) => {
 		resellerScenarioValidationResultStore.update((s) => ({ ...s, isLoading: true }));
 
-		const response = await fetch(
-			`/api/reseller/stepshistory?id=${sessionId}&scenario-id=${scenarioId}`,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json'
-				}
+		try {
+			// eslint-disable-next-line
+			const result = await apiRequest<any[]>(
+				`/api/reseller/stepshistory?id=${encodeURIComponent(sessionId)}&scenario-id=${encodeURIComponent(scenarioId)}`
+			);
+
+			if (!result.ok) {
+				showError(toastStore, 'Could not load validation history', result.error);
+				return;
 			}
-		);
 
-		if (!response.ok) {
-			const t: ToastSettings = {
-				message: `Failed to fetch scenario: ${response.statusText}`,
-				background: 'variant-filled-warning'
-			};
-			toastStore.trigger(t);
-
-			return;
-		}
-
-		const stepsHistory = await response.json();
-		// eslint-disable-next-line
-		const results = stepsHistory.map((step: any) => {
-			return {
+			// eslint-disable-next-line
+			const results = (result.data ?? []).map((step: any) => ({
 				...step.validationResult,
 				isValid: step.isValid,
 				utcCreatedAt: new Date(step.createdAt).toISOString(),
 				scenarioId,
 				stepId: step.stepId
-			};
-		});
+			}));
 
-		resellerScenarioValidationResultStore.update((s) => ({ ...s, results, isLoading: false }));
+			resellerScenarioValidationResultStore.update((s) => ({ ...s, results }));
+		} finally {
+			resellerScenarioValidationResultStore.update((s) => ({ ...s, isLoading: false }));
+		}
 	};
 
 	public static postValidateQuestions = async (
@@ -184,80 +160,49 @@ export abstract class ScenariosService {
 	) => {
 		resellerScenarioQuestionsValidationStore.set({ isLoading: true, questions: [] });
 
-		const data = get(resellerScenarioAnswersStore)
-			.map((a) => {
-				if (a.answer === '') {
-					return;
-				}
-				return a;
-			})
-			.flatMap((a) => (a ? a : []));
+		try {
+			const answers = get(resellerScenarioAnswersStore);
+			const data = answers.filter((a) => a.answer !== '');
 
-		if (data.length !== get(resellerScenarioAnswersStore).length) {
-			const t: ToastSettings = {
-				message: `Please fill all the questions`,
-				background: 'variant-filled-warning'
-			};
-			toastStore.trigger(t);
-
-			resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, isLoading: false }));
-
-			return;
-		}
-
-		const body = {
-			answers: data.map((a) => {
-				return {
-					questionId: a.questionId,
-					value: a.answer
-				};
-			})
-		};
-
-		const response = await fetch(
-			`/api/reseller/questions?id=${sessionId}&scenario-id=${scenarioId}&step-id=${stepId}`,
-			{
-				method: 'POST',
-				body: JSON.stringify(body),
-				headers: {
-					'Content-Type': 'application/json'
-				}
+			if (data.length !== answers.length) {
+				showWarning(toastStore, 'Please fill in all the questions');
+				return;
 			}
-		);
 
-		if (!response.ok) {
-			const t: ToastSettings = {
-				message: `Failed to validate questions: ${response.statusText}`,
-				background: 'variant-filled-warning'
+			const body = {
+				answers: data.map((a) => ({ questionId: a.questionId, value: a.answer }))
 			};
-			toastStore.trigger(t);
 
-			resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, isLoading: false }));
+			const result = await apiRequest<QuestionValidation>(
+				`/api/reseller/questions?id=${encodeURIComponent(sessionId)}&scenario-id=${encodeURIComponent(scenarioId)}&step-id=${encodeURIComponent(stepId)}`,
+				{ method: 'POST', body: JSON.stringify(body) }
+			);
 
-			return;
-		}
+			if (!result.ok) {
+				showError(toastStore, 'Could not validate answers', result.error);
+				return;
+			}
 
-		const questionsValidation = (await response.json()) as QuestionValidation;
+			const questionsValidation = result.data;
 
-		const errors = questionsValidation.errors.map((e) => {
-			return e.path;
-		});
+			if (!questionsValidation) {
+				showError(toastStore, 'Could not validate answers', 'The response was empty.');
+				return;
+			}
 
-		const warnings = questionsValidation.warnings.map((w) => {
-			return w.path;
-		});
+			const errors = questionsValidation.errors.map((e) => e.path);
+			const warnings = questionsValidation.warnings.map((w) => w.path);
 
-		const questions = questionsValidation.data.map((q) => {
-			const isError = errors.includes(q.questionId);
-			const isWarning = warnings.includes(q.questionId);
-			return {
+			const questions = questionsValidation.data.map((q) => ({
 				questionId: q.questionId,
-				isValid: !isError && !isWarning,
+				isValid: !errors.includes(q.questionId) && !warnings.includes(q.questionId),
 				error: questionsValidation.errors.find((e) => e.path === q.questionId)?.message || null,
 				warning: questionsValidation.warnings.find((w) => w.path === q.questionId)?.message || null
-			};
-		});
+			}));
 
-		resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, isLoading: false, questions }));
+			resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, questions }));
+		} finally {
+			resellerScenarioQuestionsValidationStore.update((s) => ({ ...s, isLoading: false }));
+		}
 	};
 }

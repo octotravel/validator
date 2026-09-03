@@ -7,10 +7,10 @@
 	import { Socketio } from '$lib/services/reseller/Socketio';
 
 	export let data: PageData;
-	$resellerSessionStore.session = data.session;
+	$resellerSessionStore.session = data.resellerSession;
 
 	onMount(() => {
-		const socket = Socketio.openSocket(data.session.id);
+		const socket = Socketio.openSocket(data.resellerSession.id);
 
 		// eslint-disable-next-line
 		socket.on('validationResult', (validationResult: any) => {

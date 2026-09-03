@@ -1,22 +1,16 @@
-import { PUBLIC_VALIDATOR_BASE_URL } from '$env/static/public';
+import { error } from '@sveltejs/kit';
+import { callValidator } from '$lib/server/validatorApi';
+import type { Session } from '$lib/types/Session';
 import type { PageServerLoad } from './$types';
 
 export const load = (async ({ params }) => {
-	const sessionId = params.sessionId;
+	const result = await callValidator<Session>(
+		`/v2/session/${encodeURIComponent(params.sessionId)}`
+	);
 
-	const res = await fetch(`${PUBLIC_VALIDATOR_BASE_URL}/v2/session/${sessionId}`, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
+	if (!result.ok || !result.data) {
+		error(result.status, result.message ?? `Could not load session "${params.sessionId}".`);
+	}
 
-	const session = await res.json();
-
-	return {
-		props: {
-			sessionId: params.sessionId
-		},
-		session
-	};
+	return { resellerSession: result.data };
 }) satisfies PageServerLoad;
