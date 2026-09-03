@@ -67,10 +67,12 @@ export class UnitValidator implements ModelValidator {
     return [
       NumberValidator.validate(`${this.path}.restrictions.minAge`, restrictions?.minAge, {
         integer: true,
+        nullable: true,
         shouldWarn,
       }),
       NumberValidator.validate(`${this.path}.restrictions.maxAge`, restrictions?.maxAge, {
         integer: true,
+        nullable: true,
         shouldWarn,
       }),
       BooleanValidator.validate(`${this.path}.restrictions.idRequired`, restrictions?.idRequired, { shouldWarn }),
