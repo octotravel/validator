@@ -1,3 +1,4 @@
+import { ContactHelper } from '../../../../../helpers/ContactHelper';
 import { ReferenceHelper } from '../../../../../helpers/ReferenceHelper';
 import { InvalidUnitIdErrorValidator } from '../../../../../validators/backendValidator/Error/InvalidUnitIdErrorValidator';
 import { ErrorType, ValidatorError } from '../../../../../validators/backendValidator/ValidatorHelpers';
@@ -37,13 +38,7 @@ export class BookingConfirmationInvalidUnitIdScenario implements Scenario {
       {
         uuid: resultReservation.data.uuid,
         unitItems,
-        contact: {
-          firstName: 'John',
-          lastName: 'Doe',
-          emailAddress: 'johndoe@mail.com',
-          fullName: 'John Doe',
-          notes: 'Test note',
-        },
+        contact: ContactHelper.build(bookableProduct.getOption().requiredContactFields),
         resellerReference: ReferenceHelper.generate(),
       },
       context,
