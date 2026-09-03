@@ -19,7 +19,7 @@ export class BookingConfirmationUnitItemUpdateScenario implements Scenario {
     const [bookableProduct] = context.productConfig.availableProducts;
 
     const resultReservation = await this.booker.createReservation(bookableProduct, context, { unitItemsQuantity: 2 });
-    if (resultReservation.data === null) {
+    if (!this.helper.hasUsableBooking(resultReservation)) {
       return this.helper.handleResult({
         result: resultReservation,
         name,

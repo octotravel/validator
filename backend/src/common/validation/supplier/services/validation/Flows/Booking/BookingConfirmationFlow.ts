@@ -5,11 +5,15 @@ import { BookingConfirmationInvalidUnitIdScenario } from '../../Scenarios/Bookin
 import { BookingConfirmationInvalidUUIDScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationInvalidUUID';
 import { BookingConfirmationUnitItemUpdateScenario } from '../../Scenarios/Booking/Confirmation/BookingConfirmationUnitItemsUpdate';
 import { BaseFlow } from '../BaseFlow';
-import { Flow, FlowResult } from '../Flow';
+import { Flow, FlowResult, ReservationDemand } from '../Flow';
 
 export class BookingConfirmationFlow extends BaseFlow implements Flow {
   public constructor() {
     super('Booking Confirmation', docs.bookingConfirmation);
+  }
+
+  public getReservationDemand(): ReservationDemand {
+    return { reservations: 3 };
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {

@@ -134,6 +134,21 @@ export class ScenarioHelper {
     return !errors.some((e) => e.type === ErrorType.CRITICAL);
   };
 
+  /**
+   * Whether a reservation/confirmation result yielded a booking we can chain into the next
+   * request. Guards against a failed setup call (e.g. a sold-out reservation) whose error body is
+   * still parsed into `data` — `data === null` alone does not catch that, so we also require a
+   * successful response and a usable `uuid` (see docs/reservation-availability-refactor.md).
+   *
+   * Typed as a guard so callers keep the non-null `data` narrowing the old `data === null` check
+   * gave them.
+   */
+  public hasUsableBooking = <T extends { uuid?: string | null }>(
+    result: Result<T>,
+  ): result is Result<T> & { data: T } => {
+    return result?.response?.error == null && Boolean(result?.data?.uuid);
+  };
+
   protected shouldTerminateValidation = (
     errors: ValidatorError[],
     uuid?: string,

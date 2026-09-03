@@ -24,8 +24,8 @@ export class Booker {
 
     const productId = params?.invalidProductId ? context.invalidProductId : product.id;
     const optionId = params?.invalidOptionId ? context.invalidOptionId : productBookable.getOption().id;
-    const availabilityId = this.getAvailabilityId(productBookable, context, params);
     const unitItems = this.getUnitItems(productBookable, params);
+    const availabilityId = this.getAvailabilityId(productBookable, context, unitItems, params);
 
     const data = {
       productId,
@@ -42,6 +42,7 @@ export class Booker {
   private getAvailabilityId(
     productBookable: ProductBookable,
     context: Context,
+    unitItems: BookingUnitItem[] | null,
     params?: CreateReservationParams,
   ): string | null {
     if (params?.invalidAvailabilityId) {
@@ -49,7 +50,9 @@ export class Booker {
     } else if (params?.soldOutAvailability) {
       return productBookable.availabilityIdSoldOut;
     }
-    return productBookable.randomAvailabilityID;
+    // Allocate a slot with enough vacancy for this reservation's units so the run spreads
+    // across slots instead of exhausting one (see docs/reservation-availability-refactor.md).
+    return productBookable.reserveSlot(Math.max(unitItems?.length ?? 1, 1));
   }
 
   private getUnitItems(productBookable: ProductBookable, params?: CreateReservationParams): BookingUnitItem[] | null {

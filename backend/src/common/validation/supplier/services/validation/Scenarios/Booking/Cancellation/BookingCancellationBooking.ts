@@ -19,7 +19,7 @@ export class BookingCancellationBookingScenario implements Scenario {
     const [bookableProduct] = context.productConfig.availableProducts;
 
     const resultReservation = await this.booker.createReservation(bookableProduct, context);
-    if (resultReservation.data === null) {
+    if (!this.helper.hasUsableBooking(resultReservation)) {
       return this.helper.handleResult({
         result: resultReservation,
         name,
@@ -43,7 +43,7 @@ export class BookingCancellationBookingScenario implements Scenario {
       context,
     );
 
-    if (resultConfirmation.data === null) {
+    if (!this.helper.hasUsableBooking(resultConfirmation)) {
       return this.helper.handleResult({
         result: resultConfirmation,
         name,
