@@ -16,7 +16,7 @@ export interface ProxyOptions {
 	method?: string;
 	body?: unknown;
 	headers?: Record<string, string>;
-	timeoutMs?: number | null;
+	timeoutMs?: number;
 }
 
 export interface ValidatorResult<T> {
@@ -66,7 +66,7 @@ const transportFailure = <T>(
 	error: unknown,
 	method: string,
 	url: string,
-	timeoutMs: number | null
+	timeoutMs: number
 ): ValidatorResult<T> => {
 	const timedOut = error instanceof Error && error.name === 'TimeoutError';
 	const detail = dev ? ` (${url})` : '';
@@ -78,10 +78,9 @@ const transportFailure = <T>(
 		status: timedOut ? 504 : 502,
 		data: null,
 		code: timedOut ? 'VALIDATOR_TIMEOUT' : 'VALIDATOR_UNREACHABLE',
-		message:
-			timedOut && timeoutMs !== null
-				? `The validator backend did not respond within ${timeoutMs / 1000}s${detail}. Please try again shortly.`
-				: `The validator backend is currently unreachable${detail}. Please try again shortly.`
+		message: timedOut
+			? `The validator backend did not respond within ${timeoutMs / 1000}s${detail}. Please try again shortly.`
+			: `The validator backend is currently unreachable${detail}. Please try again shortly.`
 	};
 };
 
@@ -100,7 +99,7 @@ export const callValidator = async <T>(
 			method,
 			headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...headers },
 			body: body === undefined ? undefined : JSON.stringify(body),
-			signal: timeoutMs === null ? undefined : AbortSignal.timeout(timeoutMs)
+			signal: AbortSignal.timeout(timeoutMs)
 		});
 		text = NULL_BODY_STATUSES.includes(response.status) ? '' : await response.text();
 	} catch (error) {

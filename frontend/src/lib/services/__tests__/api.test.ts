@@ -107,6 +107,14 @@ describe('showError', () => {
 		);
 	});
 
+	it('lets the toast hide on its own so a stale error cannot suppress later ones', () => {
+		const toastStore = fakeToastStore();
+
+		showError(toastStore, 'Could not save session', 'boom');
+
+		expect(toastStore.trigger).toHaveBeenCalledWith(expect.objectContaining({ autohide: true }));
+	});
+
 	it('does not show a second error toast with the same detail', () => {
 		const toastStore = fakeToastStore();
 

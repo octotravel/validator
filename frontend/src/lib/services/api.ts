@@ -96,8 +96,8 @@ export const apiRequest = async <T>(
 
 const ERROR_BACKGROUND = 'variant-filled-error';
 
-const toast = (toastStore: ToastStore, message: string, background: string, autohide: boolean) => {
-	const settings: ToastSettings = { message, background, autohide, hideDismiss: false };
+const toast = (toastStore: ToastStore, message: string, background: string) => {
+	const settings: ToastSettings = { message, background, autohide: true, hideDismiss: false };
 
 	toastStore.trigger(settings);
 };
@@ -112,9 +112,9 @@ export const showError = (toastStore: ToastStore, title: string, detail: string 
 		return;
 	}
 
-	toast(toastStore, detail ? `${title}: ${detail}` : title, ERROR_BACKGROUND, false);
+	toast(toastStore, detail ? `${title}: ${detail}` : title, ERROR_BACKGROUND);
 };
 
 export const showWarning = (toastStore: ToastStore, message: string): void => {
-	toast(toastStore, message, 'variant-filled-warning', true);
+	toast(toastStore, message, 'variant-filled-warning');
 };

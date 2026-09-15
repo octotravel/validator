@@ -118,15 +118,6 @@ describe('callValidator', () => {
 		expect(fetchMock.mock.calls[0][1].signal).toBeInstanceOf(AbortSignal);
 	});
 
-	it('sends no abort signal when the caller disables the timeout', async () => {
-		const fetchMock = respond(JSON.stringify({}), { status: 200 });
-		global.fetch = fetchMock;
-
-		await callValidator('/v1/validate', { method: 'POST', timeoutMs: null });
-
-		expect(fetchMock.mock.calls[0][1].signal).toBeUndefined();
-	});
-
 	it('reports the caller-supplied limit in the timeout message', async () => {
 		vi.spyOn(console, 'error').mockImplementation(() => {});
 		global.fetch = vi

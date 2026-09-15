@@ -6,7 +6,7 @@ vi.mock('$lib/server/validatorApi', () => ({ proxyToValidator }));
 const { POST } = await import('../+server');
 
 describe('POST /api/supplier', () => {
-	it('runs the supplier validation without the default request timeout', async () => {
+	it('gives the supplier validation ten minutes instead of the default request timeout', async () => {
 		const request = new Request('http://frontend.test/api/supplier', {
 			method: 'POST',
 			body: JSON.stringify({ endpoint: 'https://supplier.test', apiKey: 'k' })
@@ -17,7 +17,7 @@ describe('POST /api/supplier', () => {
 		expect(proxyToValidator).toHaveBeenCalledWith('/v1/validate', {
 			method: 'POST',
 			body: { backend: { endpoint: 'https://supplier.test', apiKey: 'k' } },
-			timeoutMs: null
+			timeoutMs: 600_000
 		});
 	});
 });
