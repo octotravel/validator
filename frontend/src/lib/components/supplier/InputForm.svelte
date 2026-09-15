@@ -5,6 +5,7 @@
 		supplierFormApiKeyStore,
 		supplierFormHeadersStore
 	} from '$lib/stores/localStorageStores';
+	import { supplierFlowResultStore } from '$lib/stores';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 
 	const toastStore = getToastStore();
@@ -97,7 +98,12 @@
 		</div>
 	</section>
 	<footer class="card-footer">
-		<button type="submit" class="btn variant-ghost-secondary" on:click={validate}>Validate</button>
+		<button
+			type="submit"
+			class="btn variant-ghost-secondary"
+			disabled={$supplierFlowResultStore.isLoading}
+			on:click={validate}>Validate</button
+		>
 		<button type="button" class="btn variant-ghost-surface" on:click={resetForm}>Reset</button>
 	</footer>
 </div>

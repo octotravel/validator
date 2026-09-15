@@ -1,10 +1,12 @@
 import { it, expect, vi, describe, beforeEach } from 'vitest';
 import { resellerScenariosListLoadingStore, resellerSessionStore } from '../../../stores';
-import { get } from 'svelte/store';
+import { get, readable } from 'svelte/store';
 import { ScenariosService } from '../ScenarioService';
 import { ScenarioProgressStepStatus } from '$lib/types/Session';
 
 describe('ScenariosService', async () => {
+	// eslint-disable-next-line
+	const toastStore = { subscribe: readable([]).subscribe, trigger: () => {} } as any;
 	const step = {
 		id: 'step1',
 		name: 'Step 1',
@@ -68,7 +70,7 @@ describe('ScenariosService', async () => {
 		global.fetch = vi.fn().mockReturnValueOnce(new Response(null, { status: 500 }));
 
 		// eslint-disable-next-line
-		await ScenariosService.getScenarios({ trigger: () => {} } as any);
+		await ScenariosService.getScenarios(toastStore);
 
 		expect(get(resellerSessionStore).error).toBe('Request failed with HTTP 500.');
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);
@@ -82,7 +84,7 @@ describe('ScenariosService', async () => {
 			);
 
 		// eslint-disable-next-line
-		await ScenariosService.getScenarios({ trigger: () => {} } as any);
+		await ScenariosService.getScenarios(toastStore);
 
 		expect(get(resellerSessionStore).error).toBe('Session is not set up yet.');
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);
@@ -92,7 +94,7 @@ describe('ScenariosService', async () => {
 		global.fetch = vi.fn().mockRejectedValueOnce(new TypeError('fetch failed'));
 
 		// eslint-disable-next-line
-		await ScenariosService.getScenarios({ trigger: () => {} } as any);
+		await ScenariosService.getScenarios(toastStore);
 
 		expect(get(resellerSessionStore).error).toContain('Network error');
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);
@@ -104,7 +106,7 @@ describe('ScenariosService', async () => {
 
 		await expect(
 			// eslint-disable-next-line
-			ScenariosService.getScenarios({ trigger: () => {} } as any)
+			ScenariosService.getScenarios(toastStore)
 		).rejects.toThrow();
 
 		expect(get(resellerScenariosListLoadingStore)).toBe(false);
