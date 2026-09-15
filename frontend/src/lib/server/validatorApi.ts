@@ -3,7 +3,7 @@ import { env } from '$env/dynamic/private';
 import { dev } from '$app/environment';
 
 const VALIDATOR_BASE_URL = env.PRIVATE_VALIDATOR_BASE_URL || PUBLIC_VALIDATOR_BASE_URL;
-const REQUEST_TIMEOUT_MS = 15_000;
+const DEFAULT_TIMEOUT_MS = 15_000;
 const NULL_BODY_STATUSES = [101, 204, 205, 304];
 
 if (!env.PRIVATE_VALIDATOR_BASE_URL) {
@@ -16,6 +16,7 @@ export interface ProxyOptions {
 	method?: string;
 	body?: unknown;
 	headers?: Record<string, string>;
+	timeoutMs?: number | null;
 }
 
 export interface ValidatorResult<T> {
@@ -61,7 +62,12 @@ const describeError = (error: unknown): string => {
 	return `${error.name}: ${error.message}${causeText}`;
 };
 
-const transportFailure = <T>(error: unknown, method: string, url: string): ValidatorResult<T> => {
+const transportFailure = <T>(
+	error: unknown,
+	method: string,
+	url: string,
+	timeoutMs: number | null
+): ValidatorResult<T> => {
 	const timedOut = error instanceof Error && error.name === 'TimeoutError';
 	const detail = dev ? ` (${url})` : '';
 
@@ -72,9 +78,10 @@ const transportFailure = <T>(error: unknown, method: string, url: string): Valid
 		status: timedOut ? 504 : 502,
 		data: null,
 		code: timedOut ? 'VALIDATOR_TIMEOUT' : 'VALIDATOR_UNREACHABLE',
-		message: timedOut
-			? `The validator backend did not respond within ${REQUEST_TIMEOUT_MS / 1000}s${detail}. Please try again shortly.`
-			: `The validator backend is currently unreachable${detail}. Please try again shortly.`
+		message:
+			timedOut && timeoutMs !== null
+				? `The validator backend did not respond within ${timeoutMs / 1000}s${detail}. Please try again shortly.`
+				: `The validator backend is currently unreachable${detail}. Please try again shortly.`
 	};
 };
 
@@ -82,7 +89,7 @@ export const callValidator = async <T>(
 	path: string,
 	options: ProxyOptions = {}
 ): Promise<ValidatorResult<T>> => {
-	const { method = 'GET', body, headers = {} } = options;
+	const { method = 'GET', body, headers = {}, timeoutMs = DEFAULT_TIMEOUT_MS } = options;
 	const url = `${VALIDATOR_BASE_URL}${path}`;
 
 	let response: Response;
@@ -93,11 +100,11 @@ export const callValidator = async <T>(
 			method,
 			headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...headers },
 			body: body === undefined ? undefined : JSON.stringify(body),
-			signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+			signal: timeoutMs === null ? undefined : AbortSignal.timeout(timeoutMs)
 		});
 		text = NULL_BODY_STATUSES.includes(response.status) ? '' : await response.text();
 	} catch (error) {
-		return transportFailure<T>(error, method, url);
+		return transportFailure<T>(error, method, url, timeoutMs);
 	}
 
 	let json: unknown = null;

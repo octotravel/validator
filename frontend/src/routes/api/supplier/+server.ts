@@ -5,6 +5,7 @@ export async function POST({ request }) {
 
 	return await proxyToValidator('/v1/validate', {
 		method: 'POST',
-		body: { backend: { ...data } }
+		body: { backend: { ...data } },
+		timeoutMs: null
 	});
 }

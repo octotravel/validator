@@ -1,5 +1,7 @@
+import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
+import { get, writable } from 'svelte/store';
 import { describe, expect, it, vi } from 'vitest';
-import { apiRequest } from '../api';
+import { apiRequest, showError } from '../api';
 
 const respond = (body: string | null, init: ResponseInit) =>
 	vi.fn().mockResolvedValueOnce(new Response(body, init));
@@ -75,5 +77,61 @@ describe('apiRequest', () => {
 
 		expect(result.ok).toBe(true);
 		expect(result.data).toBe(null);
+	});
+});
+
+describe('showError', () => {
+	type QueuedToast = ToastSettings & { id: string };
+
+	const fakeToastStore = () => {
+		const store = writable<QueuedToast[]>([]);
+
+		return {
+			subscribe: store.subscribe,
+			trigger: vi.fn((settings: ToastSettings) => {
+				const id = String(Math.random());
+				store.update((toasts) => [...toasts, { ...settings, id }]);
+				return id;
+			})
+		} as unknown as ToastStore;
+	};
+
+	it('shows a toast with the title and detail', () => {
+		const toastStore = fakeToastStore();
+
+		showError(toastStore, 'Could not save session', 'boom');
+
+		expect(toastStore.trigger).toHaveBeenCalledTimes(1);
+		expect(toastStore.trigger).toHaveBeenCalledWith(
+			expect.objectContaining({ message: 'Could not save session: boom' })
+		);
+	});
+
+	it('does not show a second error toast with the same detail', () => {
+		const toastStore = fakeToastStore();
+
+		showError(toastStore, 'Could not load validation history', 'boom');
+		showError(toastStore, 'Could not save session', 'boom');
+
+		expect(toastStore.trigger).toHaveBeenCalledTimes(1);
+	});
+
+	it('shows error toasts with different details', () => {
+		const toastStore = fakeToastStore();
+
+		showError(toastStore, 'Could not load validation history', 'boom');
+		showError(toastStore, 'Could not save session', 'other');
+
+		expect(toastStore.trigger).toHaveBeenCalledTimes(2);
+	});
+
+	it('shows the toast again once the previous one was closed', () => {
+		const toastStore = fakeToastStore();
+
+		showError(toastStore, 'Could not save session', 'boom');
+		get(toastStore).length = 0;
+		showError(toastStore, 'Could not save session', 'boom');
+
+		expect(toastStore.trigger).toHaveBeenCalledTimes(2);
 	});
 });

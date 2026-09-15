@@ -1,4 +1,5 @@
 import type { ToastSettings, ToastStore } from '@skeletonlabs/skeleton';
+import { get } from 'svelte/store';
 
 export interface ApiResult<T> {
 	ok: boolean;
@@ -93,14 +94,25 @@ export const apiRequest = async <T>(
 	return { ok: true, data: payload as T, status: response.status, error: null };
 };
 
+const ERROR_BACKGROUND = 'variant-filled-error';
+
 const toast = (toastStore: ToastStore, message: string, background: string, autohide: boolean) => {
 	const settings: ToastSettings = { message, background, autohide, hideDismiss: false };
 
 	toastStore.trigger(settings);
 };
 
+const isErrorDetailVisible = (toastStore: ToastStore, detail: string): boolean =>
+	get(toastStore).some(
+		(t) => t.background === ERROR_BACKGROUND && t.message.endsWith(`: ${detail}`)
+	);
+
 export const showError = (toastStore: ToastStore, title: string, detail: string | null): void => {
-	toast(toastStore, detail ? `${title}: ${detail}` : title, 'variant-filled-error', false);
+	if (detail && isErrorDetailVisible(toastStore, detail)) {
+		return;
+	}
+
+	toast(toastStore, detail ? `${title}: ${detail}` : title, ERROR_BACKGROUND, false);
 };
 
 export const showWarning = (toastStore: ToastStore, message: string): void => {

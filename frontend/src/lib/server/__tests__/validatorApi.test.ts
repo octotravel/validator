@@ -109,6 +109,36 @@ describe('callValidator', () => {
 		expect(result.status).toBe(504);
 		expect(result.code).toBe('VALIDATOR_TIMEOUT');
 	});
+	it('sends an abort signal by default so a hung backend cannot pin the request forever', async () => {
+		const fetchMock = respond(JSON.stringify({}), { status: 200 });
+		global.fetch = fetchMock;
+
+		await callValidator('/v2/session');
+
+		expect(fetchMock.mock.calls[0][1].signal).toBeInstanceOf(AbortSignal);
+	});
+
+	it('sends no abort signal when the caller disables the timeout', async () => {
+		const fetchMock = respond(JSON.stringify({}), { status: 200 });
+		global.fetch = fetchMock;
+
+		await callValidator('/v1/validate', { method: 'POST', timeoutMs: null });
+
+		expect(fetchMock.mock.calls[0][1].signal).toBeUndefined();
+	});
+
+	it('reports the caller-supplied limit in the timeout message', async () => {
+		vi.spyOn(console, 'error').mockImplementation(() => {});
+		global.fetch = vi
+			.fn()
+			.mockRejectedValueOnce(Object.assign(new Error('timed out'), { name: 'TimeoutError' }));
+
+		const result = await callValidator('/v1/validate', { timeoutMs: 120_000 });
+
+		expect(result.code).toBe('VALIDATOR_TIMEOUT');
+		expect(result.message).toContain('120s');
+	});
+
 	it('logs the underlying transport error so it can be diagnosed server-side', async () => {
 		const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 		global.fetch = vi.fn().mockRejectedValueOnce(
