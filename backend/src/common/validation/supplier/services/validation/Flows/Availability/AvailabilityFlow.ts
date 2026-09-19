@@ -3,7 +3,7 @@ import { Context } from '../../context/Context';
 import { AvailabilityCheckAvailabilityIdScenario } from '../../Scenarios/Availability/AvailabilityCheckAvailabilityId';
 import { AvailabilityCheckBadRequestScenario } from '../../Scenarios/Availability/AvailabilityCheckBadRequest';
 import { AvailabilityCheckDateScenario } from '../../Scenarios/Availability/AvailabilityCheckDate';
-import { AvailabilityChecIntervalScenario } from '../../Scenarios/Availability/AvailabilityCheckInterval';
+import { AvailabilityCheckIntervalScenario } from '../../Scenarios/Availability/AvailabilityCheckInterval';
 import { AvailabilityCheckInvalidOptionScenario } from '../../Scenarios/Availability/AvailabilityCheckInvalidOption';
 import { AvailabilityCheckInvalidProductScenario } from '../../Scenarios/Availability/AvailabilityCheckInvalidProduct';
 import { AvailabilityCheckStatusScenario } from '../../Scenarios/Availability/AvailabilityCheckStatus';
@@ -28,9 +28,9 @@ export class AvailabilityFlow extends BaseFlow implements Flow {
     return await this.validateScenarios(scenarios, context);
   };
 
-  private readonly checkInterval = (context: Context): AvailabilityChecIntervalScenario[] => {
+  private readonly checkInterval = (context: Context): AvailabilityCheckIntervalScenario[] => {
     return context.productConfig.productsForAvailabilityCheck.map(
-      (product) => new AvailabilityChecIntervalScenario(product),
+      (product) => new AvailabilityCheckIntervalScenario(product),
     );
   };
 
