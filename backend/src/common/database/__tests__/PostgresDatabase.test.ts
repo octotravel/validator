@@ -26,10 +26,7 @@ describe('PostgresDatabase pool config', () => {
   });
 
   it('gives a fresh Cloud SQL connection enough time to be established', async () => {
-    const database = new PostgresDatabase(
-      logger as unknown as ConsoleLogger,
-      logger as unknown as ExceptionLogger,
-    );
+    const database = new PostgresDatabase(logger as unknown as ConsoleLogger, logger as unknown as ExceptionLogger);
     await database.initPool();
 
     expect(poolOptions).toHaveLength(1);
@@ -37,10 +34,7 @@ describe('PostgresDatabase pool config', () => {
   });
 
   it('keeps idle connections open long enough to survive gaps between user actions', async () => {
-    const database = new PostgresDatabase(
-      logger as unknown as ConsoleLogger,
-      logger as unknown as ExceptionLogger,
-    );
+    const database = new PostgresDatabase(logger as unknown as ConsoleLogger, logger as unknown as ExceptionLogger);
     await database.initPool();
 
     expect(poolOptions[0].idleTimeoutMillis).toBeGreaterThanOrEqual(300000);
