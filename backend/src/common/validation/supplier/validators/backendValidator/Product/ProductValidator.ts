@@ -1,11 +1,11 @@
 import {
   AvailabilityType,
   CapabilityId,
-  DeliveryFormat,
   DeliveryMethod,
   Product,
   RedemptionMethod,
 } from '@octocloud/types';
+import { DELIVERY_FORMATS } from '../DeliveryFormats';
 import { OptionValidator } from '../Option/OptionValidator';
 import {
   ArrayValidator,
@@ -66,7 +66,7 @@ export class ProductValidator implements ModelValidator {
       EnumArrayValidator.validate(
         `${this.path}.deliveryFormats`,
         product?.deliveryFormats,
-        Object.values(DeliveryFormat),
+        DELIVERY_FORMATS,
         { min: 1, shouldWarn },
       ),
       EnumArrayValidator.validate(
