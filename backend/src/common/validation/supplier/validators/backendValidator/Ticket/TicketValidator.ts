@@ -1,4 +1,5 @@
-import { DeliveryFormat, RedemptionMethod, Ticket } from '@octocloud/types';
+import { RedemptionMethod, Ticket } from '@octocloud/types';
+import { DELIVERY_FORMATS } from '../DeliveryFormats';
 import { EnumValidator, ModelValidator, NullValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class TicketValidator implements ModelValidator {
@@ -28,7 +29,7 @@ export class TicketValidator implements ModelValidator {
         EnumValidator.validate(
           `${this.path}.deliveryOptions[${i}].deliveryFormat`,
           deliveryOption?.deliveryFormat,
-          Object.values(DeliveryFormat),
+          DELIVERY_FORMATS,
         ),
         StringValidator.validate(`${this.path}.deliveryOptions[${i}].deliveryValue`, deliveryOption?.deliveryValue),
       ])

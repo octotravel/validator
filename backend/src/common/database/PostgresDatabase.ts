@@ -27,9 +27,9 @@ export class PostgresDatabase implements Database {
       const commonPoolConfig: PoolConfig = {
         database: env === Environment.TEST ? config.DB_TEST_NAME : config.DB_NAME,
         keepAlive: false,
-        connectionTimeoutMillis: 2000,
+        connectionTimeoutMillis: 10000,
         allowExitOnIdle: true,
-        idleTimeoutMillis: 10000,
+        idleTimeoutMillis: 300000,
       };
       let poolConfig: ClientConfig;
 
