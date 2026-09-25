@@ -4,11 +4,15 @@ import { BookingListBadRequestScenario } from '../../Scenarios/Booking/List/Book
 import { BookingListResellerReferenceScenario } from '../../Scenarios/Booking/List/BookingListResellerReference';
 import { BookingListSupplierReferenceScenario } from '../../Scenarios/Booking/List/BookingListSupplierReference';
 import { BaseFlow } from '../BaseFlow';
-import { Flow, FlowResult } from '../Flow';
+import { Flow, FlowResult, ReservationDemand } from '../Flow';
 
 export class BookingListFlow extends BaseFlow implements Flow {
   public constructor() {
     super('List Bookings', docs.bookingList);
+  }
+
+  public getReservationDemand(): ReservationDemand {
+    return { reservations: 2 };
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {

@@ -68,23 +68,23 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
       data: new ProductBookable({
         product: soldOutProduct.product,
         availabilityIdSoldOut: availability?.id!,
-        availabilityIdAvailable: null,
+        availabilitySlots: null,
       }),
       error: null,
     };
   };
 
+  private readonly isBookable = (availability: Availability): boolean =>
+    availability.available &&
+    [AvailabilityStatus.AVAILABLE, AvailabilityStatus.FREESALE, AvailabilityStatus.LIMITED].includes(
+      availability.status,
+    );
+
   public findAvailableProducts = (data: ProductResults[], context: Context): ErrorResult<ProductBookable[]> => {
     const result =
       data.filter(({ result }) => {
         const availabilities = result.data ?? [];
-        const availabilitiesAvailable = availabilities.filter(
-          (availability) =>
-            (availability.status === AvailabilityStatus.AVAILABLE ||
-              AvailabilityStatus.FREESALE ||
-              AvailabilityStatus.LIMITED) &&
-            availability.available,
-        );
+        const availabilitiesAvailable = availabilities.filter(this.isBookable);
         return R.compose(R.not, R.isEmpty)(availabilitiesAvailable) && availabilitiesAvailable.length > 1;
       }) ?? null;
 
@@ -101,17 +101,15 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
 
     const produts = result.map(({ product, result }) => {
       const availabilities = result.data ?? [];
-      const availabilityIDs = availabilities
-        .filter(
-          (a) =>
-            (a.status === AvailabilityStatus.AVAILABLE || AvailabilityStatus.FREESALE || AvailabilityStatus.LIMITED) &&
-            a.available,
-        )
-        .map((a) => a.id);
+      const availabilitySlots = availabilities.filter(this.isBookable).map((a) => ({
+        id: a.id,
+        // `vacancies === null` means unlimited capacity (FREESALE).
+        vacancies: a.vacancies ?? Number.POSITIVE_INFINITY,
+      }));
       return new ProductBookable({
         product,
         availabilityIdSoldOut: null,
-        availabilityIdAvailable: availabilityIDs,
+        availabilitySlots,
       });
     });
 

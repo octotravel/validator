@@ -12,12 +12,16 @@ import { BookingReservationScenario } from '../../Scenarios/Booking/Reservation/
 import { BookingReservationSoldOutScenario } from '../../Scenarios/Booking/Reservation/BookingReservationSoldOutScenario';
 import { Scenario } from '../../Scenarios/Scenario';
 import { BaseFlow } from '../BaseFlow';
-import { Flow, FlowResult } from '../Flow';
+import { Flow, FlowResult, ReservationDemand } from '../Flow';
 
 export class BookingReservationFlow extends BaseFlow implements Flow {
   private readonly booker = new Booker();
   public constructor() {
     super('Booking Reservation', docs.bookingReservation);
+  }
+
+  public getReservationDemand(): ReservationDemand {
+    return { reservations: 1 };
   }
 
   public validate = async (context: Context): Promise<FlowResult> => {
