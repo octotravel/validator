@@ -64,11 +64,16 @@ export class ProductBookable {
     const unit = option.units.find((unit) => unit.type === UnitType.ADULT) ?? option.units[0];
     const unitId = unit.id;
 
+    // `restrictions` is required by the OCTO Option schema, but a
+    // non-conformant supplier may omit it. Guard here so the validator surfaces
+    // that as a normal validation error (via the Option validator) instead of
+    // throwing "Cannot read properties of undefined (reading 'minUnits')" and
+    // returning an opaque 500 that hides the real problem from the supplier.
     const quantity =
       data?.quantity ??
       new PseudoRandomGenerator(option.id).nextInt(
-        option.restrictions.minUnits || 1,
-        option.restrictions.maxUnits ?? 5,
+        option.restrictions?.minUnits || 1,
+        option.restrictions?.maxUnits ?? 5,
       );
     return Array(quantity).fill({ unitId });
   };
