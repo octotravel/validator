@@ -1,6 +1,8 @@
 import { Availability, Product } from '@octocloud/types';
 import * as R from 'ramda';
+import { STATUS_SUCCESS } from '../../../models/Error';
 import { AvailabilityValidator } from '../../../validators/backendValidator/Availability/AvailabilityValidator';
+import { ResponseStatusValidator } from '../../../validators/backendValidator/Response/ResponseStatusValidator';
 import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { Context } from '../context/Context';
 import { ScenarioResult } from '../Scenarios/Scenario';
@@ -16,11 +18,11 @@ export class AvailabilityScenarioHelper extends ScenarioHelper {
       availabilityType: product.availabilityType,
     });
     const { result } = data;
-    if (result?.response?.error) {
+    const statusErrors = new ResponseStatusValidator({ expectedStatus: STATUS_SUCCESS }).validate(result);
+    if (!result?.response || result.response.error) {
       return this.handleResult({
         ...data,
-        success: false,
-        errors: [],
+        errors: statusErrors,
       });
     }
     const availabilities = Array.isArray(result?.data) ? result?.data : [];
@@ -48,7 +50,7 @@ export class AvailabilityScenarioHelper extends ScenarioHelper {
 
     return this.handleResult({
       ...data,
-      errors,
+      errors: [...statusErrors, ...errors],
     });
   };
 }

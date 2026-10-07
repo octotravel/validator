@@ -1,6 +1,8 @@
 import { AvailabilityCalendar, Product } from '@octocloud/types';
 import * as R from 'ramda';
+import { STATUS_SUCCESS } from '../../../models/Error';
 import { AvailabilityCalendarValidator } from '../../../validators/backendValidator/AvailabilityCalendar/AvailabilityCalendarValidator';
+import { ResponseStatusValidator } from '../../../validators/backendValidator/Response/ResponseStatusValidator';
 import { ErrorType, ValidatorError } from '../../../validators/backendValidator/ValidatorHelpers';
 import { Context } from '../context/Context';
 import { ScenarioResult } from '../Scenarios/Scenario';
@@ -15,14 +17,14 @@ export class AvailabilityCalendarScenarioHelper extends ScenarioHelper {
     const { result } = data;
     const availabilities = Array.isArray(result?.data) ? result?.data : [];
     const response = result?.response;
-    if (response?.error) {
+    const statusErrors = new ResponseStatusValidator({ expectedStatus: STATUS_SUCCESS }).validate(result);
+    if (!response || response.error) {
       return this.handleResult({
         ...data,
-        success: false,
-        errors: [],
+        errors: statusErrors,
       });
     }
-    const errors = [];
+    const errors = [...statusErrors];
 
     if (R.isEmpty(availabilities)) {
       errors.push(

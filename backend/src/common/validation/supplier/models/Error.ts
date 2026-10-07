@@ -1,4 +1,4 @@
-// const STATUS_SUCCESS = 200;
+export const STATUS_SUCCESS = 200;
 export const STATUS_BAD_REQUEST = 400;
 // const STATUS_UNAUTHORIZED = 401;
 // const STATUS_FORBIDDEN = 403;

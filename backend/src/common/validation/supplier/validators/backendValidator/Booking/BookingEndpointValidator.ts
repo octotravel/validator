@@ -139,7 +139,6 @@ export class BookingEndpointValidator {
         );
       }
 
-      booking?.unitItems.forEach((unitItem) => {});
       if (booking?.unitItems?.length !== schema?.unitItems?.length) {
         errors.push(
           new ValidatorError({
@@ -150,7 +149,7 @@ export class BookingEndpointValidator {
       }
 
       const unitIds = schema?.unitItems.map((i) => i.unitId);
-      const unitIdMatches = booking?.unitItems.reduce((acc, unitItem) => {
+      const unitIdMatches = (booking?.unitItems ?? []).reduce((acc, unitItem) => {
         return acc && unitIds.includes(unitItem?.unitId);
       }, true);
       if (!unitIdMatches) {

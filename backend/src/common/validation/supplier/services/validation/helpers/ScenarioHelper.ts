@@ -11,7 +11,6 @@ interface ScenarioData<T> {
   result: Result<T>;
   errors: ValidatorError[];
   description: string;
-  errorExpected?: boolean;
 }
 
 export interface ScenarioHelperData<T> {
@@ -40,28 +39,15 @@ export class ScenarioHelper {
   };
 
   public handleResult = <T>(data: ScenarioData<T>): ScenarioResult => {
-    const { result, errorExpected } = data;
-    if (result?.response?.error) {
-      const status = result.response.error.status;
-      if (status === STATUS_NOT_FOUND) {
-        data.errors = [
-          ...data.errors,
-          new ValidatorError({
-            type: ErrorType.CRITICAL,
-            message: 'Endpoint not implemented',
-          }),
-        ];
-      }
-
-      if (!errorExpected && (status < 200 || status >= 400)) {
-        data.errors = [
-          ...data.errors,
-          new ValidatorError({
-            type: ErrorType.CRITICAL,
-            message: 'Endpoint cannot be validated',
-          }),
-        ];
-      }
+    const { result } = data;
+    if (result?.response?.error?.status === STATUS_NOT_FOUND) {
+      data.errors = [
+        ...data.errors,
+        new ValidatorError({
+          type: ErrorType.CRITICAL,
+          message: 'Endpoint not implemented',
+        }),
+      ];
     }
 
     let parsedResponseBody = null;
@@ -125,7 +111,6 @@ export class ScenarioHelper {
     return this.handleResult({
       ...data,
       success: this.isSuccess(errors),
-      errorExpected: true,
       errors,
     });
   };
@@ -134,12 +119,7 @@ export class ScenarioHelper {
     return !errors.some((e) => e.type === ErrorType.CRITICAL);
   };
 
-  protected shouldTerminateValidation = (
-    errors: ValidatorError[],
-    uuid?: string,
-    httpStatus?: number,
-    expectedHttpStatus = 200,
-  ): boolean => {
-    return (httpStatus && httpStatus !== expectedHttpStatus) || (!uuid && !this.isSuccess(errors));
+  protected shouldTerminateValidation = (errors: ValidatorError[], uuid?: string): boolean => {
+    return !uuid && !this.isSuccess(errors);
   };
 }

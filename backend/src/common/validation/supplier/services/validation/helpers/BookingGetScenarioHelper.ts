@@ -1,5 +1,7 @@
 import { Booking } from '@octocloud/types';
+import { STATUS_SUCCESS } from '../../../models/Error';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
+import { ResponseStatusValidator } from '../../../validators/backendValidator/Response/ResponseStatusValidator';
 import { Context } from '../context/Context';
 import { ScenarioResult } from '../Scenarios/Scenario';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
@@ -12,18 +14,21 @@ export class BookingGetScenarioHelper extends ScenarioHelper {
   ): ScenarioResult => {
     const { result } = data;
     const response = result?.response;
-    if (response?.error) {
+    const statusErrors = new ResponseStatusValidator({ expectedStatus: STATUS_SUCCESS }).validate(result);
+    if (!response || response.error) {
       return this.handleResult({
         ...data,
-        success: false,
-        errors: [],
+        errors: statusErrors,
       });
     }
 
-    const errors = new BookingValidator({
-      capabilities: context.getCapabilityIDs(),
-      shouldNotHydrate,
-    }).validate(result.data);
+    const errors = [
+      ...statusErrors,
+      ...new BookingValidator({
+        capabilities: context.getCapabilityIDs(),
+        shouldNotHydrate,
+      }).validate(result.data),
+    ];
     return this.handleResult({
       ...data,
       errors,
