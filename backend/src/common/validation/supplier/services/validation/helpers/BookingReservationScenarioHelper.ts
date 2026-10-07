@@ -1,6 +1,8 @@
 import { Booking, BookingReservationBody } from '@octocloud/types';
+import { STATUS_SUCCESS } from '../../../models/Error';
 import { BookingEndpointValidator } from '../../../validators/backendValidator/Booking/BookingEndpointValidator';
 import { BookingValidator } from '../../../validators/backendValidator/Booking/BookingValidator';
+import { ResponseStatusValidator } from '../../../validators/backendValidator/Response/ResponseStatusValidator';
 import { Context } from '../context/Context';
 import { ScenarioResult } from '../Scenarios/Scenario';
 import { ScenarioHelper, ScenarioHelperData } from './ScenarioHelper';
@@ -13,15 +15,16 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
     const reservation = result?.data;
     const request = result?.request;
     const response = result?.response;
-    if (response?.error) {
+    const statusErrors = new ResponseStatusValidator({ expectedStatus: STATUS_SUCCESS }).validate(result);
+    if (!response || response.error) {
       return this.handleResult({
         ...data,
-        success: false,
-        errors: [],
+        errors: statusErrors,
       });
     }
 
     const errors = [
+      ...statusErrors,
       ...this.bookingEndpointValidator.validateReservation({
         schema: request?.body as unknown as BookingReservationBody,
         reservation,
@@ -37,7 +40,7 @@ export class BookingReservationScenarioHelper extends ScenarioHelper {
       }).validate(result.data),
     ];
 
-    if (this.shouldTerminateValidation(errors, reservation?.uuid, response?.status)) {
+    if (this.shouldTerminateValidation(errors, reservation?.uuid)) {
       context.terminateValidation = true;
     }
     return this.handleResult({

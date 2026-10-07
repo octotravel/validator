@@ -1,8 +1,11 @@
 import { INVALID_OPTION_ID, STATUS_BAD_REQUEST } from '../../../models/Error';
 import { Result } from '../../../services/validation/api/types';
-import { ModelValidator, NumberValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
+import { ResponseStatusValidator } from '../Response/ResponseStatusValidator';
+import { ModelValidator, StringValidator, ValidatorError } from '../ValidatorHelpers';
 
 export class InvalidOptionIdErrorValidator implements ModelValidator {
+  private readonly responseStatusValidator = new ResponseStatusValidator({ expectedStatus: STATUS_BAD_REQUEST });
+
   // biome-ignore lint/suspicious/noExplicitAny: <?>
   public validate = (result: Result<any>): ValidatorError[] => {
     return [
@@ -11,10 +14,7 @@ export class InvalidOptionIdErrorValidator implements ModelValidator {
       }),
       StringValidator.validate('errorMessage', result?.data?.errorMessage),
       StringValidator.validate('optionId', result?.data?.optionId),
-      NumberValidator.validate('status', result?.response?.status, {
-        integer: true,
-        equalsTo: STATUS_BAD_REQUEST,
-      }),
+      ...this.responseStatusValidator.validate(result),
     ].flatMap((v) => (v ? [v] : []));
   };
 }
