@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { hasUndefinedBookingUuid } from '$lib/helpers/BookingUuid';
 	import { FlowBadgeColor, StatusBadgeColor } from '$lib/helpers/FlowBadgeColor';
 	import type { ScenarioResult } from '$lib/types/SupplierFlow';
 	import { AccordionItem } from '@skeletonlabs/skeleton';
@@ -8,6 +9,7 @@
 
 	const warnings = scenario.errors.filter((error) => error.type === 'WARNING');
 	const errors = scenario.errors.filter((error) => error.type === 'CRITICAL');
+	const showUndefinedBookingUuidHint = hasUndefinedBookingUuid(scenario.request?.url);
 </script>
 
 <div class="accordion-border">
@@ -59,6 +61,19 @@
 							>
 							<div class="json-wrap border p-2">
 								<JsonView json={scenario.response.body} />
+							</div>
+						</div>
+					</div>
+				{/if}
+
+				{#if showUndefinedBookingUuidHint}
+					<div class="mt-2">
+						<div class="label">
+							<span class="font-semibold">Hint</span>
+							<div class="border text-neutral-500 p-2">
+								The booking UUID is undefined because an earlier reservation or confirmation in this
+								scenario did not return a booking. Check that the product's availability has enough
+								capacity.
 							</div>
 						</div>
 					</div>
