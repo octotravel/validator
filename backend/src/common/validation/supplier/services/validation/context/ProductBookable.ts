@@ -1,4 +1,4 @@
-import { BookingUnitItem, Option, Product, UnitType } from '@octocloud/types';
+import { Availability, BookingUnitItem, Option, Product, UnitType } from '@octocloud/types';
 import { PseudoRandomGenerator } from '../../../helpers/PseudoRandomGenerator';
 
 interface GetUnitItemsData {
@@ -6,33 +6,30 @@ interface GetUnitItemsData {
 }
 
 interface GetAvailabilityIDData {
-  omitID: string | null;
+  omitID?: string | null;
 }
 
 export class ProductBookable {
   public product: Product;
-  private readonly _availabilityIdAvailable: string[] = [];
+  private readonly _availabilitiesAvailable: Availability[] = [];
   private readonly _availabilityIdSoldOut: string | null;
+  private readonly reservedVacancies = new Map<string, number>();
   public constructor({
     product,
-    availabilityIdAvailable,
+    availabilitiesAvailable,
     availabilityIdSoldOut,
   }: {
     product: Product;
-    availabilityIdAvailable: string[] | null;
+    availabilitiesAvailable: Availability[] | null;
     availabilityIdSoldOut: string | null;
   }) {
     this.product = product;
-    this._availabilityIdAvailable = availabilityIdAvailable ?? [];
+    this._availabilitiesAvailable = availabilitiesAvailable ?? [];
     this._availabilityIdSoldOut = availabilityIdSoldOut;
   }
 
   public get availabilityIdAvailable(): string[] {
-    return this._availabilityIdAvailable;
-  }
-
-  public get randomAvailabilityID(): string {
-    return this.pickRandomAvailabilityID(this._availabilityIdAvailable);
+    return this._availabilitiesAvailable.map((availability) => availability.id);
   }
 
   public get availabilityIdSoldOut(): string | null {
@@ -44,19 +41,28 @@ export class ProductBookable {
   }
 
   public get isAvailable(): boolean {
-    return this._availabilityIdAvailable?.length > 0;
+    return this._availabilitiesAvailable.length > 0;
   }
 
   public get hasMultipleAvailabilities(): boolean {
-    return this._availabilityIdAvailable?.length === 2;
+    return this._availabilitiesAvailable.length === 2;
   }
 
-  public getAvialabilityID = (data: GetAvailabilityIDData): string => {
-    return this.pickRandomAvailabilityID(this._availabilityIdAvailable.filter((id) => id !== data.omitID));
+  public getAvailabilityID = (data?: GetAvailabilityIDData): string | undefined => {
+    const pool = this._availabilitiesAvailable.filter((availability) => availability.id !== data?.omitID);
+    const [mostVacancies] = pool.sort((a, b) => this.remainingVacancies(b) - this.remainingVacancies(a));
+    return mostVacancies?.id;
   };
 
-  private readonly pickRandomAvailabilityID = (array: string[]): string => {
-    return array[new PseudoRandomGenerator(array.length).nextInt(0, array.length - 1)];
+  public reserveVacancies = (availabilityId: string, quantity: number): void => {
+    this.reservedVacancies.set(availabilityId, (this.reservedVacancies.get(availabilityId) ?? 0) + quantity);
+  };
+
+  private readonly remainingVacancies = (availability: Availability): number => {
+    if (availability.vacancies == null) {
+      return Number.POSITIVE_INFINITY;
+    }
+    return availability.vacancies - (this.reservedVacancies.get(availability.id) ?? 0);
   };
 
   public getValidUnitItems = (data?: GetUnitItemsData): BookingUnitItem[] => {

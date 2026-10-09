@@ -32,7 +32,7 @@ export class BookingUpdateDateScenario implements Scenario {
     const result = await apiClient.bookingUpdate(
       {
         uuid: resultReservation.data.uuid,
-        availabilityId: bookableProduct.getAvialabilityID({
+        availabilityId: bookableProduct.getAvailabilityID({
           omitID: resultReservation.data.availabilityId,
         }),
       },

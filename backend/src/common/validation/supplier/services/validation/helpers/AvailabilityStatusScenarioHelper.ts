@@ -68,7 +68,7 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
       data: new ProductBookable({
         product: soldOutProduct.product,
         availabilityIdSoldOut: availability?.id!,
-        availabilityIdAvailable: null,
+        availabilitiesAvailable: null,
       }),
       error: null,
     };
@@ -101,17 +101,15 @@ export class AvailabilityStatusScenarioHelper extends ScenarioHelper {
 
     const produts = result.map(({ product, result }) => {
       const availabilities = result.data ?? [];
-      const availabilityIDs = availabilities
-        .filter(
-          (a) =>
-            (a.status === AvailabilityStatus.AVAILABLE || AvailabilityStatus.FREESALE || AvailabilityStatus.LIMITED) &&
-            a.available,
-        )
-        .map((a) => a.id);
+      const availabilitiesAvailable = availabilities.filter(
+        (a) =>
+          (a.status === AvailabilityStatus.AVAILABLE || AvailabilityStatus.FREESALE || AvailabilityStatus.LIMITED) &&
+          a.available,
+      );
       return new ProductBookable({
         product,
         availabilityIdSoldOut: null,
-        availabilityIdAvailable: availabilityIDs,
+        availabilitiesAvailable,
       });
     });
 

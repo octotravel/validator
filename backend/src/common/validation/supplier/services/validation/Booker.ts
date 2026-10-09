@@ -36,7 +36,11 @@ export class Booker {
       data.unitItems = unitItems;
     }
 
-    return await apiClient.bookingReservation(data, context);
+    const result = await apiClient.bookingReservation(data, context);
+    if (result.data?.availabilityId) {
+      productBookable.reserveVacancies(result.data.availabilityId, result.data.unitItems.length);
+    }
+    return result;
   };
 
   private getAvailabilityId(
@@ -49,7 +53,7 @@ export class Booker {
     } else if (params?.soldOutAvailability) {
       return productBookable.availabilityIdSoldOut;
     }
-    return productBookable.randomAvailabilityID;
+    return productBookable.getAvailabilityID() ?? null;
   }
 
   private getUnitItems(productBookable: ProductBookable, params?: CreateReservationParams): BookingUnitItem[] | null {
