@@ -33,7 +33,7 @@ export class BookingUpdateProductScenario implements Scenario {
         productId: bookableProduct2.product.id,
         optionId: bookableProduct2.getOption().id,
         unitItems: bookableProduct2.getValidUnitItems(),
-        availabilityId: bookableProduct2.randomAvailabilityID,
+        availabilityId: bookableProduct2.getAvailabilityID(),
       },
       context,
     );
