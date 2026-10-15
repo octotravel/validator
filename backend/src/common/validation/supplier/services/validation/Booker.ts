@@ -37,8 +37,8 @@ export class Booker {
     }
 
     const result = await apiClient.bookingReservation(data, context);
-    if (result.data?.availabilityId) {
-      productBookable.reserveVacancies(result.data.availabilityId, result.data.unitItems.length);
+    if (result.response?.error === null && result.data?.availabilityId) {
+      productBookable.reserveVacancies(result.data.availabilityId, result.data.unitItems?.length ?? 0);
     }
     return result;
   };
