@@ -1,5 +1,3 @@
-import { addDays } from 'date-fns';
-import { DateHelper } from '../../../../helpers/DateHelper';
 import { InvalidOptionIdErrorValidator } from '../../../../validators/backendValidator/Error/InvalidOptionIdErrorValidator';
 import descriptions from '../../consts/descriptions';
 import { Context } from '../../context/Context';
@@ -17,8 +15,8 @@ export class AvailabilityCalendarInvalidOptionScenario implements Scenario {
       {
         productId: product.id,
         optionId: context.invalidOptionId,
-        localDateStart: DateHelper.getDate(new Date().toISOString()),
-        localDateEnd: DateHelper.getDate(addDays(new Date(), 30).toISOString()),
+        localDateStart: context.getLocalDateStart(product),
+        localDateEnd: context.getLocalDateEnd(product),
       },
       context,
     );

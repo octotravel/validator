@@ -41,7 +41,6 @@ describe('SupplierRequestLogService', () => {
 
   const mockContext: Context = {
     requestId: 'req-123',
-    localDateStart: new Date(),
     getValidationRunId: vi.fn().mockReturnValue('val-456'),
     getRequestDuration: vi.fn().mockReturnValue(150),
   } as unknown as Context;

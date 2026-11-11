@@ -20,8 +20,8 @@ export class AvailabilityChecIntervalScenario implements Scenario {
       {
         productId: this.product.id,
         optionId: this.product.options[0].id,
-        localDateStart: context.localDateStart,
-        localDateEnd: context.localDateEnd,
+        localDateStart: context.getLocalDateStart(this.product),
+        localDateEnd: context.getLocalDateEnd(this.product),
       },
       context,
     );

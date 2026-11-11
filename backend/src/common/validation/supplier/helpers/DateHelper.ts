@@ -1,4 +1,4 @@
-import { format } from 'date-fns-tz';
+import { format, formatInTimeZone } from 'date-fns-tz';
 
 export abstract class DateHelper {
   public static availabilityIdFormat = (date: Date, timeZone: string): string => {
@@ -21,5 +21,25 @@ export abstract class DateHelper {
 
   public static getDate(dateTime: string): string {
     return dateTime.split('T')[0];
+  }
+
+  public static localDate(date: Date, timeZone: string | undefined, offsetDays = 0): string {
+    const zone = DateHelper.isValidTimeZone(timeZone) ? timeZone : 'UTC';
+    const [year, month, day] = formatInTimeZone(date, zone, 'yyyy-MM-dd').split('-').map(Number);
+
+    return DateHelper.getDate(new Date(Date.UTC(year, month - 1, day + offsetDays)).toISOString());
+  }
+
+  private static isValidTimeZone(timeZone: unknown): timeZone is string {
+    if (typeof timeZone !== 'string' || timeZone === '') {
+      return false;
+    }
+
+    try {
+      new Intl.DateTimeFormat('en-US', { timeZone });
+      return true;
+    } catch {
+      return false;
+    }
   }
 }

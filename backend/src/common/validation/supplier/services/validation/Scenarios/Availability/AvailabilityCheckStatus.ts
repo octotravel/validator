@@ -43,8 +43,8 @@ export class AvailabilityCheckStatusScenario implements Scenario {
           {
             productId: product.id,
             optionId: option.id,
-            localDateStart: context.localDateStart,
-            localDateEnd: context.localDateEnd,
+            localDateStart: context.getLocalDateStart(product),
+            localDateEnd: context.getLocalDateEnd(product),
           },
           context,
         );

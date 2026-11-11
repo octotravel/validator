@@ -15,8 +15,8 @@ export class AvailabilityCheckInvalidOptionScenario implements Scenario {
       {
         productId: product.id,
         optionId: context.invalidOptionId,
-        localDateStart: context.localDateStart,
-        localDateEnd: context.localDateEnd,
+        localDateStart: context.getLocalDateStart(product),
+        localDateEnd: context.getLocalDateEnd(product),
       },
       context,
     );

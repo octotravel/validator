@@ -21,8 +21,8 @@ export class AvailabilityCalendarIntervalScenario implements Scenario {
       {
         productId: this.product.id,
         optionId: option.id,
-        localDateStart: context.localDateStart,
-        localDateEnd: context.localDateEnd,
+        localDateStart: context.getLocalDateStart(this.product),
+        localDateEnd: context.getLocalDateEnd(this.product),
       },
       context,
     );
