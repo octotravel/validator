@@ -37,7 +37,6 @@ describe('SupplierRequestLogService', () => {
     scenarioResult.description = 'Test scenario description';
 
     context.requestId = 'req-12345';
-    context.localDateStart = new Date().toISOString();
     context.getValidationRunId.mockReturnValue('val-12345');
     context.getRequestDuration.mockReturnValue(200);
 

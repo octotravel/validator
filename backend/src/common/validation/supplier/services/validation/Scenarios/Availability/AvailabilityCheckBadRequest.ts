@@ -16,8 +16,8 @@ export class AvailabilityCheckBadRequestScenario implements Scenario {
       {
         productId: product.id,
         optionId: product.options[0].id,
-        localDateStart: context.localDateStart,
-        localDateEnd: context.localDateEnd,
+        localDateStart: context.getLocalDateStart(product),
+        localDateEnd: context.getLocalDateEnd(product),
         availabilityIds: [availability.id],
       },
       context,

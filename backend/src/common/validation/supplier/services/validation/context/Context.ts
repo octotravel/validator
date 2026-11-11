@@ -1,5 +1,4 @@
 import { Capability, CapabilityId, Product } from '@octocloud/types';
-import { addDays } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 import { ValidationEndpoint } from '../../../../../../api/supplier/validate/ValidationSchema';
 import { DateHelper } from '../../../helpers/DateHelper';
@@ -18,6 +17,8 @@ interface IContext {
   getProduct: () => Product;
 }
 export class Context implements IContext {
+  private static readonly AVAILABILITY_RANGE_DAYS = 30;
+
   private endpoint = '';
   private headers = {};
   private capabilities: CapabilityId[] = [];
@@ -33,9 +34,6 @@ export class Context implements IContext {
   public note = 'Test Note';
   private readonly _shouldNotHydrate = true;
   private validationRunId = '';
-
-  public localDateStart = DateHelper.getDate(new Date().toISOString());
-  public localDateEnd = DateHelper.getDate(addDays(new Date(), 30).toISOString());
 
   public readonly productConfig = new ProductContext();
 
@@ -96,6 +94,14 @@ export class Context implements IContext {
 
   public getProduct = (): Product => {
     return this.productConfig.products[0];
+  };
+
+  public getLocalDateStart = (product: Product): string => {
+    return DateHelper.localDate(this.date, product.timeZone);
+  };
+
+  public getLocalDateEnd = (product: Product): string => {
+    return DateHelper.localDate(this.date, product.timeZone, Context.AVAILABILITY_RANGE_DAYS);
   };
 
   public getDuration = (start: Date, end: Date): number => {
