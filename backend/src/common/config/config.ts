@@ -98,20 +98,10 @@ const schema = {
     optional: true,
     default: '',
   },
-  SENTRY_ENABLED: {
+  APP_ENABLE_EXCEPTION_LOGGER: {
     type: Boolean,
     optional: true,
-    default: false,
-  },
-  SENTRY_DNS: {
-    type: String,
-    optional: true,
-    default: '',
-  },
-  SENTRY_AUTH_TOKEN: {
-    type: String,
-    optional: true,
-    default: '',
+    default: true,
   },
 } as const;
 

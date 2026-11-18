@@ -1,4 +1,4 @@
-import './common/util/sentry';
+import './common/util/ddTracer';
 import { createServer } from 'node:http';
 import { Environment } from '@octocloud/core';
 import gracefulShutdown from 'http-graceful-shutdown';
@@ -10,10 +10,15 @@ import { Migrator } from './common/database/Migrator';
 import { PostgresDatabase } from './common/database/PostgresDatabase';
 import { container } from './common/di/container';
 import { ConsoleLogger } from './common/logger/console/ConsoleLogger';
+import { ExceptionLogger } from './common/logger/exception/ExceptionLogger';
+import { registerProcessErrorHandlers } from './common/util/processErrorHandlers';
 import { initializeSocketIoServer } from './socketIoServer';
 
-const database: Database = container.get('Database');
 const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
+
+registerProcessErrorHandlers(container.get<ExceptionLogger>('ExceptionLogger'), consoleLogger);
+
+const database: Database = container.get('Database');
 const env = config.getEnvironment();
 const port = config.APP_PORT;
 

@@ -40,7 +40,7 @@ import { PostgresDatabase } from '../database/PostgresDatabase';
 import { ConsoleLogger } from '../logger/console/ConsoleLogger';
 import { NoopConsoleLogger } from '../logger/console/NoopConsoleLogger';
 import { PinoConsoleLogger } from '../logger/console/PinoConsoleLogger';
-import { SentryExceptionLogger } from '../logger/exception/SentryExceptionLogger';
+import { DatadogExceptionLogger } from '../logger/exception/DatadogExceptionLogger';
 import { VentrataRequestLogger } from '../logger/request/VentrataRequestLogger';
 import { RequestScopedContextProvider } from '../requestContext/RequestScopedContextProvider';
 import { PostgresResellerRequestLogRepository } from '../requestLog/reseller/PostgresResellerRequestLogRepository';
@@ -98,7 +98,7 @@ const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
 // Logger
 container.bind({
   provide: 'ExceptionLogger',
-  useClass: SentryExceptionLogger,
+  useClass: DatadogExceptionLogger,
 });
 
 container.bind({

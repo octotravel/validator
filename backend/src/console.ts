@@ -1,15 +1,18 @@
-import './common/util/sentry';
+import './common/util/ddTracer';
 import { Database } from './common/database/Database';
 import { asyncLocalStorage } from './common/di/asyncLocalStorage';
 import { container } from './common/di/container';
 import { ConsoleLogger } from './common/logger/console/ConsoleLogger';
 import { ExceptionLogger } from './common/logger/exception/ExceptionLogger';
 import { RequestScopedContext } from './common/requestContext/RequestScopedContext';
+import { registerProcessErrorHandlers } from './common/util/processErrorHandlers';
 import { Command } from './console/command/Command';
 
 const database: Database = container.get('Database');
 const exceptionLogger: ExceptionLogger = container.get('ExceptionLogger');
 const consoleLogger = container.get<ConsoleLogger>('ConsoleLogger');
+
+registerProcessErrorHandlers(exceptionLogger, consoleLogger);
 
 (async () => {
   try {

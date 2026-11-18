@@ -1,4 +1,3 @@
-import { sentrySvelteKit } from '@sentry/sveltekit';
 import { purgeCss } from 'vite-plugin-tailwind-purgecss';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
@@ -13,17 +12,6 @@ const plugins = [
 		}
 	})
 ];
-
-if (process.env.SENTRY_AUTH_TOKEN) {
-	plugins.unshift(
-		sentrySvelteKit({
-			sourceMapsUploadOptions: {
-				org: 'ventrata',
-				project: 'octo-validator-frontend-7n'
-			}
-		})
-	);
-}
 
 export default defineConfig({
 	resolve: { alias: { '@': '/src' } },
