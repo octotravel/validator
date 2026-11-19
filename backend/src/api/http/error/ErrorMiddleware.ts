@@ -35,7 +35,9 @@ export async function errorMiddleware(context: Koa.Context, next: Koa.Next): Pro
       context.body = {
         message: 'There was an un-recoverable error, please try again',
       };
+    }
 
+    if (!(err instanceof HttpError) || err.status >= 500) {
       context.app.emit('error', err, context);
     }
   }

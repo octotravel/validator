@@ -1,16 +1,7 @@
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { handleErrorWithSentry, sentryHandle } from '@sentry/sveltekit';
-import * as Sentry from '@sentry/sveltekit';
 import { handle as authHandle } from './auth';
-
-Sentry.init({
-	dsn: 'https://47ad4557ea3ccb6fcbf67b9011f8599c@o290279.ingest.us.sentry.io/4507146484842496',
-	tracesSampleRate: 1.0
-
-	// uncomment the line below to enable Spotlight (https://spotlightjs.com)
-	// spotlight: import.meta.env.DEV,
-});
+import { logServerError } from '$lib/server/serverErrorLogger';
 
 const apiAuthGuard: Handle = async ({ event, resolve }) => {
 	if (event.url.pathname.startsWith('/api/')) {
@@ -33,7 +24,6 @@ const apiAuthGuard: Handle = async ({ event, resolve }) => {
 	return resolve(event);
 };
 
-export const handle = sequence(sentryHandle(), authHandle, apiAuthGuard);
+export const handle = sequence(authHandle, apiAuthGuard);
 
-// If you have a custom error handler, pass it to `handleErrorWithSentry`
-export const handleError = handleErrorWithSentry();
+export const handleError: HandleServerError = logServerError;

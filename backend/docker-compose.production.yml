@@ -6,7 +6,6 @@ services:
       dockerfile: ./ops/docker/backend/production/Dockerfile
       args:
         - NODE_ENV=production
-        - SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 
     ports:
       - ${APP_PORT}:${APP_PORT}

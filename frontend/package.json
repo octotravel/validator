@@ -47,7 +47,6 @@
 		"@auth/sveltekit": "^1.11.1",
 		"@floating-ui/dom": "1.6.3",
 		"@octocloud/types": "2.0.2",
-		"@sentry/sveltekit": "^7.112.2",
 		"@skeletonlabs/skeleton": "2.8.0",
 		"@skeletonlabs/tw-plugin": "0.3.1",
 		"@sveltejs/adapter-node": "^5.0.1",
